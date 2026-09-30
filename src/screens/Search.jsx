@@ -38,7 +38,7 @@ const project = (v) => (v / 1000) * DECEL / (1 - DECEL); // distance a release a
 // The screen forms around the bar (LSN: containers settle before content forms). Everything below
 // waits for the bar to LAND (useBarLanded), then: the coupon card 200ms after the landing, the rows /
 // empty-state sections right behind it.
-const COUPON_DELAY = 0.2;
+const COUPON_DELAY = 0.4; // nudge reveals 400ms after the bar lands
 const ROW_STAGGER = 0.025, ROWS_BASE_DELAY = 0.04; // rows land first, right under the bar; the nudge then inserts above them
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 const fade = (d = 0.15) => ({ duration: d, ease: 'linear' });
