@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { LayoutGroup, MotionConfig } from 'motion/react';
+import { MotionConfig } from 'motion/react';
 import DeviceFrame from './components/DeviceFrame.jsx';
 import NavStack from './components/NavStack.jsx';
 import Sheet from './components/Sheet.jsx';
@@ -47,10 +47,8 @@ export default function App() {
   const Frame = BARE ? BareFrame : DeviceFrame;
   return (
     <Frame onReset={nav.reset}>
-      <LayoutGroup>
-        <NavStack routes={routes} onBack={nav.pop}
-          renderRoute={(r) => { const S = SCREENS[r.id]; return <S nav={{ ...nav, sheetOpen }} params={r.params} />; }} />
-      </LayoutGroup>
+      <NavStack routes={routes} onBack={nav.pop}
+        renderRoute={(r) => { const S = SCREENS[r.id]; return <S nav={{ ...nav, sheetOpen }} params={r.params} />; }} />
       <Sheet open={sheetOpen} onClose={() => setSheetOpen(false)} onClosed={onSheetClosed} top={183} inset={12} bottomGap={29} radius={16} bg="#f2f3f7">
         <Coupons nav={{ ...nav, sheetOpen }} open={sheetOpen} />
       </Sheet>

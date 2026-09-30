@@ -1,12 +1,10 @@
 import { forwardRef, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { motion } from 'motion/react';
 import Icon from './Icon.jsx';
-import { spring } from '../motion.js';
 import './SearchBar.css';
 
-// SearchBar — shared element for the PLP → Search morph (layoutId="search-bar").
-// Only the container carries layoutId; inner rows use layout="position" so text and icons
-// are counter-scaled and never stretch while the container morphs.
+// SearchBar — the shared element of the PLP ⇄ Search ⇄ Results hops. It does not animate itself:
+// during a hop NavStack lifts it into a BarFlight (one opaque shell flown between the two real
+// bars, see BarFlight.jsx) and hands it back on landing. `layoutId` is accepted and ignored.
 //
 // state="typing" = first responder (UITextField editing):
 //  - caret: 2px #0f7eff, solid while keys are landing, starts blinking 500ms after the last edit
@@ -16,7 +14,7 @@ import './SearchBar.css';
 const CARET_IDLE_MS = 500;
 
 const SearchBar = forwardRef(function SearchBar(
-  { layoutId, value = '', placeholder = 'Search', state = 'placeholder', onBack, onTap, onClear, trailing = 'camera',
+  { layoutId: _layoutId, value = '', placeholder = 'Search', state = 'placeholder', onBack, onTap, onClear, trailing = 'camera',
     activity, focused = true, selected = false, style, className },
   ref,
 ) {
@@ -41,30 +39,28 @@ const SearchBar = forwardRef(function SearchBar(
 
   const showCaret = editing && focused && !selected;
   return (
-    <motion.div
+    <div
       ref={ref}
-      layoutId={layoutId}
-      transition={spring.morph}
       className={`sbar${className ? ' ' + className : ''}`}
       style={{ borderRadius: 12, ...style }}
       onClick={onTap}
       role="search"
     >
-      <motion.button layout="position" transition={spring.morph} type="button" className="sbar-back" aria-label="Back"
+      <button type="button" className="sbar-back" aria-label="Back"
         onClick={(e) => { e.stopPropagation(); onBack?.(); }}>
         <Icon name="chevron-left" size={20} color="var(--text-primary)" />
-      </motion.button>
+      </button>
 
-      <motion.div layout="position" transition={spring.morph} className={`sbar-field${editing ? ' is-editing' : ''}`} ref={fieldRef}>
+      <div className={`sbar-field${editing ? ' is-editing' : ''}`} ref={fieldRef}>
         <span className={`${hasText ? 'sbar-text' : 'sbar-text is-ph'}${selected && hasText ? ' is-selected' : ''}`}>
           {hasText ? value : editing ? '' : placeholder}
         </span>
         {showCaret && <span className={`sbar-caret${solid ? ' is-solid' : ''}`} aria-hidden="true" />}
         {editing && !hasText && <span className="sbar-text is-ph sbar-ph-after">{placeholder}</span>}
-      </motion.div>
+      </div>
 
       {trailing !== 'none' && (
-        <motion.div layout="position" transition={spring.morph} className="sbar-trail">
+        <div className="sbar-trail">
           {trailing === 'camera' && <Icon name="camera" size={24} color="var(--text-primary)" />}
           {trailing === 'clear' && (
             <button type="button" className="sbar-clear" aria-label="Clear"
@@ -74,9 +70,9 @@ const SearchBar = forwardRef(function SearchBar(
               </svg>
             </button>
           )}
-        </motion.div>
+        </div>
       )}
-    </motion.div>
+    </div>
   );
 });
 export default SearchBar;

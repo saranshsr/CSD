@@ -6,7 +6,8 @@ import Keyboard, { KEYBOARD_HEIGHT as KBH } from '../components/Keyboard.jsx';
 import CouponCard from '../components/CouponCard.jsx';
 import SuggestionRow, { useTap, TAP_SLOP } from '../components/SuggestionRow.jsx';
 import { coupon, suggestionsFor } from '../data.js';
-import { spring, stagger } from '../motion.js';
+import { spring, SPR, at, stagger, rise } from '../motion.js';
+import { useBarLanded } from '../components/NavStack.jsx';
 import './Search.css';
 
 // ---------------------------------------------------------------------------------------------
@@ -34,7 +35,11 @@ const SCREEN_H = 812;
 const KB_TOP = SCREEN_H - KBH;       // keyboard's resting top edge, screen coords
 const DECEL = 0.998;                 // UIScrollView normal deceleration rate
 const project = (v) => (v / 1000) * DECEL / (1 - DECEL); // distance a release at v px/s travels
-const ROW_STAGGER = 0.025, ROWS_BASE_DELAY = 0.28; // rows follow the coupon card (which enters at 200ms)
+// The screen forms around the bar (LSN: containers settle before content forms). Everything below
+// waits for the bar to LAND (useBarLanded), then: the coupon card 200ms after the landing, the rows /
+// empty-state sections right behind it.
+const COUPON_DELAY = 0.2;
+const ROW_STAGGER = 0.025, ROWS_BASE_DELAY = 0.28; // rows follow the coupon card
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 const fade = (d = 0.15) => ({ duration: d, ease: 'linear' });
 
@@ -46,7 +51,8 @@ export default function Search({ nav, params = {} }) {
   const selRef = useRef(selected);
   const setSelected = (v) => { selRef.current = v; setSelectedState(v); };
   const [activity, setActivity] = useState(0);
-  const [kbShown, setKbShown] = useState(false);
+  // first responder from the first frame: the caret is in the bar the flight lands on
+  const [kbShown, setKbShown] = useState(true);
   const kbShownRef = useRef(kbShown);
   kbShownRef.current = kbShown;
   const leaving = useRef(false);
@@ -56,7 +62,8 @@ export default function Search({ nav, params = {} }) {
   const kbY = useMotionValue(reduce ? 0 : KBH);
   const kbO = useMotionValue(reduce ? 0 : 1);
   const kbAnim = useRef(null);
-  const moveKb = useCallback((show, velocity = 0) => {
+  // docks on SPR.dock, drops on SPR.recede (LSN Keyboard)
+  const moveKb = useCallback((show, velocity = 0, delay = 0) => {
     kbAnim.current?.stop();
     setKbShown(show);
     if (reduce) {
@@ -64,16 +71,23 @@ export default function Search({ nav, params = {} }) {
       kbAnim.current = animate(kbO, show ? 1 : 0, { ...fade(), onComplete: () => { if (!show) kbY.set(KBH); } });
     } else {
       kbO.set(1);
-      kbAnim.current = animate(kbY, show ? 0 : KBH, { ...spring.keyboard, velocity });
+      kbAnim.current = animate(kbY, show ? 0 : KBH, { ...(show ? spring.keyboard : spring.keyboardHide), velocity, delay });
     }
   }, [reduce, kbY, kbO]);
   const showKb = useCallback(() => { if (!leaving.current) moveKb(true); }, [moveKb]);
 
+  // The keyboard docks a beat after the screen arrives (LSN: at(0.06) on `dock`).
   useEffect(() => {
-    const id = requestAnimationFrame(() => moveKb(true));
-    const t = setTimeout(() => { mounted.current = true; }, 0);
-    return () => { cancelAnimationFrame(id); clearTimeout(t); };
+    const id = requestAnimationFrame(() => moveKb(true, 0, at(0.06)));
+    return () => cancelAnimationFrame(id);
   }, [moveKb]);
+  // Content forms once the bar has landed; after that first entrance, changes just fade.
+  const landed = useBarLanded();
+  useEffect(() => {
+    if (!landed) return undefined;
+    const t = setTimeout(() => { mounted.current = true; }, 0);
+    return () => clearTimeout(t);
+  }, [landed]);
 
   const leave = useCallback((go) => {
     if (leaving.current) return;
@@ -82,7 +96,7 @@ export default function Search({ nav, params = {} }) {
     go();
   }, [moveKb]);
   const goResults = useCallback((q) => {
-    leave(() => nav.replace('results', { query: (q || '').trim() || 'serum' }, { transition: 'push' }));
+    leave(() => nav.replace('results', { query: (q || '').trim() || 'serum' }, { transition: 'morph' }));
   }, [nav, leave]);
   const goBack = useCallback(() => leave(() => nav.pop()), [nav, leave]);
 
@@ -137,6 +151,9 @@ export default function Search({ nav, params = {} }) {
 
   const onPointerDown = (e) => {
     if (e.pointerType === 'touch' || e.button > 0) return;
+    // the leading 20px belong to NavStack's edge-swipe back
+    const rr = rootRef.current.getBoundingClientRect();
+    if ((e.clientX - rr.left) / scaleOf() <= 20) return;
     drag.current = {
       id: e.pointerId, x0: e.clientX, y0: e.clientY, s: scaleOf(), axis: null, el: null, start: 0,
       kb: kbShownRef.current, moved: false, samples: [[performance.now(), e.clientX, e.clientY]],
@@ -198,9 +215,10 @@ export default function Search({ nav, params = {} }) {
   };
 
   const first = !mounted.current;
+  // first entrance: LSN `rise` (9px up, sharpening), staggered behind the coupon card
   const entrance = (i) => (first && !reduce
-    ? { initial: { opacity: 0, y: 8 }, animate: { opacity: 1, y: 0 },
-        transition: { ...spring.keyboard, ...stagger(i, 0.04, 0.28), opacity: { ...fade(), ...stagger(i, 0.04, 0.28) } } }
+    ? { initial: 'hidden', animate: landed ? 'shown' : 'hidden',
+        variants: { hidden: rise.hidden, shown: { ...rise.shown, transition: { ...SPR.rise, ...stagger(i, 0.04, ROWS_BASE_DELAY) } } } }
     : { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: fade() });
 
   return (
@@ -217,10 +235,11 @@ export default function Search({ nav, params = {} }) {
         onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd} onTouchCancel={onTouchEnd} onWheel={onWheel}>
         <div className="srch__coupon">
           <CouponCard coupon={coupon} cta="View all" onTap={() => goResults(query)}
-            // enters 200ms after the search bar lands: settles down from under the bar (y −6, scale .98) — no bounce
-            initial={{ opacity: 0, y: -6, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }}
+            // enters 200ms after the search bar LANDS: settles down from under the bar (y −6, scale .98) — no bounce
+            initial={reduce ? { opacity: 0 } : { opacity: 0, y: -6, scale: 0.98 }}
+            animate={landed ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: -6, scale: 0.98 }}
             style={{ transformOrigin: '50% 0%' }}
-            transition={{ ...spring.morph, delay: 0.2, opacity: { duration: 0.22, ease: 'easeOut', delay: 0.2 } }} />
+            transition={reduce ? fade() : { ...SPR.rise, delay: landed ? COUPON_DELAY : 0, opacity: { duration: 0.15, ease: 'easeOut', delay: landed ? COUPON_DELAY : 0 } }} />
         </div>
 
         <div className="srch__content">
@@ -235,15 +254,16 @@ export default function Search({ nav, params = {} }) {
                 initial={{ opacity: 1 }} exit={{ opacity: 0, transition: fade(0.08) }}>
                 <AnimatePresence mode="popLayout" initial={true}>
                   {rows.map((r, i) => {
-                    const delay = first ? ROWS_BASE_DELAY + i * ROW_STAGGER : 0;
+                    const delay = first ? at(ROWS_BASE_DELAY + i * ROW_STAGGER) : 0;
+                    const show = landed || !first;
                     return (
                       <SuggestionRow key={r.label} label={r.label} thumb={r.thumb} kind={r.kind} query={query}
                         onTap={() => goResults(r.kind === 'search' ? query : r.label)} onFill={(l) => fillWith(l + ' ')}
                         layout="position"
                         initial={{ opacity: 0, y: 4 }}
-                        animate={{ opacity: 1, y: 0 }}
+                        animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 4 }}
                         exit={{ opacity: 0, transition: fade(0.08) }}
-                        transition={{ ...spring.keyboard, delay, layout: spring.keyboard, opacity: { ...fade(), delay } }} />
+                        transition={{ ...SPR.rise, delay, layout: SPR.layout, opacity: { ...fade(), delay } }} />
                     );
                   })}
                 </AnimatePresence>

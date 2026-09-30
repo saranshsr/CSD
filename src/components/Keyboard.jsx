@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
-import { spring } from '../motion.js';
+import { spring, SPR } from '../motion.js';
 import { useTap } from './SuggestionRow.jsx';
 import './Keyboard.css';
 
@@ -282,7 +282,7 @@ function Popup({ k, label }) {
   return (
     <div className="kb-pop" style={{ left: k.x, top: k.y, width: k.w, height: KH }} aria-hidden="true">
       <motion.div className="kb-pop-head" style={{ left: shift, width: head, transformOrigin: `${originX}px 100%` }}
-        initial={{ scale: 0.72 }} animate={{ scale: 1 }} transition={spring.morph}>
+        initial={{ scale: 0.72 }} animate={{ scale: 1 }} transition={SPR.clear}>
         {label}
       </motion.div>
       <div className="kb-pop-stem" />

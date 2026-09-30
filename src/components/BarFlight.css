@@ -1,0 +1,7 @@
+/* The flying search bar (BarFlight). The shell is the one opaque surface; faces are content only. */
+.bf{position:absolute;z-index:50;box-sizing:border-box;border:1px solid transparent;overflow:hidden;pointer-events:none}
+.bf-face{position:absolute;inset:-1px}
+.bf .sbar.sbar--face{margin:0;width:100%;height:100%;background:transparent;border-color:transparent}
+/* Real bars are hidden while the flight carries them — opacity only, so their boxes stay measurable
+   and the destination bar stays tappable (back can be hit mid-flight, which reverses it). */
+.ns-screen[data-bar-away] .sbar{opacity:0}
