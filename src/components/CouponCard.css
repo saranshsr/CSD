@@ -10,3 +10,10 @@
 .cc__meta{font-size:11px;line-height:14px;font-weight:400;letter-spacing:-0.1px;color:#666d85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cc__meta b{font-weight:600;color:#0f8857}
 .cc__cta{flex:none;display:flex;align-items:center;gap:2px;font-size:12px;line-height:18px;font-weight:600;letter-spacing:-0.1px;color:#0f61ff}
+
+/* S3 docked: continues the search bar — no top edge/radius, light tint, white 32px tile; the bar's bottom border is the seam */
+.cc.cc--docked{height:60px;padding:10px 12px;border-top:0;border-radius:0 0 12px 12px;background:#f7f9fb}
+.cc.cc--docked.cc--hl{background:#eef1f6}
+.cc--docked .cc__tile{width:32px;height:32px;background:#fff}
+.cc--docked .cc__title{font-size:13px;line-height:18px}
+.cc__count{font-variant-numeric:tabular-nums}

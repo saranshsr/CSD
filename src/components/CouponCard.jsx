@@ -12,7 +12,8 @@ import './CouponCard.css';
 const CARD_SCALE = 0.98;
 
 // Figma “n5” (2361:152160): the nudge leads with the scoped search — “Search “q”” — and the coupon is the quiet subline.
-export default function CouponCard({ coupon = defaultCoupon, query = '', onTap, initial, animate, transition, className = '', popIcon = null }) {
+// docked: S3 (Figma 2366:102476) — hangs off the search bar as one surface; count: S1 live result count.
+export default function CouponCard({ coupon = defaultCoupon, query = '', count = null, docked = false, onTap, initial, animate, transition, className = '', popIcon = null }) {
   const reduce = !!useReducedMotion();
   const { pressed, handlers, shouldCommit } = usePress();
   const commit = () => { if (shouldCommit()) onTap && onTap(); };
@@ -21,7 +22,7 @@ export default function CouponCard({ coupon = defaultCoupon, query = '', onTap, 
   return (
     <motion.div
       role="button" tabIndex={0}
-      className={`cc ${pressed ? 'cc--hl' : ''} ${className}`}
+      className={`cc${docked ? ' cc--docked' : ''} ${pressed ? 'cc--hl' : ''} ${className}`}
       initial={initial}
       animate={{ ...(animate || {}), scale: pressed && !reduce ? CARD_SCALE : 1 }}
       transition={{ ...(transition || {}), scale: pressT }}
@@ -35,12 +36,17 @@ export default function CouponCard({ coupon = defaultCoupon, query = '', onTap, 
           initial={popIcon != null ? { scale: 0.5, opacity: 0 } : false}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ ...SPR.pop, delay: popIcon ?? 0, opacity: { duration: 0.12, delay: popIcon ?? 0 } }}>
-          <Icon name="search" size={20} color="#1d2539" />
+          <Icon name="search" size={docked ? 18 : 20} color="#1d2539" />
         </motion.span>
       </div>
       <div className="cc__body">
-        <div className="cc__title">Search <b>“{query}”</b></div>
-        <div className="cc__meta">within <b>{coupon.code}</b> eligible items · extra 10% off</div>
+        {docked ? (<>
+          <div className="cc__title">Search <b>“{query}”</b> only in eligible items</div>
+          <div className="cc__meta"><b>{coupon.code}</b> · extra 10% off{count != null ? <> · <span className="cc__count">{count.toLocaleString('en-US')} results</span></> : null}</div>
+        </>) : (<>
+          <div className="cc__title">Search <b>“{query}”</b></div>
+          <div className="cc__meta">within <b>{coupon.code}</b> eligible items · extra 10% off</div>
+        </>)}
       </div>
       <div className="cc__cta" aria-hidden>
         <Icon name="chevron-right" size={12} color="#0f61ff" />

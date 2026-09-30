@@ -136,6 +136,15 @@ export function isBeautyQuery(q) {
   const s = q.trim().toLowerCase();
   return !!s && BEAUTY.some((it) => matches(it, s));
 }
+// Live count shown in the docked nudge. Stable per query (placeholder scale); Figma: “serum” → 412.
+export function eligibleCountFor(q) {
+  const s = q.trim().toLowerCase();
+  if (!s) return 2341;
+  if (s === 'serum') return 412;
+  const n = BEAUTY.filter((it) => matches(it, s)).length;
+  let h = 0; for (const ch of s) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  return Math.max(12, Math.min(2341, n * 57 + (h % 90) + Math.round(900 / (s.length + 1))));
+}
 // Searched within BEAUTY10: eligible matches → coupon scope. No eligible match → fallback to
 // noon-wide results ("Showing results for “q” in all categories"), or popular noon items if nothing matches.
 export function resultsFor(q) {
