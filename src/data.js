@@ -49,9 +49,9 @@ export const products = {
     { id: 'mini5', name: 'Minimalist Niacinamide 5% Face Serum', price: '39.25', was: '45', off: '13%', size: '30ml', unit: 'dhm1.31/ml', img: P + '01_niacinamide-serum_2.jpg', rating: '4.2', count: '310', coupon: true },
   ],
   seiko: [
-    { id: 's1', name: "Seiko 5 Sports Automatic Men's Watch SRPD53K1", price: '1,079', was: '1,150', off: '6%', img: P + '11_seiko-5-watch_1.jpg', rating: '4.6', count: '2.1K', bestSeller: true },
+    { id: 's1', name: "Seiko 5 Sports Automatic Men's Watch SRPD53K1", price: '1079', was: '1150', off: '6%', img: P + '11_seiko-5-watch_1.jpg', rating: '4.6', count: '2.1K', bestSeller: true },
     { id: 's2', name: 'Seiko 5 Sports Analog Watch SRPD55K1', price: '611', was: '699', off: '13%', img: P + '11_seiko-5-watch_2.jpg', rating: '4.4', count: '860' },
-    { id: 's3', name: 'Seiko Presage Cocktail Automatic GMT Watch', price: '2,240', img: P + '12_seiko-presage_1.jpg', rating: '4.5', count: '1.3K' },
+    { id: 's3', name: 'Seiko Presage Cocktail Automatic GMT Watch', price: '2240', img: P + '12_seiko-presage_1.jpg', rating: '4.5', count: '1.3K' },
   ],
 };
 // results for a query searched within BEAUTY10. Empty => fallback to noon.com

@@ -32,7 +32,8 @@ export default function App() {
     pop: () => setRoutes(r => (r.length > 1 ? r.slice(0, -1) : r)),
     replace: (id, params, o = {}) => setRoutes(r => [...r.slice(0, -1), route(id, params, o.transition || 'push')]),
     openSheet: () => setSheetOpen(true),
-    closeSheet: (then) => { setSheetOpen(false); if (then) pending.current = then; },
+    // overlap: the next screen starts pushing while the sheet is still sliding away (no dead pause)
+    closeSheet: (then) => { setSheetOpen(false); if (then) setTimeout(then, 140); },
     reset: () => { setSheetOpen(false); setRoutes([route('cart', {}, 'none')]); },
   }), []);
 

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { spring } from '../motion.js';
 import './Keyboard.css';
@@ -30,7 +30,10 @@ const KEYS = buildKeys();
 
 export default function Keyboard({ visible, onKey, onBackspace, onReturn }) {
   const reduce = useReducedMotion();
-  const [pressed, setPressed] = useState(null);
+  const [pressed, setPressedState] = useState(null);
+  // ref mirrors state so a quick tap (down+up in one frame) still commits on release
+  const pressedRef = useRef(null);
+  const setPressed = (v) => { const next = typeof v === 'function' ? v(pressedRef.current) : v; pressedRef.current = next; setPressedState(next); };
   const [shift, setShift] = useState(false);
 
   const fire = (k) => {
@@ -45,7 +48,7 @@ export default function Keyboard({ visible, onKey, onBackspace, onReturn }) {
   // iOS commits on touch-up; the popup shows for as long as the finger is down.
   const handlers = (k) => ({
     onPointerDown: (e) => { e.preventDefault(); setPressed(k.id); },
-    onPointerUp: () => { if (pressed === k.id) fire(k); setPressed(null); },
+    onPointerUp: () => { if (pressedRef.current === k.id) fire(k); setPressed(null); },
     onPointerLeave: () => setPressed((p) => (p === k.id ? null : p)),
     onPointerCancel: () => setPressed(null),
   });
