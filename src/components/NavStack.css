@@ -1,0 +1,6 @@
+.ns{position:absolute;inset:0;overflow:hidden;background:#000}
+.ns-layer{position:absolute;left:0;top:0;width:375px;height:812px}
+.ns-screen{position:absolute;inset:0;width:375px;height:812px;overflow:hidden;background:#fff;touch-action:pan-y;will-change:transform}
+/* iOS push shadow: only visible while the screen is off its resting x (at x=0 it falls outside the viewport) */
+.ns-screen.has-shadow{box-shadow:-1px 0 3px rgba(0,0,0,0.06),-8px 0 24px rgba(0,0,0,0.12)}
+.ns-dim{position:absolute;inset:0;background:#000;pointer-events:none;z-index:999}

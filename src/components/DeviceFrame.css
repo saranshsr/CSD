@@ -1,0 +1,14 @@
+.df-page{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#0e0f12;overflow:hidden}
+/* device body: 12px bezel, hairline edge highlight, soft long shadow */
+.df-device{flex:none;position:relative;padding:12px;border-radius:60px;background:#1b1c20;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,0.08),0 0 0 1px rgba(0,0,0,0.6),
+    0 30px 80px rgba(0,0,0,0.55),0 10px 24px rgba(0,0,0,0.35)}
+.df-screen{position:relative;width:375px;height:812px;border-radius:48px;overflow:hidden;background:#fff;
+  isolation:isolate;transform:translateZ(0)}
+.df-home{position:absolute;left:50%;bottom:8px;width:134px;height:5px;margin-left:-67px;border-radius:3px;
+  background:#000;z-index:1000;pointer-events:none}
+.df-reset{position:absolute;top:20px;right:20px;z-index:10;display:flex;align-items:center;gap:6px;height:32px;padding:0 14px;
+  border-radius:16px;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.8);font-size:13px;font-weight:500;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,0.1);transition:background-color .15s}
+.df-reset:hover{background:rgba(255,255,255,0.14)}
+.df-reset:active{background:rgba(255,255,255,0.2)}

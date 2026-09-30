@@ -1,0 +1,12 @@
+.sh{position:absolute;inset:0;z-index:500}
+.sh-backdrop{position:absolute;inset:0;background:rgba(0,0,0,0.81)} /* Figma tray scrim: white → #303131 */
+.sh-panel{position:absolute;left:0;right:0;bottom:-120px;padding-bottom:120px;display:flex;flex-direction:column;background:#fff;
+  border-radius:20px 20px 0 0;overflow:hidden;will-change:transform;box-shadow:0 -1px 0 rgba(0,0,0,0.04)}
+.sh-handle{position:absolute;top:0;left:0;right:0;height:24px;z-index:5;display:flex;justify-content:center;
+  padding-top:8px;touch-action:none;cursor:grab}
+.sh-grabber{width:36px;height:5px;border-radius:3px;background:#d0d4dd}
+.sh-scroll{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+
+/* floating inset panel (Figma coupon tray: x12 y183 351×600 r16): grabber sits on the scrim above the panel */
+.sh-handle.is-floating{top:-18px;height:18px;padding-top:6px}
+.sh-handle.is-floating .sh-grabber{background:rgba(255,255,255,0.7)}

@@ -1,0 +1,22 @@
+@font-face{font-family:Noontree;src:url(/fonts/Noontree-Regular.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:Noontree;src:url(/fonts/Noontree-Medium.woff2) format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:Noontree;src:url(/fonts/Noontree-SemiBold.woff2) format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:Noontree;src:url(/fonts/Noontree-Bold.woff2) format('woff2');font-weight:700;font-display:swap}
+@font-face{font-family:Noontree;src:url(/fonts/Noontree-ExtraBold.woff2) format('woff2');font-weight:800;font-display:swap}
+:root{
+  /* semantic tokens used in this prototype (values from Origin/Field DS) */
+  --text-primary:#1d2539; --text-secondary:#404553; --text-tertiary:#7e859b; --text-muted:#a3a8b8;
+  --text-action:#3866df; --text-success:#0f8857; --text-warning:#e5641a;
+  --surface-primary:#ffffff; --surface-secondary:#f3f4f8; --surface-muted:#eceef2;
+  --surface-success-subtle:#e7faf2; --surface-success-bold:#0f8857; --surface-action-bold:#3866df;
+  --border-primary:#e2e5f1; --border-success:#cbf6e5;
+  --image-bg:#f7f9fb; /* #002888 @3% on white — PLP card image container */
+  --radius-card:12px; --radius-field:12px;
+  --font: Noontree, -apple-system, system-ui, sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body,#root{height:100%}
+body{font-family:var(--font);color:var(--text-primary);background:#0e0f12;-webkit-font-smoothing:antialiased;overflow:hidden}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+img{display:block;user-select:none;-webkit-user-drag:none}
+.dhm{font-family:var(--font);letter-spacing:0} /* letter-spacing breaks Noontree's "dhm"→dirham ligature: always wrap "dhm" in .dhm */

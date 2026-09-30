@@ -1,0 +1,9 @@
+/* Figma 2328:97370 — header pad 4/16/8, coupon wrapper pad 2/16/6, suggestion rows 52px */
+.srch{position:relative;display:flex;flex-direction:column;width:100%;height:100%;background:#fff;overflow:hidden}
+.srch__header{flex:none;padding:4px 0 8px} /* SearchBar carries its own 16px side margin */
+.srch__body{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding-bottom:300px;scrollbar-width:none}
+.srch__body::-webkit-scrollbar{display:none}
+.srch__coupon{padding:2px 16px 6px}
+.srch__hint{padding:10px 16px 0;font-size:12px;line-height:18px;letter-spacing:-0.1px;color:#666d85;text-align:center}
+.srch__list{position:relative}
+.srch__kb{position:absolute;left:0;right:0;bottom:0;z-index:5}

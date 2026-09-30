@@ -1,0 +1,46 @@
+/* 04 · Eligible items — Figma 2321:96371 */
+.plp{position:absolute;inset:0;display:flex;flex-direction:column;background:#fff;overflow:hidden}
+.plp-header{position:relative;z-index:3;flex:none;background:#fff}
+.plp-searchwrap{padding:4px 0 8px}
+.plp-hairline{position:absolute;inset:0;z-index:-1;pointer-events:none;
+  box-shadow:0 0.5px 0 rgba(16,22,40,.10),0 2px 8px rgba(16,22,40,.06);transition:opacity 150ms}
+.plp-scroll{position:relative;flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.plp-scroll::-webkit-scrollbar{display:none}
+
+/* marketplace tabs */
+.plp-tabs{height:57px;display:flex;padding:8px 4px 0;border-bottom:1px solid #eaecf0}
+.plp-tab{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative}
+.plp-tab img{object-fit:contain;flex:none}
+.plp-tab-cap{font-size:11px;line-height:14px;font-weight:400;letter-spacing:-0.1px;color:#1d2539;white-space:nowrap}
+.plp-tab-ind{position:absolute;left:50%;bottom:-1px;width:72px;height:3px;margin-left:-36px;border-radius:2px;background:#000}
+
+/* filter chips */
+.plp-chips{height:56px;display:flex;align-items:center;gap:8px;padding:12px;overflow-x:auto;scrollbar-width:none}
+.plp-chips::-webkit-scrollbar{display:none}
+.plp-chip{flex:none;height:32px;display:flex;align-items:center;gap:2px;padding:6px 8px;border-radius:8px;background:#fff;
+  box-shadow:inset 0 0 0 1px #ebeaea}
+.plp-chip.has-trail{padding-right:4px}
+.plp-chip-label{padding:0 2px;font-size:14px;line-height:19.6px;font-weight:500;color:#262a33;white-space:nowrap}
+
+.plp-banner{width:375px;height:164px;object-fit:cover;background:var(--surface-secondary)}
+
+/* categories */
+.plp-cats{height:146px;display:flex;gap:12px;padding:16px 0 12px 12px;overflow-x:auto;scrollbar-width:none}
+.plp-cats::-webkit-scrollbar{display:none}
+.plp-cat{flex:none;width:72px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.plp-cat-img{width:72px;height:72px;border-radius:36px;background:#fff;box-shadow:inset 0 0 0 1px #edf0f2;overflow:hidden;position:relative}
+.plp-cat-img img{width:100%;height:100%;object-fit:cover;mix-blend-mode:multiply}
+.plp-cat-label{font-size:13px;line-height:20px;font-weight:600;letter-spacing:-0.1px;color:#1d2539;text-align:center;white-space:pre-line}
+
+/* 2-col product grid (shared with Results) */
+.pgrid{display:grid;grid-template-columns:1fr 1fr;column-gap:10px;row-gap:16px;padding:0 12px;align-items:start}
+.plp-foot{height:160px} /* clears floating pill + bottom nav */
+
+/* floating Sort | Filter pill + share (x=86, y=679) */
+.sfp{position:absolute;z-index:4;left:86px;bottom:97px;display:flex;align-items:center;gap:8px}
+.sfp-pill{height:36px;width:160px;border-radius:28px;background:#3866df;color:#fff;display:flex;align-items:center;padding:0 8px 0 12px}
+.sfp-seg{display:flex;align-items:center;gap:4px;font-size:16px;line-height:22.4px;font-weight:700;white-space:nowrap}
+.sfp-sep{width:1px;height:20px;margin:0 8px;background:rgba(255,255,255,.2)}
+.sfp-share{width:36px;height:36px;border-radius:36px;background:#fff;box-shadow:inset 0 0 0 1.5px #3866df;display:grid;place-items:center}
+
+.plp-nav{position:absolute;z-index:4;left:0;right:0;bottom:0}

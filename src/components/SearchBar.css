@@ -1,0 +1,13 @@
+.sbar{position:relative;height:48px;margin:0 16px;display:flex;align-items:center;gap:8px;padding:0 12px 0 10px;
+  background:#fff;border:1px solid #f2f3f7;cursor:text;overflow:hidden}
+.sbar-back{flex:none;width:28px;height:28px;display:grid;place-items:center;margin-right:-2px}
+.sbar-field{flex:1;min-width:0;display:flex;align-items:center;height:24px;white-space:nowrap;overflow:hidden}
+.sbar-text{display:inline-block;font-size:14px;line-height:20px;font-weight:500;color:var(--text-primary);white-space:pre;overflow:hidden;text-overflow:ellipsis}
+.sbar-text.is-ph{color:#1d2539}
+.sbar-ph-after{margin-left:2px}
+/* iOS caret: solid, then eased fade — 1s cycle */
+.sbar-caret{flex:none;width:2px;height:22px;margin-left:1px;border-radius:1px;background:#0f7eff;animation:sbar-blink 1s infinite}
+@keyframes sbar-blink{0%,45%{opacity:1}55%,95%{opacity:0}100%{opacity:1}}
+.sbar-trail{flex:none;display:grid;place-items:center;min-width:24px;height:24px}
+.sbar-clear{width:20px;height:20px;border-radius:50%;background:#a3a8b8;display:grid;place-items:center}
+@media (prefers-reduced-motion: reduce){.sbar-caret{animation:none}}
