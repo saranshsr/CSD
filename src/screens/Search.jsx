@@ -240,11 +240,11 @@ export default function Search({ nav, params = {} }) {
           animate={{ height: landed || reduce ? 'auto' : 0 }}
           transition={{ ...SPR.layout, delay: landed ? COUPON_DELAY : 0 }}>
           <div className="srch__coupon">
-            <CouponCard coupon={coupon} cta="View all" onTap={() => goResults(query)} popIcon={landed && !reduce ? COUPON_DELAY + 0.16 : null}
+            <CouponCard coupon={coupon} cta="View all" onTap={() => goResults(query)} popIcon={landed && !reduce ? COUPON_DELAY + 0.24 : null}
               initial={reduce ? { opacity: 0 } : { opacity: 0, y: -4, scale: 0.97 }}
               animate={landed ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: -4, scale: 0.97 }}
               style={{ transformOrigin: '50% 0%' }}
-              transition={reduce ? fade() : { ...SPR.form, delay: landed ? COUPON_DELAY + 0.06 : 0, opacity: { duration: 0.18, ease: 'easeOut', delay: landed ? COUPON_DELAY + 0.06 : 0 } }} />
+              transition={reduce ? fade() : { ...SPR.form, delay: landed ? COUPON_DELAY + 0.14 : 0, opacity: { duration: 0.2, ease: 'easeOut', delay: landed ? COUPON_DELAY + 0.14 : 0 } }} />
           </div>
         </motion.div>
 
