@@ -106,6 +106,11 @@ function matches(item, q) {
   const hay = (item.k + ' ' + item.name).toLowerCase().split(/[^a-z0-9]+/);
   return words.every((w) => hay.some((h) => h.startsWith(w)));
 }
+// Is this (partial) query beauty-related, i.e. does it match any BEAUTY10-eligible item? Drives the coupon nudge.
+export function isBeautyQuery(q) {
+  const s = q.trim().toLowerCase();
+  return !!s && BEAUTY.some((it) => matches(it, s));
+}
 // Searched within BEAUTY10: eligible matches → coupon scope. No eligible match → fallback to
 // noon-wide results ("Showing results for “q” in all categories"), or popular noon items if nothing matches.
 export function resultsFor(q) {

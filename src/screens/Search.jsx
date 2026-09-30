@@ -5,7 +5,7 @@ import SearchBar from '../components/SearchBar.jsx';
 import Keyboard, { KEYBOARD_HEIGHT as KBH } from '../components/Keyboard.jsx';
 import CouponCard from '../components/CouponCard.jsx';
 import SuggestionRow, { useTap, TAP_SLOP } from '../components/SuggestionRow.jsx';
-import { coupon, suggestionsFor } from '../data.js';
+import { coupon, suggestionsFor, isBeautyQuery } from '../data.js';
 import { spring, SPR, at, stagger, rise } from '../motion.js';
 import { useBarLanded } from '../components/NavStack.jsx';
 import './Search.css';
@@ -38,7 +38,7 @@ const project = (v) => (v / 1000) * DECEL / (1 - DECEL); // distance a release a
 // The screen forms around the bar (LSN: containers settle before content forms). Everything below
 // waits for the bar to LAND (useBarLanded), then: the coupon card 200ms after the landing, the rows /
 // empty-state sections right behind it.
-const COUPON_DELAY = 0.4; // nudge reveals 400ms after the bar lands
+const COUPON_DELAY = 0.4; // nudge reveals 400ms after the query becomes beauty-related
 const ROW_STAGGER = 0.025, ROWS_BASE_DELAY = 0.04; // rows land first, right under the bar; the nudge then inserts above them
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 const fade = (d = 0.15) => ({ duration: d, ease: 'linear' });
@@ -88,6 +88,18 @@ export default function Search({ nav, params = {} }) {
     const t = setTimeout(() => { mounted.current = true; }, 0);
     return () => clearTimeout(t);
   }, [landed]);
+
+  // Coupon nudge is contextual: it appears only while the query is beauty-related (matches BEAUTY10-eligible
+  // items). It reveals 400ms after that becomes true (so fast typing doesn't flicker it) and closes at once when not.
+  const beauty = landed && isBeautyQuery(query);
+  const [nudge, setNudge] = useState(false);
+  const [nudgeKey, setNudgeKey] = useState(0);
+  useEffect(() => {
+    if (!beauty) { setNudge(false); return undefined; }
+    if (nudge) return undefined;
+    const t = setTimeout(() => { setNudge(true); setNudgeKey((k) => k + 1); }, COUPON_DELAY * 1000);
+    return () => clearTimeout(t);
+  }, [beauty]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const leave = useCallback((go) => {
     if (leaving.current) return;
@@ -236,15 +248,17 @@ export default function Search({ nav, params = {} }) {
         {/* Coupon nudge reveal: its slot opens on the layout spring (content below shifts down, no jump),
             the card surface forms into it a beat later, and the % tile pops once. */}
         <motion.div className="srch__coupon-slot"
-          initial={reduce ? false : { height: 0 }}
-          animate={{ height: landed || reduce ? 'auto' : 0 }}
-          transition={{ ...SPR.layout, delay: landed ? COUPON_DELAY : 0 }}>
+          initial={false}
+          animate={{ height: nudge ? 'auto' : 0 }}
+          transition={reduce ? { duration: 0 } : nudge ? SPR.layout : SPR.recede}>
           <div className="srch__coupon">
-            <CouponCard coupon={coupon} cta="View all" onTap={() => goResults(query)} popIcon={landed && !reduce ? COUPON_DELAY + 0.24 : null}
+            <CouponCard key={nudgeKey} coupon={coupon} cta="View all" onTap={() => goResults(query)} popIcon={nudge && !reduce ? 0.24 : null}
               initial={reduce ? { opacity: 0 } : { opacity: 0, y: -4, scale: 0.97 }}
-              animate={landed ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: -4, scale: 0.97 }}
+              animate={nudge ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: -4, scale: 0.97 }}
               style={{ transformOrigin: '50% 0%' }}
-              transition={reduce ? fade() : { ...SPR.form, delay: landed ? COUPON_DELAY + 0.14 : 0, opacity: { duration: 0.2, ease: 'easeOut', delay: landed ? COUPON_DELAY + 0.14 : 0 } }} />
+              transition={reduce ? fade() : nudge
+                ? { ...SPR.form, delay: 0.14, opacity: { duration: 0.2, ease: 'easeOut', delay: 0.14 } }
+                : { ...SPR.recede, opacity: { duration: 0.1, ease: 'easeOut' } }} />
           </div>
         </motion.div>
 
