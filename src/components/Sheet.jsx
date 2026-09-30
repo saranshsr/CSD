@@ -34,6 +34,9 @@ function SheetBody({ top, inset = 0, bottomGap = 0, radius = 20, bg = '#fff', on
   const drag = useRef(null);
   const vel = useRef(null);
   if (!vel.current) vel.current = velocityTracker();
+  const svel = useRef(null);                 // content-scroll velocity (mouse/pen drag-scroll)
+  if (!svel.current) svel.current = velocityTracker();
+  const scrollAnim = useRef(null);
   const releaseV = useRef(0);
   const onCloseRef = useRef(onClose);
   onCloseRef.current = onClose;
@@ -72,7 +75,8 @@ function SheetBody({ top, inset = 0, bottomGap = 0, radius = 20, bg = '#fff', on
   const scaleOf = () => { const r = panel.current?.closest('.sh')?.getBoundingClientRect(); return r ? r.width / 375 : 1; };
   const onPointerDown = (e, fromHandle) => {
     if (!isPresent || e.button > 0) return;
-    drag.current = { id: e.pointerId, startX: e.clientX, startY: e.clientY, y0: y.get(), s: scaleOf(), fromHandle, active: false };
+    scrollAnim.current?.stop(); scrollAnim.current = null;   // catch a momentum scroll under the finger
+    drag.current = { id: e.pointerId, type: e.pointerType, startX: e.clientX, startY: e.clientY, y0: y.get(), s: scaleOf(), fromHandle, active: false, mode: 'sheet' };
     // The grabber is only a drag affordance, so it catches the sheet at touch-down: any open/settle
     // animation stops under the finger, and the pointer is captured so moves off the tiny handle still track.
     if (fromHandle) {
@@ -89,13 +93,35 @@ function SheetBody({ top, inset = 0, bottomGap = 0, radius = 20, bg = '#fff', on
       if (Math.hypot(dx, dy) < TAP_SLOP) return;
       const atTop = (scroller.current?.scrollTop ?? 0) <= 0;
       // Needs mostly-vertical travel. Content drags only take over when pulling down from the very top of the scroll.
-      if (Math.abs(dy) < Math.abs(dx) || (!d.fromHandle && !(atTop && dy > 0))) { drag.current = null; return; }
+      if (Math.abs(dy) < Math.abs(dx)) { drag.current = null; return; }
+      if (!d.fromHandle && !(atTop && dy > 0)) {
+        // Touch scrolls natively. Mouse/pen get the same thing by hand: 1:1 drag-scroll, momentum on release,
+        // and a hand-off to the sheet drag when the content hits the top while pulling down (UIScrollView-in-sheet).
+        if (d.type === 'touch') { drag.current = null; return; }
+        d.active = true; d.mode = 'scroll'; d.startY = e.clientY; d.st0 = scroller.current.scrollTop;
+        svel.current.reset(); svel.current.add(d.st0, e.timeStamp || performance.now());
+        try { panel.current.setPointerCapture(e.pointerId); } catch { /* noop */ }
+        return;
+      }
       d.active = true;
       d.startY = e.clientY; d.y0 = y.get();   // grab offset: track from here, no jump
       y.stop();                                // catch it mid-flight (opening or settling)
       vel.current.reset();
       try { panel.current.setPointerCapture(e.pointerId); } catch { /* noop */ }
       return;
+    }
+    if (d.mode === 'scroll') {
+      const el = scroller.current;
+      const top = d.st0 - (e.clientY - d.startY) / d.s;
+      if (top < 0) {
+        // content reached the top while pulling down → the sheet takes over, carrying the overshoot
+        el.scrollTop = 0; d.mode = 'sheet'; d.y0 = y.get(); d.startY = e.clientY + top * d.s; y.stop(); vel.current.reset();
+      } else {
+        const max = el.scrollHeight - el.clientHeight;
+        el.scrollTop = Math.min(top, max); // stops at the end, like native scroll
+        svel.current.add(el.scrollTop, e.timeStamp || performance.now());
+        return;
+      }
     }
     const next = d.y0 + (e.clientY - d.startY) / d.s;
     // Rubber-band above the resting position, like UIKit.
@@ -108,6 +134,16 @@ function SheetBody({ top, inset = 0, bottomGap = 0, radius = 20, bg = '#fff', on
     if (!d || d.id !== e.pointerId) return;
     drag.current = null;
     if (!d.active) return;
+    if (d.mode === 'scroll') {
+      // momentum scroll: UIScrollView-style exponential deceleration from the release velocity
+      const el = scroller.current; const v = svel.current.get(e.timeStamp || performance.now());
+      const max = el.scrollHeight - el.clientHeight;
+      if (Math.abs(v) > 20 && !reduce) {
+        scrollAnim.current = animate(el.scrollTop, Math.max(0, Math.min(max, project(el.scrollTop, v))),
+          { type: 'spring', bounce: 0, visualDuration: 0.8, velocity: v, onUpdate: (t) => { el.scrollTop = t; } });
+      }
+      return;
+    }
     const v = vel.current.get(e.timeStamp || performance.now());
     const pos = y.get();
     const dismiss = !reduce && v > -UP_V && project(pos, v) > H * DISMISS_AT;

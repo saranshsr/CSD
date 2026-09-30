@@ -1,14 +1,11 @@
 /* 07 / 09 · Results — Figma 2327:96495, 2328:96969 */
 .rs{position:absolute;inset:0;display:flex;flex-direction:column;background:#fff;overflow:hidden}
 .rs-top{position:relative;z-index:3;flex:none;background:#fff;border-radius:0 0 16px 16px}
-.rs-searchwrap{padding:4px 0 12px}
+.rs-searchwrap{padding:4px 0 6px} /* Figma header 58: 4 + 48 + 6 */
 .rs-scroll{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;scrollbar-width:none}
 .rs-scroll::-webkit-scrollbar{display:none}
 
-.rs-chips{height:58px;display:flex;gap:8px;padding:12px 16px 8px;overflow-x:auto;scrollbar-width:none}
-.rs-chips::-webkit-scrollbar{display:none}
-.rs-chip{flex:none;height:38px;display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:10px;background:#fff;
-  box-shadow:inset 0 0 0 1px #eaecf0;font-size:13px;line-height:20px;font-weight:500;letter-spacing:-0.1px;color:#1d2539;white-space:nowrap}
+/* chip row = PLP chip row (Figma 'tags' 375×56, padding 12, gap 8, chips 32) — styles come from PLP.css */
 
 .rs-context{min-height:32px;padding:4px 16px 10px;font-size:12px;line-height:18px;font-weight:400;letter-spacing:-0.1px;color:#666d85}
 .rs-context b{font-weight:600;color:#1d2539}

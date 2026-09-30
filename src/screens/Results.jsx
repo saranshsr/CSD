@@ -11,17 +11,11 @@ import { spring, FADE } from '../motion.js';
 import './Results.css';
 
 // Figma 07 · Results — serum (2327:96495) and 09 · noon.com fallback (2328:96969)
+// Figma 08 / 10 (updated): same chip row as the eligible-items page — Filter, Sort ▾, Price ▾ (+ Face, Eyes on BEAUTY10 results)
 const CHIPS = {
-  coupon: ['Sort', 'Price', 'Brand', 'Skin type'],
-  noon: ['Sort', 'Price', 'Brand', 'Strap'],
+  coupon: [{ label: 'Filter', lead: 'preferences' }, { label: 'Sort', trail: true }, { label: 'Price', trail: true }, { label: 'Face' }, { label: 'Eyes' }],
+  noon: [{ label: 'Filter', lead: 'preferences' }, { label: 'Sort', trail: true }, { label: 'Price', trail: true }],
 };
-// last chip follows the query's category on the noon-wide fallback (Figma 10 shows "Strap" for watches)
-function chipsFor(scope, q) {
-  if (scope !== 'noon') return CHIPS.coupon;
-  const s = q.toLowerCase();
-  const last = /watch|seiko/.test(s) ? 'Strap' : /phone|iphone|galaxy|s2\d/.test(s) ? 'Storage' : /tv|televi/.test(s) ? 'Screen size' : 'Category';
-  return ['Sort', 'Price', 'Brand', last];
-}
 
 function NoonScope() {
   // plain text, no attention-seeking highlight: the scope switch is carried by the copy itself
@@ -62,15 +56,12 @@ export default function Results({ nav, params = {} }) {
       </div>
 
       <div className="rs-scroll">
-        <div className="rs-chips">
-          <Pressable className="rs-chip">
-            <Icon name="preferences" size={16} color="#1d2539" />
-            <span>Filters</span>
-          </Pressable>
-          {chipsFor(scope, query).map((c) => (
-            <Pressable key={c} className="rs-chip">
-              <span>{c}</span>
-              <Icon name="caret-down" size={12} color="#1d2539" />
+        <div className="plp-chips rs-chips">
+          {CHIPS[scope].map((c) => (
+            <Pressable key={c.label} className={`plp-chip${c.lead ? ' has-lead' : ''}${c.trail ? ' has-trail' : ''}`}>
+              {c.lead && <Icon name={c.lead} size={16} color="#0f172a" />}
+              <span className="plp-chip-label">{c.label}</span>
+              {c.trail && <Icon name="caret-down" size={20} color="#0f172a" />}
             </Pressable>
           ))}
         </div>

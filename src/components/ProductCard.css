@@ -58,6 +58,6 @@
 .pc-eta{align-self:flex-start;width:130px;height:20.5px;margin-bottom:1.5px;padding:3.25px 3px;border-radius:4.4px;background:#1f20b7;
   box-shadow:0 1.5px 0 #0e0e60;display:flex;align-items:center;gap:2px;color:#fff;
   font-size:12px;line-height:14px;font-weight:400;letter-spacing:-0.12px;white-space:nowrap}
-.pc-eta b{font-weight:500;color:#feee00}
+.pc-eta b{font-weight:700;color:#feee00} /* Figma renders the ETA time bold */
 .pc-eta svg{flex:none;margin-left:auto}
 .pc-dhm{letter-spacing:0;font-feature-settings:'liga' 1}
