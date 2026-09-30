@@ -39,7 +39,7 @@ const project = (v) => (v / 1000) * DECEL / (1 - DECEL); // distance a release a
 // waits for the bar to LAND (useBarLanded), then: the coupon card 200ms after the landing, the rows /
 // empty-state sections right behind it.
 const COUPON_DELAY = 0.2;
-const ROW_STAGGER = 0.025, ROWS_BASE_DELAY = 0.28; // rows follow the coupon card
+const ROW_STAGGER = 0.025, ROWS_BASE_DELAY = 0.04; // rows land first, right under the bar; the nudge then inserts above them
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 const fade = (d = 0.15) => ({ duration: d, ease: 'linear' });
 
@@ -233,14 +233,20 @@ export default function Search({ nav, params = {} }) {
       <div className="srch__body" ref={body} style={{ paddingBottom: KBH + 16 }}
         onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onPointerCancel={onPointerUp}
         onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd} onTouchCancel={onTouchEnd} onWheel={onWheel}>
-        <div className="srch__coupon">
-          <CouponCard coupon={coupon} cta="View all" onTap={() => goResults(query)}
-            // enters 200ms after the search bar LANDS: settles down from under the bar (y −6, scale .98) — no bounce
-            initial={reduce ? { opacity: 0 } : { opacity: 0, y: -6, scale: 0.98 }}
-            animate={landed ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: -6, scale: 0.98 }}
-            style={{ transformOrigin: '50% 0%' }}
-            transition={reduce ? fade() : { ...SPR.rise, delay: landed ? COUPON_DELAY : 0, opacity: { duration: 0.15, ease: 'easeOut', delay: landed ? COUPON_DELAY : 0 } }} />
-        </div>
+        {/* Coupon nudge reveal: its slot opens on the layout spring (content below shifts down, no jump),
+            the card surface forms into it a beat later, and the % tile pops once. */}
+        <motion.div className="srch__coupon-slot"
+          initial={reduce ? false : { height: 0 }}
+          animate={{ height: landed || reduce ? 'auto' : 0 }}
+          transition={{ ...SPR.layout, delay: landed ? COUPON_DELAY : 0 }}>
+          <div className="srch__coupon">
+            <CouponCard coupon={coupon} cta="View all" onTap={() => goResults(query)} popIcon={landed && !reduce ? COUPON_DELAY + 0.16 : null}
+              initial={reduce ? { opacity: 0 } : { opacity: 0, y: -4, scale: 0.97 }}
+              animate={landed ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: -4, scale: 0.97 }}
+              style={{ transformOrigin: '50% 0%' }}
+              transition={reduce ? fade() : { ...SPR.form, delay: landed ? COUPON_DELAY + 0.06 : 0, opacity: { duration: 0.18, ease: 'easeOut', delay: landed ? COUPON_DELAY + 0.06 : 0 } }} />
+          </div>
+        </motion.div>
 
         <div className="srch__content">
           <AnimatePresence mode="popLayout" initial={false}>
