@@ -48,9 +48,12 @@ export const suggestions = POOL.map(([label, thumb]) => ({ label, thumb }));
 
 // Typeahead: labels that START with q first, then labels where q starts a word; max 5, case-insensitive.
 // A trailing space is meaningful ("serum " → "serum for face"); if it matches nothing, retry without it.
+// Figma-curated orders for queries shown in the design frames (n5 “serum”); everything else uses the ranking below.
+const CURATED = { serum: ['serum', 'niacinamide serum', 'vitamin c serum', 'hair serum', 'serum foundation'] };
 export function suggestionsFor(q, max = 5) {
   const s = (q || '').toLowerCase().replace(/^\s+/, '').replace(/\s+/g, ' ');
   if (!s.trim()) return [];
+  if (CURATED[s]) return CURATED[s].map((l) => suggestions.find((r) => r.label === l)).filter(Boolean);
   const rank = (needle) => {
     const pre = [], word = [];
     for (const r of suggestions) {

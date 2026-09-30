@@ -11,7 +11,8 @@ import './CouponCard.css';
 // TAP_SLOP px cancels. No hold, no input lock.
 const CARD_SCALE = 0.98;
 
-export default function CouponCard({ coupon = defaultCoupon, cta = 'View all', onTap, initial, animate, transition, className = '', popIcon = null }) {
+// Figma “n5” (2361:152160): the nudge leads with the scoped search — “Search “q”” — and the coupon is the quiet subline.
+export default function CouponCard({ coupon = defaultCoupon, query = '', onTap, initial, animate, transition, className = '', popIcon = null }) {
   const reduce = !!useReducedMotion();
   const { pressed, handlers, shouldCommit } = usePress();
   const commit = () => { if (shouldCommit()) onTap && onTap(); };
@@ -29,23 +30,19 @@ export default function CouponCard({ coupon = defaultCoupon, cta = 'View all', o
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onTap && onTap(); } }}
     >
       <div className="cc__tile">
-        {/* one small pop of the % badge as the nudge arrives (skipped when popIcon is null) */}
+        {/* one small pop of the search glyph as the nudge arrives (skipped when popIcon is null) */}
         <motion.span style={{ display: 'grid' }}
-          initial={popIcon != null ? { scale: 0.4, rotate: -30, opacity: 0 } : false}
-          animate={{ scale: 1, rotate: 0, opacity: 1 }}
+          initial={popIcon != null ? { scale: 0.5, opacity: 0 } : false}
+          animate={{ scale: 1, opacity: 1 }}
           transition={{ ...SPR.pop, delay: popIcon ?? 0, opacity: { duration: 0.12, delay: popIcon ?? 0 } }}>
-          <Icon name="discount" size={22} color="#0f8857" />
+          <Icon name="search" size={20} color="#1d2539" />
         </motion.span>
       </div>
       <div className="cc__body">
-        <div className="cc__title">{coupon.title}</div>
-        <div className="cc__meta">
-          <span className="cc__code">{coupon.code}</span>
-          <span className="cc__items">{coupon.items}</span>
-        </div>
+        <div className="cc__title">Search <b>“{query}”</b></div>
+        <div className="cc__meta">within <b>{coupon.code}</b> eligible items · extra 10% off</div>
       </div>
-      <div className="cc__cta">
-        <span>{cta}</span>
+      <div className="cc__cta" aria-hidden>
         <Icon name="chevron-right" size={12} color="#0f61ff" />
       </div>
     </motion.div>

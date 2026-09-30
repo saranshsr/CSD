@@ -252,7 +252,7 @@ export default function Search({ nav, params = {} }) {
           animate={{ height: nudge ? 'auto' : 0 }}
           transition={reduce ? { duration: 0 } : nudge ? SPR.layout : SPR.recede}>
           <div className="srch__coupon">
-            <CouponCard key={nudgeKey} coupon={coupon} cta="View all" onTap={() => goResults(query)} popIcon={nudge && !reduce ? 0.24 : null}
+            <CouponCard key={nudgeKey} coupon={coupon} query={query.trim()} onTap={() => goResults(query)} popIcon={nudge && !reduce ? 0.24 : null}
               initial={reduce ? { opacity: 0 } : { opacity: 0, y: -4, scale: 0.97 }}
               animate={nudge ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: -4, scale: 0.97 }}
               style={{ transformOrigin: '50% 0%' }}
