@@ -11,6 +11,7 @@
 .plp-tabs{height:57px;display:flex;padding:8px 4px 0;border-bottom:1px solid #eaecf0}
 .plp-tab{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative}
 .plp-tab img{object-fit:contain;flex:none}
+.plp-tab-logo{height:20px;display:flex;align-items:center;justify-content:center} /* equal logo slot → captions share one baseline */
 .plp-tab-cap{font-size:11px;line-height:14px;font-weight:400;letter-spacing:-0.1px;color:#1d2539;white-space:nowrap}
 .plp-tab-ind{position:absolute;left:50%;bottom:-1px;width:72px;height:3px;margin-left:-36px;border-radius:2px;background:#000}
 

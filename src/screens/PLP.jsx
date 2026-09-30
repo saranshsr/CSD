@@ -80,7 +80,7 @@ export default function PLP({ nav }) {
         <div className="plp-tabs">
           {TABS.map((t, i) => (
             <div key={t.logo} className="plp-tab">
-              <img src={`/assets/logos/${t.logo}.png`} alt={t.logo} style={{ width: t.w, height: t.h }} draggable={false} />
+              <span className="plp-tab-logo"><img src={`/assets/logos/${t.logo}.png`} alt={t.logo} style={{ width: t.w, height: t.h }} draggable={false} /></span>
               <span className="plp-tab-cap">{t.caption}</span>
               <span className="plp-tab-ind" style={{ opacity: i === 0 ? 1 : 0 }} />
             </div>

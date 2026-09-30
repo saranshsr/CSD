@@ -34,7 +34,7 @@ const SCREEN_H = 812;
 const KB_TOP = SCREEN_H - KBH;       // keyboard's resting top edge, screen coords
 const DECEL = 0.998;                 // UIScrollView normal deceleration rate
 const project = (v) => (v / 1000) * DECEL / (1 - DECEL); // distance a release at v px/s travels
-const ROW_STAGGER = 0.025, ROWS_BASE_DELAY = 0.09;
+const ROW_STAGGER = 0.025, ROWS_BASE_DELAY = 0.28; // rows follow the coupon card (which enters at 200ms)
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 const fade = (d = 0.15) => ({ duration: d, ease: 'linear' });
 
@@ -200,7 +200,7 @@ export default function Search({ nav, params = {} }) {
   const first = !mounted.current;
   const entrance = (i) => (first && !reduce
     ? { initial: { opacity: 0, y: 8 }, animate: { opacity: 1, y: 0 },
-        transition: { ...spring.keyboard, ...stagger(i, 0.04, 0.1), opacity: { ...fade(), ...stagger(i, 0.04, 0.1) } } }
+        transition: { ...spring.keyboard, ...stagger(i, 0.04, 0.28), opacity: { ...fade(), ...stagger(i, 0.04, 0.28) } } }
     : { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: fade() });
 
   return (
@@ -217,8 +217,10 @@ export default function Search({ nav, params = {} }) {
         onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd} onTouchCancel={onTouchEnd} onWheel={onWheel}>
         <div className="srch__coupon">
           <CouponCard coupon={coupon} cta="View all" onTap={() => goResults(query)}
-            initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ ...spring.keyboard, delay: 0.06, opacity: { ...fade(), delay: 0.06 } }} />
+            // enters 200ms after the search bar lands: settles down from under the bar (y −6, scale .98) — no bounce
+            initial={{ opacity: 0, y: -6, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }}
+            style={{ transformOrigin: '50% 0%' }}
+            transition={{ ...spring.morph, delay: 0.2, opacity: { duration: 0.22, ease: 'easeOut', delay: 0.2 } }} />
         </div>
 
         <div className="srch__content">
