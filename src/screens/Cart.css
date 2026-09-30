@@ -1,4 +1,6 @@
 .cart-screen{position:absolute;inset:0;width:375px;height:812px;overflow:hidden;background:#f3f4f8}
 .cart-shot{position:absolute;left:0;top:0;width:375px;height:812px;pointer-events:none}
-.cart-hotspot{position:absolute;display:block;padding:0;border-radius:10px 10px 16px 16px}
-.cart-hotspot-hl{position:absolute;inset:0;border-radius:inherit;background:rgba(29,37,57,.07);pointer-events:none}
+.cart-hotspot{position:absolute;display:block;padding:0;background:none;border:0;outline:none;-webkit-tap-highlight-color:transparent;cursor:pointer}
+.cart-hotspot:focus,.cart-hotspot:focus-visible{outline:none}
+/* pressed tint: exactly the visible grey strip of the row (coupon card's 16px bottom corners) */
+.cart-hotspot-hl{position:absolute;left:0;top:-4px;display:block;overflow:visible;pointer-events:none}

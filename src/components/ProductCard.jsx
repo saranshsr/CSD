@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { motion, useMotionValue, animate } from 'motion/react';
+import { motion, useMotionValue, useReducedMotion, animate } from 'motion/react';
 import Pressable from './Pressable.jsx';
 import Icon from './Icon.jsx';
 import { spring } from '../motion.js';
@@ -17,15 +17,17 @@ const money = (t = '') => t.split('dhm').flatMap((part, i) => (i ? [<span key={i
 function Wishlist() {
   const [on, setOn] = useState(false);
   const scale = useMotionValue(1);
+  const reduce = useReducedMotion();
   const toggle = (e) => {
     e.stopPropagation();
-    setOn((v) => !v);
-    // small spring pop: an outward velocity impulse that settles back to 1 (interruptible)
-    animate(scale, 1, { ...spring.press, velocity: on ? -6 : 14 });
+    const next = !on;
+    setOn(next);
+    // Liking gets one small critically damped bump (≈1.06, then back to 1, no wobble). Un-liking gets none.
+    if (next && !reduce) animate(scale, 1, { ...spring.press, velocity: 4.5 });
   };
   return (
-    <motion.button type="button" className="pc-wish" aria-label="Wishlist" aria-pressed={on}
-      onPointerDown={stop} onClick={toggle} whileTap={{ scale: 0.85 }} transition={spring.press}>
+    <Pressable className="pc-wish" aria-label="Wishlist" aria-pressed={on}
+      onPointerDown={stop} onClick={toggle}>
       <motion.svg width="16" height="16" viewBox="0 0 16 16" style={{ scale }} aria-hidden="true">
         <path
           d="M8 13.6s-5.6-3.2-5.6-7.2A3 3 0 0 1 8 4.6a3 3 0 0 1 5.6 1.8c0 4-5.6 7.2-5.6 7.2z"
@@ -33,13 +35,13 @@ function Wishlist() {
           strokeLinejoin="round" style={{ transition: 'fill 120ms, stroke 120ms' }}
         />
       </motion.svg>
-    </motion.button>
+    </Pressable>
   );
 }
 
 export default function ProductCard({ product: p, onTap }) {
   return (
-    <Pressable as="div" className="pc" onTap={onTap}>
+    <Pressable as="div" feedback="scale" className="pc" onTap={onTap}>
       <div className="pc-top">
         <div className="pc-img">
           <img src={p.img} alt="" draggable={false} />

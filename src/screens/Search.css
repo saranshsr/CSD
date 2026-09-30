@@ -1,9 +1,46 @@
-/* Figma 2328:97370 — header pad 4/16/8, coupon wrapper pad 2/16/6, suggestion rows 52px */
+/* Figma 2345:100348 (empty) / 2328:97370 — bar→card 10px, card x16 (status bar is 62px here, so everything sits 12px lower than the 44px-status-bar empty frame), suggestion rows 52px */
 .srch{position:relative;display:flex;flex-direction:column;width:100%;height:100%;background:#fff;overflow:hidden}
-.srch__header{flex:none;padding:4px 0 8px} /* SearchBar carries its own 16px side margin */
-.srch__body{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding-bottom:300px;scrollbar-width:none}
+.srch__header{flex:none;padding:4px 0 10px} /* SearchBar carries its own 16px side margin */
+.srch__body{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none;
+  user-select:none;-webkit-user-select:none;touch-action:pan-x pan-y}
 .srch__body::-webkit-scrollbar{display:none}
-.srch__coupon{padding:2px 16px 6px}
-.srch__hint{padding:10px 16px 0;font-size:12px;line-height:18px;letter-spacing:-0.1px;color:#666d85;text-align:center}
+.srch__coupon{padding:0 16px 6px}
+.srch__content{position:relative}
 .srch__list{position:relative}
 .srch__kb{position:absolute;left:0;right:0;bottom:0;z-index:5}
+
+/* ---- empty state ---------------------------------------------------------------------------- */
+.srch-empty{padding-top:14px}
+.se-title{margin:0;padding:0 13px;font-size:16px;line-height:22px;font-weight:600;letter-spacing:-0.15px;color:#1d2539}
+.se-hs{display:flex;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;padding:0 13px}
+.se-hs::-webkit-scrollbar{display:none}
+.se-hs::after{content:'';flex:none;width:1px} /* keeps the trailing 13px inset when scrolled to the end */
+
+.se-tiles{gap:10px;margin-top:6px;height:140px}
+.se-tile{flex:none;width:76px;display:flex;flex-direction:column;gap:10px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.se-tile__img{width:76px;height:90px;border-radius:8px;overflow:hidden;background:#f5f6f8}
+.se-tile__img img{display:block;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.se-tile.is-down .se-tile__img{opacity:0.6}
+.se-tile__label{font-size:13px;line-height:20px;letter-spacing:-0.1px;color:#1d2539;text-align:center}
+
+.se-trending{margin-top:26px}
+.se-chips{flex-direction:column;gap:8px;margin-top:9px}
+.se-chiprow{display:flex;gap:8px;flex:none}
+.se-chip{flex:none;display:flex;align-items:center;gap:6px;height:40px;padding:9px 16px 9px 14px;border-radius:18px;
+  background:#fff;box-shadow:inset 0 0 0 1px #eaecf0;font-size:13px;line-height:20px;letter-spacing:-0.1px;color:#1d2539;
+  white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.se-chip.is-down{background:#f5f6fa}
+.se-chip__icon{width:16px;height:14px;flex:none;pointer-events:none}
+
+.se-banner{margin:28px 0 0 12px;width:348px;height:44px;border-radius:22px;overflow:hidden}
+.se-banner img{display:block;width:100%;height:100%;object-fit:cover;pointer-events:none}
+
+.se-cats{margin-top:23px}
+.se-catrow{gap:12px;margin-top:12px}
+.se-cat{flex:none;width:133px;display:flex;flex-direction:column;align-items:flex-start}
+.se-cat__img{width:133px;height:160px;border-radius:12px;overflow:hidden;background:#f5f6f8}
+.se-cat__img img{display:block;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.se-cat__img.is-partial img{width:auto;object-fit:initial} /* Figma crop runs off its source screenshot */
+.se-cat__title{margin-top:8px;font-size:14px;line-height:18px;letter-spacing:-0.14px;color:#1d2539}
+.se-cat__pill{margin-top:8px;height:22px;padding:2px 6px;border-radius:4px;background:#ebf2ff;
+  font-size:12px;line-height:18px;font-weight:500;color:#2959eb;white-space:pre}

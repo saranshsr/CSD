@@ -4,10 +4,14 @@
 .sbar-field{flex:1;min-width:0;display:flex;align-items:center;height:24px;white-space:nowrap;overflow:hidden}
 .sbar-text{display:inline-block;font-size:14px;line-height:20px;font-weight:500;color:var(--text-primary);white-space:pre;overflow:hidden;text-overflow:ellipsis}
 .sbar-text.is-ph{color:#1d2539}
-.sbar-ph-after{margin-left:2px}
-/* iOS caret: solid, then eased fade — 1s cycle */
-.sbar-caret{flex:none;width:2px;height:22px;margin-left:1px;border-radius:1px;background:#0f7eff;animation:sbar-blink 1s infinite}
-@keyframes sbar-blink{0%,45%{opacity:1}55%,95%{opacity:0}100%{opacity:1}}
+/* editing: the field scrolls to keep the caret end visible instead of ellipsising */
+.sbar-field.is-editing .sbar-text{flex:none;overflow:visible;text-overflow:clip}
+.sbar-text.is-selected{background:rgba(15,126,255,0.2);border-radius:2px;box-shadow:0 0 0 1px rgba(15,126,255,0.2)}
+.sbar-ph-after{margin-left:-3px} /* placeholder keeps the same x as the non-editing bar (caret overlays its first letter, like UITextField) → no ghost during the search-bar morph */
+/* iOS caret: 2px #0f7eff rounded. Solid while typing; once idle it blinks (hold, ease out, hold, ease in — ~1.07s) */
+.sbar-caret{flex:none;width:2px;height:22px;margin-left:1px;border-radius:1px;background:#0f7eff;animation:sbar-blink 1.07s infinite}
+.sbar-caret.is-solid{animation:none;opacity:1}
+@keyframes sbar-blink{0%,40%{opacity:1}52%,88%{opacity:0}100%{opacity:1}}
 .sbar-trail{flex:none;display:grid;place-items:center;min-width:24px;height:24px}
 .sbar-clear{width:20px;height:20px;border-radius:50%;background:#a3a8b8;display:grid;place-items:center}
 @media (prefers-reduced-motion: reduce){.sbar-caret{animation:none}}

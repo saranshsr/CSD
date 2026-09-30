@@ -14,7 +14,6 @@
 .rs-context b{font-weight:600;color:#1d2539}
 .rs-scope{position:relative;display:inline-block}
 .rs-scope-text{position:relative;font-weight:600;color:var(--text-action);text-decoration:underline;text-underline-offset:2px}
-.rs-scope-hl{position:absolute;inset:-1px -3px;border-radius:4px;background:rgba(56,102,223,.14);transform-origin:left center}
 
 .rs-cell{min-width:0}
 .rs-foot{height:160px}

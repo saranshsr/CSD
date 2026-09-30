@@ -1,15 +1,18 @@
 import { createContext, useContext, useLayoutEffect, useEffect, useRef, useState } from 'react';
-import { AnimatePresence, motion, motionValue, useMotionValue, usePresence, useReducedMotion, animate } from 'motion/react';
-import { spring, PARALLAX, DIM } from '../motion.js';
+import { AnimatePresence, motion, motionValue, useMotionValue, useTransform, usePresence, useReducedMotion, animate } from 'motion/react';
+import { spring, FADE, PARALLAX, DIM, TAP_SLOP, project, velocityTracker } from '../motion.js';
 import './NavStack.css';
 
 const W = 375;
-const EDGE = 20;          // px from the left edge that starts a back-swipe
-const COMMIT_V = 500;     // px/s
-const COMMIT_X = 0.35;    // fraction of width
-const FADE = { duration: 0.15, ease: 'easeOut' }; // the only tween: short opacity fades
+const EDGE = 20;          // px from the screen's leading edge that starts a back-swipe
+const BACK_V = 100;       // px/s: moving back toward the edge faster than this always cancels
+// Elements that dock to the bottom of a morph screen (the keyboard) slide away on pop instead of only fading.
+const DOCK = '[data-ns-dock="bottom"], .srch__kb';
 
 const StackCtx = createContext(null);
+// Live stacking info. Removed routes ("ghosts") keep their stale props inside AnimatePresence,
+// so z-order and "who covers me" come from context, which does reach them.
+const OrderCtx = createContext({ z: new Map(), above: new Map() });
 
 /**
  * NavStack — UINavigationController-style stack.
@@ -72,7 +75,6 @@ export default function NavStack({ routes, renderRoute, onBack }) {
     ...routes.map((r, i) => ({ route: r, pos: i, tie: 1 })),
     ...liveGhosts.map((g) => ({ route: g.route, pos: g.pos, tie: 0 })),
   ].sort((a, b) => a.pos - b.pos || a.tie - b.tie);
-  const zOf = (key) => order.findIndex((o) => o.route.key === key);
 
   // --- runtime callbacks used by screens -------------------------------------------------
   const api = useRef(null);
@@ -102,9 +104,11 @@ export default function NavStack({ routes, renderRoute, onBack }) {
         if (r.reduce || route.transition === 'morph') {
           animate(m.o, 1, { ...FADE, onComplete: finish });
         } else {
-          animate(m.x, 0, { ...spring.push, onComplete: finish });
+          animate(m.x, 0, { ...spring.push, delay: route.delay || 0, onComplete: finish });
         }
       },
+      // an entering screen that was grabbed and let go (cancel) has still finished entering
+      settled(key) { if (rt.current.entering.delete(key)) releaseReplaced(); },
       exit(route, safeToRemove) {
         const r = rt.current;
         const g = r.ghosts.find((gh) => gh.route.key === route.key);
@@ -122,9 +126,16 @@ export default function NavStack({ routes, renderRoute, onBack }) {
         if (route.transition === 'none' && m.x.get() < 0.5) { popDone(); return; }
         if (r.reduce) { animate(m.o, 0, { ...FADE, onComplete: popDone }); return; }
         // Slide out if it's a push screen, or a morph screen the finger already dragged.
+        // A committed edge swipe already started the slide-out at the finger's release velocity
+        // (in the pointerup handler, so no frame is lost waiting on React). Just wait for it to land.
+        if (m.leaving) { const l = m.leaving; m.leaving = null; l.then(popDone); return; }
+        const v = m.x.getVelocity();
         if (route.transition === 'push' || m.x.get() > 0.5) {
-          animate(m.x, W, { ...spring.push, velocity: m.x.getVelocity(), onComplete: popDone });
+          animate(m.x, W, { ...spring.push, velocity: v, onComplete: popDone });
         } else {
+          // morph pop: content cross-fades out while a docked keyboard drops along its entry path
+          const dock = m.el?.querySelector(DOCK);
+          if (dock) animate(dock, { y: dock.offsetHeight }, spring.keyboard);
           animate(m.o, 0, { ...FADE, onComplete: popDone });
         }
       },
@@ -135,22 +146,26 @@ export default function NavStack({ routes, renderRoute, onBack }) {
   const isFirst = useRef(true);
   useEffect(() => { isFirst.current = false; }, []);
 
+  const orderInfo = { z: new Map(), above: new Map() };
+  order.forEach((o, i) => {
+    orderInfo.z.set(o.route.key, i);
+    const a = order[i + 1]?.route;
+    if (a && a.transition === 'push') orderInfo.above.set(o.route.key, a.key);
+  });
+
   return (
     <StackCtx.Provider value={api.current}>
+     <OrderCtx.Provider value={orderInfo}>
       <div className="ns">
         <AnimatePresence initial={false}>
           {routes.map((r, i) => {
-            const z = zOf(r.key);
-            const above = order[z + 1]?.route;
             return (
               <Screen
                 key={r.key}
                 route={r}
-                z={z}
                 first={isFirst.current}
                 isRoot={i === 0}
                 isTop={r.key === topKey}
-                aboveKey={above && above.transition === 'push' ? above.key : null}
               >
                 {renderRoute(r)}
               </Screen>
@@ -158,69 +173,94 @@ export default function NavStack({ routes, renderRoute, onBack }) {
           })}
         </AnimatePresence>
       </div>
+     </OrderCtx.Provider>
     </StackCtx.Provider>
   );
 }
 
-function Screen({ route, z, first, isRoot, isTop, aboveKey, children }) {
+function Screen({ route, first, isRoot, isTop, children }) {
   const api = useContext(StackCtx);
+  const ord = useContext(OrderCtx);
+  const z = ord.z.get(route.key) ?? 0;
+  const aboveKey = ord.above.get(route.key) ?? null;
   const reduce = !!useReducedMotion();
   const [isPresent, safeToRemove] = usePresence();
-  const { x, o } = api.mv(route.key);
+  const m = api.mv(route.key);
+  const { x, o } = m;
+  // Never show the screen left of its resting x, even if a flick back overshoots the spring.
+  const xShown = useTransform(x, (v) => Math.max(0, v));
   const px = useMotionValue(0);   // parallax offset driven by the screen above
   const dim = useMotionValue(0);  // dim overlay opacity driven by the screen above
   const el = useRef(null);
   const drag = useRef(null);
+  const vel = useRef(null);
+  if (!vel.current) vel.current = velocityTracker();
   const suppressClick = useRef(false);
 
   // Enter once on mount; release motion values on unmount.
-  useLayoutEffect(() => { api.enter(route, first); return () => api.forget(route.key); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useLayoutEffect(() => { m.el = el.current; api.enter(route, first); return () => api.forget(route.key); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Exit when AnimatePresence says we've been removed.
   useEffect(() => { if (!isPresent) api.exit(route, safeToRemove); }, [isPresent]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Follow the screen above: parallax + dim are a pure function of its x.
   useLayoutEffect(() => {
-    const m = aboveKey && api.mv(aboveKey);
-    if (!m || reduce) { px.set(0); dim.set(0); return; }
+    const a = aboveKey && api.mv(aboveKey);
+    if (!a || reduce) { px.set(0); dim.set(0); return; }
     const update = (v) => {
       const p = Math.min(1, Math.max(0, 1 - v / W));
       px.set(-PARALLAX * W * p);
       dim.set(DIM * p);
     };
-    update(m.x.get());
-    return m.x.on('change', update);
+    update(a.x.get());
+    return a.x.on('change', update);
   }, [aboveKey, reduce]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // --- edge swipe back -------------------------------------------------------------------
-  const canSwipe = isTop && !isRoot && isPresent;
+  // --- edge swipe back (UIScreenEdgePanGestureRecognizer) ---------------------------------
+  // Starts within EDGE px of the screen's *current* leading edge, so a screen that is still
+  // pushing in can be caught mid-flight. It's claimed only after TAP_SLOP px of mostly-horizontal
+  // travel, then tracks 1:1 from the grab point. On release it projects the throw and keeps the
+  // finger's velocity going into the spring.
+  const canSwipe = isTop && !isRoot && isPresent; // direct manipulation stays on under reduced motion
   const onPointerDownCapture = (e) => {
     suppressClick.current = false;
-    if (!canSwipe || e.button > 0) return;
-    const stack = el.current?.closest('.ns')?.getBoundingClientRect();
+    if (!canSwipe || e.button > 0 || !el.current) return;
+    const stack = el.current.closest('.ns')?.getBoundingClientRect();
     if (!stack) return;
     const s = stack.width / W;                         // device scale
-    if ((e.clientX - stack.left) / s > EDGE) return;
-    x.stop();
-    drag.current = { id: e.pointerId, startX: e.clientX, x0: x.get(), s, moved: false };
-    try { el.current.setPointerCapture(e.pointerId); } catch { /* noop */ }
+    const left = el.current.getBoundingClientRect().left;
+    if ((e.clientX - left) / s > EDGE) return;
+    drag.current = { id: e.pointerId, sx: e.clientX, sy: e.clientY, s, claimed: false };
   };
   const onPointerMove = (e) => {
     const d = drag.current;
     if (!d || d.id !== e.pointerId) return;
-    const dx = (e.clientX - d.startX) / d.s;
-    if (Math.abs(dx) > 3) d.moved = true;
-    x.set(Math.max(0, d.x0 + dx));
+    if (!d.claimed) {
+      const dx = (e.clientX - d.sx) / d.s, dy = (e.clientY - d.sy) / d.s;
+      if (Math.hypot(dx, dy) < TAP_SLOP) return;
+      if (dx <= 0 || Math.abs(dx) < Math.abs(dy)) { drag.current = null; return; } // vertical / leftward: not ours
+      d.claimed = true;
+      d.sx = e.clientX;            // grab offset: track from here, no jump
+      d.x0 = x.get();
+      x.stop();
+      vel.current.reset();
+      try { el.current.setPointerCapture(e.pointerId); } catch { /* noop */ }
+    }
+    const nx = Math.max(0, d.x0 + (e.clientX - d.sx) / d.s);
+    x.set(nx);
+    vel.current.add(nx, e.timeStamp || performance.now());
   };
   const endDrag = (e, cancelled) => {
     const d = drag.current;
     if (!d || d.id !== e.pointerId) return;
     drag.current = null;
-    if (d.moved) suppressClick.current = true;
-    const v = x.getVelocity();
-    const commit = !cancelled && (v > COMMIT_V || (x.get() > COMMIT_X * W && v > -COMMIT_V));
-    if (commit) api.onBack();
-    else animate(x, 0, { ...spring.push, velocity: v });
+    if (!d.claimed) return;
+    suppressClick.current = true;
+    const v = vel.current.get(e.timeStamp || performance.now());
+    const pos = x.get();
+    const commit = !cancelled && v > -BACK_V && project(pos, v) > W / 2;
+    if (commit) { m.leaving = animate(x, W, { ...spring.push, velocity: v }); api.onBack(); }
+    else animate(x, 0, { ...spring.push, velocity: v, onComplete: () => api.settled(route.key) });
   };
   const onClickCapture = (e) => {
     if (suppressClick.current) { e.stopPropagation(); e.preventDefault(); suppressClick.current = false; }
@@ -233,7 +273,7 @@ function Screen({ route, z, first, isRoot, isTop, aboveKey, children }) {
       <motion.div
         ref={el}
         className={`ns-screen${shadow ? ' has-shadow' : ''}`}
-        style={{ x, opacity: o, pointerEvents: isPresent ? 'auto' : 'none' }}
+        style={{ x: xShown, opacity: o, pointerEvents: isPresent ? 'auto' : 'none' }}
         aria-hidden={!isTop}
         onPointerDownCapture={onPointerDownCapture}
         onPointerMove={onPointerMove}

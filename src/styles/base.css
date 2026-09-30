@@ -20,3 +20,5 @@ body{font-family:var(--font);color:var(--text-primary);background:#0e0f12;-webki
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 img{display:block;user-select:none;-webkit-user-drag:none}
 .dhm{font-family:var(--font);letter-spacing:0} /* letter-spacing breaks Noontree's "dhm"→dirham ligature: always wrap "dhm" in .dhm */
+/* touch prototype: no browser focus rings on tap targets (keyboard users still get :focus-visible on real inputs) */
+button:focus,[role="button"]:focus,button:focus-visible{outline:none}

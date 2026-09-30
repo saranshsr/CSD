@@ -1,8 +1,11 @@
 .coupons-sheet{width:375px;margin-left:-12px;min-height:100%;background:#f2f3f7;padding-bottom:16px} /* image is in Figma frame coords; panel starts at x12 */ /* 24 + home-indicator safe area */
 .coupons-canvas{position:relative;width:375px}
 .coupons-shot{position:absolute;left:0;top:0;width:375px;pointer-events:none}
-.coupons-card{position:absolute;border-radius:16px;background:#f2f3f7;pointer-events:none}
-.coupons-card-copy{position:absolute;inset:0;border-radius:16px;background-repeat:no-repeat}
-.coupons-card-ring{position:absolute;inset:-3px;border-radius:19px;box-shadow:0 0 0 2px var(--surface-success-bold,#0f8857),0 0 0 6px rgba(15,136,87,.12);pointer-events:none}
-.coupons-shopmore{position:absolute;display:block;padding:0;border-radius:8px}
-.coupons-shopmore-hl{position:absolute;inset:4px 0;border-radius:8px;background:rgba(29,37,57,.08);pointer-events:none}
+.coupons-card{position:absolute;border-radius:16px;pointer-events:none}
+/* single soft glow: hairline green edge + diffuse halo (opacity-animated only) */
+.coupons-card-ring{position:absolute;inset:0;border-radius:16px;pointer-events:none;will-change:opacity;
+  box-shadow:0 0 0 1px rgba(15,136,87,.55),0 0 18px 2px rgba(15,136,87,.18)}
+.coupons-shopmore{position:absolute;display:block;padding:0;border:0;background:none;outline:none;-webkit-tap-highlight-color:transparent;cursor:pointer}
+.coupons-shopmore:focus,.coupons-shopmore:focus-visible{outline:none}
+/* pressed: veil of the card's own cream over the label ink → text reads dimmed, like an iOS text button */
+.coupons-shopmore-hl{position:absolute;border-radius:2px;background:rgba(255,250,245,.5);pointer-events:none}

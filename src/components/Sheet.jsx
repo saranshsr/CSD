@@ -1,12 +1,11 @@
 import { useEffect, useRef } from 'react';
 import { AnimatePresence, motion, animate, useMotionValue, useTransform, usePresence, useReducedMotion } from 'motion/react';
-import { spring } from '../motion.js';
+import { spring, FADE, TAP_SLOP, project, rubber, velocityTracker } from '../motion.js';
 import './Sheet.css';
 
 const SCREEN_H = 812;
-const DISMISS_V = 500;      // px/s downward flick
-const DISMISS_FRAC = 0.3;   // or dragged past 30% of the panel height
-const FADE = { duration: 0.15, ease: 'easeOut' };
+const UP_V = 100;           // px/s: moving up faster than this always keeps the sheet
+const DISMISS_AT = 0.5;     // dismiss when the projected resting point is past half the panel travel
 
 /**
  * Sheet — iOS page sheet. The panel's y is a motion value; the backdrop opacity is derived from
@@ -33,6 +32,9 @@ function SheetBody({ top, inset = 0, bottomGap = 0, radius = 20, bg = '#fff', on
   const scroller = useRef(null);
   const panel = useRef(null);
   const drag = useRef(null);
+  const vel = useRef(null);
+  if (!vel.current) vel.current = velocityTracker();
+  const releaseV = useRef(0);
   const onCloseRef = useRef(onClose);
   onCloseRef.current = onClose;
 
@@ -44,7 +46,9 @@ function SheetBody({ top, inset = 0, bottomGap = 0, radius = 20, bg = '#fff', on
     } else if (reduce) {
       animate(fade, 0, { ...FADE, onComplete: safeToRemove });
     } else {
-      animate(y, H, { ...spring.sheet, velocity: y.getVelocity(), restDelta: 1, onComplete: safeToRemove });
+      // dismiss continues at the finger's release velocity when a drag triggered it
+      const v = releaseV.current || y.getVelocity(); releaseV.current = 0;
+      animate(y, H, { ...spring.sheetClose, velocity: v, restDelta: 1, onComplete: safeToRemove });
     }
   }, [isPresent]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -64,38 +68,51 @@ function SheetBody({ top, inset = 0, bottomGap = 0, radius = 20, bg = '#fff', on
   }, []);
 
   // --- drag to dismiss -------------------------------------------------------------------
-  const scaleOf = () => (panel.current ? panel.current.getBoundingClientRect().width / 375 : 1);
+  // device scale, from the full-width sheet layer (the floating panel itself is inset, so it can't be used)
+  const scaleOf = () => { const r = panel.current?.closest('.sh')?.getBoundingClientRect(); return r ? r.width / 375 : 1; };
   const onPointerDown = (e, fromHandle) => {
     if (!isPresent || e.button > 0) return;
-    drag.current = { id: e.pointerId, startY: e.clientY, y0: y.get(), s: scaleOf(), fromHandle, active: false };
+    drag.current = { id: e.pointerId, startX: e.clientX, startY: e.clientY, y0: y.get(), s: scaleOf(), fromHandle, active: false };
+    // The grabber is only a drag affordance, so it catches the sheet at touch-down: any open/settle
+    // animation stops under the finger, and the pointer is captured so moves off the tiny handle still track.
+    if (fromHandle) {
+      const d = drag.current;
+      d.active = true; y.stop(); d.y0 = y.get(); vel.current.reset(); vel.current.add(d.y0, e.timeStamp || performance.now());
+      try { panel.current.setPointerCapture(e.pointerId); } catch { /* noop */ }
+    }
   };
   const onPointerMove = (e) => {
     const d = drag.current;
     if (!d || d.id !== e.pointerId) return;
-    const dy = (e.clientY - d.startY) / d.s;
     if (!d.active) {
+      const dy = (e.clientY - d.startY) / d.s, dx = (e.clientX - (d.startX ?? e.clientX)) / d.s;
+      if (Math.hypot(dx, dy) < TAP_SLOP) return;
       const atTop = (scroller.current?.scrollTop ?? 0) <= 0;
-      if (Math.abs(dy) < 4) return;
-      // Content drags only take over when pulling down from the very top of the scroll.
-      if (!d.fromHandle && !(atTop && dy > 0)) { drag.current = null; return; }
+      // Needs mostly-vertical travel. Content drags only take over when pulling down from the very top of the scroll.
+      if (Math.abs(dy) < Math.abs(dx) || (!d.fromHandle && !(atTop && dy > 0))) { drag.current = null; return; }
       d.active = true;
-      d.startY = e.clientY; d.y0 = y.get();
-      y.stop();
+      d.startY = e.clientY; d.y0 = y.get();   // grab offset: track from here, no jump
+      y.stop();                                // catch it mid-flight (opening or settling)
+      vel.current.reset();
       try { panel.current.setPointerCapture(e.pointerId); } catch { /* noop */ }
       return;
     }
     const next = d.y0 + (e.clientY - d.startY) / d.s;
     // Rubber-band above the resting position, like UIKit.
-    y.set(next >= 0 ? next : -rubber(-next, H));
+    const ny = next >= 0 ? next : rubber(next, H);
+    y.set(ny);
+    vel.current.add(ny, e.timeStamp || performance.now());
   };
   const onPointerEnd = (e) => {
     const d = drag.current;
     if (!d || d.id !== e.pointerId) return;
     drag.current = null;
     if (!d.active) return;
-    const v = y.getVelocity();
-    if (!reduce && (v > DISMISS_V || (y.get() > H * DISMISS_FRAC && v > -DISMISS_V))) onCloseRef.current?.();
-    else animate(y, 0, { ...spring.sheet, velocity: v });
+    const v = vel.current.get(e.timeStamp || performance.now());
+    const pos = y.get();
+    const dismiss = !reduce && v > -UP_V && project(pos, v) > H * DISMISS_AT;
+    if (dismiss) { releaseV.current = v; onCloseRef.current?.(); }
+    else animate(y, 0, { ...spring.sheetRelease, velocity: v }); // momentum release: the one allowed small settle
   };
 
   return (
@@ -121,9 +138,4 @@ function SheetBody({ top, inset = 0, bottomGap = 0, radius = 20, bg = '#fff', on
       </motion.div>
     </div>
   );
-}
-
-// UIKit-style rubber band: diminishing returns past the edge.
-function rubber(dist, dim, c = 0.55) {
-  return (1 - 1 / ((dist * c) / dim + 1)) * dim;
 }
