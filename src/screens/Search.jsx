@@ -5,7 +5,7 @@ import SearchBar from '../components/SearchBar.jsx';
 import Keyboard, { KEYBOARD_HEIGHT as KBH } from '../components/Keyboard.jsx';
 import CouponCard from '../components/CouponCard.jsx';
 import SuggestionRow, { useTap, TAP_SLOP } from '../components/SuggestionRow.jsx';
-import { coupon, suggestionsFor, isBeautyQuery, eligibleCountFor } from '../data.js';
+import { coupon, suggestionsFor, isBeautyQuery } from '../data.js';
 import { spring, SPR, at, stagger, rise } from '../motion.js';
 import { useBarLanded } from '../components/NavStack.jsx';
 import './Search.css';
@@ -104,18 +104,6 @@ export default function Search({ nav, params = {} }) {
   // keep showing the last beauty query while the drawer retracts (content never changes mid-exit)
   const nudgeQ = useRef('');
   if (beauty) nudgeQ.current = query.trim();
-  // the bar's bottom corners square off while the nudge is docked (same spring as the drawer, from the live value)
-  const barRef = useRef(null);
-  const barAnim = useRef(null);
-  useEffect(() => {
-    const el = barRef.current; if (!el) return;
-    const from = parseFloat(getComputedStyle(el).borderBottomLeftRadius) || 12;
-    const to = nudge ? 0 : 12;
-    barAnim.current?.stop();
-    if (reduce) { el.style.borderBottomLeftRadius = el.style.borderBottomRightRadius = to + 'px'; return; }
-    barAnim.current = animate(from, to, { ...(nudge ? SPR.layout : SPR.recede), onUpdate: (v) => { el.style.borderBottomLeftRadius = el.style.borderBottomRightRadius = v + 'px'; } });
-  }, [nudge, reduce]);
-
   const leave = useCallback((go) => {
     if (leaving.current) return;
     leaving.current = true;
@@ -252,7 +240,7 @@ export default function Search({ nav, params = {} }) {
     <div className="srch" ref={rootRef}>
       <StatusBar tone="dark" />
       <div className="srch__header">
-        <SearchBar ref={barRef} layoutId="search-bar" value={query} placeholder="Search" state="typing" trailing="camera"
+        <SearchBar layoutId="search-bar" value={query} placeholder="Search" state="typing" trailing="camera"
           activity={activity} focused={kbShown} selected={selected}
           onTap={() => { if (!kbShownRef.current) showKb(); }} onBack={goBack} />
       </div>
@@ -262,19 +250,21 @@ export default function Search({ nav, params = {} }) {
         onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd} onTouchCancel={onTouchEnd} onWheel={onWheel}>
         {/* Coupon nudge reveal: its slot opens on the layout spring (content below shifts down, no jump),
             the card surface forms into it a beat later, and the % tile pops once. */}
-        {/* Docked nudge (S3 + S1 count): it slides out from UNDER the search bar like a drawer (anchored to its
-            source), the bar's bottom corners square off on the same spring so bar + nudge read as one surface,
-            and it retracts along the same path. Critically damped, interruptible (re-targets from the live value). */}
+        {/* Nudge per Figma n5 (2361:152160): its slot opens on the layout spring (content below shifts down),
+            the card forms into it a beat later, and it closes along the same path. Critically damped, interruptible. */}
         <motion.div className="srch__coupon-slot"
           initial={false}
-          animate={{ height: nudge ? 'auto' : 10 }}
+          animate={{ height: nudge ? 'auto' : 0 }}
           transition={reduce ? { duration: 0 } : nudge ? SPR.layout : SPR.recede}>
           <div className="srch__coupon">
-            <CouponCard key={nudgeKey} docked coupon={coupon} query={nudgeQ.current} count={eligibleCountFor(nudgeQ.current)} onTap={() => goResults(query)}
-              popIcon={nudge && !reduce ? 0.22 : null}
-              initial={reduce ? { opacity: 0 } : { y: '-100%' }}
-              animate={reduce ? { opacity: nudge ? 1 : 0 } : { y: nudge ? '0%' : '-100%' }}
-              transition={reduce ? fade() : nudge ? SPR.layout : SPR.recede} />
+            <CouponCard key={nudgeKey} coupon={coupon} query={nudgeQ.current} onTap={() => goResults(query)}
+              popIcon={nudge && !reduce ? 0.24 : null}
+              initial={reduce ? { opacity: 0 } : { opacity: 0, y: -4, scale: 0.97 }}
+              animate={nudge ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: -4, scale: 0.97 }}
+              style={{ transformOrigin: '50% 0%' }}
+              transition={reduce ? fade() : nudge
+                ? { ...SPR.form, delay: 0.14, opacity: { duration: 0.2, ease: 'easeOut', delay: 0.14 } }
+                : { ...SPR.recede, opacity: { duration: 0.1, ease: 'easeOut' } }} />
           </div>
         </motion.div>
 
