@@ -34,7 +34,8 @@ const STEP = 0.035;
 
 export default function Results({ nav, params = {} }) {
   const query = params.query || '';
-  const { scope, items } = resultsFor(query);
+  const variant = params.variant || nav.variant || null;
+  const { scope, items } = resultsFor(query, params.scope || 'eligible');
   const isNoon = scope === 'noon';
   const landed = useBarLanded();
   const reduce = !!useReducedMotion();
@@ -53,14 +54,14 @@ export default function Results({ nav, params = {} }) {
             state="typed"
             trailing="none"
             onBack={() => nav.pop()}
-            onTap={() => nav.push('search', { query, script: 'seiko watch', replaceOnFirstKey: true }, { transition: 'morph' })}
+            onTap={() => nav.push('search', { query, script: 'seiko watch', replaceOnFirstKey: true, scope: params.scope }, { transition: 'morph' })}
           />
         </div>
       </div>
 
       <div className="rs-scroll">
         <motion.div className="plp-chips rs-chips" {...form(0)}>
-          {CHIPS[scope].map((c) => (
+          {CHIPS[scope === 'coupon' ? 'coupon' : 'noon'].map((c) => (
             <Pressable key={c.label} className={`plp-chip${c.lead ? ' has-lead' : ''}${c.trail ? ' has-trail' : ''}`}>
               {c.lead && <Icon name={c.lead} size={16} color="#0f172a" />}
               <span className="plp-chip-label">{c.label}</span>
@@ -70,7 +71,15 @@ export default function Results({ nav, params = {} }) {
         </motion.div>
 
         <motion.div className="rs-context" {...form(STEP)}>
-          Showing results for <b>“{query}”</b> in {isNoon ? <NoonScope /> : 'BEAUTY10 items'}
+          {!variant ? (
+            <>Showing results for <b>“{query}”</b> in {isNoon ? <NoonScope /> : 'BEAUTY10 items'}</>
+          ) : isNoon ? (
+            <>No BEAUTY10 items for <b>“{query}”</b> · showing all of noon</>
+          ) : scope === 'all' ? (
+            <>Showing results for <b>“{query}”</b> across all of noon</>
+          ) : (
+            <>Showing results for <b>“{query}”</b> in <b>BEAUTY10 items</b></>
+          )}
         </motion.div>
 
         <ProductGrid

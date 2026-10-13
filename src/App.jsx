@@ -18,6 +18,7 @@ const SHEET_TO_PUSH = 0.1;
 // Capture/deep-link mode for fidelity checks: ?s=plp | ?s=search&q=se | ?s=results&q=serum  (+ &bare=1 = unscaled 375×812, no device chrome)
 const QS = new URLSearchParams(location.search);
 const BARE = QS.get('bare') === '1';
+const VARIANT = ['v1', 'h2'].includes(QS.get('v')) ? QS.get('v') : null; // ?v=v1 scope bar · ?v=h2 context band
 function initialRoutes() {
   const s = QS.get('s'); const q = QS.get('q') || '';
   if (!s || s === 'cart') return [route('cart', {}, 'none')];
@@ -40,6 +41,7 @@ export default function App() {
     // `then` runs now (same commit as the close) and any push it makes carries the overlap delay.
     closeSheet: (then) => { setSheetOpen(false); if (then) { overlap.current = SHEET_TO_PUSH; try { then(); } finally { overlap.current = 0; } } },
     reset: () => { setSheetOpen(false); setRoutes([route('cart', {}, 'none')]); },
+    variant: VARIANT,
   }), []);
 
   const onSheetClosed = useCallback(() => { const f = pending.current; pending.current = null; f && f(); }, []);

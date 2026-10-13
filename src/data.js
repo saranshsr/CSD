@@ -50,13 +50,15 @@ export const suggestions = POOL.map(([label, thumb]) => ({ label, thumb }));
 // A trailing space is meaningful ("serum " → "serum for face"); if it matches nothing, retry without it.
 // Figma-curated orders for queries shown in the design frames (n5 “serum”); everything else uses the ranking below.
 const CURATED = { serum: ['serum', 'niacinamide serum', 'vitamin c serum', 'hair serum', 'serum foundation'] };
-export function suggestionsFor(q, max = 5) {
+// scope: 'all' (everything on noon) | 'eligible' (BEAUTY10-eligible suggestions only: labels that match an eligible item)
+export function suggestionsFor(q, max = 5, scope = 'all') {
   const s = (q || '').toLowerCase().replace(/^\s+/, '').replace(/\s+/g, ' ');
   if (!s.trim()) return [];
-  if (CURATED[s]) return CURATED[s].map((l) => suggestions.find((r) => r.label === l)).filter(Boolean);
+  const pool = scope === 'eligible' ? suggestions.filter((r) => isBeautyQuery(r.label)) : suggestions;
+  if (CURATED[s]) return CURATED[s].map((l) => pool.find((r) => r.label === l)).filter(Boolean);
   const rank = (needle) => {
     const pre = [], word = [];
-    for (const r of suggestions) {
+    for (const r of pool) {
       const l = r.label.toLowerCase();
       if (l.startsWith(needle)) (l === needle.trim() ? pre.unshift(r) : pre.push(r));
       else if ((' ' + l).includes(' ' + needle)) word.push(r);
@@ -147,9 +149,13 @@ export function eligibleCountFor(q) {
 }
 // Searched within BEAUTY10: eligible matches → coupon scope. No eligible match → fallback to
 // noon-wide results ("Showing results for “q” in all categories"), or popular noon items if nothing matches.
-export function resultsFor(q) {
+export function resultsFor(q, want = 'eligible') {
   const s = q.trim().toLowerCase();
   if (!s) return { scope: 'coupon', items: products.serum };
+  if (want === 'all') {
+    const all = [...BEAUTY, ...NOON].filter((it) => matches(it, s));
+    return { scope: 'all', items: (all.length ? all : NOON).slice(0, 8) };
+  }
   const eligible = BEAUTY.filter((it) => matches(it, s));
   if (eligible.length) return { scope: 'coupon', items: eligible.slice(0, 8) };
   const global = NOON.filter((it) => matches(it, s));
@@ -157,3 +163,6 @@ export function resultsFor(q) {
 }
 // Scripted typing: each keyboard tap types the next character of the script for the current step.
 export const scripts = { first: 'serum', second: 'seiko watch' };
+
+// Popular searches inside BEAUTY10 (scoped empty state).
+export const popularEligible = [['serum', 'sunscreen', 'lipstick'], ['face wash', 'moisturiser', 'hair oil', 'mascara']];

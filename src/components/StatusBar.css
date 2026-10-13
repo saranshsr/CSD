@@ -1,5 +1,5 @@
 .sb{position:relative;height:62px;width:100%;flex:none;display:flex;align-items:center;justify-content:space-between;
-  padding:4px 0 0;font-family:-apple-system,'SF Pro Text',system-ui,sans-serif;pointer-events:none;user-select:none}
+  padding:4px 0 0;font-family:-apple-system,'SF Pro Text',system-ui,sans-serif;pointer-events:none;user-select:none;transition:color .28s cubic-bezier(.2,.8,.2,1)}
 /* time centred in the left ear, like iOS */
 .sb-time{width:140px;text-align:center;font-size:17px;font-weight:600;letter-spacing:-0.4px;line-height:22px}
 .sb-right{width:140px;display:flex;align-items:center;justify-content:center;gap:6px;padding-right:4px}

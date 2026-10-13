@@ -2,9 +2,10 @@ import './StatusBar.css';
 
 // iOS status bar (Figma M-Status bar, 375×62). tone="light" → white glyphs.
 export default function StatusBar({ tone = 'dark', style }) {
-  const c = tone === 'light' ? '#fff' : '#000';
+  const ink = tone === 'light' ? '#fff' : '#000';
+  const c = 'currentColor';
   return (
-    <div className="sb" style={{ color: c, ...style }}>
+    <div className="sb" style={{ color: ink, ...style }}>
       <div className="sb-time">9:41</div>
       <div className="sb-right">
         <svg width="19" height="12" viewBox="0 0 19 12" aria-hidden="true">

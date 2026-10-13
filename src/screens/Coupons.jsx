@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { motion, useAnimationControls, useReducedMotion } from 'motion/react';
 import Pressable from '../components/Pressable.jsx';
 import { spring, HIGHLIGHT } from '../motion.js';
+import { newVisit } from '../session.js';
 import './Coupons.css';
 
 // 02/03 Coupons tray — one tall @3x image stitched from Figma 2333:363127 (top, redeem 2333:363134)
@@ -55,7 +56,7 @@ export default function Coupons({ nav, open: openProp }) {
     return () => { cancelled = true; clearTimeout(t); io?.disconnect(); ring.stop(); };
   }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const onShopMore = () => nav.closeSheet(() => nav.push('plp', {}, { transition: 'push' }));
+  const onShopMore = () => { newVisit(); nav.closeSheet(() => nav.push('plp', {}, { transition: 'push' })); };
 
   return (
     <div className="coupons-sheet" ref={rootRef}>

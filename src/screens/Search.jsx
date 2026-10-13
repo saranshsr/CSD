@@ -5,7 +5,10 @@ import SearchBar from '../components/SearchBar.jsx';
 import Keyboard, { KEYBOARD_HEIGHT as KBH } from '../components/Keyboard.jsx';
 import CouponCard from '../components/CouponCard.jsx';
 import SuggestionRow, { useTap, TAP_SLOP } from '../components/SuggestionRow.jsx';
-import { coupon, suggestionsFor, isBeautyQuery } from '../data.js';
+import ScopeBar from '../components/ScopeBar.jsx';
+import ContextBand from '../components/ContextBand.jsx';
+import { coupon, suggestionsFor, isBeautyQuery, popularEligible } from '../data.js';
+import { session } from '../session.js';
 import { spring, SPR, at, stagger, rise } from '../motion.js';
 import { useBarLanded } from '../components/NavStack.jsx';
 import './Search.css';
@@ -46,6 +49,14 @@ const fade = (d = 0.15) => ({ duration: d, ease: 'linear' });
 export default function Search({ nav, params = {} }) {
   const reduce = !!useReducedMotion();
   const [query, setQuery] = useState(params.query || '');
+  // Variants (?v=): v1 = scope bar (BEAUTY10 items | All of noon), h2 = context band (always eligible), none = n5 nudge
+  const variant = nav.variant || null;
+  const [scopePick, setScopePickState] = useState(params.scope || session.scope);
+  const setScopePick = (v) => { session.scope = v; setScopePickState(v); };
+  const scope = variant === 'v1' ? scopePick : variant === 'h2' ? 'eligible' : 'all';
+  const [band, setBandState] = useState(session.band);
+  const setBand = (v) => { session.band = v; setBandState(v); };
+  const GREEN = '#0f8857';
   // arriving from Results with the old query: it's "selected"; the first keystroke replaces it
   const [selected, setSelectedState] = useState(!!params.replaceOnFirstKey && !!params.query);
   const selRef = useRef(selected);
@@ -91,7 +102,7 @@ export default function Search({ nav, params = {} }) {
 
   // Coupon nudge is contextual: it appears only while the query is beauty-related (matches BEAUTY10-eligible
   // items). It reveals 400ms after that becomes true (so fast typing doesn't flicker it) and closes at once when not.
-  const beauty = landed && isBeautyQuery(query);
+  const beauty = !variant && landed && isBeautyQuery(query);
   const [nudge, setNudge] = useState(false);
   const [nudgeKey, setNudgeKey] = useState(0);
   useEffect(() => {
@@ -111,8 +122,8 @@ export default function Search({ nav, params = {} }) {
     go();
   }, [moveKb]);
   const goResults = useCallback((q) => {
-    leave(() => nav.replace('results', { query: (q || '').trim() || 'serum' }, { transition: 'morph' }));
-  }, [nav, leave]);
+    leave(() => nav.replace('results', { query: (q || '').trim() || 'serum', scope, variant }, { transition: 'morph' }));
+  }, [nav, leave, scope, variant]);
   const goBack = useCallback(() => leave(() => nav.pop()), [nav, leave]);
 
   // ---- editing -------------------------------------------------------------------------------
@@ -133,10 +144,10 @@ export default function Search({ nav, params = {} }) {
   const empty = query.trim() === '';
   const rows = useMemo(() => {
     if (empty) return [];
-    const r = suggestionsFor(query);
+    const r = suggestionsFor(query, 5, scope);
     return r.length ? r : [{ label: '__search', kind: 'search' }];
-  }, [query, empty]);
-  const predictions = useMemo(() => quickType(query), [query]);
+  }, [query, empty, scope]);
+  const predictions = useMemo(() => quickType(query, scope), [query, scope]);
 
   // ---- interactive keyboard dismissal + drag-to-scroll (mouse/pen; touch scrolls natively) ---
   const body = useRef(null);
@@ -238,12 +249,44 @@ export default function Search({ nav, params = {} }) {
 
   return (
     <div className="srch" ref={rootRef}>
-      <StatusBar tone="dark" />
-      <div className="srch__header">
-        <SearchBar layoutId="search-bar" value={query} placeholder="Search" state="typing" trailing="camera"
-          activity={activity} focused={kbShown} selected={selected}
-          onTap={() => { if (!kbShownRef.current) showKb(); }} onBack={goBack} />
-      </div>
+      {variant === 'h2' ? (
+        // H2: green band over the search sheet. ✕ collapses the band on `recede` while the sheet's corners
+        // flatten and the green gives way to white on the same spring — one gesture, one curve.
+        <motion.div className="srch-h2" initial={false} animate={{ backgroundColor: band ? GREEN : '#ffffff' }} transition={band ? SPR.layout : SPR.recede}>
+          <StatusBar tone={band ? 'light' : 'dark'} />
+          <motion.div className="srch-h2__slot" initial={false} animate={{ height: band ? 'auto' : 0, opacity: band ? 1 : 0 }}
+            transition={band ? SPR.layout : { ...SPR.recede, opacity: fade(0.12) }}>
+            <ContextBand code={coupon.code} value="Extra 10% off at checkout" onDismiss={() => setBand(false)}
+              variants={reduce ? { hidden: { opacity: 0 }, shown: { opacity: 1, transition: fade() } } : { hidden: rise.hidden, shown: { ...rise.shown, transition: { ...SPR.rise, delay: at(0.02) } } }}
+              animate={landed ? 'shown' : 'hidden'} />
+          </motion.div>
+          <motion.div className="srch-h2__sheet" initial={false}
+            animate={{ borderTopLeftRadius: band ? 20 : 0, borderTopRightRadius: band ? 20 : 0, paddingTop: band ? 12 : 0 }}
+            transition={band ? SPR.layout : SPR.recede}>
+            <div className="srch__header">
+              <SearchBar layoutId="search-bar" value={query} placeholder="Search" state="typing" trailing="camera"
+                activity={activity} focused={kbShown} selected={selected}
+                onTap={() => { if (!kbShownRef.current) showKb(); }} onBack={goBack} />
+            </div>
+          </motion.div>
+        </motion.div>
+      ) : (
+        <>
+          <StatusBar tone="dark" />
+          <div className="srch__header">
+            <SearchBar layoutId="search-bar" value={query} placeholder="Search" state="typing" trailing="camera"
+              activity={activity} focused={kbShown} selected={selected}
+              onTap={() => { if (!kbShownRef.current) showKb(); }} onBack={goBack} />
+          </div>
+          {variant === 'v1' && (
+            <ScopeBar value={scopePick} onChange={setScopePick}
+              options={[{ value: 'eligible', label: `${coupon.code} items` }, { value: 'all', label: 'All of noon' }]}
+              entrance={first && !reduce
+                ? { initial: 'hidden', animate: landed ? 'shown' : 'hidden', variants: { hidden: rise.hidden, shown: { ...rise.shown, transition: { ...SPR.rise, delay: at(0.02) } } } }
+                : {}} />
+          )}
+        </>
+      )}
 
       <div className="srch__body" ref={body} style={{ paddingBottom: KBH + 16 }}
         onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onPointerCancel={onPointerUp}
@@ -273,11 +316,14 @@ export default function Search({ nav, params = {} }) {
             {empty ? (
               <motion.div key="empty" className="srch-empty"
                 exit={{ opacity: 0, transition: fade(0.08) }}>
-                <EmptyState entrance={entrance} onPick={fillWith} />
+                <EmptyState entrance={entrance} onPick={fillWith} scoped={scope === 'eligible' && !!variant} />
               </motion.div>
             ) : (
               <motion.div key="list" className="srch__list"
                 initial={{ opacity: 1 }} exit={{ opacity: 0, transition: fade(0.08) }}>
+                {/* scope change (V1): the whole list cross-dissolves like UISegmentedControl content; typing keeps per-row motion */}
+                <AnimatePresence mode="popLayout" initial={false}>
+                <motion.div key={`scope-${scope}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, transition: fade(0.1) }} transition={fade(0.14)}>
                 <AnimatePresence mode="popLayout" initial={true}>
                   {rows.map((r, i) => {
                     const delay = first ? at(ROWS_BASE_DELAY + i * ROW_STAGGER) : 0;
@@ -292,6 +338,8 @@ export default function Search({ nav, params = {} }) {
                         transition={{ ...SPR.rise, delay, layout: SPR.layout, opacity: { ...fade(), delay } }} />
                     );
                   })}
+                </AnimatePresence>
+                </motion.div>
                 </AnimatePresence>
               </motion.div>
             )}
@@ -310,13 +358,13 @@ export default function Search({ nav, params = {} }) {
 
 // QuickType slots: [“current word”, best completion, alternative]. Each completion comes from the
 // suggestion pool; the slot shows what will replace the current word, tapping fills label + space.
-function quickType(query) {
+function quickType(query, scope = 'all') {
   if (!query.trim()) return [null, null, null];
   const word = query.match(/(\S*)$/)[1];
   const lq = query.toLowerCase();
   const seen = new Set([word.toLowerCase()]);
   const comps = [];
-  for (const r of suggestionsFor(query, 8)) {
+  for (const r of suggestionsFor(query, 8, scope)) {
     const l = r.label.toLowerCase();
     if (l === lq.trim()) continue;
     const text = l.startsWith(lq) ? r.label.slice(query.length - word.length) : r.label;
@@ -328,7 +376,7 @@ function quickType(query) {
   return [word ? { text: word, quoted: true, value: query + ' ' } : null, comps[0] || null, comps[1] || null];
 }
 
-function EmptyState({ entrance, onPick }) {
+function EmptyState({ entrance, onPick, scoped }) {
   return (
     <>
       <motion.section className="se-sec se-recent" {...entrance(0)}>
@@ -339,12 +387,16 @@ function EmptyState({ entrance, onPick }) {
       </motion.section>
 
       <motion.section className="se-sec se-trending" {...entrance(1)}>
-        <h3 className="se-title">Trending searches</h3>
-        <div className="se-hs se-chips" data-hscroll>
-          {TRENDING.map((row, i) => (
-            <div className="se-chiprow" key={i}>{row.map((c) => <Chip key={c} label={c} onPick={onPick} />)}</div>
-          ))}
-        </div>
+        <AnimatePresence mode="popLayout" initial={false}>
+          <motion.div key={scoped ? 'popular' : 'trending'} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, transition: fade(0.1) }} transition={fade(0.14)}>
+            <h3 className="se-title">{scoped ? `Popular in ${coupon.code}` : 'Trending searches'}</h3>
+            <div className="se-hs se-chips" data-hscroll>
+              {(scoped ? popularEligible : TRENDING).map((row, i) => (
+                <div className="se-chiprow" key={i}>{row.map((c) => <Chip key={c} label={c} onPick={onPick} />)}</div>
+              ))}
+            </div>
+          </motion.div>
+        </AnimatePresence>
       </motion.section>
 
       <motion.div className="se-banner" {...entrance(2)}>

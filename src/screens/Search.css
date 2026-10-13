@@ -45,3 +45,8 @@
 .se-cat__title{margin-top:8px;font-size:14px;line-height:18px;letter-spacing:-0.14px;color:#1d2539}
 .se-cat__pill{margin-top:8px;height:22px;padding:2px 6px;border-radius:4px;background:#ebf2ff;
   font-size:12px;line-height:18px;font-weight:500;color:#2959eb;white-space:pre}
+
+/* ---- H2 context band ------------------------------------------------------------------------ */
+.srch-h2{flex:none}
+.srch-h2__slot{overflow:hidden}
+.srch-h2__sheet{background:#fff}
