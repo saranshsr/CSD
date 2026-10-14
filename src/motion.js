@@ -122,3 +122,7 @@ export function velocityTracker() {
     },
   };
 }
+
+// Haptic tick on a meaningful commit (toggle snaps, band dismissed): one short pulse on the same frame
+// as the visual change. Android only — iOS Safari has no Vibration API, so it's a silent no-op there.
+export const tick = () => { try { if (navigator.vibrate) navigator.vibrate(8); } catch { /* noop */ } };

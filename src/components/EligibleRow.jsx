@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, animate, useMotionValue, useTransform, useReducedMotion } from 'motion/react';
-import { SPR, TAP_SLOP, ios, project, rubber, velocityTracker } from '../motion.js';
+import { SPR, TAP_SLOP, ios, project, rubber, velocityTracker, tick } from '../motion.js';
 import './EligibleRow.css';
 
 // Eligible row (Figma "Eligible row · Empty · on … Normal search", team file · Iteration 2): a
@@ -76,11 +76,11 @@ export default function EligibleRow({ code, value = 'extra 10% off', on, onChang
     const d = drag.current; drag.current = null;
     setHeld(false); stretch(0);
     if (!d || d.id !== e.pointerId || d.cancelled) return;
-    if (!d.active) { onChange(!on); return; }
+    if (!d.active) { tick(); onChange(!on); return; }
     const v = vt.current.get(e.timeStamp);
     const next = project(p.get() * TRAVEL, v) > TRAVEL / 2;
     glide(next ? 1 : 0, v / TRAVEL);
-    if (next !== on) onChange(next);
+    if (next !== on) { tick(); onChange(next); }
   };
 
   return (
@@ -89,7 +89,7 @@ export default function EligibleRow({ code, value = 'extra 10% off', on, onChang
         aria-label={`${code} items only`} style={{ backgroundColor: rowBg, boxShadow: ring }}
         onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp}
         onPointerCancel={() => { drag.current = null; setHeld(false); stretch(0); glide(on ? 1 : 0); }}
-        onKeyDown={(e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); onChange(!on); } }}>
+        onKeyDown={(e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); tick(); onChange(!on); } }}>
         <motion.span className="er-icon" style={{ backgroundColor: ink }} aria-hidden="true" />
         <span className="er-text">
           <b>{code}</b> items only<motion.span style={{ color: valueC }}> · {value}</motion.span>

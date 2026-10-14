@@ -10,7 +10,7 @@ import ContextBand from '../components/ContextBand.jsx';
 import EligibleRow from '../components/EligibleRow.jsx';
 import { coupon, suggestionsFor, popularEligible } from '../data.js';
 import { session } from '../session.js';
-import { spring, SPR, at, stagger, rise, rubber, velocityTracker, project as projectTo, ios } from '../motion.js';
+import { spring, SPR, at, stagger, rise, rubber, velocityTracker, project as projectTo, ios, tick } from '../motion.js';
 import { useBarLanded } from '../components/NavStack.jsx';
 import './Search.css';
 
@@ -117,14 +117,19 @@ export default function Search({ nav, params = {} }) {
   };
   // ✕ mirrors the arrival: the same layout spring run backwards, so the screen is seen rising back up
   // closing is unhurried and critically damped (0.85s) so the rise and the green wipe read as one move
-  const dismissBand = () => { setBand(false); moveBand(0, 0, BAND_CLOSE); };
+  const dismissBand = () => { setBand(false); tick(); moveBand(0, 0, BAND_CLOSE); };
   // drag the sheet up over the band (1:1), rubber-band when pulled down; release projects momentum
   const bDrag = useRef(null);
   const bVt = useRef(velocityTracker());
+  // Interruptible: the band can be caught mid-open or mid-close. Touch-down stops it where it is
+  // (presentation value); a drag then takes over from there, and a plain tap lets it carry on.
   const onBandDown = (e) => {
-    if (!band || e.button > 0) return;
+    if (e.button > 0 || e.target.closest?.('.srch-h2__sheet')) return; // the white sheet is the search bar's
+    if (!band && bandP.get() < 0.04) return; // fully gone: nothing to grab
+    const moving = Math.abs(bandP.getVelocity()) > 0.05;
+    if (moving) bandAnim.current?.stop();
     const r = rootRef.current.getBoundingClientRect();
-    bDrag.current = { id: e.pointerId, y0: e.clientY, s: r.height / SCREEN_H || 1, p0: bandP.get(), active: false };
+    bDrag.current = { id: e.pointerId, y0: e.clientY, s: r.height / SCREEN_H || 1, p0: bandP.get(), active: false, caught: moving };
   };
   const onBandMove = (e) => {
     const d = bDrag.current; if (!d || d.id !== e.pointerId) return;
@@ -142,10 +147,11 @@ export default function Search({ nav, params = {} }) {
   const onBandUp = (e) => {
     const d = bDrag.current; if (!d || d.id !== e.pointerId) return;
     bDrag.current = null;
-    if (!d.active) return;
+    if (!d.active) { if (d.caught) moveBand(band ? 1 : 0, 0, band ? SPR.move : BAND_CLOSE); return; } // a tap: carry on
     const H = bandHv.get(), v = bVt.current.get(e.timeStamp);
     const gone = projectTo(bandP.get() * H, v) < H / 2;
-    if (gone) setBand(false);
+    if (gone && band) { setBand(false); tick(); }
+    if (!gone && !band) setBand(true); // caught mid-close and pulled back open
     moveBand(gone ? 0 : 1, v / H, SPR.dock); // momentum → the dock settle, velocity handed over
   };
   // arriving from Results with the old query: it's "selected"; the first keystroke replaces it
@@ -354,12 +360,11 @@ export default function Search({ nav, params = {} }) {
     <div className="srch" ref={rootRef}>
       {variant === 'h2' ? (
         // H2: green band over the search sheet. ✕, a drag or a flick slides the sheet up over the band (bandP).
-        <div className="srch-h2">
+        <div className="srch-h2" onPointerDown={onBandDown} onPointerMove={onBandMove} onPointerUp={onBandUp} onPointerCancel={onBandUp}>
           <motion.div className="srch-h2__green" aria-hidden="true"
             style={{ height: greenH }} />
           <StatusBar tone={tone} />
-          <motion.div className="srch-h2__slot" style={{ height: slotH }}
-            onPointerDown={onBandDown} onPointerMove={onBandMove} onPointerUp={onBandUp} onPointerCancel={onBandUp}>
+          <motion.div className="srch-h2__slot" style={{ height: slotH }}>
             <motion.div ref={bandEl} style={{ opacity: copyO, y: travel }}>
               <ContextBand code={coupon.code} value="Extra 10% off at checkout" onDismiss={dismissBand} pop={false}
                 variants={{ hidden: {}, shown: {} }} animate={landed ? 'shown' : 'hidden'} />
