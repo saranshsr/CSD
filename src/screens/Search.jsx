@@ -3,12 +3,12 @@ import { motion, AnimatePresence, animate, useMotionValue, useMotionValueEvent, 
 import StatusBar from '../components/StatusBar.jsx';
 import SearchBar from '../components/SearchBar.jsx';
 import Keyboard, { KEYBOARD_HEIGHT as KBH } from '../components/Keyboard.jsx';
-import CouponCard from '../components/CouponCard.jsx';
+import ScopedRow from '../components/ScopedRow.jsx';
 import SuggestionRow, { useTap, TAP_SLOP } from '../components/SuggestionRow.jsx';
 import ScopeBar from '../components/ScopeBar.jsx';
 import ContextBand from '../components/ContextBand.jsx';
 import EligibleRow from '../components/EligibleRow.jsx';
-import { coupon, suggestionsFor, isBeautyQuery, popularEligible } from '../data.js';
+import { coupon, suggestionsFor, popularEligible } from '../data.js';
 import { session } from '../session.js';
 import { spring, SPR, at, stagger, rise, rubber, velocityTracker, project as projectTo } from '../motion.js';
 import { useBarLanded } from '../components/NavStack.jsx';
@@ -42,7 +42,6 @@ const project = (v) => (v / 1000) * DECEL / (1 - DECEL); // distance a release a
 // The screen forms around the bar (LSN: containers settle before content forms). Everything below
 // waits for the bar to LAND (useBarLanded), then: the coupon card 200ms after the landing, the rows /
 // empty-state sections right behind it.
-const COUPON_DELAY = 0.4; // nudge reveals 400ms after the query becomes beauty-related
 const ROW_STAGGER = 0.025, ROWS_BASE_DELAY = 0.04; // rows land first, right under the bar; the nudge then inserts above them
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 const fade = (d = 0.15) => ({ duration: d, ease: 'linear' });
@@ -190,13 +189,16 @@ export default function Search({ nav, params = {} }) {
 
   // Coupon nudge is contextual: it appears only while the query is beauty-related (matches BEAUTY10-eligible
   // items). It reveals 400ms after that becomes true (so fast typing doesn't flicker it) and closes at once when not.
-  const beauty = !variant && !normal && landed && isBeautyQuery(query);
+  // Auto-suggestion (Flow B): the scoped row leads the typeahead for ANY query while typing — the
+  // suggestions under it stay all-of-noon; the row is the way into the eligible-only search.
+  const auto = !variant && !normal;
+  const beauty = auto && landed && query.trim() !== '';
   const [nudge, setNudge] = useState(false);
   const [nudgeKey, setNudgeKey] = useState(0);
   useEffect(() => {
     if (!beauty) { setNudge(false); return undefined; }
     if (nudge) return undefined;
-    const t = setTimeout(() => { setNudge(true); setNudgeKey((k) => k + 1); }, COUPON_DELAY * 1000);
+    const t = setTimeout(() => { setNudge(true); setNudgeKey((k) => k + 1); }, 0); // first keystroke: no wait
     return () => clearTimeout(t);
   }, [beauty]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -210,7 +212,7 @@ export default function Search({ nav, params = {} }) {
     go();
   }, [moveKb]);
   const goResults = useCallback((q) => {
-    leave(() => nav.replace('results', { query: (q || '').trim() || 'serum', scope, variant, normal }, { transition: 'morph' }));
+    leave(() => nav.replace('results', { query: (q || '').trim() || 'serum', scope: !variant && !normal ? 'eligible' : scope, variant, normal }, { transition: 'morph' }));
   }, [nav, leave, scope, variant, normal]);
   const goBack = useCallback(() => leave(() => nav.pop()), [nav, leave]);
 
@@ -394,16 +396,12 @@ export default function Search({ nav, params = {} }) {
           initial={false}
           animate={{ height: nudge ? 'auto' : 0 }}
           transition={reduce ? { duration: 0 } : nudge ? SPR.layout : SPR.recede}>
-          <div className="srch__coupon">
-            <CouponCard key={nudgeKey} coupon={coupon} query={nudgeQ.current} onTap={() => goResults(query)}
-              popIcon={nudge && !reduce ? 0.24 : null}
-              initial={reduce ? { opacity: 0 } : { opacity: 0, y: -4, scale: 0.97 }}
-              animate={nudge ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: -4, scale: 0.97 }}
-              style={{ transformOrigin: '50% 0%' }}
-              transition={reduce ? fade() : nudge
-                ? { ...SPR.form, delay: 0.14, opacity: { duration: 0.2, ease: 'easeOut', delay: 0.14 } }
-                : { ...SPR.recede, opacity: { duration: 0.1, ease: 'easeOut' } }} />
-          </div>
+          <ScopedRow key={nudgeKey} code={coupon.code} onTap={() => goResults(query)}
+            initial={reduce ? { opacity: 0 } : { opacity: 0, y: -4 }}
+            animate={nudge ? { opacity: 1, y: 0 } : { opacity: 0, y: -4 }}
+            transition={reduce ? fade() : nudge
+              ? { ...SPR.rise, opacity: { duration: 0.16, ease: 'easeOut' } }
+              : { ...SPR.recede, opacity: { duration: 0.1, ease: 'easeOut' } }} />
         </motion.div>
 
         <div className="srch__content">

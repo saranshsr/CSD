@@ -1,0 +1,13 @@
+/* Flow B · Scoped search row: 375×58, pad 9/16, gap 12; tile 40 r8 #f3f4f8 with a 20 search icon;
+   title 14/20 (eligible items bold); sub 11 (code semibold green, value grey); View all 13 semibold #0f61ff;
+   divider: 1px #eceef3, inset 16, 4px above and below */
+.sq{display:flex;align-items:center;gap:12px;height:58px;box-sizing:border-box;padding:9px 16px;width:100%;
+  border:0;background:none;text-align:left;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.sq-tile{flex:none;width:40px;height:40px;border-radius:8px;background:#f3f4f8;display:flex;align-items:center;justify-content:center}
+.sq-copy{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.sq-title{font-size:14px;line-height:20px;color:#1d2539;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sq-title b{font-weight:700}
+.sq-sub{font-size:11px;line-height:14px;color:#666d85;white-space:nowrap}
+.sq-sub b{font-weight:600;color:#0f8857}
+.sq-link{flex:none;display:flex;align-items:center;gap:2px;padding:10px 0 10px 4px;font-size:13px;line-height:16px;font-weight:600;color:#0f61ff}
+.sq-div{height:1px;margin:4px 16px;background:#eceef3}
