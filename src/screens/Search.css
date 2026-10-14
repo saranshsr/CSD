@@ -48,7 +48,9 @@
 
 /* ---- H2 context band ------------------------------------------------------------------------ */
 .srch-h2{flex:none;position:relative;background:#fff;touch-action:pan-x}
-.srch-h2__green{position:absolute;top:0;left:0;right:0;background:#0f8857;will-change:transform,opacity;pointer-events:none}
+.srch-h2__green{position:absolute;top:0;left:0;right:0;
+  /* Figma Pattern/Coupon hero (375×160, centred): halftone dots pinned to the top, so they stay still while the band opens/closes */
+  background:#0f8857 url(/assets/band/coupon-hero-pattern.webp) center top / 375px auto no-repeat;will-change:transform,opacity;pointer-events:none}
 .srch-h2 > .sb,.srch-h2__slot,.srch-h2__sheet{position:relative}
 .srch-h2__sheet{z-index:2} /* the sheet covers the band copy as it rises */
 .srch-h2 > .sb{z-index:3}

@@ -75,15 +75,13 @@ export default function Search({ nav, params = {} }) {
   // ---- H2 band: ONE progress value (1 = band shown, 0 = gone) drives the whole header ------------
   // H2 band. Two values:
   //  · bandP   — LAYOUT (1 = band open): slot height, sheet corners. ✕ / drag / flick move it.
-  //  · revealP — VISUAL arrival only (green fill + copy). On a hop the layout is final from frame
-  //    one (bandP = 1), so the flying bar heads straight for its real resting place — no chasing a
-  //    moving target, no overlap with the band, padding never changes — while the green fills down
-  //    from the top and the copy fades in on the bar's own spring, so they land together.
+  //  · revealP — kept at 1: on a hop the band is simply there (it fades in with the screen) and the
+  //    layout is final from frame one, so the flying bar heads straight for its real resting place.
   // Close = the band SHIFTS UP AND VANISHES: the sheet rises over the copy (it covers it, never
   // slices it) and the green's bottom edge stays 24px under the sheet until a final wipe behind the
   // status bar. Open from a drag is the same path forwards.
   const bandP = useMotionValue(variant === 'h2' && session.band ? 1 : 0);
-  const revealP = useMotionValue(reduce ? 1 : 0);
+  const revealP = useMotionValue(1); // the band is simply there on arrival (it fades in with the screen)
   const bandHv = useMotionValue(69);           // measured band height (px)
   const bandEl = useRef(null);
   useLayoutEffect(() => { if (bandEl.current) bandHv.set(bandEl.current.offsetHeight || 69); }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -102,7 +100,7 @@ export default function Search({ nav, params = {} }) {
     const r = Math.min(1, Math.max(0, (revealP.get() - 0.35) / 0.65));
     return c * r;
   });
-  const [tone, setTone] = useState(variant === 'h2' && session.band && reduce ? 'light' : 'dark');
+  const [tone, setTone] = useState(variant === 'h2' && session.band ? 'light' : 'dark');
   // status ink follows the green actually behind it
   const lightInk = useRef(tone === 'light');
   useMotionValueEvent(greenH, 'change', (h) => {
@@ -191,12 +189,7 @@ export default function Search({ nav, params = {} }) {
   }, [moveKb]);
   // Content forms once the bar has landed; after that first entrance, changes just fade.
   const landed = useBarLanded();
-  // arrival: the green fills and the copy forms on the bar's own flight spring, so they land together
-  useEffect(() => {
-    if (variant !== 'h2' || !session.band || reduce) return undefined;
-    const id = requestAnimationFrame(() => animate(revealP, 1, SPR.move));
-    return () => cancelAnimationFrame(id);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  // arrival: no fill animation — the band is part of the screen; only the bar flies to its spot
   useEffect(() => {
     if (!landed) return undefined;
     const t = setTimeout(() => { mounted.current = true; }, 0);
