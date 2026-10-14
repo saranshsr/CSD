@@ -1,7 +1,8 @@
 .sbar{position:relative;height:48px;margin:0 16px;display:flex;align-items:center;gap:8px;padding:0 12px 0 10px;
   background:#fff;border:1px solid #f2f3f7;cursor:text;overflow:hidden}
 .sbar-back{flex:none;width:28px;height:28px;display:grid;place-items:center;margin-right:-2px}
-.sbar-field{flex:1;min-width:0;display:flex;align-items:center;height:24px;white-space:nowrap;overflow:hidden}
+.sbar-field{flex:1;min-width:0;display:flex;align-items:center;height:24px;white-space:nowrap;overflow:hidden;
+  padding-left:3px;margin-left:-3px} /* the clip edge sits 3px left of the text: a scaled frame's rounding can never shave the first glyph */
 .sbar-text{display:inline-block;font-size:14px;line-height:20px;font-weight:500;color:var(--text-primary);white-space:pre;overflow:hidden;text-overflow:ellipsis}
 .sbar-text.is-ph{color:#1d2539}
 /* editing: the field scrolls to keep the caret end visible instead of ellipsising */

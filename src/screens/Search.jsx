@@ -417,7 +417,7 @@ export default function Search({ nav, params = {} }) {
             {empty ? (
               <motion.div key="empty" className="srch-empty"
                 exit={{ opacity: 0, transition: fade(0.08) }}>
-                <EmptyState entrance={entrance} onPick={fillWith} scoped={scope === 'eligible' && !!variant} dir={dir} slide={slide} />
+                <EmptyState entrance={entrance} onPick={fillWith} scoped={false} dir={dir} slide={slide} /> {/* always Trending searches */}
               </motion.div>
             ) : (
               <motion.div key="list" className="srch__list"
