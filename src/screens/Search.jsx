@@ -59,7 +59,9 @@ export default function Search({ nav, params = {} }) {
   const reduce = !!useReducedMotion();
   const [query, setQuery] = useState(params.query || '');
   // Variants (?v=): v1 = scope bar (BEAUTY10 items | All of noon), h2 = context band (always eligible), none = n5 nudge
-  const variant = nav.variant || null;
+  // normal search (bottom nav Home, not from a coupon): no band, no scope bar, nothing scoped — all of noon
+  const normal = !!params.normal;
+  const variant = normal ? null : (nav.variant || null);
   const [scopePick, setScopePickState] = useState(params.scope || session.scope);
   const setScopePick = (v) => { session.scope = v; setScopePickState(v); };
   const scope = variant === 'v1' ? scopePick : variant === 'h2' ? 'eligible' : 'all';
@@ -186,7 +188,7 @@ export default function Search({ nav, params = {} }) {
 
   // Coupon nudge is contextual: it appears only while the query is beauty-related (matches BEAUTY10-eligible
   // items). It reveals 400ms after that becomes true (so fast typing doesn't flicker it) and closes at once when not.
-  const beauty = !variant && landed && isBeautyQuery(query);
+  const beauty = !variant && !normal && landed && isBeautyQuery(query);
   const [nudge, setNudge] = useState(false);
   const [nudgeKey, setNudgeKey] = useState(0);
   useEffect(() => {
@@ -206,8 +208,8 @@ export default function Search({ nav, params = {} }) {
     go();
   }, [moveKb]);
   const goResults = useCallback((q) => {
-    leave(() => nav.replace('results', { query: (q || '').trim() || 'serum', scope, variant }, { transition: 'morph' }));
-  }, [nav, leave, scope, variant]);
+    leave(() => nav.replace('results', { query: (q || '').trim() || 'serum', scope, variant, normal }, { transition: 'morph' }));
+  }, [nav, leave, scope, variant, normal]);
   const goBack = useCallback(() => leave(() => nav.pop()), [nav, leave]);
 
   // ---- editing -------------------------------------------------------------------------------

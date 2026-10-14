@@ -34,8 +34,9 @@ const STEP = 0.035;
 
 export default function Results({ nav, params = {} }) {
   const query = params.query || '';
-  const variant = params.variant || nav.variant || null;
-  const { scope, items } = resultsFor(query, params.scope || 'eligible');
+  const normal = !!params.normal;
+  const variant = normal ? null : (params.variant || nav.variant || null);
+  const { scope, items } = resultsFor(query, normal ? 'all' : (params.scope || 'eligible'));
   const isNoon = scope === 'noon';
   const landed = useBarLanded();
   const reduce = !!useReducedMotion();
@@ -54,7 +55,7 @@ export default function Results({ nav, params = {} }) {
             state="typed"
             trailing="none"
             onBack={() => nav.pop()}
-            onTap={() => nav.push('search', { query, script: 'seiko watch', replaceOnFirstKey: true, scope: params.scope }, { transition: 'morph' })}
+            onTap={() => nav.push('search', { query, script: 'seiko watch', replaceOnFirstKey: true, scope: params.scope, normal }, { transition: 'morph' })}
           />
         </div>
       </div>
@@ -71,7 +72,9 @@ export default function Results({ nav, params = {} }) {
         </motion.div>
 
         <motion.div className="rs-context" {...form(STEP)}>
-          {!variant ? (
+          {normal ? (
+            <>Showing results for <b>“{query}”</b></>
+          ) : !variant ? (
             <>Showing results for <b>“{query}”</b> in {isNoon ? <NoonScope /> : 'BEAUTY10 items'}</>
           ) : isNoon ? (
             <>No BEAUTY10 items for <b>“{query}”</b> · showing all of noon</>
@@ -94,7 +97,7 @@ export default function Results({ nav, params = {} }) {
       </div>
 
       <SortFilterPill />
-      <div className="plp-nav"><BottomNav active="cart" cartCount={0} /></div>
+      <div className="plp-nav"><BottomNav active="cart" cartCount={0} onTab={(id) => id === 'home' && nav.push('search', { query: '', script: 'seiko watch', normal: true }, { transition: 'morph' })} /></div>
     </div>
   );
 }

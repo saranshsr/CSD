@@ -113,7 +113,7 @@ export default function PLP({ nav }) {
       </div>
 
       <SortFilterPill />
-      <div className="plp-nav"><BottomNav active="cart" cartCount={0} /></div>
+      <div className="plp-nav"><BottomNav active="cart" cartCount={0} onTab={(id) => id === 'home' && nav.push('search', { query: '', script: 'seiko watch', normal: true }, { transition: 'morph' })} /></div>
     </div>
   );
 }

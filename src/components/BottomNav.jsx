@@ -11,13 +11,14 @@ const ITEMS = [
   { id: 'cart', label: 'Cart', icon: 'cart' },
 ];
 
-export default function BottomNav({ active = 'home', cartCount = 0 }) {
+// onTab(id): Home opens a normal search in this prototype (search not started from a coupon)
+export default function BottomNav({ active = 'home', cartCount = 0, onTab }) {
   return (
     <nav className="bn">
       {ITEMS.map((it) => {
         const on = it.id === active;
         return (
-          <Pressable key={it.id} className={`bn-item${on ? ' is-on' : ''}`} aria-label={it.label} aria-current={on ? 'page' : undefined}>
+          <Pressable key={it.id} className={`bn-item${on ? ' is-on' : ''}`} aria-label={it.label} aria-current={on ? 'page' : undefined} onTap={onTab ? () => onTab(it.id) : undefined}>
             {on && <span className="bn-ind" aria-hidden />}
             <span className="bn-icon">
               <Icon name={on && it.id === 'home' ? 'home-active' : it.icon} size={28} color={on ? '#0f61ff' : '#666d85'} />
