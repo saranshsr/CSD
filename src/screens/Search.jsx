@@ -7,6 +7,7 @@ import CouponCard from '../components/CouponCard.jsx';
 import SuggestionRow, { useTap, TAP_SLOP } from '../components/SuggestionRow.jsx';
 import ScopeBar from '../components/ScopeBar.jsx';
 import ContextBand from '../components/ContextBand.jsx';
+import EligibleRow from '../components/EligibleRow.jsx';
 import { coupon, suggestionsFor, isBeautyQuery, popularEligible } from '../data.js';
 import { session } from '../session.js';
 import { spring, SPR, at, stagger, rise, rubber, velocityTracker, project as projectTo } from '../motion.js';
@@ -64,8 +65,9 @@ export default function Search({ nav, params = {} }) {
   const variant = normal ? null : (nav.variant || null);
   const [scopePick, setScopePickState] = useState(params.scope || session.scope);
   const setScopePick = (v) => { session.scope = v; setScopePickState(v); };
-  const scope = variant === 'v1' ? scopePick : variant === 'h2' ? 'eligible' : 'all';
-  const dir = scope === 'all' ? 1 : -1;
+  // v1 scope bar / row toggle both pick the scope (remembered for the visit); h2 is always eligible
+  const scope = (variant === 'v1' || variant === 'row') ? scopePick : variant === 'h2' ? 'eligible' : 'all';
+  const dir = variant === 'row' ? 0 : scope === 'all' ? 1 : -1; // the toggle has no direction: content just cross-dissolves
   const slide = useMemo(() => scopeSlide(reduce), [reduce]);
   const [band, setBandState] = useState(session.band);
   const setBand = (v) => { session.band = v; setBandState(v); };
@@ -366,6 +368,12 @@ export default function Search({ nav, params = {} }) {
           {variant === 'v1' && (
             <ScopeBar value={scopePick} onChange={setScopePick}
               options={[{ value: 'eligible', label: `${coupon.code} items` }, { value: 'all', label: 'All of noon' }]}
+              entrance={!reduce
+                ? { initial: 'hidden', animate: landed ? 'shown' : 'hidden', variants: { hidden: rise.hidden, shown: { ...rise.shown, transition: { ...SPR.rise, delay: at(0.02) } } } }
+                : {}} />
+          )}
+          {variant === 'row' && (
+            <EligibleRow code={coupon.code} on={scopePick === 'eligible'} onChange={(v) => setScopePick(v ? 'eligible' : 'all')}
               entrance={!reduce
                 ? { initial: 'hidden', animate: landed ? 'shown' : 'hidden', variants: { hidden: rise.hidden, shown: { ...rise.shown, transition: { ...SPR.rise, delay: at(0.02) } } } }
                 : {}} />

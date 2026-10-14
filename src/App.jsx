@@ -19,9 +19,10 @@ const SHEET_TO_PUSH = 0.1;
 // Capture/deep-link mode for fidelity checks: ?s=plp | ?s=search&q=se | ?s=results&q=serum  (+ &bare=1 = unscaled 375×812, no device chrome)
 const QS = new URLSearchParams(location.search);
 const BARE = QS.get('bare') === '1';
-// One prototype, both directions: V1 scope bar · H2 context band (?v= deep-links one; ?v=n5 = the old nudge)
-const VARIANTS = [{ id: 'v1', label: 'V1 · Scope bar' }, { id: 'h2', label: 'H2 · Context band' }];
-const VARIANT0 = QS.get('v') === 'n5' ? null : (['v1', 'h2'].includes(QS.get('v')) ? QS.get('v') : 'v1');
+// One prototype, both directions: H2 context band · Eligible row toggle (?v= deep-links one; ?v=n5 = the old
+// nudge; ?v=v1 = the retired scope-bar pill, kept only for old links)
+const VARIANTS = [{ id: 'h2', label: 'H2 · Context band' }, { id: 'row', label: 'Eligible row' }];
+const VARIANT0 = QS.get('v') === 'n5' ? null : (['v1', 'h2', 'row'].includes(QS.get('v')) ? QS.get('v') : 'h2');
 function initialRoutes() {
   const s = QS.get('s'); const q = QS.get('q') || '';
   if (!s || s === 'cart') return [route('cart', {}, 'none')];
