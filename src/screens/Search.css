@@ -50,5 +50,7 @@
 .srch-h2{flex:none;position:relative;background:#fff}
 .srch-h2__green{position:absolute;top:0;left:0;right:0;background:#0f8857;will-change:transform,opacity;pointer-events:none}
 .srch-h2 > .sb,.srch-h2__slot,.srch-h2__sheet{position:relative}
-.srch-h2__slot{overflow:hidden;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none} /* drag the sheet up over the band */
+.srch-h2__sheet{z-index:2} /* the sheet covers the band copy as it rises */
+.srch-h2 > .sb{z-index:3}
+.srch-h2__slot{overflow:visible;z-index:1;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none} /* drag the sheet up over the band */
 .srch-h2__sheet{background:#fff}

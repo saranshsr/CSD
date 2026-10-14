@@ -89,7 +89,9 @@ export default function Search({ nav, params = {} }) {
   // the sheet's rounded corners always sit on green (never on white); only in the last quarter, when
   // the sheet has nearly arrived, does that edge wipe up behind the status bar and take the green
   // with it. No fade, so no mint, no sliver. Open is the same path forwards.
-  const travel = useTransform(() => -(1 - Math.min(1, Math.max(0, bandP.get()))) * bandHv.get());
+  // the copy never gets sliced by an invisible edge: it stays put (a 10px parallax drift) and the
+  // white sheet — a real, opaque surface above it — slides over and covers it
+  const travel = useTransform(() => -(1 - Math.min(1, Math.max(0, bandP.get()))) * 10);
   const LIP = 24, SB = 62, WIPE = 0.5; // the wipe overlaps the sheet's rise instead of waiting for its tail
   const greenH = useTransform(() => {
     const t = Math.min(1.2, Math.max(0, bandP.get())), H = bandHv.get();
@@ -187,7 +189,7 @@ export default function Search({ nav, params = {} }) {
   useEffect(() => {
     if (variant !== 'h2' || !landed || !session.band || bDrag.current) return;
     if (reduce) { moveBand(1); return; }
-    moveBand(1, 0, { ...BAND_OPEN, delay: at(0.24) }); // after the screen has fully covered the PLP (no washed-out green)
+    moveBand(1, 0, { ...BAND_OPEN, delay: at(0.4) }); // once the screen is fully opaque over the PLP (no washed-out green)
   }, [landed]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!landed) return undefined;
