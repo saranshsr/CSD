@@ -84,24 +84,24 @@ export default function Search({ nav, params = {} }) {
   const bandEl = useRef(null);
   useLayoutEffect(() => { if (bandEl.current) bandHv.set(bandEl.current.offsetHeight || 69); }, []); // eslint-disable-line react-hooks/exhaustive-deps
   const slotH = useTransform(() => Math.max(0, bandP.get()) * bandHv.get());
-  // The surface colour is not on the spring: a critically damped close spends ~250ms in its last few
-  // px, which would hold a muddy mint. Instead green ⇄ white is a quick 160ms fade fired when the band
-  // crosses 10% open — going in it's green as the slot starts, going out it's white as the slot shuts.
-  const greenK = useMotionValue(0);
-  const h2Bg = useTransform(greenK, [0, 1], ['#ffffff', GREEN]);
+  // Close = the band SHIFTS UP AND VANISHES. The copy travels up by the band's height as the slot
+  // collapses, and the green panel slides fully off the top — a wipe, not a fade, so no mint ever
+  // lingers; its edge only softens in the last quarter, when it's already behind the status bar.
+  // Open is the same path run forwards: the panel slides down into place and the copy follows.
+  const travel = useTransform(() => -(1 - Math.min(1, Math.max(0, bandP.get()))) * bandHv.get());
+  const greenH = useTransform(bandHv, (h) => 62 + h + 24); // status bar + band + the sheet's rounded lip
+  // fully off the top by 15% open, so the spring's slow tail never leaves a green sliver behind
+  const greenY = useTransform(() => -Math.min(1, Math.max(0, (1 - bandP.get()) / 0.85)) * greenH.get());
+  const greenO = useTransform(bandP, [0.1, 0.18], [0, 1]);
   const sheetR = useTransform(bandP, [0, 1], [0, 20]);
   const sheetPad = useTransform(bandP, [0, 1], [0, 12]);
-  const copyO = useTransform(bandP, [0.3, 0.9], [0, 1]);
-  const copyY = useTransform(bandP, [0, 1], [-8, 0]);
-  const copyBlur = useTransform(bandP, [0.3, 0.9], ['blur(3px)', 'blur(0px)']);
+  const copyO = useTransform(bandP, [0.45, 0.9], [0, 1]);
   const [tone, setTone] = useState('dark');
-  // ink flips with the surface
-  const greenOn = useRef(false);
+  // ink flips as the green's edge sweeps past the status bar
+  const lightInk = useRef(false);
   useMotionValueEvent(bandP, 'change', (v) => {
-    const on = v > 0.1;
-    if (on === greenOn.current) return;
-    greenOn.current = on; setTone(on ? 'light' : 'dark');
-    animate(greenK, on ? 1 : 0, { duration: reduce ? 0.2 : 0.16, ease: 'easeOut' });
+    const on = v > 0.5; // as the panel's edge reaches the status bar's bottom (its 0.28s ink fade finishes as white shows)
+    if (on !== lightInk.current) { lightInk.current = on; setTone(on ? 'light' : 'dark'); }
   });
   const bandAnim = useRef(null);
   const moveBand = (to, velocity = 0, cfg) => {
@@ -340,11 +340,13 @@ export default function Search({ nav, params = {} }) {
     <div className="srch" ref={rootRef}>
       {variant === 'h2' ? (
         // H2: green band over the search sheet. ✕, a drag or a flick slides the sheet up over the band (bandP).
-        <motion.div className="srch-h2" style={{ backgroundColor: h2Bg }}>
+        <div className="srch-h2">
+          <motion.div className="srch-h2__green" aria-hidden="true"
+            style={{ y: greenY, opacity: greenO, height: greenH }} />
           <StatusBar tone={tone} />
           <motion.div className="srch-h2__slot" style={{ height: slotH }}
             onPointerDown={onBandDown} onPointerMove={onBandMove} onPointerUp={onBandUp} onPointerCancel={onBandUp}>
-            <motion.div ref={bandEl} style={{ opacity: copyO, y: copyY, filter: copyBlur }}>
+            <motion.div ref={bandEl} style={{ opacity: copyO, y: travel }}>
               <ContextBand code={coupon.code} value="Extra 10% off at checkout" onDismiss={dismissBand} pop={!reduce}
                 variants={{ hidden: {}, shown: {} }} animate={landed ? 'shown' : 'hidden'} />
             </motion.div>
@@ -356,7 +358,7 @@ export default function Search({ nav, params = {} }) {
                 onTap={() => { if (!kbShownRef.current) showKb(); }} onBack={goBack} />
             </div>
           </motion.div>
-        </motion.div>
+        </div>
       ) : (
         <>
           <StatusBar tone="dark" />

@@ -47,6 +47,8 @@
   font-size:12px;line-height:18px;font-weight:500;color:#2959eb;white-space:pre}
 
 /* ---- H2 context band ------------------------------------------------------------------------ */
-.srch-h2{flex:none}
+.srch-h2{flex:none;position:relative;background:#fff}
+.srch-h2__green{position:absolute;top:0;left:0;right:0;background:#0f8857;will-change:transform,opacity;pointer-events:none}
+.srch-h2 > .sb,.srch-h2__slot,.srch-h2__sheet{position:relative}
 .srch-h2__slot{overflow:hidden;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none} /* drag the sheet up over the band */
 .srch-h2__sheet{background:#fff}
