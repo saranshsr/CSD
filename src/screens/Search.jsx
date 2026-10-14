@@ -80,22 +80,32 @@ export default function Search({ nav, params = {} }) {
   const bandEl = useRef(null);
   useLayoutEffect(() => { if (bandEl.current) bandHv.set(bandEl.current.offsetHeight || 69); }, []); // eslint-disable-line react-hooks/exhaustive-deps
   const slotH = useTransform(() => Math.max(0, bandP.get()) * bandHv.get());
-  // green the moment the band starts to open; on dismiss it holds green until the band is nearly covered (no muddy mint)
-  const h2Bg = useTransform(bandP, [0, 0.12], ['#ffffff', GREEN]);
+  // The surface colour is not on the spring: a critically damped close spends ~250ms in its last few
+  // px, which would hold a muddy mint. Instead green ⇄ white is a quick 160ms fade fired when the band
+  // crosses 10% open — going in it's green as the slot starts, going out it's white as the slot shuts.
+  const greenK = useMotionValue(0);
+  const h2Bg = useTransform(greenK, [0, 1], ['#ffffff', GREEN]);
   const sheetR = useTransform(bandP, [0, 1], [0, 20]);
   const sheetPad = useTransform(bandP, [0, 1], [0, 12]);
   const copyO = useTransform(bandP, [0.3, 0.9], [0, 1]);
   const copyY = useTransform(bandP, [0, 1], [-8, 0]);
   const copyBlur = useTransform(bandP, [0.3, 0.9], ['blur(3px)', 'blur(0px)']);
   const [tone, setTone] = useState('dark');
-  // ink flips as the surface turns white
-  useMotionValueEvent(bandP, 'change', (v) => setTone(v > 0.06 ? 'light' : 'dark'));
+  // ink flips with the surface
+  const greenOn = useRef(false);
+  useMotionValueEvent(bandP, 'change', (v) => {
+    const on = v > 0.1;
+    if (on === greenOn.current) return;
+    greenOn.current = on; setTone(on ? 'light' : 'dark');
+    animate(greenK, on ? 1 : 0, { duration: reduce ? 0.2 : 0.16, ease: 'easeOut' });
+  });
   const bandAnim = useRef(null);
   const moveBand = (to, velocity = 0, cfg) => {
     bandAnim.current?.stop();
     bandAnim.current = animate(bandP, to, reduce ? fade(0.2) : { ...(cfg || (to ? SPR.dock : SPR.recede)), velocity });
   };
-  const dismissBand = () => { setBand(false); moveBand(0); };
+  // ✕ mirrors the arrival: the same layout spring run backwards, so the screen is seen rising back up
+  const dismissBand = () => { setBand(false); moveBand(0, 0, SPR.layout); };
   // drag the sheet up over the band (1:1), rubber-band when pulled down; release projects momentum
   const bDrag = useRef(null);
   const bVt = useRef(velocityTracker());
