@@ -45,7 +45,7 @@ const project = (v) => (v / 1000) * DECEL / (1 - DECEL); // distance a release a
 const ROW_STAGGER = 0.025, ROWS_BASE_DELAY = 0.04; // rows land first, right under the bar; the nudge then inserts above them
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 const fade = (d = 0.15) => ({ duration: d, ease: 'linear' });
-const BAND_OPEN = ios(1.0, 1), BAND_CLOSE = ios(0.85, 1);
+const BAND_CLOSE = ios(0.85, 1);
 // V1 scope change: content travels with the thumb. Moving to "All of noon" (right) the new list arrives
 // from the right and the old one leaves to the left, cross-dissolving on the way (hint in the direction
 // of the gesture). `d` = +1 toward All of noon, -1 back toward the coupon.
@@ -116,8 +116,7 @@ export default function Search({ nav, params = {} }) {
     bandAnim.current = animate(bandP, to, reduce ? fade(0.2) : { ...(cfg || (to ? SPR.dock : SPR.recede)), velocity });
   };
   // ✕ mirrors the arrival: the same layout spring run backwards, so the screen is seen rising back up
-  // the band is a big surface moving a whole screen's layout: it gets its own unhurried, critically
-  // damped springs (open 1.0s, close 0.85s) so the push-down and the green wipe read as one calm move
+  // closing is unhurried and critically damped (0.85s) so the rise and the green wipe read as one move
   const dismissBand = () => { setBand(false); moveBand(0, 0, BAND_CLOSE); };
   // drag the sheet up over the band (1:1), rubber-band when pulled down; release projects momentum
   const bDrag = useRef(null);
@@ -186,11 +185,14 @@ export default function Search({ nav, params = {} }) {
   }, [moveKb]);
   // Content forms once the bar has landed; after that first entrance, changes just fade.
   const landed = useBarLanded();
+  // The band opens WITH the hop, on the bar's own flight spring (SPR.move): the flying bar chases
+  // its live destination, which the opening band pushes down, so bar and band land in the same frame
+  // — one landing, not "bar lands, then everything shifts again".
   useEffect(() => {
-    if (variant !== 'h2' || !landed || !session.band || bDrag.current) return;
-    if (reduce) { moveBand(1); return; }
-    moveBand(1, 0, { ...BAND_OPEN, delay: at(0.4) }); // once the screen is fully opaque over the PLP (no washed-out green)
-  }, [landed]); // eslint-disable-line react-hooks/exhaustive-deps
+    if (variant !== 'h2' || !session.band) return undefined;
+    const id = requestAnimationFrame(() => { if (!bDrag.current) moveBand(1, 0, reduce ? undefined : SPR.move); });
+    return () => cancelAnimationFrame(id);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!landed) return undefined;
     const t = setTimeout(() => { mounted.current = true; }, 0);
@@ -359,7 +361,7 @@ export default function Search({ nav, params = {} }) {
           <motion.div className="srch-h2__slot" style={{ height: slotH }}
             onPointerDown={onBandDown} onPointerMove={onBandMove} onPointerUp={onBandUp} onPointerCancel={onBandUp}>
             <motion.div ref={bandEl} style={{ opacity: copyO, y: travel }}>
-              <ContextBand code={coupon.code} value="Extra 10% off at checkout" onDismiss={dismissBand} pop={!reduce}
+              <ContextBand code={coupon.code} value="Extra 10% off at checkout" onDismiss={dismissBand} pop={false}
                 variants={{ hidden: {}, shown: {} }} animate={landed ? 'shown' : 'hidden'} />
             </motion.div>
           </motion.div>
