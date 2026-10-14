@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { motion, AnimatePresence, animate, useMotionValue, useReducedMotion } from 'motion/react';
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { motion, AnimatePresence, animate, useMotionValue, useMotionValueEvent, useTransform, useReducedMotion } from 'motion/react';
 import StatusBar from '../components/StatusBar.jsx';
 import SearchBar from '../components/SearchBar.jsx';
 import Keyboard, { KEYBOARD_HEIGHT as KBH } from '../components/Keyboard.jsx';
@@ -9,7 +9,7 @@ import ScopeBar from '../components/ScopeBar.jsx';
 import ContextBand from '../components/ContextBand.jsx';
 import { coupon, suggestionsFor, isBeautyQuery, popularEligible } from '../data.js';
 import { session } from '../session.js';
-import { spring, SPR, at, stagger, rise } from '../motion.js';
+import { spring, SPR, at, stagger, rise, rubber, velocityTracker, project as projectTo } from '../motion.js';
 import { useBarLanded } from '../components/NavStack.jsx';
 import './Search.css';
 
@@ -45,6 +45,15 @@ const COUPON_DELAY = 0.4; // nudge reveals 400ms after the query becomes beauty-
 const ROW_STAGGER = 0.025, ROWS_BASE_DELAY = 0.04; // rows land first, right under the bar; the nudge then inserts above them
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 const fade = (d = 0.15) => ({ duration: d, ease: 'linear' });
+// V1 scope change: content travels with the thumb. Moving to "All of noon" (right) the new list arrives
+// from the right and the old one leaves to the left, cross-dissolving on the way (hint in the direction
+// of the gesture). `d` = +1 toward All of noon, -1 back toward the coupon.
+const SLIDE = 18;
+const scopeSlide = (reduce) => ({
+  enter: (d) => (reduce ? { opacity: 0 } : { opacity: 0, x: SLIDE * d }),
+  center: { opacity: 1, x: 0, transition: { x: SPR.move, opacity: fade(0.16) } },
+  exit: (d) => (reduce ? { opacity: 0, transition: fade(0.1) } : { opacity: 0, x: -SLIDE * d, transition: { x: SPR.move, opacity: fade(0.1) } }),
+});
 
 export default function Search({ nav, params = {} }) {
   const reduce = !!useReducedMotion();
@@ -54,9 +63,66 @@ export default function Search({ nav, params = {} }) {
   const [scopePick, setScopePickState] = useState(params.scope || session.scope);
   const setScopePick = (v) => { session.scope = v; setScopePickState(v); };
   const scope = variant === 'v1' ? scopePick : variant === 'h2' ? 'eligible' : 'all';
+  const dir = scope === 'all' ? 1 : -1;
+  const slide = useMemo(() => scopeSlide(reduce), [reduce]);
   const [band, setBandState] = useState(session.band);
   const setBand = (v) => { session.band = v; setBandState(v); };
   const GREEN = '#0f8857';
+  // ---- H2 band: ONE progress value (1 = band shown, 0 = gone) drives the whole header ------------
+  // The white sheet slides up over the band: the slot height, the sheet's corners and top inset, the
+  // green → white surface, the band copy (parallax under the sheet) and the status-bar ink all read
+  // from `bandP`, so ✕, a drag and a flick share one curve and can be interrupted at any frame.
+  const bandP = useMotionValue(session.band ? 1 : 0);
+  const bandHv = useMotionValue(69);           // measured band height (px)
+  const bandEl = useRef(null);
+  useLayoutEffect(() => { if (bandEl.current) bandHv.set(bandEl.current.offsetHeight || 69); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  const slotH = useTransform(() => Math.max(0, bandP.get()) * bandHv.get());
+  // stays green until the band is nearly covered, then whitens fast (no long muddy mint)
+  const h2Bg = useTransform(bandP, [0, 0.32], ['#ffffff', GREEN]);
+  const sheetR = useTransform(bandP, [0, 1], [0, 20]);
+  const sheetPad = useTransform(bandP, [0, 1], [0, 12]);
+  const copyO = useTransform(bandP, [0.3, 0.9], [0, 1]);
+  const copyY = useTransform(bandP, [0, 1], [-8, 0]);
+  const copyBlur = useTransform(bandP, [0.3, 0.9], ['blur(3px)', 'blur(0px)']);
+  const [tone, setTone] = useState(session.band ? 'light' : 'dark');
+  // ink flips as the surface turns white
+  useMotionValueEvent(bandP, 'change', (v) => setTone(v > 0.18 ? 'light' : 'dark'));
+  const bandAnim = useRef(null);
+  const moveBand = (to, velocity = 0, cfg) => {
+    bandAnim.current?.stop();
+    bandAnim.current = animate(bandP, to, reduce ? fade(0.2) : { ...(cfg || (to ? SPR.dock : SPR.recede)), velocity });
+  };
+  const dismissBand = () => { setBand(false); moveBand(0); };
+  // drag the sheet up over the band (1:1), rubber-band when pulled down; release projects momentum
+  const bDrag = useRef(null);
+  const bVt = useRef(velocityTracker());
+  const onBandDown = (e) => {
+    if (!band || e.button > 0) return;
+    const r = rootRef.current.getBoundingClientRect();
+    bDrag.current = { id: e.pointerId, y0: e.clientY, s: r.height / SCREEN_H || 1, p0: bandP.get(), active: false };
+  };
+  const onBandMove = (e) => {
+    const d = bDrag.current; if (!d || d.id !== e.pointerId) return;
+    const dy = (e.clientY - d.y0) / d.s, H = bandHv.get();
+    if (!d.active) {
+      if (Math.abs(dy) < TAP_SLOP) return;
+      d.active = true; bandAnim.current?.stop(); d.p0 = bandP.get(); d.y0 = e.clientY; bVt.current.reset();
+      try { e.currentTarget.setPointerCapture(e.pointerId); } catch { /* noop */ }
+      return;
+    }
+    let px = d.p0 * H + dy;
+    if (px > H) px = H + rubber(px - H, H); else if (px < 0) px = 0;
+    bandP.set(px / H); bVt.current.add(px, e.timeStamp);
+  };
+  const onBandUp = (e) => {
+    const d = bDrag.current; if (!d || d.id !== e.pointerId) return;
+    bDrag.current = null;
+    if (!d.active) return;
+    const H = bandHv.get(), v = bVt.current.get(e.timeStamp);
+    const gone = projectTo(bandP.get() * H, v) < H / 2;
+    if (gone) setBand(false);
+    moveBand(gone ? 0 : 1, v / H, SPR.dock); // momentum → the dock settle, velocity handed over
+  };
   // arriving from Results with the old query: it's "selected"; the first keystroke replaces it
   const [selected, setSelectedState] = useState(!!params.replaceOnFirstKey && !!params.query);
   const selRef = useRef(selected);
@@ -250,19 +316,18 @@ export default function Search({ nav, params = {} }) {
   return (
     <div className="srch" ref={rootRef}>
       {variant === 'h2' ? (
-        // H2: green band over the search sheet. ✕ collapses the band on `recede` while the sheet's corners
-        // flatten and the green gives way to white on the same spring — one gesture, one curve.
-        <motion.div className="srch-h2" initial={false} animate={{ backgroundColor: band ? GREEN : '#ffffff' }} transition={band ? SPR.layout : SPR.recede}>
-          <StatusBar tone={band ? 'light' : 'dark'} />
-          <motion.div className="srch-h2__slot" initial={false} animate={{ height: band ? 'auto' : 0, opacity: band ? 1 : 0 }}
-            transition={band ? SPR.layout : { ...SPR.recede, opacity: fade(0.12) }}>
-            <ContextBand code={coupon.code} value="Extra 10% off at checkout" onDismiss={() => setBand(false)}
-              variants={reduce ? { hidden: { opacity: 0 }, shown: { opacity: 1, transition: fade() } } : { hidden: rise.hidden, shown: { ...rise.shown, transition: { ...SPR.rise, delay: at(0.02) } } }}
-              animate={landed ? 'shown' : 'hidden'} />
+        // H2: green band over the search sheet. ✕, a drag or a flick slides the sheet up over the band (bandP).
+        <motion.div className="srch-h2" style={{ backgroundColor: h2Bg }}>
+          <StatusBar tone={tone} />
+          <motion.div className="srch-h2__slot" style={{ height: slotH }}
+            onPointerDown={onBandDown} onPointerMove={onBandMove} onPointerUp={onBandUp} onPointerCancel={onBandUp}>
+            <motion.div ref={bandEl} style={{ opacity: copyO, y: copyY, filter: copyBlur }}>
+              <ContextBand code={coupon.code} value="Extra 10% off at checkout" onDismiss={dismissBand} pop={!reduce}
+                variants={reduce ? { hidden: { opacity: 0 }, shown: { opacity: 1, transition: fade() } } : { hidden: rise.hidden, shown: { ...rise.shown, transition: { ...SPR.rise, delay: at(0.02) } } }}
+                animate={landed ? 'shown' : 'hidden'} />
+            </motion.div>
           </motion.div>
-          <motion.div className="srch-h2__sheet" initial={false}
-            animate={{ borderTopLeftRadius: band ? 20 : 0, borderTopRightRadius: band ? 20 : 0, paddingTop: band ? 12 : 0 }}
-            transition={band ? SPR.layout : SPR.recede}>
+          <motion.div className="srch-h2__sheet" style={{ borderTopLeftRadius: sheetR, borderTopRightRadius: sheetR, paddingTop: sheetPad }}>
             <div className="srch__header">
               <SearchBar layoutId="search-bar" value={query} placeholder="Search" state="typing" trailing="camera"
                 activity={activity} focused={kbShown} selected={selected}
@@ -316,14 +381,14 @@ export default function Search({ nav, params = {} }) {
             {empty ? (
               <motion.div key="empty" className="srch-empty"
                 exit={{ opacity: 0, transition: fade(0.08) }}>
-                <EmptyState entrance={entrance} onPick={fillWith} scoped={scope === 'eligible' && !!variant} />
+                <EmptyState entrance={entrance} onPick={fillWith} scoped={scope === 'eligible' && !!variant} dir={dir} slide={slide} />
               </motion.div>
             ) : (
               <motion.div key="list" className="srch__list"
                 initial={{ opacity: 1 }} exit={{ opacity: 0, transition: fade(0.08) }}>
                 {/* scope change (V1): the whole list cross-dissolves like UISegmentedControl content; typing keeps per-row motion */}
-                <AnimatePresence mode="popLayout" initial={false}>
-                <motion.div key={`scope-${scope}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, transition: fade(0.1) }} transition={fade(0.14)}>
+                <AnimatePresence mode="popLayout" initial={false} custom={dir}>
+                <motion.div key={`scope-${scope}`} custom={dir} variants={slide} initial="enter" animate="center" exit="exit">
                 <AnimatePresence mode="popLayout" initial={true}>
                   {rows.map((r, i) => {
                     const delay = first ? at(ROWS_BASE_DELAY + i * ROW_STAGGER) : 0;
@@ -376,7 +441,7 @@ function quickType(query, scope = 'all') {
   return [word ? { text: word, quoted: true, value: query + ' ' } : null, comps[0] || null, comps[1] || null];
 }
 
-function EmptyState({ entrance, onPick, scoped }) {
+function EmptyState({ entrance, onPick, scoped, dir, slide }) {
   return (
     <>
       <motion.section className="se-sec se-recent" {...entrance(0)}>
@@ -387,8 +452,8 @@ function EmptyState({ entrance, onPick, scoped }) {
       </motion.section>
 
       <motion.section className="se-sec se-trending" {...entrance(1)}>
-        <AnimatePresence mode="popLayout" initial={false}>
-          <motion.div key={scoped ? 'popular' : 'trending'} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, transition: fade(0.1) }} transition={fade(0.14)}>
+        <AnimatePresence mode="popLayout" initial={false} custom={dir}>
+          <motion.div key={scoped ? 'popular' : 'trending'} custom={dir} variants={slide} initial="enter" animate="center" exit="exit">
             <h3 className="se-title">{scoped ? `Popular in ${coupon.code}` : 'Trending searches'}</h3>
             <div className="se-hs se-chips" data-hscroll>
               {(scoped ? popularEligible : TRENDING).map((row, i) => (

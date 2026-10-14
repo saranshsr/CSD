@@ -6,7 +6,7 @@
 .srch__body::-webkit-scrollbar{display:none}
 .srch__coupon-slot{overflow:visible} /* never clip the card: it stays transparent until the slot is mostly open */
 .srch__coupon{padding:2px 16px 6px} /* Figma n5 coupon wrapper: 2 / 6 */
-.srch__content{position:relative}
+.srch__content{position:relative;overflow-x:clip} /* V1 scope slide never scrolls sideways */
 .srch__list{position:relative}
 .srch__kb{position:absolute;left:0;right:0;bottom:0;z-index:5}
 
@@ -48,5 +48,5 @@
 
 /* ---- H2 context band ------------------------------------------------------------------------ */
 .srch-h2{flex:none}
-.srch-h2__slot{overflow:hidden}
+.srch-h2__slot{overflow:hidden;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none} /* drag the sheet up over the band */
 .srch-h2__sheet{background:#fff}
