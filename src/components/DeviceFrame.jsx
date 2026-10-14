@@ -45,7 +45,7 @@ export default function DeviceFrame({ children, onReset, variants, variant, onVa
               <button key={v.id} type="button" role="tab" aria-selected={v.id === variant}
                 className={`df-switch__opt${v.id === variant ? ' is-on' : ''}`} onClick={() => onVariant(v.id)}>
                 {v.id === variant && <motion.span className="df-switch__thumb" layoutId="df-switch-thumb" transition={SPR.move} />}
-                <span className="df-switch__label"><span className="df-switch__full">{v.label}</span><span className="df-switch__short">{v.id.toUpperCase()}</span></span>
+                <span className="df-switch__label"><span className="df-switch__full">{v.label}</span><span className="df-switch__short">{v.short || v.label}</span></span>
               </button>
             ))}
           </div>

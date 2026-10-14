@@ -21,7 +21,7 @@ const QS = new URLSearchParams(location.search);
 const BARE = QS.get('bare') === '1';
 // One prototype, both directions: H2 context band · Eligible row toggle (?v= deep-links one; ?v=n5 = the old
 // nudge; ?v=v1 = the retired scope-bar pill, kept only for old links)
-const VARIANTS = [{ id: 'h2', label: 'H2 · Context band' }, { id: 'row', label: 'Eligible row' }];
+const VARIANTS = [{ id: 'h2', label: 'Context band', short: 'Band' }, { id: 'row', label: 'Eligible row', short: 'Row' }];
 const VARIANT0 = QS.get('v') === 'n5' ? null : (['v1', 'h2', 'row'].includes(QS.get('v')) ? QS.get('v') : 'h2');
 function initialRoutes() {
   const s = QS.get('s'); const q = QS.get('q') || '';
