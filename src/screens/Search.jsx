@@ -84,22 +84,27 @@ export default function Search({ nav, params = {} }) {
   useLayoutEffect(() => { if (bandEl.current) bandHv.set(bandEl.current.offsetHeight || 69); }, []); // eslint-disable-line react-hooks/exhaustive-deps
   const slotH = useTransform(() => Math.max(0, bandP.get()) * bandHv.get());
   // Close = the band SHIFTS UP AND VANISHES. The copy travels up by the band's height as the slot
-  // collapses, and the green panel slides fully off the top — a wipe, not a fade, so no mint ever
-  // lingers; its edge only softens in the last quarter, when it's already behind the status bar.
-  // Open is the same path run forwards: the panel slides down into place and the copy follows.
+  // collapses. The green panel's bottom edge is locked 24px under the rising sheet the whole way, so
+  // the sheet's rounded corners always sit on green (never on white); only in the last quarter, when
+  // the sheet has nearly arrived, does that edge wipe up behind the status bar and take the green
+  // with it. No fade, so no mint, no sliver. Open is the same path forwards.
   const travel = useTransform(() => -(1 - Math.min(1, Math.max(0, bandP.get()))) * bandHv.get());
-  const greenH = useTransform(bandHv, (h) => 62 + h + 24); // status bar + band + the sheet's rounded lip
-  // fully off the top by 15% open, so the spring's slow tail never leaves a green sliver behind
-  const greenY = useTransform(() => -Math.min(1, Math.max(0, (1 - bandP.get()) / 0.85)) * greenH.get());
-  const greenO = useTransform(bandP, [0.1, 0.18], [0, 1]);
-  const sheetR = useTransform(bandP, [0, 1], [0, 20]);
+  const LIP = 24, SB = 62, WIPE = 0.5; // the wipe overlaps the sheet's rise instead of waiting for its tail
+  const greenH = useTransform(() => {
+    const t = Math.min(1.2, Math.max(0, bandP.get())), H = bandHv.get();
+    if (t >= WIPE) return SB + t * H + LIP;
+    const END = 0.1; // done before the spring's last crawl: no thin green strip left at the top
+    return Math.max(0, (t - END) / (WIPE - END)) * (SB + WIPE * H + LIP);
+  });
+  // corners flatten by the moment the wiping edge would meet them (p ≈ 0.36), so they never sit on white
+  const sheetR = useTransform(bandP, [0.36, 1], [0, 20]);
   const sheetPad = useTransform(bandP, [0, 1], [0, 12]);
   const copyO = useTransform(bandP, [0.45, 0.9], [0, 1]);
   const [tone, setTone] = useState('dark');
   // ink flips as the green's edge sweeps past the status bar
   const lightInk = useRef(false);
   useMotionValueEvent(bandP, 'change', (v) => {
-    const on = v > 0.5; // as the panel's edge reaches the status bar's bottom (its 0.28s ink fade finishes as white shows)
+    const on = v > 0.24; // ≈ the green's edge crossing the status bar; its 0.28s ink fade lands as the colour changes behind it
     if (on !== lightInk.current) { lightInk.current = on; setTone(on ? 'light' : 'dark'); }
   });
   const bandAnim = useRef(null);
@@ -179,7 +184,7 @@ export default function Search({ nav, params = {} }) {
   useEffect(() => {
     if (variant !== 'h2' || !landed || !session.band || bDrag.current) return;
     if (reduce) { moveBand(1); return; }
-    moveBand(1, 0, { ...SPR.layout, delay: at(0.06) });
+    moveBand(1, 0, { ...SPR.layout, delay: at(0.24) }); // after the screen has fully covered the PLP (no washed-out green)
   }, [landed]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!landed) return undefined;
@@ -344,7 +349,7 @@ export default function Search({ nav, params = {} }) {
         // H2: green band over the search sheet. ✕, a drag or a flick slides the sheet up over the band (bandP).
         <div className="srch-h2">
           <motion.div className="srch-h2__green" aria-hidden="true"
-            style={{ y: greenY, opacity: greenO, height: greenH }} />
+            style={{ height: greenH }} />
           <StatusBar tone={tone} />
           <motion.div className="srch-h2__slot" style={{ height: slotH }}
             onPointerDown={onBandDown} onPointerMove={onBandMove} onPointerUp={onBandUp} onPointerCancel={onBandUp}>
