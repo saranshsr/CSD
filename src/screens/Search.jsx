@@ -72,21 +72,24 @@ export default function Search({ nav, params = {} }) {
   // The white sheet slides up over the band: the slot height, the sheet's corners and top inset, the
   // green → white surface, the band copy (parallax under the sheet) and the status-bar ink all read
   // from `bandP`, so ✕, a drag and a flick share one curve and can be interrupted at any frame.
-  const bandP = useMotionValue(session.band ? 1 : 0);
+  // On arrival the band OPENS as a layout shift: the screen lands as plain search (p = 0), then the
+  // slot grows on SPR.layout and pushes the bar and everything under it down while the green floods
+  // in and the copy forms (see the effect after useBarLanded). Same curve as ✕, run forwards.
+  const bandP = useMotionValue(0);
   const bandHv = useMotionValue(69);           // measured band height (px)
   const bandEl = useRef(null);
   useLayoutEffect(() => { if (bandEl.current) bandHv.set(bandEl.current.offsetHeight || 69); }, []); // eslint-disable-line react-hooks/exhaustive-deps
   const slotH = useTransform(() => Math.max(0, bandP.get()) * bandHv.get());
-  // stays green until the band is nearly covered, then whitens fast (no long muddy mint)
-  const h2Bg = useTransform(bandP, [0, 0.32], ['#ffffff', GREEN]);
+  // green the moment the band starts to open; on dismiss it holds green until the band is nearly covered (no muddy mint)
+  const h2Bg = useTransform(bandP, [0, 0.12], ['#ffffff', GREEN]);
   const sheetR = useTransform(bandP, [0, 1], [0, 20]);
   const sheetPad = useTransform(bandP, [0, 1], [0, 12]);
   const copyO = useTransform(bandP, [0.3, 0.9], [0, 1]);
   const copyY = useTransform(bandP, [0, 1], [-8, 0]);
   const copyBlur = useTransform(bandP, [0.3, 0.9], ['blur(3px)', 'blur(0px)']);
-  const [tone, setTone] = useState(session.band ? 'light' : 'dark');
+  const [tone, setTone] = useState('dark');
   // ink flips as the surface turns white
-  useMotionValueEvent(bandP, 'change', (v) => setTone(v > 0.18 ? 'light' : 'dark'));
+  useMotionValueEvent(bandP, 'change', (v) => setTone(v > 0.06 ? 'light' : 'dark'));
   const bandAnim = useRef(null);
   const moveBand = (to, velocity = 0, cfg) => {
     bandAnim.current?.stop();
@@ -160,6 +163,11 @@ export default function Search({ nav, params = {} }) {
   }, [moveKb]);
   // Content forms once the bar has landed; after that first entrance, changes just fade.
   const landed = useBarLanded();
+  useEffect(() => {
+    if (variant !== 'h2' || !landed || !session.band || bDrag.current) return;
+    if (reduce) { moveBand(1); return; }
+    moveBand(1, 0, { ...SPR.layout, delay: at(0.06) });
+  }, [landed]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!landed) return undefined;
     const t = setTimeout(() => { mounted.current = true; }, 0);
@@ -307,8 +315,9 @@ export default function Search({ nav, params = {} }) {
   };
 
   const first = !mounted.current;
-  // first entrance: LSN `rise` (9px up, sharpening), staggered behind the coupon card
-  const entrance = (i) => (first && !reduce
+  // entrance: LSN `rise` (9px up, sharpening), staggered. The props never change after mount (only
+  // `animate` flips to 'shown'), so typing or any re-render mid-rise can't cut it off half-blurred.
+  const entrance = (i) => (!reduce
     ? { initial: 'hidden', animate: landed ? 'shown' : 'hidden',
         variants: { hidden: rise.hidden, shown: { ...rise.shown, transition: { ...SPR.rise, ...stagger(i, 0.04, ROWS_BASE_DELAY) } } } }
     : { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: fade() });
@@ -323,8 +332,7 @@ export default function Search({ nav, params = {} }) {
             onPointerDown={onBandDown} onPointerMove={onBandMove} onPointerUp={onBandUp} onPointerCancel={onBandUp}>
             <motion.div ref={bandEl} style={{ opacity: copyO, y: copyY, filter: copyBlur }}>
               <ContextBand code={coupon.code} value="Extra 10% off at checkout" onDismiss={dismissBand} pop={!reduce}
-                variants={reduce ? { hidden: { opacity: 0 }, shown: { opacity: 1, transition: fade() } } : { hidden: rise.hidden, shown: { ...rise.shown, transition: { ...SPR.rise, delay: at(0.02) } } }}
-                animate={landed ? 'shown' : 'hidden'} />
+                variants={{ hidden: {}, shown: {} }} animate={landed ? 'shown' : 'hidden'} />
             </motion.div>
           </motion.div>
           <motion.div className="srch-h2__sheet" style={{ borderTopLeftRadius: sheetR, borderTopRightRadius: sheetR, paddingTop: sheetPad }}>
@@ -346,7 +354,7 @@ export default function Search({ nav, params = {} }) {
           {variant === 'v1' && (
             <ScopeBar value={scopePick} onChange={setScopePick}
               options={[{ value: 'eligible', label: `${coupon.code} items` }, { value: 'all', label: 'All of noon' }]}
-              entrance={first && !reduce
+              entrance={!reduce
                 ? { initial: 'hidden', animate: landed ? 'shown' : 'hidden', variants: { hidden: rise.hidden, shown: { ...rise.shown, transition: { ...SPR.rise, delay: at(0.02) } } } }
                 : {}} />
           )}
