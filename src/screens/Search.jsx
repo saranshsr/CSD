@@ -10,7 +10,7 @@ import ContextBand from '../components/ContextBand.jsx';
 import EligibleRow from '../components/EligibleRow.jsx';
 import { coupon, suggestionsFor, popularEligible } from '../data.js';
 import { session } from '../session.js';
-import { spring, SPR, at, stagger, rise, rubber, velocityTracker, project as projectTo } from '../motion.js';
+import { spring, SPR, at, stagger, rise, rubber, velocityTracker, project as projectTo, ios } from '../motion.js';
 import { useBarLanded } from '../components/NavStack.jsx';
 import './Search.css';
 
@@ -45,6 +45,7 @@ const project = (v) => (v / 1000) * DECEL / (1 - DECEL); // distance a release a
 const ROW_STAGGER = 0.025, ROWS_BASE_DELAY = 0.04; // rows land first, right under the bar; the nudge then inserts above them
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 const fade = (d = 0.15) => ({ duration: d, ease: 'linear' });
+const BAND_OPEN = ios(1.0, 1), BAND_CLOSE = ios(0.85, 1);
 // V1 scope change: content travels with the thumb. Moving to "All of noon" (right) the new list arrives
 // from the right and the old one leaves to the left, cross-dissolving on the way (hint in the direction
 // of the gesture). `d` = +1 toward All of noon, -1 back toward the coupon.
@@ -99,7 +100,7 @@ export default function Search({ nav, params = {} }) {
   // corners flatten by the moment the wiping edge would meet them (p ≈ 0.36), so they never sit on white
   const sheetR = useTransform(bandP, [0.36, 1], [0, 20]);
   const sheetPad = useTransform(bandP, [0, 1], [0, 12]);
-  const copyO = useTransform(bandP, [0.45, 0.9], [0, 1]);
+  const copyO = useTransform(bandP, [0.3, 1], [0, 1]); // eases with the whole move, no late pop
   const [tone, setTone] = useState('dark');
   // ink flips as the green's edge sweeps past the status bar
   const lightInk = useRef(false);
@@ -113,7 +114,9 @@ export default function Search({ nav, params = {} }) {
     bandAnim.current = animate(bandP, to, reduce ? fade(0.2) : { ...(cfg || (to ? SPR.dock : SPR.recede)), velocity });
   };
   // ✕ mirrors the arrival: the same layout spring run backwards, so the screen is seen rising back up
-  const dismissBand = () => { setBand(false); moveBand(0, 0, SPR.layout); };
+  // the band is a big surface moving a whole screen's layout: it gets its own unhurried, critically
+  // damped springs (open 1.0s, close 0.85s) so the push-down and the green wipe read as one calm move
+  const dismissBand = () => { setBand(false); moveBand(0, 0, BAND_CLOSE); };
   // drag the sheet up over the band (1:1), rubber-band when pulled down; release projects momentum
   const bDrag = useRef(null);
   const bVt = useRef(velocityTracker());
@@ -184,7 +187,7 @@ export default function Search({ nav, params = {} }) {
   useEffect(() => {
     if (variant !== 'h2' || !landed || !session.band || bDrag.current) return;
     if (reduce) { moveBand(1); return; }
-    moveBand(1, 0, { ...SPR.layout, delay: at(0.24) }); // after the screen has fully covered the PLP (no washed-out green)
+    moveBand(1, 0, { ...BAND_OPEN, delay: at(0.24) }); // after the screen has fully covered the PLP (no washed-out green)
   }, [landed]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!landed) return undefined;
