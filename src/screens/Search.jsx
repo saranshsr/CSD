@@ -73,41 +73,40 @@ export default function Search({ nav, params = {} }) {
   const setBand = (v) => { session.band = v; setBandState(v); };
   const GREEN = '#0f8857';
   // ---- H2 band: ONE progress value (1 = band shown, 0 = gone) drives the whole header ------------
-  // The white sheet slides up over the band: the slot height, the sheet's corners and top inset, the
-  // green → white surface, the band copy (parallax under the sheet) and the status-bar ink all read
-  // from `bandP`, so ✕, a drag and a flick share one curve and can be interrupted at any frame.
-  // On arrival the band OPENS as a layout shift: the screen lands as plain search (p = 0), then the
-  // slot grows on SPR.layout and pushes the bar and everything under it down while the green floods
-  // in and the copy forms (see the effect after useBarLanded). Same curve as ✕, run forwards.
-  const bandP = useMotionValue(0);
+  // H2 band. Two values:
+  //  · bandP   — LAYOUT (1 = band open): slot height, sheet corners. ✕ / drag / flick move it.
+  //  · revealP — VISUAL arrival only (green fill + copy). On a hop the layout is final from frame
+  //    one (bandP = 1), so the flying bar heads straight for its real resting place — no chasing a
+  //    moving target, no overlap with the band, padding never changes — while the green fills down
+  //    from the top and the copy fades in on the bar's own spring, so they land together.
+  // Close = the band SHIFTS UP AND VANISHES: the sheet rises over the copy (it covers it, never
+  // slices it) and the green's bottom edge stays 24px under the sheet until a final wipe behind the
+  // status bar. Open from a drag is the same path forwards.
+  const bandP = useMotionValue(variant === 'h2' && session.band ? 1 : 0);
+  const revealP = useMotionValue(reduce ? 1 : 0);
   const bandHv = useMotionValue(69);           // measured band height (px)
   const bandEl = useRef(null);
   useLayoutEffect(() => { if (bandEl.current) bandHv.set(bandEl.current.offsetHeight || 69); }, []); // eslint-disable-line react-hooks/exhaustive-deps
   const slotH = useTransform(() => Math.max(0, bandP.get()) * bandHv.get());
-  // Close = the band SHIFTS UP AND VANISHES. The copy travels up by the band's height as the slot
-  // collapses. The green panel's bottom edge is locked 24px under the rising sheet the whole way, so
-  // the sheet's rounded corners always sit on green (never on white); only in the last quarter, when
-  // the sheet has nearly arrived, does that edge wipe up behind the status bar and take the green
-  // with it. No fade, so no mint, no sliver. Open is the same path forwards.
-  // the copy never gets sliced by an invisible edge: it stays put (a 10px parallax drift) and the
-  // white sheet — a real, opaque surface above it — slides over and covers it
   const travel = useTransform(() => -(1 - Math.min(1, Math.max(0, bandP.get()))) * 10);
-  const LIP = 24, SB = 62, WIPE = 0.5; // the wipe overlaps the sheet's rise instead of waiting for its tail
+  const LIP = 24, SB = 62, WIPE = 0.5;
   const greenH = useTransform(() => {
     const t = Math.min(1.2, Math.max(0, bandP.get())), H = bandHv.get();
-    if (t >= WIPE) return SB + t * H + LIP;
-    const END = 0.1; // done before the spring's last crawl: no thin green strip left at the top
-    return Math.max(0, (t - END) / (WIPE - END)) * (SB + WIPE * H + LIP);
+    const full = t >= WIPE ? SB + t * H + LIP : Math.max(0, (t - 0.1) / (WIPE - 0.1)) * (SB + WIPE * H + LIP);
+    return full * Math.min(1, Math.max(0, revealP.get())); // arrival: fills down from the top
   });
-  // corners flatten by the moment the wiping edge would meet them (p ≈ 0.36), so they never sit on white
+  // corners flatten by the moment a closing wipe would meet them, so they never sit on white
   const sheetR = useTransform(bandP, [0.36, 1], [0, 20]);
-  const sheetPad = useTransform(bandP, [0, 1], [0, 12]);
-  const copyO = useTransform(bandP, [0.3, 1], [0, 1]); // eases with the whole move, no late pop
-  const [tone, setTone] = useState('dark');
-  // ink flips as the green's edge sweeps past the status bar
-  const lightInk = useRef(false);
-  useMotionValueEvent(bandP, 'change', (v) => {
-    const on = v > 0.24; // ≈ the green's edge crossing the status bar; its 0.28s ink fade lands as the colour changes behind it
+  const copyO = useTransform(() => {
+    const c = Math.min(1, Math.max(0, (bandP.get() - 0.3) / 0.7));
+    const r = Math.min(1, Math.max(0, (revealP.get() - 0.35) / 0.65));
+    return c * r;
+  });
+  const [tone, setTone] = useState(variant === 'h2' && session.band && reduce ? 'light' : 'dark');
+  // status ink follows the green actually behind it
+  const lightInk = useRef(tone === 'light');
+  useMotionValueEvent(greenH, 'change', (h) => {
+    const on = h > 40;
     if (on !== lightInk.current) { lightInk.current = on; setTone(on ? 'light' : 'dark'); }
   });
   const bandAnim = useRef(null);
@@ -126,6 +125,7 @@ export default function Search({ nav, params = {} }) {
   const onBandDown = (e) => {
     if (e.button > 0 || e.target.closest?.('.srch-h2__sheet')) return; // the white sheet is the search bar's
     if (!band && bandP.get() < 0.04) return; // fully gone: nothing to grab
+    if (revealP.get() < 1) revealP.set(1);
     const moving = Math.abs(bandP.getVelocity()) > 0.05;
     if (moving) bandAnim.current?.stop();
     const r = rootRef.current.getBoundingClientRect();
@@ -191,12 +191,10 @@ export default function Search({ nav, params = {} }) {
   }, [moveKb]);
   // Content forms once the bar has landed; after that first entrance, changes just fade.
   const landed = useBarLanded();
-  // The band opens WITH the hop, on the bar's own flight spring (SPR.move): the flying bar chases
-  // its live destination, which the opening band pushes down, so bar and band land in the same frame
-  // — one landing, not "bar lands, then everything shifts again".
+  // arrival: the green fills and the copy forms on the bar's own flight spring, so they land together
   useEffect(() => {
-    if (variant !== 'h2' || !session.band) return undefined;
-    const id = requestAnimationFrame(() => { if (!bDrag.current) moveBand(1, 0, reduce ? undefined : SPR.move); });
+    if (variant !== 'h2' || !session.band || reduce) return undefined;
+    const id = requestAnimationFrame(() => animate(revealP, 1, SPR.move));
     return () => cancelAnimationFrame(id);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
@@ -370,7 +368,7 @@ export default function Search({ nav, params = {} }) {
                 variants={{ hidden: {}, shown: {} }} animate={landed ? 'shown' : 'hidden'} />
             </motion.div>
           </motion.div>
-          <motion.div className="srch-h2__sheet" style={{ borderTopLeftRadius: sheetR, borderTopRightRadius: sheetR, paddingTop: sheetPad }}>
+          <motion.div className="srch-h2__sheet" style={{ borderTopLeftRadius: sheetR, borderTopRightRadius: sheetR }}>
             <div className="srch__header">
               <SearchBar layoutId="search-bar" value={query} placeholder="Search" state="typing" trailing="camera"
                 activity={activity} focused={kbShown} selected={selected}

@@ -53,4 +53,4 @@
 .srch-h2__sheet{z-index:2} /* the sheet covers the band copy as it rises */
 .srch-h2 > .sb{z-index:3}
 .srch-h2__slot{overflow:visible;z-index:1;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none} /* drag the sheet up over the band */
-.srch-h2__sheet{background:#fff}
+.srch-h2__sheet{background:#fff;padding-top:12px} /* constant: the bar never shifts inside the sheet */
