@@ -21,8 +21,10 @@ const QS = new URLSearchParams(location.search);
 const BARE = QS.get('bare') === '1';
 // One prototype, both directions: H2 context band · Eligible row toggle (?v= deep-links one; ?v=n5 = the old
 // nudge; ?v=v1 = the retired scope-bar pill, kept only for old links)
-const VARIANTS = [{ id: 'h2', label: 'Context band', short: 'Band' }, { id: 'row', label: 'Eligible row', short: 'Row' }];
-const VARIANT0 = QS.get('v') === 'n5' ? null : (['v1', 'h2', 'row'].includes(QS.get('v')) ? QS.get('v') : 'h2');
+// n5 = the auto-suggestion nudge (Search "q" in the typeahead) — it runs with no variant set
+const VARIANTS = [{ id: 'h2', label: 'Context band', short: 'Band' }, { id: 'row', label: 'Eligible row', short: 'Row' }, { id: 'n5', label: 'Auto-suggestion', short: 'Auto' }];
+const VARIANT0 = ['v1', 'h2', 'row', 'n5'].includes(QS.get('v')) ? QS.get('v') : 'h2';
+const asNav = (v) => (v === 'n5' ? null : v);
 function initialRoutes() {
   const s = QS.get('s'); const q = QS.get('q') || '';
   if (!s || s === 'cart') return [route('cart', {}, 'none')];
@@ -38,7 +40,7 @@ export default function App() {
   const switchVariant = useCallback((v) => {
     if (v === variant) return;
     newVisit(); setSheetOpen(false); setVariant(v);
-    setRoutes((rs) => rs.map((r) => ({ ...r, key: `${r.id}-${++k}`, transition: 'none', params: { ...r.params, variant: v, scope: undefined } })));
+    setRoutes((rs) => rs.map((r) => ({ ...r, key: `${r.id}-${++k}`, transition: 'none', params: { ...r.params, variant: asNav(v), scope: undefined } })));
     setEpoch((e) => e + 1);
     try { const u = new URL(location.href); u.searchParams.set('v', v); history.replaceState(null, '', u); } catch { /* noop */ }
   }, [variant]);
@@ -55,14 +57,14 @@ export default function App() {
     // `then` runs now (same commit as the close) and any push it makes carries the overlap delay.
     closeSheet: (then) => { setSheetOpen(false); if (then) { overlap.current = SHEET_TO_PUSH; try { then(); } finally { overlap.current = 0; } } },
     reset: () => { newVisit(); setSheetOpen(false); setRoutes([route('cart', {}, 'none')]); },
-    variant,
+    variant: asNav(variant),
   }), [variant]);
 
   const onSheetClosed = useCallback(() => { const f = pending.current; pending.current = null; f && f(); }, []);
 
   const Frame = BARE ? BareFrame : DeviceFrame;
   return (
-    <Frame onReset={nav.reset} variants={variant ? VARIANTS : null} variant={variant} onVariant={switchVariant}>
+    <Frame onReset={nav.reset} variants={VARIANTS} variant={variant} onVariant={switchVariant}>
       <NavStack key={epoch} routes={routes} onBack={nav.pop}
         renderRoute={(r) => { const S = SCREENS[r.id]; return <S nav={{ ...nav, sheetOpen }} params={r.params} />; }} />
       <Sheet open={sheetOpen} onClose={() => setSheetOpen(false)} onClosed={onSheetClosed} top={183} inset={12} bottomGap={29} radius={16} bg="#f2f3f7">
