@@ -1,5 +1,6 @@
 import { useLayoutEffect } from 'react';
 import { motion, MotionConfig, useMotionValue } from 'motion/react';
+import { SPR } from '../motion.js';
 import './DeviceFrame.css';
 
 export const SCREEN_W = 375;
@@ -11,12 +12,13 @@ const MARGIN = 24;  // page margin top/bottom
 // The scale lives on a motion.div (motion value) on purpose: shared-layout (layoutId) measurements
 // remove ancestor motion transforms, so morphs stay correct at any scale. A plain CSS transform
 // on a non-motion ancestor would distort them.
-export default function DeviceFrame({ children, onReset }) {
+export default function DeviceFrame({ children, onReset, variants, variant, onVariant }) {
   const scale = useMotionValue(1);
 
   useLayoutEffect(() => {
     const fit = () => {
-      const s = Math.min(1, (window.innerHeight - MARGIN * 2) / (SCREEN_H + BEZEL * 2),
+      const top = variants ? 64 : MARGIN; // room for the version switch above the phone
+      const s = Math.min(1, (window.innerHeight - top - MARGIN) / (SCREEN_H + BEZEL * 2),
         (window.innerWidth - MARGIN * 2) / (SCREEN_W + BEZEL * 2));
       scale.set(Math.max(0.3, s));
       document.documentElement.style.setProperty('--device-scale', String(Math.max(0.3, s)));
@@ -24,7 +26,7 @@ export default function DeviceFrame({ children, onReset }) {
     fit();
     window.addEventListener('resize', fit);
     return () => window.removeEventListener('resize', fit);
-  }, [scale]);
+  }, [scale, !!variants]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <MotionConfig reducedMotion="user">
@@ -37,7 +39,18 @@ export default function DeviceFrame({ children, onReset }) {
             Restart
           </button>
         )}
-        <motion.div className="df-device" style={{ scale }}>
+        {variants && (
+          <div className="df-switch" role="tablist" aria-label="Version">
+            {variants.map((v) => (
+              <button key={v.id} type="button" role="tab" aria-selected={v.id === variant}
+                className={`df-switch__opt${v.id === variant ? ' is-on' : ''}`} onClick={() => onVariant(v.id)}>
+                {v.id === variant && <motion.span className="df-switch__thumb" layoutId="df-switch-thumb" transition={SPR.move} />}
+                <span className="df-switch__label"><span className="df-switch__full">{v.label}</span><span className="df-switch__short">{v.id.toUpperCase()}</span></span>
+              </button>
+            ))}
+          </div>
+        )}
+        <motion.div className="df-device" style={{ scale, marginTop: variants ? 40 : 0 }}>
           <div className="df-screen" data-device-screen>
             {children}
             <div className="df-home" aria-hidden="true" />

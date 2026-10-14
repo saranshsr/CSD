@@ -77,7 +77,7 @@ export const spring = {
 // LSN shared looks. `shown` is always the resting style, so nothing here changes a screen at rest.
 /** A word, row or item rising into place: 9px up, sharpening as it lands. */
 export const rise = {
-  hidden: { opacity: 0, y: 9, filter: 'blur(4px)' },
+  hidden: { opacity: 0, y: 9, filter: 'blur(2px)' }, // light blur: it sharpens inside the first half of the rise
   shown: { opacity: 1, y: 0, filter: 'blur(0px)', transition: SPR.rise },
   gone: { opacity: 0, filter: 'blur(4px)', transition: SPR.clear },
 };

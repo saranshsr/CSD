@@ -1,6 +1,6 @@
 import { createContext, useContext, useLayoutEffect, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, motionValue, useMotionValue, useTransform, usePresence, useReducedMotion, animate } from 'motion/react';
-import { spring, SPR, at, FADE, PARALLAX, DIM, TAP_SLOP, project, velocityTracker } from '../motion.js';
+import { spring, SPR, at, FADE, PARALLAX, DIM, TAP_SLOP, project, velocityTracker, lsnSpring } from '../motion.js';
 import BarFlight, { makeFaces, readLook, lookDistance, FACES_DONE } from './BarFlight.jsx';
 import './NavStack.css';
 
@@ -14,6 +14,13 @@ const DOCK = '[data-ns-dock="bottom"], .srch__kb';
 const DOCK_HOLD = at(0.1);
 // the dock wrapper can be zero-height (its keyboard is absolutely placed): measure what it holds
 const dockHeight = (d) => Math.max(d.offsetHeight, ...[...d.children].map((c) => c.offsetHeight), 0);
+// The arriving screen's content starts forming while the bar is still in the air (at this much
+// flight progress, ~110ms in) instead of after it lands, so the old screen hands over to the new
+// one in a single motion. Without this you get old content out → an empty screen → new content in.
+const CONTENT_AT = 0.38;
+// a morph screen covers the one below a touch faster than SPR.fade, so the old layout is gone
+// before the new content forms over it (no double exposure of two dense screens)
+const MORPH_IN = lsnSpring(0.42, 1);
 const LAND_TIMEOUT = 1600; // ms — a flight that somehow never meets its landing test lands anyway
 
 const StackCtx = createContext(null);
@@ -201,6 +208,7 @@ export default function NavStack({ routes, renderRoute, onBack }) {
       f.onPlace = (t, la, lb) => {
         if (s.flight !== f) return;
         if (f.target === 1) {
+          if (t >= CONTENT_AT) notifyLanded(toKey); // content may form now; the bar is handed back below
           if (t >= FACES_DONE && lookDistance(lb, lerpLook(la, lb, t)) < 0.5 && clean(toKey)) land(f, toKey);
         } else if (t <= 0.02 && lookDistance(la, lerpLook(la, lb, t)) < 0.5 && clean(fromKey)) land(f, fromKey);
         if (!f.scrub && performance.now() - f.t0 > LAND_TIMEOUT) land(f, f.target === 1 ? toKey : fromKey);
@@ -247,7 +255,7 @@ export default function NavStack({ routes, renderRoute, onBack }) {
         if (first || route.transition === 'none') { m.x.set(0); m.o.set(1); finish(); return; }
         s.entering.add(route.key);
         if (s.reduce) animate(m.o, 1, { ...FADE, onComplete: finish });
-        else if (route.transition === 'morph') animate(m.o, 1, { ...SPR.fade, delay: route.delay || 0, onComplete: finish });
+        else if (route.transition === 'morph') animate(m.o, 1, { ...MORPH_IN, delay: route.delay || 0, onComplete: finish });
         else animate(m.x, 0, { ...spring.push, delay: route.delay || 0, onComplete: finish });
       },
       // an entering screen that was grabbed and let go (cancel) has still finished entering
