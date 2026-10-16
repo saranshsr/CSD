@@ -1,0 +1,56 @@
+/* The coupon search's cart (team file 01 · Cart), values at 375. Page #F2F3F7, cards 351 wide (12 gutters), 12 apart. */
+.header { display: flex; align-items: center; gap: var(--nk-space-s24); padding: calc(var(--nk-inset-top) + 4px) var(--nk-space-s12) var(--nk-space-s8); background: var(--nk-palette-white); border-radius: 0 0 var(--nk-radius-r16) var(--nk-radius-r16); }
+.addr { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.addrTitle { display: flex; align-items: center; gap: 2px; font: 700 16px/21px var(--nk-font-family); letter-spacing: -0.3px; color: var(--nk-palette-blue-gray900); }
+.addrIcon { margin: 0 2px 0 1px; }
+.addrLine { padding-left: 2px; font: 400 13px/18px var(--nk-font-family); letter-spacing: -0.3px; color: var(--nk-palette-blue-gray700); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 266px; }
+.wish { flex: none; display: flex; }
+
+.page { display: flex; flex-direction: column; gap: var(--nk-space-s12); padding: var(--nk-space-s24) var(--nk-space-s12) 40px; }
+
+/* Savings & benefits: white r16, py 12 gap 12; title B16 Bold px 12; tiles #F9F9FB r12 p 8 */
+.card { display: flex; flex-direction: column; gap: var(--nk-space-s12); padding: var(--nk-space-s12) 0; border-radius: var(--nk-radius-r16); background: var(--nk-palette-white); }
+.cardTitle { margin: 0; padding: 0 var(--nk-space-s12); font: var(--nk-type-field-h16-bold); letter-spacing: -0.16px; color: var(--nk-palette-blue-gray900); }
+.poWrap { display: flex; flex-direction: column; gap: var(--nk-space-s8); padding: 0 var(--nk-space-s8); }
+.poRow { display: flex; gap: var(--nk-space-s8); align-items: stretch; }
+.po { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--nk-space-s8); padding: var(--nk-space-s8); border-radius: var(--nk-radius-r12); background: var(--nk-palette-secondary-background-color); }
+.poHead { display: flex; align-items: center; justify-content: space-between; }
+.instMark { position: relative; width: 38px; height: 24px; flex: none; }
+.instCard { position: absolute; left: 1.4px; top: 0; width: 31.8px; height: 22.4px; }
+.instClock { position: absolute; left: 21.1px; top: 7.1px; width: 16.9px; height: 16.9px; border-radius: 50%; background: var(--nk-palette-white); }
+.instClock img { position: absolute; inset: 8.33%; width: 83.34%; height: 83.34%; }
+.poCopy { display: flex; flex-direction: column; gap: 2px; }
+.poValue { font: var(--nk-type-cs-text12-medium-lh14); letter-spacing: -0.12px; color: var(--nk-palette-blue-gray1000); white-space: pre-line; }
+.poNote { font: 600 11px/14px var(--nk-font-family); letter-spacing: -0.12px; color: var(--nk-color-cs-discount); white-space: nowrap; }
+.poWide { display: flex; align-items: center; gap: var(--nk-space-s8); padding: var(--nk-space-s8); border-radius: var(--nk-radius-r12); background: var(--nk-palette-secondary-background-color); }
+.poOne { flex: none; border-radius: var(--nk-radius-r4); object-fit: cover; }
+.poOneCopy { flex: 1; min-width: 0; font: 500 12px/18px var(--nk-font-family); letter-spacing: -0.12px; color: var(--nk-palette-blue-gray700); }
+.poOneCopy b { font-weight: 700; color: var(--nk-palette-blue-gray900); }
+.poApply { flex: none; display: flex; align-items: center; gap: 2px; padding-right: 4px; font: 600 13px/18px var(--nk-font-family); letter-spacing: -0.14px; color: var(--nk-color-cs-link); }
+
+/* Got a coupon?: #EAECF0 r16 card, white top (py 10, overlaps 12) with the field; "View all coupons & offers" strip */
+.coupon { display: flex; flex-direction: column; border-radius: var(--nk-radius-r16); background: var(--nk-palette-light-grey-color); isolation: isolate; }
+.couponTop { position: relative; z-index: 2; display: flex; flex-direction: column; gap: 2px; margin-bottom: -12px; padding: 10px 0; border-radius: var(--nk-radius-r16); background: var(--nk-palette-white); box-shadow: inset 0 -4px 12px rgba(207, 206, 210, 0.1); }
+.couponTray { padding: var(--nk-space-s8) var(--nk-space-s12); }
+.couponField { display: flex; align-items: center; gap: 10px; padding: var(--nk-space-s12); border-radius: var(--nk-radius-r12); background: var(--nk-palette-secondary-background-color); cursor: pointer; }
+.couponPlaceholder { flex: 1; min-width: 0; padding: 2px 0; font: 400 13px/18px var(--nk-font-family); letter-spacing: -0.26px; color: var(--nk-palette-slate-gray); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.couponApply { font: 500 12px/18px var(--nk-font-family); letter-spacing: 0.12px; color: var(--nk-palette-bluish-grey); }
+.couponRow { position: relative; z-index: 1; display: flex; align-items: center; gap: var(--nk-space-s8); padding: var(--nk-space-s24) var(--nk-space-s16) var(--nk-space-s12); cursor: pointer; }
+.couponRowText { flex: 1; font: 500 14px/18px var(--nk-font-family); letter-spacing: -0.14px; color: var(--nk-palette-blue-gray900); }
+
+.raffle { display: block; width: 100%; height: auto; border-radius: var(--nk-radius-r16); }
+
+/* footer: the savings tab (wave 239 × 48, chip at 12 / 4) tucked 16 under the sticky total; then the bottom nav */
+.footer { position: relative; }
+.savings { position: relative; width: 239px; height: 48px; margin-bottom: -16px; }
+.savingsWave { position: absolute; inset: 0; width: 100%; height: 100%; }
+.savingsChip { position: absolute; left: 12px; top: 4px; display: flex; align-items: center; gap: var(--nk-space-s8); padding: 2px 4px; border-radius: 5px; background: var(--nk-color-cs-savings-bg); color: var(--nk-color-cs-savings-ink); font: 400 14px/18px var(--nk-font-family); letter-spacing: -0.14px; white-space: nowrap; }
+.savingsChip b { font-weight: 600; }
+.sticky { position: relative; display: flex; align-items: center; gap: var(--nk-space-s12); height: 72px; padding: 10px var(--nk-space-s12); border-radius: var(--nk-radius-r12) var(--nk-radius-r12) 0 0; background: var(--nk-palette-white); box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.08); }
+.total { flex: none; width: 131px; display: flex; flex-direction: column; gap: 4px; padding-left: 4px; }
+.totalLabel { font: var(--nk-type-cs-text12-medium-lh14); letter-spacing: -0.12px; color: var(--nk-palette-slate-gray); }
+.totalValue { font: var(--nk-type-cs-text20-bold-lh24); letter-spacing: -0.2px; color: var(--nk-palette-blue-gray900); text-decoration: underline dotted; text-underline-offset: 3px; white-space: nowrap; }
+.checkout { flex: 1; height: 52px; display: flex; align-items: center; justify-content: center; border-radius: var(--nk-radius-r12); background: var(--nk-palette-primary-blue); color: var(--nk-palette-white); font: var(--nk-type-cs-text17-semibold-lh20); letter-spacing: -0.26px; cursor: pointer; }
+
+/* the Field DS bottom nav is absolutely placed: this keeps its room (indicator 4 · 8 · icon 28 · 6 · label 14 + home bar) */
+.tabDock { position: relative; height: calc(60px + var(--nk-inset-bottom)); }

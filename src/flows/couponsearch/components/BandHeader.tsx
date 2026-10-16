@@ -5,7 +5,8 @@ import { layout } from '../../../foundations/tokens';
 import { useStatusBar } from '../../../kit/statusBar';
 import { haptic } from '../../../motion/haptics';
 import { useReduceMotion } from '../../../motion/reducedMotion';
-import { coupon, copy } from '../data';
+import { copy } from '../data';
+import { useCoupon } from '../couponContext';
 import { clamp, project, rubber, velocityTracker } from '../gesture';
 import { csStore, useCs } from '../store';
 import { csTokens } from '../tokens';
@@ -37,6 +38,7 @@ export interface BandHeaderHandle {
  */
 export const BandHeader = forwardRef<BandHeaderHandle, { children: ReactNode }>(function BandHeader({ children }, ref) {
   const reduce = useReduceMotion();
+  const coupon = useCoupon();
   const band = useCs((s) => s.band);
   const bandRef = useRef(band);
   bandRef.current = band;
@@ -161,7 +163,7 @@ export const BandHeader = forwardRef<BandHeaderHandle, { children: ReactNode }>(
             <span className={styles.bandTitle}>{copy.band.title}</span>
             <span className={styles.bandSub}>
               <span className={styles.codeTag}>{coupon.code}</span>
-              <span className={styles.bandValue}>{coupon.value}</span>
+              <span className={styles.bandValue}>{coupon.bandValue ?? coupon.value}</span>
             </span>
           </div>
           <Pressable className={styles.bandX} aria-label={copy.band.dismiss} scale={0.9} onClick={dismiss}>

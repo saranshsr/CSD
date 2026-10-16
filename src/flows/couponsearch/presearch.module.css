@@ -1,0 +1,33 @@
+/* Empty search (team file 05 · Search — empty / Iteration 2 "Empty content"): pt 8, sections 28 apart, headings B16
+   SemiBold #1D2539 at x 16, 12 above their row. */
+.root { display: flex; flex-direction: column; gap: 28px; padding-top: var(--nk-space-s8); padding-bottom: 40px; }
+.section { display: flex; flex-direction: column; gap: var(--nk-space-s12); min-width: 0; }
+.heading { margin: 0; padding: 0 var(--nk-space-s16); font: var(--nk-type-field-b16-semibold); letter-spacing: -0.15px; color: var(--nk-palette-blue-gray900); }
+
+/* Recently searched: 76 wide tiles, 90 high r8 photo, 10 gap, 13 / 20 label centred (two lines at most) */
+.tiles { display: flex; gap: 10px; padding: 0 var(--nk-space-s16); }
+.tile { flex: none; width: 76px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.tileImg { display: block; width: 76px; height: 90px; border-radius: var(--nk-radius-r8); object-fit: cover; }
+.tileLabel { width: 100%; font: var(--nk-type-field-b13-regular); letter-spacing: -0.1px; color: var(--nk-palette-blue-gray900); text-align: center; }
+
+/* Trending: two single-line rows, 12 apart, scrolling together */
+.chipRows { display: flex; flex-direction: column; gap: 12px; padding: 0 var(--nk-space-s16); }
+.chipRow { display: flex; gap: var(--nk-space-s8); width: max-content; }
+.chip {
+  flex: none; display: flex; align-items: center; gap: 6px; height: 40px; padding: 0 16px 0 14px;
+  border: 1px solid var(--nk-palette-light-grey-color); border-radius: 18px; background: var(--nk-palette-white);
+  font: var(--nk-type-field-b13-regular); letter-spacing: -0.1px; color: var(--nk-palette-blue-gray900); white-space: nowrap;
+}
+.chip img { display: block; flex: none; }
+
+/* OSN+ banner: 348 × 44 at x 12, r22 (28 under the chips, 23 above the next heading) */
+.banner { display: block; width: 348px; height: 44px; margin: 0 0 -5px 12px; border-radius: 22px; overflow: hidden; }
+.banner img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* Recently viewed categories: 133 × 160 r12 tiles, 12 apart; label 14 / 18; "n Viewed ▸" B12 Medium #2959EB on #EBF2FF r4 */
+.viewedSection { gap: var(--nk-space-s12); }
+.viewed { display: flex; gap: var(--nk-space-s12); padding: 0 var(--nk-space-s16); }
+.viewedItem { flex: none; width: 133px; display: flex; flex-direction: column; align-items: flex-start; gap: var(--nk-space-s8); text-align: left; }
+.viewedImg { display: block; width: 133px; height: 160px; border-radius: var(--nk-radius-r12); object-fit: cover; }
+.viewedLabel { font: var(--nk-type-cs-text14-regular-lh18); letter-spacing: -0.14px; color: var(--nk-palette-blue-gray900); white-space: nowrap; }
+.viewedChip { padding: 2px 6px; border-radius: var(--nk-radius-r4); background: var(--nk-color-cs-viewed-bg); color: var(--nk-color-cs-viewed-ink); font: var(--nk-type-field-b12-medium); letter-spacing: -0.1px; white-space: pre; }

@@ -23,7 +23,7 @@ function ContextLine({ variant, want, scope, query }: { variant: CsVariant; want
   else if (scope === 'coupon')
     line = (
       <>
-        Showing results for {q} {copy.results.inCoupon}
+        Showing results for {q} in <b>{copy.results.inCouponStrong}</b>
       </>
     );
   else if (variant === 'n5')
@@ -69,5 +69,6 @@ export function ResultsScreen() {
     else nav.push('couponsearch/search', { q: query });
   };
 
-  return <CouponListing key={variant} query={query} items={items} lead={<ContextLine variant={variant} want={ask} scope={scope} query={query} />} onBarPress={editQuery} />;
+  const beauty = items.some((p) => !!p.coupon);
+  return <CouponListing key={variant} query={query} items={items} beauty={beauty} lead={<ContextLine variant={variant} want={ask} scope={scope} query={query} />} onBarPress={editQuery} />;
 }

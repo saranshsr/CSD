@@ -1,4 +1,17 @@
 import { couponProducts, getProduct, products as noonCatalogue, type Product } from '../../data';
+import recentS24 from '@assets/couponsearch/recent-s24.webp';
+import recentS25 from '@assets/couponsearch/recent-s25-edge.webp';
+import recentIp17pm from '@assets/couponsearch/recent-iphone-17-pro-max.webp';
+import recentIp17 from '@assets/couponsearch/recent-iphone-17.webp';
+import recentIp16 from '@assets/couponsearch/recent-iphone-16.webp';
+import viewedHair from '@assets/couponsearch/viewed-hair-care-masks.webp';
+import viewedMobiles from '@assets/couponsearch/viewed-mobiles.webp';
+import viewedTv from '@assets/couponsearch/viewed-televisions.webp';
+import catMakeup from '@assets/couponsearch/cat-makeup.webp';
+import catSkincare from '@assets/couponsearch/cat-skincare.webp';
+import catHaircare from '@assets/couponsearch/cat-haircare.webp';
+import catBath from '@assets/couponsearch/cat-bath-and-body.webp';
+import catGrooming from '@assets/couponsearch/cat-grooming.webp';
 
 /**
  * Copy and mock content for the coupon-scoped search (BEAUTY10). Products come from src/data (`couponProducts`:
@@ -13,13 +26,48 @@ export const coupon = {
   short: 'extra 10% off',
 } as const;
 
+/** The cart the journey starts from (team file 01 · Cart). */
+export const cartCopy = {
+  addressType: 'Home',
+  address: 'Villa 52, Springville, K, VGP Layout, Mhada Colony',
+  savingsTitle: 'Savings & benefits',
+  installments: '0% Installments',
+  bankInstallments: 'Bank\nInstallments',
+  earn: 'Earn',
+  cashback: '105 cashback',
+  withCard: 'with the noon One credit card.',
+  apply: 'Apply',
+  couponTitle: 'Got a coupon?',
+  couponPlaceholder: 'Enter your coupon code or select one',
+  couponApply: 'APPLY',
+  viewAll: 'View all coupons & offers',
+  raffleAlt: 'Join our Yellow Friday Sale to win a brand new Lucid Air car! Raffle code IPHONE17. Add 700 to unlock the raffle code.',
+  saved: '130',
+  savedWord: 'saved!',
+  total: 'Total',
+  totalValue: '1,760.00',
+  checkout: 'Checkout',
+  checkoutToast: 'Checkout is not part of this demo',
+};
+
 export const copy = {
   band: { title: 'Shop eligible products', dismiss: 'Dismiss' },
   hero: { title: 'Extra 10% off', body: 'Skincare, haircare, makeup & more', use: 'Use code' },
+  search: { placeholder: 'Search', recent: 'Recently searched', trending: 'Trending searches', viewed: 'Recently viewed categories', banner: 'OSN+ exclusives with noon One' },
+  chips: { filter: 'Filter', sort: 'Sort', price: 'Price', face: 'Face', eyes: 'Eyes' },
+  pill: { sort: 'Sort', filter: 'Filter', share: 'Share' },
+  marketplaces: [
+    { id: 'noon', label: 'Wide assortment' },
+    { id: 'minutes', label: 'In minutes' },
+    { id: 'supermall', label: 'Direct from brand' },
+    { id: 'express', label: 'Fulfilled by noon' },
+  ],
+  card: { lowestPrice: 'Lowest price in 30 days', megaDeal: 'Mega Deal', getIn: 'Get in' },
   row: { lead: 'Search', tail: 'items only', label: `Search ${coupon.code} items only` },
   scoped: { lead: 'Searching within', strong: 'eligible items', viewAll: 'View all', label: `Search within ${coupon.code} eligible items` },
   results: {
     inCoupon: `in ${coupon.code} items`,
+    inCouponStrong: `${coupon.code} items`,
     allOfNoon: 'across all of noon',
     noCoupon: `No ${coupon.code} items for`,
     showingAll: 'showing all of noon',
@@ -28,18 +76,62 @@ export const copy = {
   notInDemo: 'Filters and sort are not in this demo',
 };
 
-/** The search page's presearch: the user's recent searches (emoji tiles, as the kit's search) and trending searches. */
-export const recentSearches = [
-  { id: 'r1', label: 'iphone 17 pro max', emoji: '📱', tint: '#EEF2F8' }, // token-lint-ignore: per-item mock tint (server data)
-  { id: 'r2', label: 's25 edge', emoji: '📱', tint: '#EDF0F7' }, // token-lint-ignore: per-item mock tint (server data)
-  { id: 'r3', label: 'Running shoes', emoji: '👟', tint: '#F4F1EC' }, // token-lint-ignore: per-item mock tint (server data)
-  { id: 'r4', label: 'Coffee machine', emoji: '☕️', tint: '#F3EEEA' }, // token-lint-ignore: per-item mock tint (server data)
-  { id: 'r5', label: 'Perfume men', emoji: '🧴', tint: '#F2EFEA' }, // token-lint-ignore: per-item mock tint (server data)
-  { id: 'r6', label: 'LEGO', emoji: '🏎️', tint: '#FBEEEE' }, // token-lint-ignore: per-item mock tint (server data)
+/** The search page's presearch (team file "05 · Search — empty", Iteration 2 empty frames): real product photos. */
+
+export interface RecentTile {
+  id: string;
+  label: string;
+  image: string;
+}
+export const recentSearches: RecentTile[] = [
+  { id: 'r1', label: 's24', image: recentS24 },
+  { id: 'r2', label: 's25 edge', image: recentS25 },
+  { id: 'r3', label: 'iphone 17 pro max', image: recentIp17pm },
+  { id: 'r4', label: 'iPhone 17', image: recentIp17 },
+  { id: 'r5', label: 'iPhone 16', image: recentIp16 },
 ];
 
-/** Always "Trending searches", in every version (never "Popular in BEAUTY10"). */
-export const trending = ['iphone 17 pro max', 'revlon', 'smartphone deals', 'shoe rack', 'pillow', 'fridge', "men's slippers"];
+/** Always "Trending searches", in every version (never "Popular in BEAUTY10"): two rows, as the frames. */
+export const trending: string[][] = [
+  ['iphone 17 pro max', 'revlon', 'smartphone deals'],
+  ['shoe rack', 'pillow', 'fridge', "men's slippers"],
+];
+
+/** "Recently viewed categories" under the OSN+ banner (never a count of items: these are visits). */
+export const viewedCategories = [
+  { id: 'hair-care-masks', label: 'Hair Care Masks', viewed: '1 Viewed', image: viewedHair },
+  { id: 'mobiles', label: 'Mobiles', viewed: '11 Viewed', image: viewedMobiles },
+  { id: 'televisions', label: 'Televisions', viewed: '6 Viewed', image: viewedTv },
+];
+
+/** The eligible page's category circles (04 · Eligible items). */
+export const beautyCategories = [
+  { id: 'makeup', label: 'Makeup', image: catMakeup, query: 'makeup' },
+  { id: 'skincare', label: 'Skincare', image: catSkincare, query: 'serum' },
+  { id: 'haircare', label: 'Haircare', image: catHaircare, query: 'hair serum' },
+  { id: 'bath', label: 'Bath and body', image: catBath, query: 'body lotion' },
+  { id: 'grooming', label: 'Grooming', image: catGrooming, query: 'shampoo' },
+];
+
+/**
+ * What the team file's product card shows on top of the catalogue data: unit price, the Mega Deal strip, the "+3"
+ * coupon count and the delivery promise (every card in the frames: "Get in 1 Hr 15 Min").
+ */
+export interface CardExtras {
+  unit?: [string, string];
+  megaDeal?: boolean;
+  more?: number;
+}
+export const cardExtras: Record<string, CardExtras> = {
+  'cs-tord': { unit: ['30ml', '0.93/ml'], megaDeal: true, more: 3 },
+  'cs-vitc': { unit: ['30ml', '1.50/ml'], more: 3 },
+  'cs-vitc16': { unit: ['30ml', '1.83/ml'], more: 3 },
+  'cs-mini5': { unit: ['30ml', '1.17/ml'], more: 3 },
+  'cs-olaplex': { unit: ['30ml', '4.33/ml'], more: 3 },
+  'cs-ipl-mlay': { more: 3 },
+  'cs-ipl-philips': { more: 3 },
+};
+export const etaValue = '1 Hr 15 Min';
 
 /** Search keywords per product (what a shopper types), on top of brand + title. */
 const keywords: Record<string, string> = {
@@ -188,12 +280,64 @@ export interface Suggestion {
 const suggestions: (Suggestion & { eligible: boolean })[] = pool.map(([text, id]) => ({ text, product: getProduct(id), category: undefined, eligible: isEligibleQuery(text) }));
 
 /**
- * Typeahead: labels that START with the query first, then labels where it starts a word; `max` rows. `eligible`
- * keeps only suggestions that match a BEAUTY10 item. A trailing space counts ("serum " → "serum for face").
+ * The typeahead the team file shows, row for row (thumbnails included), for the queries the frames draw: "se" (all of
+ * noon / BEAUTY10 only), "serum" and "seiko watch". `eligible` lists the BEAUTY10-only rows when they are not simply
+ * the eligible subset of `all`.
  */
-export function suggest(q: string, scope: Scope, max = 8): Suggestion[] {
+const curated: Record<string, { all: [string, string][]; eligible?: [string, string][] }> = {
+  se: {
+    all: [
+      ['serum', 'cs-tord'],
+      ['seiko watches for men', 'cs-seiko5a'],
+      ['sebamed baby lotion', 'cs-sebamed'],
+      ['setting spray', 'cs-nyx'],
+      ['seiko 5', 'cs-seiko5b'],
+    ],
+    eligible: [
+      ['serum', 'cs-tord'],
+      ['sebamed baby lotion', 'cs-sebamed'],
+      ['setting spray', 'cs-nyx'],
+      ['hair serum', 'cs-olaplex'],
+      ['serum foundation', 'cs-rev'],
+    ],
+  },
+  serum: {
+    all: [
+      ['serum', 'cs-tord'],
+      ['niacinamide serum', 'cs-mini5'],
+      ['vitamin c serum', 'cs-vitc'],
+      ['hair serum', 'cs-olaplex'],
+      ['serum foundation', 'cs-rev'],
+    ],
+  },
+  'seiko watch': {
+    all: [
+      ['seiko watch', 'cs-seiko5a'],
+      ['seiko watches for men', 'cs-seiko5a'],
+      ['seiko 5 sports', 'cs-seiko5b'],
+      ['seiko presage', 'cs-presage'],
+      ['seiko automatic watch', 'cs-seiko5b'],
+    ],
+  },
+};
+const row = ([text, id]: [string, string]): Suggestion => ({ text, product: getProduct(id) });
+
+/** At most this many suggestion rows (every typing frame shows five). */
+export const MAX_ROWS = 5;
+
+/**
+ * Typeahead: the curated frame rows for the frames' queries; otherwise labels that START with the query first, then
+ * labels where it starts a word. `eligible` keeps only suggestions that match a BEAUTY10 item. A trailing space
+ * counts ("serum " → "serum for face").
+ */
+export function suggest(q: string, scope: Scope, max = MAX_ROWS): Suggestion[] {
   const s = q.toLowerCase().replace(/^\s+/, '').replace(/\s+/g, ' ');
   if (!s.trim()) return [];
+  const c = curated[s.trim()];
+  if (c && s === s.trim()) {
+    const rows = scope === 'eligible' ? (c.eligible ?? c.all.filter(([t]) => isEligibleQuery(t))) : c.all;
+    return rows.slice(0, max).map(row);
+  }
   const list = scope === 'eligible' ? suggestions.filter((r) => r.eligible) : suggestions;
   const rank = (needle: string) => {
     const pre: Suggestion[] = [];

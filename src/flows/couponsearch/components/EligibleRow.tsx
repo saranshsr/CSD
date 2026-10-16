@@ -4,7 +4,8 @@ import { colors, field } from '../../../foundations/tokens';
 import couponIcon from '@assets/icons/origin/coupon-discount-filled.svg';
 import { haptic } from '../../../motion/haptics';
 import { useReduceMotion } from '../../../motion/reducedMotion';
-import { coupon, copy } from '../data';
+import { copy } from '../data';
+import { useCoupon } from '../couponContext';
 import { project, rubber, velocityTracker } from '../gesture';
 import { couponsearchFlowTokens, csTokens } from '../tokens';
 import styles from '../search.module.css';
@@ -25,6 +26,7 @@ const flow = couponsearchFlowTokens.colors as Record<string, string>;
  * side. A haptic tick on commit. Pointer-down never takes focus from the search field.
  */
 export function EligibleRow({ on, onChange }: { on: boolean; onChange: (on: boolean) => void }) {
+  const coupon = useCoupon();
   const reduce = useReduceMotion();
   const p = useMotionValue(on ? 1 : 0);
   const press = useMotionValue(0);
@@ -122,7 +124,7 @@ export function EligibleRow({ on, onChange }: { on: boolean; onChange: (on: bool
       data-held={held || undefined}
       role="switch"
       aria-checked={on}
-      aria-label={copy.row.label}
+      aria-label={`${copy.row.lead} ${coupon.code} ${copy.row.tail}`}
       tabIndex={0}
       style={{ backgroundColor: rowBg, boxShadow: ring }}
       onPointerDown={onPointerDown}

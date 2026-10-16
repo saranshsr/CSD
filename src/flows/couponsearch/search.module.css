@@ -1,5 +1,5 @@
 /* Coupon search: the kit's search header (bgSurface, calc(inset + 4px) 16px 12px around SearchInput) plus the three designs. */
-.header { background: var(--nk-color-bg-surface); padding: calc(var(--nk-inset-top) + 4px) var(--nk-space-s16) var(--nk-space-s12); }
+.header { background: var(--nk-color-bg-surface); padding: calc(var(--nk-inset-top) + 4px) var(--nk-space-s16) var(--nk-space-s8); }
 
 /* ── H2 · Context band ─────────────────────────────────────────────────────────────────────────────── */
 .h2 { position: relative; background: var(--nk-color-bg-surface); touch-action: pan-x; }
@@ -7,7 +7,7 @@
 .h2Green { position: absolute; top: 0; left: 0; right: 0; pointer-events: none; background: var(--nk-color-success) url('../../assets/couponsearch/coupon-hero-pattern.webp') center top / 375px auto no-repeat; }
 /* the band copy overflows its slot while the sheet rises over it: covered, never clipped */
 .h2Slot { position: relative; z-index: 1; overflow: visible; touch-action: none; cursor: grab; user-select: none; -webkit-user-select: none; }
-.h2Sheet { position: relative; z-index: 2; background: var(--nk-color-bg-surface); padding: 0 var(--nk-space-s16) var(--nk-space-s12); }
+.h2Sheet { position: relative; z-index: 2; background: var(--nk-color-bg-surface); padding: 0 var(--nk-space-s16) var(--nk-space-s8); }
 
 /* band: padding (8 + tuck) 12 16 16; title 16/22 bold white; tag 11 bold green on white r6; value 13/18 white 90% */
 .band { display: flex; align-items: center; gap: 12px; padding: 0 12px 16px 16px; }
@@ -16,13 +16,13 @@
 .bandSub { display: flex; align-items: center; gap: 6px; min-width: 0; }
 .codeTag { flex: none; padding: 2px 6px; border-radius: var(--nk-radius-r6); background: var(--nk-color-bg-surface); color: var(--nk-color-success); font: var(--nk-type-cs-text11-bold-lh15); letter-spacing: 0.2px; }
 .bandValue { font: var(--nk-type-text13-medium-lh18); color: var(--nk-color-cs-on-green90); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-/* ✕: a 28 circle in white 18% inside a 36 hit area */
+/* ✕: a 32 circle in white 18% inside a 36 hit area */
 .bandX { flex: none; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; }
-.bandXCircle { width: 28px; height: 28px; border-radius: var(--nk-radius-r14); background: var(--nk-color-cs-on-green18); display: flex; align-items: center; justify-content: center; }
+.bandXCircle { width: 32px; height: 32px; border-radius: var(--nk-radius-r16); background: var(--nk-color-cs-on-green18); display: flex; align-items: center; justify-content: center; }
 
 /* ── Row · Eligible row ────────────────────────────────────────────────────────────────────────────── */
 /* 343 wide, min 56, r12, padding 10 / 12, gap 10, two lines; the whole row is the hit target */
-.erWrap { padding: 0 var(--nk-space-s16) var(--nk-space-s4); background: var(--nk-color-bg-surface); }
+.erWrap { padding: 0 var(--nk-space-s16) var(--nk-space-s8); background: var(--nk-color-bg-surface); }
 .er { display: flex; align-items: center; gap: 10px; min-height: 56px; padding: 10px 12px; border-radius: var(--nk-radius-r12); cursor: pointer; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; touch-action: pan-y; outline: none; }
 .er:focus-visible { outline: 2px solid var(--nk-color-primary); outline-offset: 2px; }
 .erIcon { flex: none; width: 20px; height: 20px; -webkit-mask-position: center; mask-position: center; -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
@@ -44,3 +44,11 @@
 .sqSub b { font-weight: 600; color: var(--nk-color-success); }
 .sqLink { flex: none; display: flex; align-items: center; gap: 2px; padding: 10px 0 10px 4px; font: var(--nk-type-text13-semibold-lh16); color: var(--nk-color-primary); }
 .sqDivider { height: 1px; margin: 4px var(--nk-space-s16); background: var(--nk-color-cs-divider); }
+
+/* ── Suggestion rows (team file "Suggestion"): 52 high, padding 6 / 16, gap 12 ─────────────────────── */
+.sg { display: flex; align-items: center; gap: var(--nk-space-s12); width: 100%; height: 52px; padding: 6px var(--nk-space-s16); cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.sgThumb { flex: none; width: 40px; height: 40px; border-radius: var(--nk-radius-r8); background: var(--nk-palette-white); overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.sgThumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.sgText { flex: 1; min-width: 0; font: var(--nk-type-field-b14-regular); letter-spacing: -0.1px; color: var(--nk-palette-blue-gray700); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sgText b { font-weight: 700; color: var(--nk-palette-blue-gray900); }
+.sgFill { flex: none; display: flex; width: 20px; height: 20px; }

@@ -243,3 +243,53 @@ export function buildCouponTray({ subtotal, units, appliedCode, isMember }: Tray
     ],
   };
 }
+
+/** RAK50 "Ends in" on the BEAUTY10 tray: the team file's 08:23:56, counting down from when the module loads */
+const RAK50_EXPIRY = new Date(Date.now() + (8 * 3600 + 23 * 60 + 56) * 1000).toISOString();
+const beautyTerms = `10% off on all beauty products up to ${currency}50 with your FAB and Dubai first Mastercard credit card`;
+
+/**
+ * The coupon-scoped search demo's tray (src/flows/couponsearch, team file 02 / 03 · Coupons): Save 178 best offer
+ * (WELCOME20 cashback + FAB), then RAK50 with its timer, the locked BEAUTY10 (Shop more opens its eligible items) and
+ * B2G1PA. Fixed content, as the frames, whatever is in the kit's cart.
+ */
+export function buildBeauty10Tray({ appliedCode }: Pick<TrayInputs, 'appliedCode'>): CouponTray {
+  return {
+    bestPrice: {
+      header: `Save ${currency}178`,
+      offers: [
+        { ...base, type: 'coupon_discount', id: 'coupon-welcome20', code: 'WELCOME20', isApplied: appliedCode === 'WELCOME20', title: `${currency}97.32 cashback`, promoType: 'cashback', header: beautyTerms },
+        { ...base, type: 'bank_discount_v2', id: 'bank-fab', code: null, title: `${currency}97.32 cashback`, promoType: 'cashback', header: beautyTerms },
+      ],
+    },
+    coupons: [
+      { ...base, type: 'coupon_discount', id: 'coupon-rak50', code: 'RAK50', isApplied: appliedCode === 'RAK50', title: `${currency}50 off`, header: beautyTerms, expiryTime: RAK50_EXPIRY },
+      {
+        ...base,
+        type: 'coupon_discount',
+        id: 'coupon-beauty10',
+        code: 'BEAUTY10',
+        title: 'Extra 10% off on beauty',
+        expiryTime: RAK50_EXPIRY,
+        header: '10% off on all beauty products.',
+        body: `Up to ${currency}50 with your FAB and Dubai first Mastercard credit card.`,
+        state: 'locked',
+        unlockCriteria: { type: 'amount', data: { currentAmount: 135, totalAmount: 265 }, prompt: `<p><b>Add ${currency}130 more</b> to unlock coupon</p>` },
+        plpQuery: 'beauty10',
+      },
+      {
+        ...base,
+        type: 'coupon_discount',
+        id: 'coupon-b2g1pa',
+        code: 'B2G1PA',
+        title: 'Buy 2 Get 1 Free',
+        header: '10% off on all beauty products.',
+        body: `Up to ${currency}50 with your FAB and Dubai first Mastercard credit card.`,
+        state: 'locked',
+        unlockCriteria: { type: 'bogo', data: { toBuy: 2, toGet: 1, current: 0 }, prompt: '<p><b>Add 2 items</b> for the price of 1</p>' },
+        plpQuery: 'deals',
+      },
+    ],
+    bankDiscounts: [],
+  };
+}

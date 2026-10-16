@@ -31,7 +31,7 @@ const readUrl = (): { route?: Route; params: Record<string, string> } => {
   const { route, params } = parsePageUrl(window.location);
   const { v, ...rest } = params;
   if (isCsVariant(v)) csStore.setVariant(v);
-  return { route: route ? registry.resolve(route)?.route : 'cart/cart', params: rest };
+  return { route: route ? registry.resolve(route)?.route : 'couponsearch/cart', params: rest };
 };
 const withVersion = (search: string) => {
   const q = new URLSearchParams(search);

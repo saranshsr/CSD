@@ -1,34 +1,55 @@
-/* The kit's PLP chrome (src/flows/plp/plp.module.css, bappzaar NoonCatalogList) for the coupon listings: the search bar
-   block never moves; the pill row hangs under it in an overflow-hidden layer that slides up on scroll (--plp-header-hide). */
-.header { position: relative; }
-.barBlock { position: relative; z-index: 3; padding-top: var(--nk-inset-top); background: var(--nk-color-bg-surface); box-shadow: 0 1px 4px var(--nk-palette-black-alpha10); }
-.hidable { position: absolute; top: 100%; left: 0; right: 0; z-index: 2; overflow: hidden; pointer-events: none; }
-.hidableInner { pointer-events: auto; background: var(--nk-color-bg-surface); box-shadow: 1px 1px 3px var(--nk-palette-black-alpha4); transform: translateY(calc(var(--plp-header-hide, 0) * -100%)); }
-/* pt 4 = the search screen's bar spot (calc(inset + 4px)), so the hand-off never moves it */
-.barRow { padding: 4px var(--nk-space-s16) var(--nk-space-s12); }
-.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 2px 12px 50px; }
-.cell, .cell > div, .cell > div > div:last-child { display: flex; flex-direction: column; flex: 1; }
-.cell [data-testid='product_box'] { flex: 1; }
-.tabSpace { height: calc(var(--nk-layout-tab-bar) + var(--nk-inset-bottom)); }
-.navDock { position: relative; height: 0; }
-.navHide { transform: translateY(calc(var(--plp-tab-hide, 0) * (var(--nk-layout-tab-bar) + var(--nk-inset-bottom)))); }
+/* Coupon listings (04 · Eligible items, Iteration 2 Results): white page, the bar block fixed at the top
+   (calc(inset + 4) 16 8, the search screen's bar spot, so the results-fade hand-off never moves it). */
+.barBlock { position: relative; z-index: 3; padding: calc(var(--nk-inset-top) + 4px) var(--nk-space-s16) var(--nk-space-s8); background: var(--nk-palette-white); }
+
+/* Marketplace tabs: pt 8, px 4, four flex-1 tabs; logo · 6 · 11 / 14 label · 6 · 3 × 72 indicator; #EAECF0 hairline */
+.mp { display: flex; align-items: flex-start; padding: var(--nk-space-s8) var(--nk-space-s4) 0; border-bottom: 1px solid var(--nk-palette-light-grey-color); background: var(--nk-palette-white); }
+.mpTab { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; }
+.mpLogo { height: 19px; display: flex; align-items: center; justify-content: center; }
+.mpLogo img { display: block; }
+.mpSupermall { display: flex; align-items: flex-start; justify-content: center; gap: 0.7px; width: 68.9px; height: 19px; padding-top: 4.4px; border-radius: 4.75px; background: var(--nk-color-cs-supermall); }
+.mpLabel { font: var(--nk-type-field-b11-regular); letter-spacing: -0.1px; color: var(--nk-palette-blue-gray900); white-space: nowrap; }
+.mpIndicator, .mpIndicatorSpace { display: block; width: 72px; height: 3px; border-radius: var(--nk-radius-r2); }
+.mpIndicator { background: var(--nk-palette-black); }
+
+/* chips row: p 12, gap 8 */
+.chips { display: flex; gap: var(--nk-space-s8); padding: var(--nk-space-s12); background: var(--nk-palette-white); }
+.chip { flex: none; display: flex; align-items: center; justify-content: center; gap: 2px; height: 32px; padding: 6px 8px; border: 1px solid var(--nk-color-cs-chip-border); border-radius: var(--nk-radius-r8); background: var(--nk-palette-white); font: var(--nk-type-cs-text14-medium-lh20); color: var(--nk-color-cs-chip-ink); white-space: nowrap; cursor: pointer; }
+.chip span { padding: 0 2px; }
+.chip[data-chevron] { padding-right: 4px; }
+.chip img { display: block; flex: none; }
+
+/* BEAUTY10 hero: full-bleed 375 × 164 art */
+.hero { display: block; width: 100%; aspect-ratio: 375 / 164; object-fit: cover; }
+
+/* category circles: pt 16 pb 12 pl 12, gap 12 */
+.cats { display: flex; gap: var(--nk-space-s12); padding: var(--nk-space-s16) var(--nk-space-s12) var(--nk-space-s12); }
+.cat { flex: none; width: 72px; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; }
+.catImg { display: block; width: 72px; height: 72px; border-radius: 36px; border: 1px solid var(--nk-color-cs-circle-border); background: var(--nk-palette-white); object-fit: cover; }
+.catLabel { font: var(--nk-type-field-b14-semibold); letter-spacing: -0.1px; color: var(--nk-palette-blue-gray900); text-align: center; }
+
+/* one context line under the chips (never a count): pt 4 pb 10 px 16, B12 #666D85, query + scope SemiBold #1D2539 */
+.context { padding: var(--nk-space-s4) var(--nk-space-s16) 10px; font: var(--nk-type-field-b12-regular); letter-spacing: -0.1px; color: var(--nk-palette-slate-gray); }
+.context b { font-weight: 600; color: var(--nk-palette-blue-gray900); }
+
+/* grid: px 12, 16 rows / 10 columns */
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 10px; padding: 0 var(--nk-space-s12) 120px; }
+.cell { display: flex; flex-direction: column; min-width: 0; }
 .empty { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 48px 24px; text-align: center; }
-.clear { color: var(--nk-color-brand-blue); font: var(--nk-type-body-semibold); }
 
-/* One context line under the pills, where the kit shows its count (never a count here). */
-.context { padding: 2px 16px 10px; font: var(--nk-type-text12-regular-lh18); color: var(--nk-color-text-secondary); }
-.context b { font-weight: 600; color: var(--nk-color-text-primary); }
+/* the floating Sort | Filter pill and share circle, 12 above the bottom nav */
+.footer { position: relative; }
+.pillDock { position: absolute; left: 50%; bottom: calc(100% + 12px); transform: translateX(-50%); display: flex; align-items: center; gap: var(--nk-space-s8); z-index: 4; }
+.pill { position: relative; width: 160px; height: 36px; flex: none; color: var(--nk-palette-white); font: var(--nk-type-cs-text16-bold-lh22b); cursor: pointer; }
+.pillBg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.pillSort { position: absolute; left: 12px; top: 7px; line-height: 22.4px; }
+.pillSortIcon { position: absolute; left: 46px; top: 6px; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; gap: 0; }
+.pillSortIcon img { display: block; width: 15.7px; height: 10.9px; margin: 0 -2.4px; }
+.pillSep { position: absolute; left: 78px; top: 8px; width: 1px; height: 20px; background: var(--nk-palette-white); opacity: 0.2; }
+.pillFilter { position: absolute; left: 86px; top: 7px; line-height: 22.4px; }
+.pillFilterIcon { position: absolute; left: 128px; top: 6px; display: block; }
+.share { flex: none; width: 36px; height: 36px; border-radius: 36px; border: 1.5px solid var(--nk-color-cs-pill); background: var(--nk-palette-white); display: flex; align-items: center; justify-content: center; padding: 0 0 0 0; cursor: pointer; }
+.share img { display: block; }
 
-/* BEAUTY10 hero: the band's green + halftone (375 wide, centred, pinned to the top), white copy, the white code tag */
-.hero {
-  margin: 2px 12px 14px;
-  padding: 16px;
-  border-radius: var(--nk-radius-r12);
-  background: var(--nk-color-success) url('../../assets/couponsearch/coupon-hero-pattern.webp') center top / 375px auto no-repeat;
-  display: flex; flex-direction: column; gap: 4px;
-  color: var(--nk-color-text-inverse);
-}
-.heroTitle { font: var(--nk-type-title); }
-.heroBody { font: var(--nk-type-text13-medium-lh18); color: var(--nk-color-cs-on-green90); }
-.heroUse { display: flex; align-items: center; gap: 6px; margin-top: 8px; font: var(--nk-type-text13-medium-lh18); color: var(--nk-color-cs-on-green90); }
-.codeTag { flex: none; padding: 2px 6px; border-radius: var(--nk-radius-r6); background: var(--nk-color-bg-surface); color: var(--nk-color-success); font: var(--nk-type-cs-text11-bold-lh15); letter-spacing: 0.2px; }
+/* the Field DS bottom nav is absolutely placed: this keeps its room (indicator 4 · 8 · icon 28 · 6 · label 14 + home bar) */
+.tabDock { position: relative; height: calc(60px + var(--nk-inset-bottom)); }

@@ -1,0 +1,39 @@
+/* M-Keyboard (team file, iOS 26 light): #E6E9ED, top corners 25.2, bottom corners follow the screen; white r 7.93 keys,
+   23.3 glyphs #595959; return #0088FF. Sits in the screen's overlay layer, docked to the bottom. */
+.wrap { position: absolute; left: 0; right: 0; bottom: 0; z-index: 40; }
+.kb {
+  position: absolute; inset: 0; border-radius: 25.19px 25.19px 0 0; will-change: transform;
+  background: var(--nk-color-cs-kb-bg);
+  font-family: -apple-system, 'SF Pro Text', system-ui, sans-serif; user-select: none; -webkit-user-select: none; touch-action: none; -webkit-tap-highlight-color: transparent;
+}
+.plane { position: absolute; left: 0; right: 0; top: 0; touch-action: none; }
+.key {
+  position: absolute; display: grid; place-items: center; border-radius: 7.93px; background: var(--nk-color-cs-kb-key); color: var(--nk-color-cs-kb-glyph);
+  font-size: 23.3px; line-height: 28px; font-weight: 400; padding-bottom: 4px; pointer-events: none;
+}
+.key[data-type='shift'], .key[data-type='back'], .key[data-type='return'] { padding-bottom: 0; }
+.key[data-type='punct'] { padding-bottom: 6px; font-size: 25px; }
+.small { font-size: 16.8px; letter-spacing: -0.2px; }
+/* instant, iOS-like press states. Letter keys never change: the popup is the feedback */
+.key[data-type='shift'][data-down], .key[data-type='back'][data-down], .key[data-type='mode'][data-down], .key[data-type='space'][data-down] { background: var(--nk-color-cs-kb-key-down); }
+.key[data-type='return'] { background: var(--nk-color-cs-kb-return); color: var(--nk-palette-white); }
+.key[data-type='return'][data-down] { background: var(--nk-color-cs-kb-return-down); }
+.key[data-type='return'][data-disabled] { background: var(--nk-color-cs-kb-key); color: var(--nk-color-cs-kb-return-off); }
+
+/* QuickType predictive bar (off in the frames: csTokens.keyboard.quickType) */
+.qt { position: absolute; z-index: 1; left: 0; right: 0; top: 4px; display: flex; padding: 0 3px; }
+.qtSlot { position: relative; flex: 1; min-width: 0; display: grid; place-items: center; padding: 0 8px; border-radius: 9px; font-size: 16px; line-height: 21px; letter-spacing: -0.3px; color: var(--nk-palette-black); }
+.qtSlot[data-best] { font-weight: 500; }
+.qtSlot[data-down] { background: rgba(255, 255, 255, 0.72); }
+.qtText { max-width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.qtSep { position: absolute; top: 9px; width: 1px; height: 22px; margin-left: -0.5px; background: var(--nk-color-cs-kb-sep); }
+
+/* key popup */
+.pop { position: absolute; z-index: 2; pointer-events: none; filter: drop-shadow(0 0 0.6px rgba(0, 0, 0, 0.35)) drop-shadow(0 3px 6px rgba(0, 0, 0, 0.14)); }
+.popStem { position: absolute; inset: -6px 0 0 0; background: var(--nk-color-cs-kb-key); border-radius: 0 0 7.93px 7.93px; }
+.popHead { position: absolute; top: -54px; height: 54px; background: var(--nk-color-cs-kb-key); border-radius: 12px 12px 14px 14px; display: grid; place-items: center; font-size: 30px; color: var(--nk-palette-black); padding-bottom: 4px; }
+
+/* emoji / mic bar: pt 25.2, emoji 25.1 at 33.6, mic 17.6 × 26.3 at 36.4 from the right */
+.bar { position: absolute; left: 0; right: 0; pointer-events: none; }
+.emoji { position: absolute; left: 33.58px; top: 25.19px; display: block; }
+.mic { position: absolute; right: 36.38px; top: 25.19px; display: block; }

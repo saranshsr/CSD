@@ -8,7 +8,7 @@ import errorArt from '@assets/cart/coupon-tray/coupon-tray-error.webp';
 import emptyArt from '@assets/cart/coupon-tray/coupon-tray-empty.webp';
 import { BestPriceSection, TrayItem } from './components/couponTray/BestPriceSection';
 import { TrayOffer, type TrayOfferShared } from './components/couponTray/TrayOffer';
-import { buildCouponTray, trayCopy, type CouponTray, type TrayOffer as Offer } from './data.couponTray';
+import { buildBeauty10Tray, buildCouponTray, trayCopy, type CouponTray, type TrayOffer as Offer } from './data.couponTray';
 import styles from './couponTray.module.css';
 
 const LOADING_MS = 700; // stands in for NoonCartService.getCouponTray
@@ -17,6 +17,8 @@ const ACTION_MS = 700; // applyCartCoupon / removeCartCoupon round-trip
 type Params = {
   /** playground / journeys: force a state (`loading` holds the skeleton, `error` shows the retry, `empty` no offers) */
   state?: 'loading' | 'error' | 'empty';
+  /** the coupon-scoped search demo's fixed tray (src/flows/couponsearch) */
+  variant?: 'beauty10';
 };
 
 /**
@@ -39,8 +41,9 @@ export function CouponTraySheet({ params }: ScreenProps<Params>) {
 
   const tray: CouponTray = useMemo(() => {
     if (params.state === 'empty') return { bestPrice: null, coupons: [], bankDiscounts: [] };
+    if (params.variant === 'beauty10') return buildBeauty10Tray({ appliedCode: coupon });
     return buildCouponTray({ subtotal: cartTotals.subtotal, units: cartTotals.itemCount, appliedCode: coupon, isMember });
-  }, [params.state, cartTotals.subtotal, cartTotals.itemCount, coupon, isMember]);
+  }, [params.state, params.variant, cartTotals.subtotal, cartTotals.itemCount, coupon, isMember]);
 
   const getTray = useCallback(() => {
     setPhase('loading');

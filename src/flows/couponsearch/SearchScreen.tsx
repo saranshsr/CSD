@@ -1,18 +1,23 @@
-import { motion, type Variants } from 'motion/react';
+import { animate, motion, useMotionValue, type AnimationPlaybackControls, type Variants } from 'motion/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Pill, Screen, SearchInput, Text } from '../../components';
+import { Screen } from '../../components';
 import { preloadRoutes } from '../../kit/lazyScreen';
 import { useIsTop, useNav, useParams } from '../../kit/Navigator';
 import { handoff } from '../../motion/presets';
+import { useReduceMotion } from '../../motion/reducedMotion';
 import { BlurSwap } from '../../motion/recipes';
-// the kit's search pieces (src/flows/search): recent tiles, suggestion rows and the suggestion choreography values
-import { RecentSearches } from '../search/components/RecentSearches';
-import { SuggestionRow } from '../search/components/SuggestionRow';
+// the kit's search choreography values (src/flows/search); the rows and the presearch are the team file's
 import { searchTokens as st } from '../search/tokens';
+import { CsSearchBar } from './components/CsSearchBar';
+import { CsSuggestionRow } from './components/CsSuggestionRow';
+import { Presearch } from './components/Presearch';
+import { KEYBOARD_HEIGHT, Keyboard } from './components/Keyboard';
+import { clamp, project } from './gesture';
 import { BandHeader, type BandHeaderHandle } from './components/BandHeader';
 import { EligibleRow } from './components/EligibleRow';
 import { ScopedRow } from './components/ScopedRow';
-import { recentSearches, suggest, trending, type Scope, type Suggestion } from './data';
+import { MAX_ROWS, suggest, type Scope, type Suggestion } from './data';
+import { CouponContext, csCoupons } from './couponContext';
 import { csStore, useCs, type CsVariant } from './store';
 import { csTokens } from './tokens';
 import styles from './search.module.css';
@@ -29,7 +34,7 @@ interface Rows {
 }
 type SlotCustom = { d: number; dissolve: boolean };
 
-const empty: Rows = { list: [], delay: [], epoch: Array(st.maxRows).fill(0), dissolve: false };
+const empty: Rows = { list: [], delay: [], epoch: Array(MAX_ROWS).fill(0), dissolve: false };
 const searchFor = (s: string): Suggestion => ({ text: `Search for "${s}"` });
 const isSearchFor = (s: Suggestion) => s.text.startsWith('Search for "');
 const listFor = (q: string, scope: Scope): Suggestion[] => {
@@ -84,7 +89,12 @@ const chrome: Variants = {
 /** The coupon search: one screen per version (remounted in place when the version switch changes). */
 export function SearchScreen() {
   const variant = useCs((s) => s.variant);
-  return <CouponSearch key={variant} variant={variant} />;
+  const { coupon } = useParams<{ coupon?: string }>();
+  return (
+    <CouponContext.Provider value={csCoupons[coupon ?? ''] ?? csCoupons.beauty10}>
+      <CouponSearch key={variant} variant={variant} />
+    </CouponContext.Provider>
+  );
 }
 
 /**
@@ -100,15 +110,15 @@ export function SearchScreen() {
  */
 function CouponSearch({ variant }: { variant: CsVariant }) {
   const nav = useNav();
-  const params = useParams<{ q?: string }>();
+  // `normal`: the team file's "Normal search" frames (no coupon context), for comparison
+  const params = useParams<{ q?: string; normal?: string }>();
+  const normal = !!params.normal;
   const eligibleOnly = useCs((s) => s.eligibleOnly);
-  const scope: Scope = variant === 'h2' ? 'eligible' : variant === 'row' && eligibleOnly ? 'eligible' : 'all';
+  const scope: Scope = normal ? 'all' : variant === 'h2' ? 'eligible' : variant === 'row' && eligibleOnly ? 'eligible' : 'all';
   const scopeRef = useRef(scope);
   scopeRef.current = scope;
   const [q, setQ] = useState(params.q ?? '');
   const [fill, setFill] = useState<{ from: number; key: number }>();
-  const [recents, setRecents] = useState(recentSearches);
-  const [editing, setEditing] = useState(false);
   const [phase, setPhaseState] = useState<Phase>('idle');
   const [rows, setRows] = useState<Rows>(empty);
   const [presearchDelay, setPresearchDelay] = useState(params.q ? 0 : st.presearchPushDelay);
@@ -186,12 +196,101 @@ function CouponSearch({ variant }: { variant: CsVariant }) {
     [],
   );
 
+  // ---- the on-screen keyboard: one motion value (0 = docked, KBH = gone), driven by springs and the finger --------
+  // It docks a beat after the screen arrives and stays up while typing (the frames); it drops when the search leaves
+  // for results or goes back. The real field keeps focus and the caret; physical typing goes straight into it.
+  const reduce = useReduceMotion();
+  const KBH = KEYBOARD_HEIGHT;
+  const K = csTokens.keyboard;
+  const kbY = useMotionValue(reduce ? 0 : KBH);
+  const kbO = useMotionValue(reduce ? 0 : 1);
+  const [kbShown, setKbShown] = useState(false);
+  const kbShownRef = useRef(false);
+  const kbAnim = useRef<AnimationPlaybackControls | null>(null);
+  const moveKb = useCallback(
+    (show: boolean, velocity = 0, delay = 0) => {
+      kbAnim.current?.stop();
+      kbShownRef.current = show;
+      setKbShown(show);
+      if (reduce) {
+        kbY.set(0);
+        kbAnim.current = animate(kbO, show ? 1 : 0, { duration: 0.15, ease: 'linear' });
+      } else {
+        kbO.set(1);
+        kbAnim.current = animate(kbY, show ? 0 : KBH, { ...(show ? K.dock : K.drop), velocity, delay });
+      }
+    },
+    [reduce, kbY, kbO, KBH, K],
+  );
+  useEffect(() => {
+    const id = requestAnimationFrame(() => moveKb(true, 0, K.dockDelay));
+    return () => cancelAnimationFrame(id);
+  }, [moveKb, K.dockDelay]);
+  const qRef = useRef(q);
+  qRef.current = q;
+  const onKey = (ch: string) => {
+    if (phaseRef.current === 'leaving') return;
+    if (!kbShownRef.current) moveKb(true);
+    setQ((v) => v + ch);
+  };
+  const onBackspace = (kind: 'char' | 'word') => {
+    if (phaseRef.current === 'leaving') return;
+    setQ((v) => (kind === 'word' ? v.replace(/\S*\s*$/, '') : v.slice(0, -1)));
+  };
+  const back = () => {
+    moveKb(false);
+    nav.back();
+  };
+  // a tap in the field brings the keyboard back up after a scroll dismissed it
+  const onHeaderPointerDown = (e: React.PointerEvent) => {
+    if ((e.target as HTMLElement).tagName === 'INPUT' && !kbShownRef.current && phaseRef.current !== 'leaving') moveKb(true);
+  };
+  // scrolling the content dismisses it (.onDrag on wheel / trackpad; a finger carries it down, .interactive)
+  const wheelAcc = useRef(0);
+  const onWheel = (e: React.WheelEvent) => {
+    if (!kbShownRef.current) return void (wheelAcc.current = 0);
+    wheelAcc.current += Math.abs(e.deltaY) + Math.abs(e.deltaX) * 0.5;
+    if (wheelAcc.current > K.wheelDismiss) {
+      wheelAcc.current = 0;
+      moveKb(false);
+    }
+  };
+  const touch = useRef<{ bottom: number; s: number; moved: boolean } | null>(null);
+  const onTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!kbShownRef.current) return;
+    const scroller = e.currentTarget.parentElement as HTMLElement;
+    const r = scroller.getBoundingClientRect();
+    touch.current = { bottom: r.bottom, s: r.width / 390 || 1, moved: false };
+  };
+  const onTouchMove = (e: React.TouchEvent) => {
+    const t = touch.current;
+    if (!t || reduce) return;
+    // the finger reaching the keyboard carries its top edge 1:1 (and lets it rise again)
+    const off = clamp((e.touches[0].clientY - (t.bottom - KBH * t.s)) / t.s, 0, KBH);
+    if (off > 0 || kbY.get() > 0) {
+      kbAnim.current?.stop();
+      kbY.set(off);
+      t.moved = t.moved || off > 0;
+    }
+  };
+  const onTouchEnd = () => {
+    const t = touch.current;
+    touch.current = null;
+    if (!t?.moved) return;
+    const v = kbY.getVelocity();
+    const hide = project(kbY.get(), v) > KBH / 2;
+    kbShownRef.current = !hide;
+    setKbShown(!hide);
+    kbAnim.current = animate(kbY, hide ? KBH : 0, { ...K.dock, velocity: v });
+  };
+
   // back from results: the rows spring back in, the band returns (h2) and the field is editable again
   const isTop = useIsTop();
   useEffect(() => {
     if (!isTop || phaseRef.current !== 'leaving') return;
     setPhase('idle');
     band.current?.comeBack();
+    moveKb(true, 0, K.dockDelay);
     headerRef.current?.querySelector('input')?.focus({ preventScroll: true });
     return update(q);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -206,7 +305,8 @@ function CouponSearch({ variant }: { variant: CsVariant }) {
     setQ(query);
     const up = phaseRef.current === 'showing' ? rowsRef.current.list.length : 0;
     setPhase('leaving');
-    (document.activeElement as HTMLElement | null)?.blur(); // the keyboard drops as the rows leave
+    moveKb(false); // the keyboard drops as the rows leave
+    (document.activeElement as HTMLElement | null)?.blur();
     // the rows (and the band, making way) finish leaving first, then the results layer fades in
     const rowsS = up ? (up - 1) * st.fastExit.stagger + st.fastExit.move : !q.trim() ? handoff.fade.io : 0;
     const bandS = band.current?.makeWay() ?? 0;
@@ -229,16 +329,16 @@ function CouponSearch({ variant }: { variant: CsVariant }) {
   const chromeState = leaving ? 'fast' : 'in';
   const chromeDelay = leaving ? n * st.fastExit.stagger : presearchDelay;
 
-  const input = <SearchInput value={q} onChange={setQ} onBack={nav.back} autoFocus onSubmit={(v) => go(v)} fill={fill} />;
+  const input = <CsSearchBar value={q} onChange={setQ} onBack={back} autoFocus onSubmit={(v) => go(v)} fill={fill} />;
   const header =
-    variant === 'h2' ? (
-      <div ref={headerRef}>
+    variant === 'h2' && !normal ? (
+      <div ref={headerRef} onPointerDownCapture={onHeaderPointerDown}>
         <BandHeader ref={band}>{input}</BandHeader>
       </div>
     ) : (
-      <div ref={headerRef}>
+      <div ref={headerRef} onPointerDownCapture={onHeaderPointerDown}>
         <div className={styles.header}>{input}</div>
-        {variant === 'row' && (
+        {variant === 'row' && !normal && (
           <motion.div className={styles.erWrap} initial={{ opacity: 0, y: handoff.travel }} animate={chromeState} custom={chromeDelay} variants={chrome}>
             <EligibleRow on={eligibleOnly} onChange={csStore.setEligibleOnly} />
           </motion.div>
@@ -247,14 +347,31 @@ function CouponSearch({ variant }: { variant: CsVariant }) {
     );
 
   return (
-    <Screen header={header} background="bgSurface">
-      {variant === 'n5' && (
+    <Screen
+      header={header}
+      background="bgSurface"
+      contentStyle={{ paddingBottom: KBH + 16 }}
+      overlay={
+        <Keyboard
+          visible={kbShown}
+          y={kbY}
+          opacity={kbO}
+          hardware={leaving ? false : 'type'}
+          onKey={onKey}
+          onBackspace={onBackspace}
+          onReturn={() => go(qRef.current)}
+          onEscape={back}
+        />
+      }
+    >
+      <div onWheel={onWheel} onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd} onTouchCancel={onTouchEnd}>
+      {variant === 'n5' && !normal && (
         <motion.div
           initial={{ opacity: 0, y: handoff.travel }}
           animate={chromeState}
           custom={chromeDelay}
           variants={chrome}
-          style={{ paddingTop: 4, pointerEvents: leaving ? 'none' : 'auto' }}
+          style={{ pointerEvents: leaving ? 'none' : 'auto' }}
         >
           {/* empty field: back to the eligible items; typed: search them */}
           <ScopedRow onPress={() => (q.trim() ? go(q, 'eligible') : nav.back())} />
@@ -266,31 +383,13 @@ function CouponSearch({ variant }: { variant: CsVariant }) {
           animate={showPresearch ? 'in' : 'out'}
           custom={presearchDelay}
           variants={presearch}
-          style={{ display: 'flex', flexDirection: 'column', gap: 24, paddingTop: 8, pointerEvents: showPresearch ? 'auto' : 'none' }}
+          style={{ pointerEvents: showPresearch ? 'auto' : 'none' }}
         >
-          <RecentSearches
-            items={recents}
-            editing={editing}
-            onToggleEdit={() => setEditing((e) => !e)}
-            onRemove={(id) => setRecents((r) => r.filter((x) => x.id !== id))}
-            onPress={(t) => go(t)}
-          />
-          <section style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <Text variant="section" color="textStrong" style={{ padding: '0 16px' }}>
-              Trending searches
-            </Text>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, padding: '0 16px' }}>
-              {trending.map((t) => (
-                <Pill key={t} variant="tag" icon="trendingUp" onPress={() => go(t)}>
-                  {t}
-                </Pill>
-              ))}
-            </div>
-          </section>
+          <Presearch onSearch={(t) => go(t)} onBanner={() => nav.push('noonone/landing', { source: '/search' })} onCategory={(t) => go(t)} />
         </motion.div>
 
-        <div role="listbox" aria-label="Suggestions" style={{ position: 'absolute', inset: '0 0 auto', padding: '4px 12px', pointerEvents: phase === 'showing' ? 'auto' : 'none' }}>
-          {Array.from({ length: st.maxRows }, (_, i) => {
+        <div role="listbox" aria-label="Suggestions" style={{ position: 'absolute', inset: '0 0 auto', pointerEvents: phase === 'showing' ? 'auto' : 'none' }}>
+          {Array.from({ length: MAX_ROWS }, (_, i) => {
             if (rows.list[i]) lastShown.current[i] = rows.list[i];
             const s = rows.list[i] ?? lastShown.current[i];
             const plain = rows.dissolve ? { shift: 0, blur: 0 } : {};
@@ -302,15 +401,14 @@ function CouponSearch({ variant }: { variant: CsVariant }) {
                 animate={stateOf(i)}
                 custom={custom(i)}
                 variants={slot}
-                style={{ marginBottom: 8, visibility: s ? 'visible' : 'hidden' }}
+                style={{ visibility: s ? 'visible' : 'hidden' }}
               >
                 {s && (
                   <BlurSwap key={rows.epoch[i]} swapKey={s.text} delay={rows.delay[i] ?? 0} {...plain}>
-                    <SuggestionRow
+                    <CsSuggestionRow
                       text={s.text}
                       query={isSearchFor(s) ? '' : q}
                       product={s.product}
-                      category={s.category}
                       onPress={() => go(isSearchFor(s) ? q : s.text)}
                       onFill={() => {
                         setFill({ from: fillFrom(s.text), key: Date.now() });
@@ -323,6 +421,7 @@ function CouponSearch({ variant }: { variant: CsVariant }) {
             );
           })}
         </div>
+      </div>
       </div>
     </Screen>
   );

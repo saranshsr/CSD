@@ -1,5 +1,6 @@
 import { OriginIcon, Pressable } from '../../../components';
-import { coupon, copy } from '../data';
+import { copy } from '../data';
+import { useCoupon } from '../couponContext';
 import styles from '../search.module.css';
 
 /**
@@ -9,6 +10,7 @@ import styles from '../search.module.css';
  * divider inset 16 with 4 above and below. The whole row and View all do the same thing.
  */
 export function ScopedRow({ onPress }: { onPress: () => void }) {
+  const coupon = useCoupon();
   return (
     <div>
       <Pressable asDiv className={styles.sq} scale={0.98} onClick={onPress} aria-label={copy.scoped.label}>

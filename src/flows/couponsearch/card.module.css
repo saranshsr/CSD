@@ -1,0 +1,60 @@
+/* Team file "Product card" (Iteration 1 04 / Iteration 2 results), values at 375 → fluid column at 390. */
+.card { display: flex; flex-direction: column; min-width: 0; border: 0.5px solid var(--nk-palette-anti-flash-white); border-radius: var(--nk-radius-r12); overflow: hidden; background: var(--nk-palette-white); cursor: pointer; }
+
+.media { position: relative; aspect-ratio: 170.5 / 227.333; background: var(--nk-color-cs-card-image-bg); overflow: hidden; }
+.photo { position: absolute; top: 0; bottom: 0; left: 50%; aspect-ratio: 3 / 4; transform: translateX(-50%); mix-blend-mode: multiply; }
+.photo > div { height: 100%; }
+
+/* pager: 6 · 6 · 4 · 2 dots, gap 6, 8 above the bottom */
+.dots { position: absolute; left: 50%; bottom: 8px; transform: translateX(-50%); display: flex; align-items: center; gap: 6px; padding: 4px 8px; border-radius: 9999px; }
+.dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--nk-color-cs-dot-off); }
+.dots i[data-on] { background: var(--nk-color-cs-dot-on); }
+.dots i[data-s='4'] { width: 4px; height: 4px; }
+.dots i[data-s='2'] { width: 2px; height: 2px; }
+
+/* Best Seller: 20 high, px 6, emerald 900, bottom-right radius 10, 12 / 14 SemiBold white */
+.tag { position: absolute; top: 0; left: 0; height: 20px; display: flex; align-items: center; padding: 2px 6px; border-bottom-right-radius: 10px; background: var(--nk-color-cs-tag-bg); color: var(--nk-palette-white); font: var(--nk-type-cs-text12-semibold-lh14); letter-spacing: -0.12px; white-space: nowrap; }
+.heart { position: absolute; top: 8px; right: 8px; display: flex; }
+
+/* swatches: three 12 dots overlapping 5, a 11 / 11 SemiBold count; 50 above the bottom, 8 from the right */
+.swatches { position: absolute; right: 8px; bottom: 50px; width: 20px; display: flex; flex-direction: column; align-items: center; }
+.swatchStack { display: flex; flex-direction: column; align-items: center; padding: 4px 0 3px; }
+.swatchStack i { width: 12px; height: 12px; border-radius: 50%; border: 0.5px solid var(--nk-palette-white); }
+.swatchStack i + i { margin-top: -5px; }
+.swatchStack i[data-c='r'] { background: var(--nk-color-cs-swatch-red); }
+.swatchStack i[data-c='g'] { background: var(--nk-color-cs-swatch-green); }
+.swatchStack i[data-c='b'] { background: var(--nk-color-cs-swatch-blue); }
+.swatchCount { font: 600 11px/11px var(--nk-font-family, inherit); letter-spacing: -0.12px; color: var(--nk-color-cs-unit-ink); height: 14px; }
+
+/* add: 32 white r8 box, 1.2px #F2F3F7, 24 plus */
+.add { position: absolute; right: 8px; bottom: 8px; display: flex; padding: 4px; border: 1.2px solid var(--nk-palette-anti-flash-white); border-radius: var(--nk-radius-r8); background: var(--nk-palette-white); cursor: pointer; }
+.add img { display: block; }
+
+.deal { height: 20px; display: flex; align-items: center; padding: 0 8px; background: var(--nk-palette-blue-gray1000); color: var(--nk-palette-white); font: var(--nk-type-cs-text12-regular-lh14); letter-spacing: -0.12px; }
+
+.body { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; padding: 8px 8px 10px; }
+.titleBlock { display: flex; flex-direction: column; gap: 2px; width: 100%; }
+.title { margin: 0; height: 36px; font: var(--nk-type-cs-text14-medium-lh18); letter-spacing: -0.14px; color: var(--nk-color-cs-title-ink); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.rating { align-self: flex-start; display: flex; align-items: center; gap: 2px; height: 18px; padding: 2px 4px; border-radius: var(--nk-radius-r4); background: var(--nk-palette-secondary-background-color); font: var(--nk-type-cs-text12-semibold-lh14); letter-spacing: -0.12px; color: var(--nk-palette-blue-gray1000); white-space: nowrap; }
+.rating img { display: block; }
+
+.pricing { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; width: 100%; }
+.priceRow { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 2px; }
+.sale { font: var(--nk-type-cs-text15-bold-lh16); letter-spacing: 0.07px; color: var(--nk-palette-blue-gray900); white-space: nowrap; }
+.was { font: var(--nk-type-cs-text12-regular-lh14); letter-spacing: -0.12px; color: var(--nk-palette-bluish-grey); white-space: nowrap; }
+.off { font: var(--nk-type-cs-text12-semibold-lh14); letter-spacing: -0.12px; color: var(--nk-color-cs-discount); white-space: nowrap; }
+.unit { display: flex; align-items: center; gap: 6px; height: 18px; padding: 4px; border-radius: var(--nk-radius-r4); background: var(--nk-palette-secondary-background-color); font: var(--nk-type-cs-text12-medium-lh14); letter-spacing: -0.12px; color: var(--nk-color-cs-unit-ink); white-space: nowrap; }
+.unit i { width: 1px; height: 12px; background: var(--nk-palette-light-grey-color); }
+.nudge { display: flex; align-items: center; gap: 2px; height: 16px; font: 400 12px/16px var(--nk-font-family, inherit); letter-spacing: -0.12px; color: var(--nk-palette-blue-gray700); white-space: nowrap; overflow: hidden; max-width: 100%; }
+.nudge img { display: block; flex: none; }
+
+.coupons { display: flex; gap: 4px; }
+.coupon { padding: 2px 4px; border: 0.5px dashed var(--nk-color-cs-coupon-border); border-radius: 4px 3px 3px 4px; background: var(--nk-color-cs-coupon-bg); color: var(--nk-color-cs-tag-bg); font: var(--nk-type-cs-text12-semibold-lh14); letter-spacing: -0.12px; white-space: nowrap; }
+
+/* supermall ETA: #1F20B7 r4.4 pill over a #0E0E60 shade 9px lower */
+.eta { position: relative; display: flex; flex-direction: column; align-items: flex-start; height: 22px; isolation: isolate; }
+.etaPill { position: relative; z-index: 2; display: flex; align-items: center; gap: 2px; padding: 3.25px 3px; border-radius: 4.4px; background: var(--nk-color-cs-eta); color: var(--nk-palette-white); font: var(--nk-type-cs-text12-regular-lh14); letter-spacing: -0.12px; white-space: nowrap; }
+.etaPill b { font-weight: 600; color: var(--nk-color-cs-eta-value); }
+.etaPill img { display: block; flex: none; }
+.etaCaret { transform: rotate(-90deg); }
+.etaShade { position: relative; z-index: 1; width: 100%; height: 10.5px; margin-top: -9px; border-radius: 0 0 4.4px 4.4px; background: var(--nk-color-cs-eta-shade); }

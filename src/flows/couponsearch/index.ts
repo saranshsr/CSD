@@ -2,6 +2,7 @@ import { defineFlow } from '../../kit/registry';
 import { lazyScreen } from '../../kit/lazyScreen';
 import { couponsearchFlowTokens } from './tokens';
 
+const CartScreen = lazyScreen(() => import('./CartScreen'), 'CartScreen');
 const EligibleScreen = lazyScreen(() => import('./EligibleScreen'), 'EligibleScreen');
 const SearchScreen = lazyScreen(() => import('./SearchScreen'), 'SearchScreen');
 const ResultsScreen = lazyScreen(() => import('./ResultsScreen'), 'ResultsScreen');
@@ -19,12 +20,21 @@ export const couponsearchFlow = defineFlow({
   group: 'Shopping',
   description:
     'Search started from a coupon: BEAUTY10 eligible items, then a search that knows its coupon, in three versions (context band, eligible-only toggle row, scoped auto-suggestion row).',
-  initial: 'eligible',
-  parent: 'cart/cart',
+  initial: 'cart',
   tokens: couponsearchFlowTokens,
   screens: [
     {
+      id: 'cart',
+      title: 'Cart',
+      component: CartScreen,
+      path: 'beauty10-cart',
+      notes: 'Team file 01 · Cart, with the coupon entry on screen. "View all coupons & offers" (or the field) opens the coupon tray on BEAUTY10 (02 / 03 · Coupons); its Shop more opens the eligible items.',
+      source,
+      truth: 'reference',
+    },
+    {
       id: 'eligible',
+      parent: 'couponsearch/cart',
       title: 'Eligible items',
       component: EligibleScreen,
       path: 'beauty10',
