@@ -86,7 +86,7 @@ export default function EligibleRow({ code, value = 'Extra 10% off at checkout',
   return (
     <motion.div className="er-wrap" {...entrance}>
       <motion.div className={`er${held ? ' is-held' : ''}`} role="switch" aria-checked={on} tabIndex={0}
-        aria-label={`${code} items only`} style={{ backgroundColor: rowBg, boxShadow: ring }}
+        aria-label={`Search ${code} items only`} style={{ backgroundColor: rowBg, boxShadow: ring }}
         onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp}
         onPointerCancel={() => { drag.current = null; setHeld(false); stretch(0); glide(on ? 1 : 0); }}
         onKeyDown={(e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); tick(); onChange(!on); } }}>
@@ -94,7 +94,7 @@ export default function EligibleRow({ code, value = 'Extra 10% off at checkout',
         {/* two lines (Figma "Eligible row · two lines"): scope on one line, the offer under it — wraps to a
             second line for bigger offers instead of breaking the row */}
         <span className="er-copy">
-          <span className="er-text"><b>{code}</b> items only</span>
+          <span className="er-text">Search <b>{code}</b> items only</span>
           <motion.span className="er-offer" style={{ color: valueC }}>{value}</motion.span>
         </span>
         <motion.span className="er-track" style={{ backgroundColor: track }} aria-hidden="true">

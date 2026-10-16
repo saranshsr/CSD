@@ -201,7 +201,7 @@ export default function Search({ nav, params = {} }) {
   // Auto-suggestion (Flow B): the scoped row leads the typeahead for ANY query while typing — the
   // suggestions under it stay all-of-noon; the row is the way into the eligible-only search.
   const auto = !variant && !normal;
-  const beauty = auto && landed && query.trim() !== '';
+  const beauty = auto && landed; // pre-state too: the row is there on the empty screen, before typing
   const [nudge, setNudge] = useState(false);
   const [nudgeKey, setNudgeKey] = useState(0);
   useEffect(() => {
@@ -404,7 +404,7 @@ export default function Search({ nav, params = {} }) {
           initial={false}
           animate={{ height: nudge ? 'auto' : 0 }}
           transition={reduce ? { duration: 0 } : nudge ? SPR.layout : SPR.recede}>
-          <ScopedRow key={nudgeKey} code={coupon.code} onTap={() => goResults(query)}
+          <ScopedRow key={nudgeKey} code={coupon.code} onTap={() => (query.trim() ? goResults(query) : goBack())} /* empty: back to the eligible items */
             initial={reduce ? { opacity: 0 } : { opacity: 0, y: -4 }}
             animate={nudge ? { opacity: 1, y: 0 } : { opacity: 0, y: -4 }}
             transition={reduce ? fade() : nudge
