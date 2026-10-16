@@ -1,0 +1,21 @@
+/* NoonDynamicInvoice/styles.ts with the cart's customStyles (container paddingVertical 0, invoiceContainer paddingBottom 12) */
+.container { display: flex; flex-direction: column; row-gap: 15px; }
+.invoice { background: var(--nk-color-bg-surface); overflow: hidden; }
+.invoiceContent { padding-bottom: 12px; }
+.sectionWrapper { margin: 0 15px; }
+.section { padding: 15px 0; }
+.sectionWrapper:first-child .section { padding-top: 0; }
+.sectionWrapper:last-child .section { padding-bottom: 0; }
+.sectionHeader { display: flex; flex-direction: row; align-items: center; gap: 8px; margin-bottom: 8px; }
+.entry { margin-top: 8px; }
+.entry:first-of-type { margin-top: 0; }
+.sectionHeader + .entry { margin-top: 0; }
+.entryRow { display: flex; flex-direction: row; justify-content: space-between; align-items: center; }
+.entryLeft { flex-shrink: 1; display: flex; align-items: center; column-gap: 4px; margin-inline-end: 20px; min-width: 0; }
+.entryRight { flex-grow: 1; display: flex; justify-content: flex-end; align-items: center; column-gap: 4px; white-space: nowrap; }
+.entrySubtitle { display: block; margin-top: 8px; }
+.dashed { height: 2px; background-image: linear-gradient(to right, var(--nk-color-cart-dashed-invoice) 5px, transparent 5px); background-size: 9px 2px; background-repeat: repeat-x; }
+.special { position: relative; overflow: hidden; background: var(--nk-color-cart-emerald100); }
+/* NoonDynamicInvoiceWave: 756×4 white scallops (radius ~7.9px pitch) along the top edge */
+.wave { position: absolute; top: 0; left: 0; width: 100%; height: 4px; z-index: 1; background: radial-gradient(circle at 3.9375px 4px, transparent 3.3px, var(--nk-color-bg-surface) 3.6px) 0 0 / 7.875px 4px repeat-x; }
+.specialSection { padding: 15px 0; }

@@ -1,0 +1,25 @@
+/* Bestseller row — New PDP 64:5727 / Storefront 3499:75632 (sits in the card stack: inset 12, 12 below) */
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s10);
+  width: calc(100% - 2 * var(--nk-space-s12));
+  margin: 0 var(--nk-space-s12) var(--nk-space-s12);
+  padding: var(--nk-space-s6) var(--nk-space-s12) var(--nk-space-s6) var(--nk-space-s4);
+  border: 1px solid var(--nk-color-bg-surface);
+  border-radius: var(--nk-radius-r16);
+  background: var(--nk-color-pdp-sfc-bestseller-bg);
+  text-align: start; min-height: 62px; /* Figma frame 351 × 62 */ }
+:global([dir='rtl']) .row { background: linear-gradient(240.67deg, var(--nk-color-bg-surface) 14.816%, var(--nk-palette-mint-cyan-light) 141.32%); }
+.main { flex: 1; min-width: 0; display: flex; align-items: center; gap: var(--nk-space-s2); }
+/* 52 × 50 frame, 32px badge at 10 / 9; the rank sits in the disc (top 0 → bottom 25%, insets 10.71%) */
+.medal { position: relative; flex-shrink: 0; width: var(--nk-layout-pdp-npc-medal-w); height: var(--nk-layout-pdp-npc-medal-h); }
+.badge { position: absolute; left: var(--nk-space-s10); top: 9px; width: var(--nk-layout-pdp-npc-medal-badge); height: var(--nk-layout-pdp-npc-medal-badge); }
+.badgeImg { position: absolute; inset: 0.06% 0; width: 100%; height: 99.88%; }
+.badgeRank { position: absolute; top: 0; bottom: 25%; left: 10.71%; right: 10.71%; display: flex; align-items: center; justify-content: center; font: var(--nk-type-pdp-npc-text16-bold-lh18); letter-spacing: -0.16px; font-feature-settings: 'case' 1; color: var(--nk-color-text-inverse); }
+.text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--nk-space-s2); }
+.headline { display: flex; align-items: center; gap: var(--nk-space-s4); white-space: nowrap; overflow: hidden; }
+.rank { font: var(--nk-type-body-bold); letter-spacing: -0.14px; font-feature-settings: 'case' 1; color: var(--nk-palette-dark-text-color); }
+.in { font: var(--nk-type-pdp-sfc-text14-lh16); letter-spacing: -0.14px; color: var(--nk-palette-secondary-text-color); }
+.category { min-width: 0; overflow: hidden; text-overflow: ellipsis; font: var(--nk-type-body-semibold); letter-spacing: -0.14px; font-feature-settings: 'case' 1; color: var(--nk-color-best-seller-tag); }
+.sub { font: var(--nk-type-text12-regular-lh14); letter-spacing: -0.12px; font-feature-settings: 'case' 1; color: var(--nk-palette-secondary-text-color); }

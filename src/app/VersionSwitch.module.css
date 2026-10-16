@@ -1,0 +1,13 @@
+/* Dev-preview chrome on the dark backdrop, outside the phone (not a noon UI surface). */
+.bar { display: flex; justify-content: center; padding: 16px 16px 0; }
+.switch { display: flex; padding: 3px; border-radius: 18px; background: rgba(255, 255, 255, 0.08); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1); } /* token-lint-ignore — preview chrome on the dark backdrop */
+.opt { position: relative; height: 30px; padding: 0 14px; border: 0; border-radius: 15px; background: none; cursor: pointer; color: rgba(255, 255, 255, 0.62); font: 500 13px/30px -apple-system, system-ui, sans-serif; white-space: nowrap; transition: color 0.2s; -webkit-tap-highlight-color: transparent; } /* token-lint-ignore — preview chrome (system font, outside the phone) */
+.opt[data-on] { color: #111; } /* token-lint-ignore — preview chrome */
+.opt:active .label { opacity: 0.6; }
+.thumb { position: absolute; inset: 0; border-radius: 15px; background: #fff; } /* token-lint-ignore — preview chrome */
+.label { position: relative; }
+.short { display: none; }
+@media (max-width: 520px) {
+  .full { display: none; }
+  .short { display: inline; }
+}

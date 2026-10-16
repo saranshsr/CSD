@@ -1,0 +1,33 @@
+/* features/vip/screens/VIPAddCardOverlayScreen/styles.ts (+ FormikTextInput / FormikCheckbox / PrimaryButton defaults) */
+/* overlay: r16 top, #F2F2F4 */
+.overlay { border-radius: var(--nk-radius-r16) var(--nk-radius-r16) 0 0; background: var(--nk-color-vip-pay-page); }
+/* feedbackView height 420 → container */
+.container { position: relative; height: var(--nk-layout-vip-add-card-h); display: flex; flex-direction: column; align-items: center; background: var(--nk-color-vip-pay-page); border-radius: var(--nk-radius-r16) var(--nk-radius-r16) 0 0; overflow: hidden; }
+/* header: 60 high, white, padding 0 16, marginBottom 12 */
+.header { display: flex; flex-direction: row; align-items: center; justify-content: space-between; width: 100%; height: var(--nk-layout-vip-add-card-header); flex-shrink: 0; background: var(--nk-color-bg-surface); padding-inline: var(--nk-space-s16); margin-bottom: var(--nk-space-s12); }
+.headerText { font: var(--nk-type-vip-pay16-bold); color: var(--nk-color-text-legacy); }
+.cards { display: flex; flex-direction: row; align-items: center; gap: var(--nk-space-s8); }
+.cardIcon { width: 38px; height: 24px; object-fit: contain; }
+.scroll { flex: 1; min-height: 0; width: 100%; overflow-y: auto; display: flex; flex-direction: column; }
+/* formSection: white, padding 20/12, margin 0 16 12, r12, gap 12 */
+.form { display: flex; flex-direction: column; gap: var(--nk-space-s12); background: var(--nk-color-bg-surface); padding: var(--nk-space-s20) var(--nk-space-s12); margin: 0 var(--nk-space-s16) var(--nk-space-s12); border-radius: var(--nk-radius-r12); flex: 1; }
+.row { display: flex; flex-direction: row; gap: var(--nk-space-s8); width: 100%; }
+.rowItem { flex: 1; min-width: 0; }
+/* inputLabel: 14 / 500 / #939393, marginBottom 2; required " *" in $redColor */
+.label { display: block; font: var(--nk-type-vip-pay14-medium); color: var(--nk-color-vip-pay-label); margin-bottom: var(--nk-space-s2); }
+.required { color: var(--nk-palette-red-color); }
+/* input: 14, white, 1px #CCD7E4, r12, padding 12 */
+.input { width: 100%; font: var(--nk-type-vip-pay14); color: var(--nk-color-text-legacy); background: var(--nk-color-bg-surface); border: 1px solid var(--nk-color-vip-pay-input-border); border-radius: var(--nk-radius-r12); padding: var(--nk-space-s12); outline: none; }
+.input::placeholder { color: var(--nk-color-text-tertiary); }
+.inputError { border-color: var(--nk-palette-red-color); }
+/* FormikCheckbox: row, marginBottom 16; label marginLeft 8, 14 / 500 / black */
+.checkbox { display: flex; flex-direction: row; align-items: center; margin-bottom: var(--nk-space-s16); text-align: start; }
+.checkboxIcon { width: 15px; height: 15px; }
+.checkboxLabel { margin-inline-start: var(--nk-space-s8); font: var(--nk-type-vip-pay14-medium); color: var(--nk-color-vip-black); }
+/* rememberCardDescription: marginTop −16, 14, noonGrey1 */
+.remember { margin-top: calc(-1 * var(--nk-space-s16)); font: var(--nk-type-vip-pay14); color: var(--nk-color-price-old); }
+/* buttonWrapper: white, padding 8 16, paddingBottom overlayBottomSpacing */
+.buttonWrapper { width: 100%; flex-shrink: 0; background: var(--nk-color-bg-surface); padding: var(--nk-space-s8) var(--nk-space-s16) calc(var(--nk-inset-bottom) + var(--nk-layout-vip-sheet-float)); }
+/* button r12, h48 · PrimaryButton accentColor / grayColor disabled, 14 bold white */
+.button { width: 100%; height: 48px; border-radius: var(--nk-radius-r12); overflow: hidden; background: var(--nk-color-badge); color: var(--nk-color-text-inverse); font: var(--nk-type-vip-pay14-bold); padding-inline: var(--nk-space-s15); }
+.button:disabled { background: var(--nk-palette-gray-color); }

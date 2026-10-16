@@ -1,0 +1,46 @@
+/* Values: `searchBar` token group → var(--nk-search-bar-*) (src/foundations/tokens.ts). */
+.bar {
+  display: flex; align-items: center; gap: var(--nk-search-bar-gap); width: 100%;
+  padding: 0 var(--nk-search-bar-padding-x); border-radius: var(--nk-search-bar-radius);
+  background: var(--nk-search-bar-bg); border: 1px solid var(--nk-search-bar-border);
+}
+.input { height: var(--nk-search-bar-height); border-color: var(--nk-search-bar-input-border); }
+.placeholder { flex: 1; display: flex; align-items: center; overflow: hidden; height: var(--nk-search-bar-ticker-height); font: var(--nk-search-bar-placeholder-font); letter-spacing: var(--nk-search-bar-placeholder-tracking); color: var(--nk-search-bar-placeholder-fg); text-align: start; white-space: nowrap; }
+.ticker { position: relative; display: inline-flex; height: var(--nk-search-bar-ticker-height); overflow: hidden; }
+.word { display: inline-block; }
+.divider { width: 1px; height: var(--nk-search-bar-divider-height); background: var(--nk-search-bar-border); margin: 0 var(--nk-search-bar-divider-gap); }
+.fieldWrap { position: relative; flex: 1; min-width: 0; display: flex; align-items: center; }
+.fillCopy { position: absolute; inset: 0; padding: 1px 2px; /* the input's own UA padding, so the copy lands on its text */ display: flex; align-items: center; white-space: pre; overflow: hidden; pointer-events: none; font: var(--nk-search-bar-field-font); color: var(--nk-search-bar-field-fg); }
+.field { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: var(--nk-search-bar-field-font); color: var(--nk-search-bar-field-fg); }
+.field::placeholder { color: var(--nk-search-bar-field-placeholder); }
+/* icon + placeholder group: transparent in the default bar, its own 4px-gap row in the 2025 variant */
+.lead { display: contents; }
+/* variant="2025" (Homepage Revamp 2025, Figma 1337:6727) — opt-in, defaults above unchanged */
+.v2025 { gap: var(--nk-space-s12); border-color: var(--nk-palette-gray400); }
+.v2025 .lead { display: flex; flex: 1; min-width: 0; align-items: center; gap: var(--nk-space-s4); }
+.v2025 .placeholder { height: 18px; font: var(--nk-type-text15-medium-lh18); letter-spacing: -0.3px; color: var(--nk-color-text-product); }
+.v2025 .ticker { height: 18px; }
+.dividerArt { display: flex; align-items: center; justify-content: center; flex: none; width: 0; height: 24px; }
+.dividerArt img { display: block; flex: none; max-width: none; transform: rotate(90deg); }
+[dir='rtl'] .flipRtl { transform: scaleX(-1); }
+/* SearchInput variant="field" (Field DS M-SearchBar, Figma 892:244) — opt-in, the classes above are unchanged */
+.fieldBar {
+  display: flex; align-items: center; gap: var(--nk-space-s8); width: 100%;
+  height: 48px; padding: var(--nk-space-s12); /* token-lint-ignore — M-SearchBar H48 */
+  background: var(--nk-field-surface-primary); border: 1px solid var(--nk-field-border-subtle); border-radius: var(--nk-radius-r12);
+  cursor: text;
+}
+.fieldBar[data-size='H44'] { height: 44px; padding: var(--nk-space-s10) var(--nk-space-s12); /* token-lint-ignore — M-SearchBar H44 */ }
+.fieldElevated { box-shadow: var(--nk-field-shadow-sm); }
+.fieldSlot { display: flex; flex: none; align-items: center; justify-content: center; }
+.fieldInput, .fieldBar .fillCopy {
+  font: var(--nk-type-field-b14-medium); letter-spacing: var(--nk-field-tracking-b); color: var(--nk-field-text-primary);
+  caret-color: var(--nk-field-surface-action-bold); padding: 0;
+}
+.fieldBar[data-size='H44'] .fieldInput, .fieldBar[data-size='H44'] .fillCopy { font: var(--nk-type-field-b12-medium); }
+.fieldInput::placeholder { color: var(--nk-field-text-primary); opacity: 1; }
+.fieldBar[data-focused] .fieldInput::placeholder { color: var(--nk-field-text-tertiary); }
+/* type="search": drop the UA cancel button / decoration (the bar draws its own clear) */
+.fieldInput::-webkit-search-cancel-button, .fieldInput::-webkit-search-decoration { appearance: none; }
+.fieldInput { appearance: none; }
+.fieldDivider { flex: none; width: 1px; height: 24px; background: var(--nk-field-border-subtle); }

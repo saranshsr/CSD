@@ -1,0 +1,19 @@
+/* NoonSalesAnimatedHeader/styles.ts + NoonCartAddressSelectorV2 — restyled to Figma "Nav Header" 10575:94722 */
+.container { position: relative; padding-top: calc(var(--nk-inset-top) + var(--nk-space-s4)); }
+.cornerOverlay { position: absolute; bottom: -12px; left: 0; right: 0; height: 24px; z-index: -1; pointer-events: none; }
+.gradient { position: absolute; left: 0; right: 0; bottom: -22px; height: 24px; z-index: -2; background: linear-gradient(180deg, var(--nk-palette-black-alpha10) 20%, var(--nk-palette-black-alpha0) 100%); pointer-events: none; }
+/* Frame 2147238880: row, gap 24, padding 0 12 8 */
+.wrapper { display: flex; flex-direction: row; align-items: center; column-gap: var(--nk-space-s24); padding: 0 var(--nk-space-s12) var(--nk-space-s8); position: relative; }
+/* Frame 2147225996: 41px two-line block */
+.selector { flex: 1; min-width: 0; height: 41px; display: flex !important; flex-direction: column; align-items: flex-start; justify-content: flex-start; row-gap: 2px; text-align: start; }
+.labelRow { display: flex; flex-direction: row; align-items: center; column-gap: var(--nk-space-s4); height: 22px; margin-inline-start: -1px; }
+.leadingIcon { position: relative; width: 20px; height: 20px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+.leadingIcon img { display: block; }
+.labelWrap { display: flex; flex-direction: row; align-items: center; column-gap: var(--nk-space-s2); }
+.label { font: var(--nk-type-cart-header-label); letter-spacing: -0.3016px; color: var(--nk-color-text-primary); text-shadow: var(--nk-shadow-cart-header-label); white-space: nowrap; }
+.chevron { width: 16px; height: 16px; flex-shrink: 0; }
+.addressText { max-width: 266px; min-width: 0; margin-inline-start: var(--nk-space-s2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font: var(--nk-type-text13-regular-lh18); letter-spacing: -0.3016px; color: var(--nk-color-text-muted); }
+.wishlist { display: flex; flex-shrink: 0; }
+.wishlist img { display: block; }
+.backButton { display: flex; flex-shrink: 0; }
+[dir='rtl'] .backButton { transform: scaleX(-1); }

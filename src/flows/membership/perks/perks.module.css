@@ -1,0 +1,843 @@
+/* ───────── PerkSheet (src/components/Overlay + src/components/BottomSheet chrome) ───────── */
+.sheetRoot {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-top: var(--nk-space-mb-sheet-top);
+  overflow: hidden;
+}
+.sheetBackdrop {
+  position: absolute;
+  inset: 0;
+  background: var(--nk-color-mb-backdrop);
+}
+.sheetBackdrop[data-kind='bottomSheet'] {
+  background: var(--nk-palette-black-alpha50);
+}
+/* Overlay styles.container (radius 5 → screen contentContainerStyle overrides) */
+.sheetBody {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--nk-color-bg-surface);
+  border-radius: var(--nk-radius-r4);
+  max-height: 100%;
+  touch-action: none;
+}
+.sheetBody[data-kind='bottomSheet'] {
+  border-radius: var(--nk-radius-r16) var(--nk-radius-r16) 0 0;
+}
+.sheetChildren {
+  overflow: hidden;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  border-radius: inherit;
+}
+/* Overlay closeButton: 37 white circle, top -18, right 30 */
+.overlayClose {
+  position: absolute;
+  top: -18px;
+  right: 30px;
+  z-index: 3;
+  width: 37px;
+  height: 37px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--nk-radius-r20);
+  background: var(--nk-color-bg-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: pointer;
+}
+[dir='rtl'] .overlayClose {
+  right: auto;
+  left: 30px;
+}
+.overlayClose img {
+  width: 13px;
+  height: 13px;
+}
+/* BottomSheet handlerContainer: h18 at top -18, handler 36×4 r2 #B7B7B7 */
+.gorhomHandleZone {
+  position: absolute;
+  top: -18px;
+  left: 0;
+  width: 100%;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.gorhomHandle {
+  width: 36px;
+  height: 4px;
+  border-radius: var(--nk-radius-r2);
+  background: var(--nk-color-mb-handle);
+}
+
+/* ───────── VIPReferralsScreen ───────── */
+.refHeader {
+  position: relative;
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--nk-inset-top) var(--nk-space-s15) var(--nk-space-s15);
+  padding-top: calc(var(--nk-inset-top) + var(--nk-space-s15));
+  background: var(--nk-color-bg-surface);
+  box-shadow: var(--nk-shadow-mb-shadow2);
+}
+.refHeaderTitle {
+  font: var(--nk-type-mb-ref-header);
+  color: var(--nk-color-text-legacy);
+}
+.refBack {
+  position: absolute;
+  top: calc(var(--nk-inset-top) + var(--nk-space-s15));
+  left: var(--nk-space-s15);
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.refBack img {
+  height: 22px;
+  display: block;
+}
+[dir='rtl'] .refBack {
+  left: auto;
+  right: var(--nk-space-s15);
+}
+[dir='rtl'] .refBack img {
+  transform: scaleX(-1);
+}
+.refPageTitle {
+  margin: var(--nk-space-s15) var(--nk-space-s16) var(--nk-space-s20);
+  font: var(--nk-type-mb-ref-page-title);
+  color: var(--nk-color-text-legacy);
+  text-align: center;
+}
+.refHeaderImage {
+  width: calc(100% - 32px);
+  margin: 0 auto;
+  border-radius: var(--nk-radius-r16);
+  background: linear-gradient(135deg, var(--nk-color-brand) 0%, var(--nk-color-mb-light-yellow) 100%);
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s16);
+  padding: 0 var(--nk-space-s24);
+  overflow: hidden;
+}
+.refHeaderImageIcon {
+  width: 72px;
+  height: 72px;
+}
+.refHeaderImageText {
+  font: var(--nk-type-title-large);
+  color: var(--nk-color-text-ink);
+}
+.refStatsRow {
+  display: flex;
+  gap: var(--nk-space-s8);
+  padding: 0 var(--nk-space-s15);
+  margin-top: var(--nk-space-s15);
+}
+.refStatsRow + .refStatsRow {
+  margin-top: var(--nk-space-s15);
+}
+.refStat {
+  position: relative;
+  flex: 1;
+  border-radius: var(--nk-radius-r16);
+  border: 2px solid var(--nk-color-badge);
+  background: var(--nk-palette-faded-blue);
+  padding: var(--nk-space-s15);
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--nk-space-s12);
+}
+.refStatPill {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 24px;
+  border-radius: var(--nk-radius-r12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.refStatIcon {
+  width: 18px;
+  height: 18px;
+  filter: brightness(0) invert(1);
+}
+.refStatTitle {
+  margin-top: var(--nk-space-s4);
+  font: var(--nk-type-mb-ref-stat-title);
+  color: var(--nk-color-text-legacy);
+}
+.refStatValue {
+  margin-top: var(--nk-space-s8);
+  font: var(--nk-type-mb-ref-stat-value);
+  color: var(--nk-color-text-legacy);
+}
+/* CMS modules stand-in */
+.refCms {
+  margin: var(--nk-space-s24) var(--nk-space-s15) var(--nk-space-s16);
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s16);
+}
+.refCmsTitle {
+  font: var(--nk-type-section);
+  color: var(--nk-color-text-primary);
+}
+.refCmsStep {
+  display: flex;
+  gap: var(--nk-space-s12);
+  align-items: flex-start;
+}
+.refCmsIndex {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--nk-radius-full);
+  background: var(--nk-color-brand);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: var(--nk-type-body-bold);
+  color: var(--nk-color-text-ink);
+}
+.refCmsText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s2);
+}
+.refCmsStepTitle {
+  font: var(--nk-type-body-semibold);
+  color: var(--nk-color-text-primary);
+}
+.refCmsStepBody {
+  font: var(--nk-type-caption);
+  color: var(--nk-color-text-secondary);
+}
+.refHaveCode {
+  align-self: flex-start;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: var(--nk-type-body-semibold);
+  color: var(--nk-color-badge);
+  cursor: pointer;
+}
+/* stickyFooter */
+.refFooter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--nk-space-s16) var(--nk-space-s16) var(--nk-inset-bottom);
+  background: var(--nk-color-bg-surface);
+  border-radius: var(--nk-radius-r16) var(--nk-radius-r16) 0 0;
+  box-shadow: var(--nk-shadow-mb-shadow3);
+}
+.refCodeBox {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+  border-radius: var(--nk-radius-r8);
+  border: 1px dashed var(--nk-color-success-strong);
+  margin-bottom: var(--nk-space-s8);
+  padding: 0 var(--nk-space-s15);
+}
+.refCodeBox[data-copied] {
+  background: var(--nk-color-mb-ref-copied-bg);
+  border-width: 0;
+}
+.refCode {
+  flex: 1;
+  font: var(--nk-type-mb-ref-code);
+  color: var(--nk-color-text-legacy);
+}
+.refCopy {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: var(--nk-type-mb-ref-link14);
+  color: var(--nk-color-badge);
+  cursor: pointer;
+}
+.refCopied {
+  font: var(--nk-type-mb-ref-link14);
+  color: var(--nk-palette-green-color);
+}
+.refButtons {
+  display: flex;
+  gap: var(--nk-space-s8);
+  width: 100%;
+}
+.refStickyButton {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  min-width: 60px;
+  border-radius: var(--nk-radius-r8);
+  border: 1px solid transparent;
+  margin-bottom: var(--nk-space-s8);
+  font: var(--nk-type-mb-ref-button);
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.refStickyIcon {
+  width: 20px;
+  height: 20px;
+  margin-inline-end: var(--nk-space-s8);
+  object-fit: contain;
+}
+
+/* ───────── VIPReferralsInputOverlayScreen ───────── */
+.refOverlaySheet {
+  border-radius: var(--nk-radius-r16);
+  background: var(--nk-color-mb-ref-overlay-bg);
+}
+.refOverlayClose {
+  position: absolute;
+  top: -15px;
+  right: var(--nk-space-s15);
+  z-index: 99;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--nk-radius-r16);
+  background: var(--nk-color-bg-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+[dir='rtl'] .refOverlayClose {
+  right: auto;
+  left: var(--nk-space-s15);
+}
+.refOverlayClose img {
+  width: 12px;
+  height: 12px;
+  object-fit: contain;
+}
+.refInContainer {
+  background: var(--nk-color-mb-ref-overlay-bg);
+  border-radius: var(--nk-radius-r16);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: calc(var(--nk-space-mb-overlay-float) + var(--nk-inset-bottom));
+  overflow: hidden;
+}
+.refInScroll {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 0;
+}
+.refInTitle {
+  margin-top: var(--nk-space-s15);
+  max-width: 80%;
+  font: var(--nk-type-mb-ref-overlay-title);
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--nk-palette-black);
+}
+.refTabs {
+  position: relative;
+  display: flex;
+  margin-top: var(--nk-space-s4);
+  padding: var(--nk-space-s4);
+  min-height: 32px;
+  border-radius: var(--nk-radius-r32);
+  background: var(--nk-color-mb-ref-dim);
+}
+.refTab {
+  position: relative;
+  width: 115px;
+  border: 0;
+  padding: 0;
+  background: none;
+  border-radius: var(--nk-radius-r32);
+  cursor: pointer;
+}
+:global([dir='rtl']) .refTab {
+  width: 130px;
+}
+.refTabPill {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--nk-radius-r32);
+  background: var(--nk-color-bg-surface);
+}
+.refTabText {
+  position: relative;
+  padding: 0 var(--nk-space-s8);
+  font: var(--nk-type-mb-ref-tab);
+  color: var(--nk-palette-white);
+  transition: color 250ms;
+}
+.refTab[data-active] .refTabText {
+  color: var(--nk-palette-black);
+}
+.refSlider {
+  width: 100%;
+  margin-top: var(--nk-space-s15);
+  background: var(--nk-color-mb-ref-overlay-bg);
+  display: flex;
+  gap: var(--nk-space-s16);
+  padding: 0 var(--nk-space-s16);
+  scroll-snap-type: x mandatory;
+}
+.refSlider[data-single] {
+  justify-content: center;
+}
+.refOffer {
+  flex-shrink: 0;
+  width: 325px;
+  border-radius: var(--nk-radius-r16);
+  background: var(--nk-color-bg-surface);
+  box-shadow: var(--nk-shadow-mb-shadow2);
+  margin: var(--nk-space-s8) 0 var(--nk-space-s16);
+  scroll-snap-align: center;
+}
+.refOfferInner {
+  border-radius: var(--nk-radius-r16);
+  overflow: hidden;
+}
+.refOfferImage {
+  width: 325px;
+  height: 166px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--nk-space-s4);
+  padding: 0 var(--nk-space-s20);
+  background: linear-gradient(135deg, var(--nk-color-mb-partner-banner-from), var(--nk-color-mb-partner-banner-to));
+}
+.refOfferImageTitle {
+  font: var(--nk-type-title);
+  color: var(--nk-palette-white);
+}
+.refOfferImageSub {
+  font: var(--nk-type-body);
+  color: var(--nk-color-brand);
+}
+.refOfferDesc {
+  height: 153px;
+  padding: var(--nk-space-s15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  background: var(--nk-color-bg-surface);
+  border-radius: 0 0 var(--nk-radius-r16) var(--nk-radius-r16);
+}
+.refOfferHtml :global(a) {
+  font: var(--nk-type-mb-ref-offer-link);
+  color: var(--nk-color-mb-ref-link);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.refOfferButton {
+  width: 100%;
+  height: 36px;
+  border: 0;
+  border-radius: var(--nk-radius-r8);
+  background: var(--nk-color-mb-ref-offer-button);
+  font: var(--nk-type-mb-ref-offer-button);
+  color: var(--nk-palette-white);
+  cursor: pointer;
+}
+.refInCardWrap {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 var(--nk-space-s15);
+}
+.refInCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -8px;
+  padding: var(--nk-space-s15);
+  border-radius: var(--nk-radius-r16);
+  background: var(--nk-color-bg-surface);
+  box-shadow: var(--nk-shadow-mb-shadow2);
+}
+.refInSubtitle {
+  margin-bottom: var(--nk-space-s16);
+  font: var(--nk-type-mb-ref-subtitle);
+  color: var(--nk-color-text-legacy);
+  text-align: center;
+}
+.refInBenefits {
+  margin-bottom: var(--nk-space-s16);
+  font: var(--nk-type-mb-ref-benefits);
+  color: var(--nk-palette-green-color);
+  text-align: center;
+}
+.refInput {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 45px;
+  padding: 0 var(--nk-space-s15);
+  border-radius: var(--nk-radius-r8);
+  border: 1px solid var(--nk-palette-border-color);
+  cursor: text;
+}
+.refInput[data-status='ok'] {
+  background: var(--nk-color-mb-ref-copied-bg);
+  cursor: pointer;
+}
+.refInput[data-status='error'] {
+  border-color: var(--nk-palette-red-color);
+  cursor: pointer;
+}
+.refInputField {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  font: var(--nk-type-mb-ref-input);
+  color: var(--nk-color-text-legacy);
+}
+.refInputField::placeholder {
+  color: var(--nk-color-text-tertiary);
+}
+.refInputApply {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: var(--nk-type-mb-ref-input);
+  color: var(--nk-color-badge);
+  cursor: pointer;
+}
+.refInputApply:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.refStatusRow {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+.refStatusCode {
+  margin-inline-end: var(--nk-space-s8);
+  font: var(--nk-type-mb-ref-input);
+  color: var(--nk-palette-noon-grey2);
+}
+.refStatusIcon {
+  width: 16px;
+  height: 16px;
+}
+.refClear {
+  padding: 0;
+  border: 0;
+  background: none;
+  display: flex;
+  cursor: pointer;
+}
+.refClear img {
+  width: 16px;
+  height: 16px;
+}
+.refInMessage {
+  align-self: flex-start;
+  margin-top: var(--nk-space-s4);
+  font: var(--nk-type-mb-ref-message);
+  color: var(--nk-palette-green-color);
+}
+.refInMessage[data-status='error'] {
+  color: var(--nk-palette-red-color);
+}
+.refInInfo {
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  margin: var(--nk-space-s8) 0;
+  padding: var(--nk-space-s15);
+  border-radius: var(--nk-radius-r8);
+  background: var(--nk-palette-kit-yellow96);
+}
+.refInInfoIcon {
+  width: 16px;
+  height: 16px;
+  margin-inline-end: var(--nk-space-s8);
+  object-fit: contain;
+}
+.refInInfoText {
+  font: var(--nk-type-mb-ref-message);
+  color: var(--nk-color-text-legacy);
+}
+.refInButtonWrap {
+  width: 100%;
+  padding: var(--nk-space-s16) 0 0;
+}
+.refInButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(100% - 32px);
+  margin: 0 var(--nk-space-s16);
+  height: 48px;
+  border-radius: var(--nk-radius-r8);
+  border: 2px solid transparent;
+  font: var(--nk-type-mb-ref-button);
+  text-transform: uppercase;
+  color: var(--nk-palette-white);
+  cursor: pointer;
+}
+.refInButton[data-disabled] {
+  background: var(--nk-color-mb-ref-dim);
+  border-color: transparent;
+  cursor: default;
+}
+
+/* ───────── VIPPartnerOverlayScreen ───────── */
+.partnerSheet {
+  border-radius: var(--nk-radius-r16);
+  background: var(--nk-color-bg-surface);
+}
+.partnerContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  border-radius: var(--nk-radius-r16);
+  background: var(--nk-color-bg-surface);
+}
+.partnerBanner {
+  width: 100%;
+  aspect-ratio: 390 / 300;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--nk-space-s8);
+  padding: var(--nk-space-s24);
+  background: linear-gradient(160deg, var(--nk-color-mb-partner-banner-from), var(--nk-color-mb-partner-banner-to));
+}
+.partnerBannerPartner {
+  font: var(--nk-type-caption-bold);
+  color: var(--nk-color-brand);
+  text-transform: uppercase;
+}
+.partnerBannerTitle {
+  font: var(--nk-type-mb-partner-banner-title);
+  color: var(--nk-palette-white);
+}
+.partnerBannerSub {
+  font: var(--nk-type-body);
+  color: var(--nk-palette-white);
+}
+.partnerBannerNote {
+  align-self: flex-start;
+  margin-top: var(--nk-space-s8);
+  padding: var(--nk-space-s4) var(--nk-space-s10);
+  border-radius: var(--nk-radius-full);
+  background: var(--nk-color-brand);
+  font: var(--nk-type-caption-bold);
+  color: var(--nk-color-text-ink);
+}
+.partnerButtons {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--nk-space-s8);
+  margin-top: var(--nk-space-s12);
+  padding: var(--nk-space-s12) var(--nk-space-s16) calc(var(--nk-space-mb-overlay-float) + var(--nk-inset-bottom));
+  border-top: 1px solid var(--nk-palette-brand-widget-divider);
+}
+.partnerButton {
+  width: 100%;
+  height: 56px;
+  border-radius: var(--nk-radius-r16);
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: var(--nk-type-mb-perk-button18);
+  cursor: pointer;
+}
+.partnerButton[data-primary] {
+  flex: 1;
+  background: var(--nk-palette-black);
+  color: var(--nk-palette-white);
+}
+.partnerButton[data-with-payment] {
+  height: 48px;
+}
+.partnerButton:disabled {
+  background: var(--nk-palette-noon-grey2);
+}
+/* VIPSubscriptionButtonV2 container + payment row */
+.subButtonRow {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s20);
+}
+.subPayRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--nk-space-s8);
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: start;
+  cursor: pointer;
+}
+.subPayRow > span {
+  display: flex;
+  flex-direction: column;
+}
+.subPayCard {
+  width: 44px;
+  height: 40px;
+  object-fit: contain;
+}
+.subPayHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s4);
+  font: var(--nk-type-mb-sub-pay-header);
+  color: var(--nk-color-mb-sub-pay-header);
+}
+.subPayChevron {
+  width: 14px;
+  height: 14px;
+  transform: rotate(180deg);
+}
+.subPayText {
+  font: var(--nk-type-mb-sub-pay-text);
+  color: var(--nk-palette-night-fall);
+}
+
+/* ───────── VIPYangoCreditsOverlayScreen ───────── */
+.yangoSheet {
+  background: var(--nk-color-bg-surface);
+}
+.yangoContainer {
+  display: flex;
+  flex-direction: column;
+  padding: var(--nk-space-s12) var(--nk-space-s12) calc(var(--nk-space-mb-overlay-float) + var(--nk-inset-bottom));
+  background: var(--nk-color-bg-surface);
+  border-radius: var(--nk-radius-r16) var(--nk-radius-r16) 0 0;
+}
+.yangoHeader {
+  margin: var(--nk-space-s18) 0 var(--nk-space-s20);
+  margin-inline-start: var(--nk-space-s8);
+  font: var(--nk-type-section);
+  color: var(--nk-color-text-ink);
+}
+.yangoBody {
+  position: relative;
+  padding: var(--nk-space-s16) var(--nk-space-s12);
+  border-radius: var(--nk-radius-r12);
+  border: 1px solid var(--nk-color-mb-yango-body-border);
+  background: var(--nk-color-bg-subtle);
+}
+.yangoRows {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s36);
+}
+.yangoRow {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s12);
+}
+.yangoCheck {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--nk-color-mb-yango-icon-border);
+  background: var(--nk-palette-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.yangoCheck[data-done] {
+  background: var(--nk-color-best-price-ink);
+}
+.yangoText {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s2);
+}
+.yangoTitle {
+  font: var(--nk-type-mb-yango-title);
+  color: var(--nk-palette-new-black);
+}
+.yangoDesc {
+  font: var(--nk-type-mb-yango-desc);
+  color: var(--nk-color-mb-yango-desc);
+}
+.yangoDesc[data-bottom] {
+  color: var(--nk-color-mb-yango-desc-bottom);
+}
+/* gradientContainer: absolute, width 44, left 12, rail 17 wide r9 #108757 → white */
+.yangoRail {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--nk-space-s12);
+  width: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: var(--nk-space-s16);
+  margin-bottom: var(--nk-space-s16);
+}
+[dir='rtl'] .yangoRail {
+  left: auto;
+  right: var(--nk-space-s12);
+}
+.yangoGradient {
+  flex: 1;
+  width: 17px;
+  border-radius: 9px;
+  background: linear-gradient(to bottom, var(--nk-color-best-price-ink), var(--nk-palette-white));
+}
+.yangoButtonWrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  margin-top: var(--nk-space-s24);
+}
+.yangoButton {
+  width: 100%;
+  height: 56px;
+  border-radius: var(--nk-radius-r12);
+  background: var(--nk-color-text-ink);
+  color: var(--nk-palette-white);
+  font: var(--nk-type-mb-perk-button18);
+}

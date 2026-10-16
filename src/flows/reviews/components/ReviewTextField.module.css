@@ -1,0 +1,14 @@
+/* ReviewTextField — repo OptionalTextArea / ManualTextArea (ManualReview), the note + manual fields (NewReview,
+   RatePastOrders). White, r12, 1px border. */
+.box { display: flex; flex-direction: column; gap: var(--nk-space-s8); background: var(--nk-color-bg-surface); border: 1px solid var(--nk-color-border); border-radius: var(--nk-radius-r12); cursor: text; }
+.box[data-size='note'] { padding: var(--nk-space-s12) var(--nk-space-s14); }
+.box[data-size='optional'] { padding: var(--nk-space-s14) var(--nk-space-s16); min-height: 96px; }
+.box[data-size='large'] { padding: var(--nk-space-s14) var(--nk-space-s16); flex: 1; }
+.box[data-surface='subtle'] { background: var(--nk-color-bg-subtle); border-color: var(--nk-color-border-subtle); padding: var(--nk-space-s12); }
+.input { width: 100%; border: none; outline: none; resize: none; background: transparent; padding: 0; margin: 0; color: var(--nk-color-text-primary); overflow: hidden; display: block; }
+.input::placeholder { color: var(--nk-color-text-tertiary); }
+.box[data-size='note'] .input { font: var(--nk-type-reviews-text15-medium-lh22); min-height: 24px; }
+.box[data-size='optional'] .input { font: var(--nk-type-reviews-text16-medium-lh24); min-height: 68px; }
+.box[data-size='large'] .input { font: var(--nk-type-reviews-text16-medium-lh24); min-height: 136px; }
+.box[data-surface='subtle'] .input { font: var(--nk-type-reviews-text14-medium-lh20); }
+.counter { align-self: flex-end; font: var(--nk-type-text12-regular-lh18); color: var(--nk-color-text-tertiary); }

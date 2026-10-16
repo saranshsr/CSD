@@ -1,0 +1,61 @@
+/* Values: `tabBar` + `badge` token groups → var(--nk-tab-bar-*), var(--nk-badge-*) (src/foundations/tokens.ts).
+   bappzaar native bottom tabs (UITabBar, stacked layout): 49pt row · icon at native size, inset 3 from the top ·
+   14 semibold label at the bottom · native badge at the icon's top-right. No indicator, no transition. */
+.bar { position: absolute; left: 0; right: 0; bottom: 0; z-index: 50; isolation: isolate; display: flex; background: var(--nk-tab-bar-bg); box-shadow: var(--nk-tab-bar-bar-shadow); padding-bottom: var(--nk-inset-bottom); }
+.tab { flex: 1; height: var(--nk-tab-bar-height); display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: var(--nk-tab-bar-icon-inset-top) 0 0; border: 0; background: none; cursor: pointer; color: var(--nk-tab-bar-fg-inactive); -webkit-tap-highlight-color: transparent; }
+.tab[data-active] { color: var(--nk-tab-bar-fg-active); }
+.iconWrap { position: relative; display: flex; align-items: center; justify-content: center; width: var(--nk-tab-bar-icon-box); height: var(--nk-tab-bar-icon-box); }
+.icon { display: block; }
+.label { font: var(--nk-tab-bar-label-font); letter-spacing: var(--nk-tab-bar-label-tracking); white-space: nowrap; }
+.tab[data-active] .label { font: var(--nk-tab-bar-label-font-active); }
+.badge { position: absolute; top: var(--nk-tab-bar-badge-top); left: var(--nk-tab-bar-badge-left); box-sizing: border-box; min-width: var(--nk-badge-size); height: var(--nk-badge-size); padding: 0 var(--nk-badge-padding-x); border-radius: var(--nk-badge-radius); background: var(--nk-badge-bg); color: var(--nk-badge-fg); font: var(--nk-tab-bar-badge-font); text-align: center; }
+
+/* variant="field" — Field DS M-Bottomnav (packages/components/src/BottomNav/BottomNav.tsx). Geometry is the spec's:
+   indicator 4×43 r2, icon 28, gaps 8 / 6, side padding 16. */
+.fieldBar { box-shadow: none; padding-inline: var(--nk-space-s16); background: var(--nk-field-surface-primary); }
+.fieldTab { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: var(--nk-space-s8); padding: 0; border: 0; background: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.fieldIndicator { display: block; width: 43px; height: var(--nk-space-s4); border-radius: var(--nk-radius-r2); background: var(--nk-field-text-action); transform-origin: center; }
+.fieldItem { display: flex; flex-direction: column; align-items: center; gap: var(--nk-space-s6); min-width: 0; max-width: 100%; }
+.fieldIcon { position: relative; display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; }
+.fieldLabel { font: var(--nk-type-field-b11-medium); letter-spacing: var(--nk-field-tracking-b); color: var(--nk-field-text-tertiary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.fieldTab[data-active] .fieldLabel { font: var(--nk-type-field-b11-bold); color: var(--nk-field-text-action); }
+
+/* Default — Liquid Glass (bappzaar noon/ios/liquid-upgrade, iOS 26 floating UITabBar). `tabBar.glass*` tokens.
+   The dock spans the reserved bottom area (layout.tabBar + inset) and lets taps through around the platter. */
+.glassDock {
+  --glass-bottom: max(var(--nk-tab-bar-glass-bottom-min), calc(var(--nk-inset-bottom) - var(--nk-tab-bar-glass-lift)));
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 50; pointer-events: none;
+  transform: translateY(calc(var(--nk-tab-hide, 0) * (var(--nk-tab-bar-glass-height) + var(--glass-bottom) + var(--nk-tab-bar-glass-hide-shadow))));
+}
+.glass {
+  composes: glass from '../Glass/Glass.module.css';
+  position: absolute; left: var(--nk-tab-bar-glass-inset-x); right: var(--nk-tab-bar-glass-inset-x); bottom: var(--glass-bottom);
+  height: var(--nk-tab-bar-glass-height); box-sizing: border-box; padding: var(--nk-tab-bar-glass-lens-inset);
+  display: flex; pointer-events: auto; border-radius: var(--nk-tab-bar-glass-radius);
+}
+/* the fade under the platter: from fadeExtend above it to the screen bottom */
+.glassFade { height: calc(var(--nk-tab-bar-glass-height) + var(--glass-bottom) + var(--nk-tab-bar-fade-extend)); }
+/* a sticky footer with its own fade (PDP card, ActionBar surface="glass") covers the bar zone: one fade, not two */
+:global([data-route]):has([data-glass-footer]) .glassFade { display: none; }
+.glassTab { position: relative; flex: 1; min-width: 0; display: flex; align-items: center; justify-content: center; padding: 0; border: 0; background: none; cursor: pointer; color: var(--nk-tab-bar-fg-inactive); -webkit-tap-highlight-color: transparent; }
+.glassTab[data-active] { color: var(--nk-tab-bar-fg-active); }
+/* one lens for the bar, on a track the size of the tab row: the slot is one tab wide and moves by whole tab widths */
+/* clipped to the platter shape: the spring overshoot at the first / last tab squashes into the rim instead of poking out */
+.glassTrack { position: absolute; inset: var(--nk-tab-bar-glass-lens-inset); overflow: hidden; border-radius: var(--nk-tab-bar-glass-radius); pointer-events: none; }
+.glassLensSlot { position: absolute; top: 0; bottom: 0; left: 0; display: block; }
+.glassLens { position: absolute; inset: 0; border-radius: var(--nk-tab-bar-glass-radius); background: var(--nk-tab-bar-glass-lens); }
+/* outline and filled layers share one box (flex, no inline line box) so the icon doesn't shift when it fills */
+.glassIconLayer { display: flex; align-items: center; justify-content: center; }
+.glassIconSelected { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.glassItem { position: relative; display: flex; flex-direction: column; align-items: center; gap: var(--nk-tab-bar-glass-gap); }
+.glassIcon { position: relative; display: flex; align-items: center; justify-content: center; }
+/* glass badge: an 18 circle for one digit (a capsule from two), the number centred; the white ring is drawn outside
+   (box-shadow) so it doesn't eat into the circle */
+.glassIcon .badge {
+  top: -4px; left: calc(50% + 4px);
+  display: flex; align-items: center; justify-content: center;
+  min-width: var(--nk-badge-size); height: var(--nk-badge-size); padding: 0 var(--nk-space-s4);
+  border: 0; border-radius: var(--nk-radius-full); line-height: 1;
+  background: var(--nk-tab-bar-glass-badge-bg);
+  box-shadow: 0 0 0 var(--nk-tab-bar-glass-badge-border-width) var(--nk-tab-bar-glass-badge-border);
+}

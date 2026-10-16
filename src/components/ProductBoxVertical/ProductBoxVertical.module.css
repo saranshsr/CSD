@@ -1,0 +1,72 @@
+/*
+ * NoonProductBoxVertical, PLP layout (bappzaar marketplaces/noon/components/NoonProductBox/NoonProductBoxVertical, isPLP).
+ * Values resolved from its styles.ts + NoonTokens / NoonMetrics; palette vars carry the bappzaar colour names.
+ */
+/* container: white, 0.5 lightGray, r12, overflow hidden, padding 0 0 10. Width = the grid column (NoonMetrics: (W − 12·2 − 12) / 2 → 177 at 390) */
+.container { position: relative; display: flex; flex-direction: column; min-width: 0; padding-bottom: 10px; background: var(--nk-palette-white); border-radius: var(--nk-radius-r12); overflow: hidden; cursor: pointer; contain: inline-size; -webkit-tap-highlight-color: transparent; }
+/* the 0.5 hairline is drawn on top (browsers round a 0.5px border up to 1px and it would eat into the 177-wide image box) */
+.container::after { content: ''; position: absolute; inset: 0; z-index: 2; border: 0.5px solid var(--nk-palette-light-gray); border-radius: inherit; pointer-events: none; }
+
+/* imageWrapper: productBoxVerticalImageWidth × productBoxImageHeight = 177 × round(177 · 1.361) = 241 at 390 */
+.imageWrapper { position: relative; display: flex; flex-direction: column; width: 100%; aspect-ratio: 177 / 241; }
+.imageFill { position: absolute; inset: 0; }
+/* imageOverlay: blackAlpha(0.02) */
+.overlay { position: absolute; inset: 0; background: var(--nk-palette-black-alpha2); pointer-events: none; }
+
+/* NoonImageSlider (PLP, > 1 image, max 5): paged, PillPager at bottom 6 (whiteAlpha 0.7 r20, px 8 py 4, gap 6; dots 6 → 2 by distance) */
+.slider { position: absolute; inset: 0; display: flex; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; }
+.slider::-webkit-scrollbar { display: none; }
+.slide { position: relative; flex: 0 0 100%; height: 100%; scroll-snap-align: start; scroll-snap-stop: always; }
+.pager { position: absolute; left: 0; right: 0; bottom: 6px; display: flex; justify-content: center; pointer-events: none; }
+.pagerInner { display: flex; align-items: center; justify-content: center; gap: 6px; padding: var(--nk-space-s4) var(--nk-space-s8); border-radius: var(--nk-radius-r20); background: var(--nk-palette-white-alpha70); }
+.dot { border-radius: var(--nk-radius-r20); background: var(--nk-palette-primary-alpha25); transition: width 0.2s, height 0.2s, background-color 0.2s; }
+.dotActive { background: var(--nk-palette-neutral-black); }
+
+/* imageTopWrapper: row, space-between; topTagsWrapper marginEnd 20; favourite absolute at 4 / 4 */
+.imageTop { position: relative; display: flex; justify-content: space-between; align-self: stretch; pointer-events: none; }
+.topTags { display: flex; flex-direction: column; align-items: flex-start; margin-inline-end: 20px; }
+.topTags > * { pointer-events: auto; }
+.topRight { position: absolute; top: var(--nk-space-s4); right: var(--nk-space-s4); display: flex; flex-direction: column; align-items: center; pointer-events: auto; }
+[dir='rtl'] .topRight { right: auto; left: var(--nk-space-s4); }
+
+/* imageBottomWrapper: marginTop auto, row, flex-end, padding 4; quick ATC at marginStart auto */
+.imageBottom { position: relative; margin-top: auto; display: flex; align-items: flex-end; justify-content: space-between; padding: var(--nk-space-s4); pointer-events: none; }
+.quickAtc { margin-inline-start: auto; pointer-events: auto; }
+
+/* info: paddingHorizontal productBoxPadding 8 */
+.info { display: flex; flex-direction: column; align-items: stretch; padding: 0 var(--nk-space-s8); }
+/* name: 14 / 18 500 inkBlack, marginEnd 12, marginTop 6, 2 lines, "{brand} {name}" */
+.name { margin: 6px var(--nk-space-s12) 0 0; font: var(--nk-type-product-title); color: var(--nk-palette-ink-black); text-align: start; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+[dir='rtl'] .name { margin: 6px 0 0 var(--nk-space-s12); }
+
+/* NoonProductRating in ratingWrapper (marginTop 4): softGray r6, px 6 py 2, gap 4; star 11 tinted by score; 12/600 charcoalNavy + 12 slateGray count */
+.rating { align-self: flex-start; display: inline-flex; align-items: center; gap: var(--nk-space-s4); margin-top: var(--nk-space-s4); padding: 2px 6px; border-radius: var(--nk-radius-r6); background: var(--nk-palette-soft-gray); }
+.ratingScore { display: inline-flex; align-items: center; gap: var(--nk-space-s4); font: var(--nk-type-text12-semibold-lh14); color: var(--nk-palette-charcoal-navy); }
+.ratingCount { font: var(--nk-type-text12-regular-lh14); color: var(--nk-palette-slate-gray); }
+
+/* PriceDiscounted (priceDiscountedPLP: marginTop 6, wrap, baseline): sale 16 bold neutralBlack (currency too), marginRight 4;
+   discountRow inline (marginTop 0): was 12 steelColor struck, no currency; Discount 12/600 greenOff on white, py 2 px 3, marginStart 0 */
+.price { display: flex; flex-wrap: wrap; align-items: baseline; margin-top: 6px; }
+.sale { margin-inline-end: var(--nk-space-s4); font: var(--nk-type-text16-bold-lh20); color: var(--nk-palette-neutral-black); white-space: nowrap; }
+.discountRow { display: inline-flex; align-items: center; }
+.was { font: var(--nk-type-text12-regular-lh14); color: var(--nk-palette-steel-color); text-decoration: line-through; white-space: nowrap; }
+.off { padding: 2px 3px; font: var(--nk-type-text12-semibold-lh14); color: var(--nk-palette-green-off); background: var(--nk-palette-white); white-space: nowrap; }
+
+/* NoonNudgeTag with carouselNudge: 18 high, paddingRight 12, paddingTop 1; item text 13 / 16 slateBlueGray −0.12, icon 14, gap 5 */
+.nudges { position: relative; height: 18px; padding-top: 1px; padding-inline-end: var(--nk-space-s12); overflow: hidden; }
+.nudge { position: absolute; inset: 1px var(--nk-space-s12) 0 0; display: flex; align-items: center; height: 18px; }
+.nudgeIcon { flex-shrink: 0; width: 14px; height: 14px; object-fit: contain; }
+.nudgeText { flex: 1; min-width: 0; margin-inline: 5px var(--nk-space-s4); font: var(--nk-type-text13-regular-lh16); letter-spacing: -0.12px; color: var(--nk-palette-slate-blue-gray); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* NoonDiscountTags: marginTop 6, marginBottom 2; 24h dashed softTeal r4, mintWhite, px 8; 12/600 darkGreenTeal, 1 line */
+.coupon { display: flex; align-items: center; gap: var(--nk-space-s4); max-width: 100%; margin: 6px 0 2px; }
+.couponTag { display: inline-flex; align-items: center; justify-content: center; min-width: 0; max-width: 100%; height: 24px; padding: 0 var(--nk-space-s8); border: 1px dashed var(--nk-palette-soft-teal); border-radius: var(--nk-radius-r4); background: var(--nk-palette-mint-white); font: var(--nk-type-text12-semibold-lh14); color: var(--nk-palette-dark-green-teal); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* flagAndDiscountRow: px 8, marginTop 4 → flagAndDeliveryRow (PLP 20 high): ProductFlag 60 × 18 marginRight 4 + delivery 12 / 14 charcoalNavy (b bold), 1 line */
+.flagRow { display: flex; align-items: center; padding: 0 var(--nk-space-s8); margin-top: var(--nk-space-s4); }
+.flagDelivery { flex: 1; min-width: 0; display: flex; align-items: center; min-height: 20px; } /* Origin _ETA badge (18, or 24 for Minutes / Supermall) */
+/* wishlist: one fixed slot (the 24 pill height) so express (18) and supermall / minutes (24) cards keep the same rows below */
+.flagDeliveryFixed { height: var(--nk-eta-pill-height); }
+
+/* wishlist bottomRow: row, center, marginTop 10, px 8, gap 8 (ATC + NoonProductBoxOptionButton) */
+.bottomRow { display: flex; align-items: center; gap: var(--nk-space-s8); margin-top: 10px; padding: 0 var(--nk-space-s8); cursor: default; }

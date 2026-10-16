@@ -1,0 +1,341 @@
+/* Figma "🚧 Checkout 2.0" Payment Options Container 14288:184061 (inside the Cards section) */
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s16);
+}
+/* Payment Options Header: gap 12 */
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s12);
+}
+/* Pay With: Primary/Label2/Bold 16/20 (-0.16) Sementic/Text/primary */
+.title {
+  font: var(--nk-type-text16-bold-lh20);
+  letter-spacing: -0.16px;
+  color: var(--nk-color-text-ink);
+}
+
+/* Credits states: gap 4 */
+.credits {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s4);
+}
+.creditsRow {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s8);
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: start;
+  cursor: pointer;
+}
+/* Primary/Label3/Medium 14/18 (-0.14) */
+.creditsText {
+  flex: 1;
+  font: var(--nk-type-product-title);
+  letter-spacing: -0.14px;
+  color: var(--nk-color-text-ink);
+}
+/* 12/16 Regular Sementic/Text/secondary-alpha, amount 12/14 Bold; row h18 py2 */
+.creditsRemaining {
+  display: block;
+  padding: var(--nk-space-s2) 0;
+  font: var(--nk-type-caption);
+  color: var(--nk-palette-dim-text-primary);
+  overflow: hidden;
+}
+.creditsRemainingValue {
+  font-weight: var(--nk-font-weight-bold);
+  letter-spacing: -0.12px;
+}
+
+/* Debit Credit Cards Details Inner Container: gap 8 */
+.methods {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s8);
+}
+/* Cards MOLECULE: Sementic/BG/secondary-hover, r12, h54, pl8 pr12 py10, gap 8 (selected stroke drawn inside)
+   — "All flows" 143:13685 (Checkout 2.0 had px12) */
+.row {
+  position: relative;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s8);
+  padding: 9px 11px 9px 7px; /* 10 / 12 / 8 − 1px inside stroke */
+  padding-inline: 7px 11px;
+  border: 1px solid transparent;
+  border-radius: var(--nk-radius-r12);
+  background: var(--nk-color-bg-subtle);
+  background-origin: border-box; /* gradients start under the inside stroke */
+  cursor: pointer;
+  outline: none;
+}
+.rowSelected {
+  border-color: var(--nk-color-link);
+  background: var(--nk-palette-alice-blue);
+  cursor: default;
+}
+.rowDisabled {
+  opacity: 0.4;
+  cursor: default;
+}
+/* noon One Credit Card: gradient → right white → #ECFFD1; px8 (143:13767) */
+.rowNoonOne {
+  padding-inline-end: 7px;
+  background: linear-gradient(90deg, var(--nk-color-bg-surface) 0%, var(--nk-color-chk-fig-noon-one-card-end) 100%);
+  background-origin: border-box;
+}
+.rowBadge {
+  position: absolute;
+  right: 0;
+  top: -2px;
+}
+/* Molecule/BrandLogo 38×24 (the export carries its 1px r4 frame) */
+.logo {
+  flex-shrink: 0;
+  display: block;
+  width: 38px;
+  height: 24px;
+}
+/* Payment method info: gap 2 */
+.info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--nk-space-s2);
+}
+/* Primary/Label3/Semibold 14/18 (-0.14) */
+.name {
+  font: var(--nk-type-body-semibold);
+  letter-spacing: -0.14px;
+  color: var(--nk-color-text-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Second line Atom: Primary/Label4/Regular 12/14 (-0.12) Sementic/Text/secondary */
+.message {
+  font: var(--nk-type-text12-regular-lh14);
+  letter-spacing: -0.12px;
+  color: var(--nk-palette-secondary-text-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Sementic/Text/positive-secondary */
+.messagePositive {
+  font: var(--nk-type-text12-regular-lh14);
+  letter-spacing: -0.12px;
+  color: var(--nk-palette-success-green);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Pill button: w87, pl 8, py 4, r full — 14/18 SemiBold Sementic/Text/accent, right aligned */
+.applyNow {
+  flex-shrink: 0;
+  width: 87px;
+  padding: var(--nk-space-s4) 0 var(--nk-space-s4) var(--nk-space-s8);
+  border-radius: var(--nk-radius-full);
+  font: var(--nk-type-body-semibold);
+  letter-spacing: -0.14px;
+  color: var(--nk-color-link);
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Payment EMI Container: the card (z2) sits over the EMI box (z1) */
+.ccWrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  isolation: isolate;
+}
+/* Payment: r12, py 12, gap 12 — unselected Blue-Gray/100, selected Sementic/BG/accent-primary + 1px Sementic/Border/accent-secondary */
+.cc {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s12);
+  padding: 11px 0; /* 12 − 1px inside stroke */
+  border: 1px solid transparent;
+  border-radius: var(--nk-radius-r12);
+  background: var(--nk-color-bg-subtle);
+  overflow: hidden;
+  cursor: pointer;
+  outline: none;
+}
+.ccSelected {
+  border-color: var(--nk-color-link);
+  background: var(--nk-palette-alice-blue);
+  cursor: default;
+}
+/* Title: px 8 (inner), h26, gap 2 */
+.ccTitleRow {
+  height: 26px;
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s2);
+  padding: 0 var(--nk-space-s8);
+}
+.ccTitle {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s8);
+}
+/* Button: h36 (max), pl 14, py 10, r8 — 14/18 SemiBold Sementic/Text/accent */
+.addChange {
+  flex-shrink: 0;
+  height: 36px;
+  padding: var(--nk-space-s10) 0 var(--nk-space-s10) var(--nk-space-s14);
+  border: 0;
+  border-radius: var(--nk-radius-r8);
+  background: none;
+  font: var(--nk-type-body-semibold);
+  letter-spacing: -0.14px;
+  color: var(--nk-color-link);
+  white-space: nowrap;
+  cursor: pointer;
+}
+/* ACTIVE: px 8 */
+.ccActive {
+  padding: 0 var(--nk-space-s8);
+}
+/* Card: gap 12 */
+.saved {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s12);
+}
+.savedDetails {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s8);
+}
+/* Molecule/BrandLogo (saved card): 38×24 white, 1px Accent/50, r4, art clipped */
+.cardArt {
+  flex-shrink: 0;
+  width: 38px;
+  height: 24px;
+  border: 1px solid var(--nk-palette-alice-blue);
+  border-radius: var(--nk-radius-r4);
+  overflow: hidden;
+  background: var(--nk-color-bg-surface);
+}
+.cardArt img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* Title: gap 4 — name (ellipsis) | •••• last4 */
+.savedTitleRow {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s4);
+  min-width: 0;
+}
+.savedTitle {
+  flex: 1 1 auto;
+  min-width: 0;
+  font: var(--nk-type-body-semibold);
+  letter-spacing: -0.14px;
+  color: var(--nk-color-text-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* "|" 14/18 SemiBold Gray/600, w4 */
+.pipe {
+  flex-shrink: 0;
+  width: 4px;
+  font: var(--nk-type-body-semibold);
+  color: var(--nk-palette-lighter-spanish-gray-color);
+  overflow: hidden;
+}
+.number {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s4);
+}
+.dots {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s2);
+}
+/* Hidden digit 4×4, r2 (border radius/sm), Sementic/Text/primary */
+.dot {
+  width: 4px;
+  height: 4px;
+  border-radius: var(--nk-radius-r2);
+  background: var(--nk-color-text-ink);
+}
+.mask {
+  font: var(--nk-type-body-semibold);
+  letter-spacing: -0.14px;
+  color: var(--nk-color-text-ink);
+}
+/* Input field (Box): h34 here, white, 1px Sementic/Border/quantarary, r12, pl 14, pr 10 — 14/18 Medium Sementic/Text/tertiary */
+.cvv {
+  flex-shrink: 0;
+  width: 58px;
+  height: 34px;
+  padding: 0 var(--nk-space-s10) 0 var(--nk-space-s14);
+  border: 1px solid var(--nk-palette-silver);
+  border-radius: var(--nk-radius-r12);
+  background: var(--nk-color-bg-surface);
+  font: var(--nk-type-product-title);
+  letter-spacing: -0.14px;
+  color: var(--nk-color-text-ink);
+  outline: none;
+  box-sizing: border-box;
+}
+.cvv::placeholder {
+  color: var(--nk-palette-lighter-spanish-gray-color);
+}
+.cvv:focus {
+  border-color: var(--nk-color-link);
+}
+
+/* EMI: Sementic/BG/secondary, 1px Sementic/Border/secondary-alpha, r12 — tucked 12px under the card; pb 12, px 10 */
+.emi {
+  position: relative;
+  z-index: 1;
+  margin-top: -12px;
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s8);
+  padding: var(--nk-space-s24) var(--nk-space-s10) var(--nk-space-s12);
+  border: 1px solid var(--nk-palette-new-border-color);
+  border-radius: var(--nk-radius-r12);
+  background: var(--nk-color-bg-subtle);
+  text-align: start;
+  overflow: hidden;
+  cursor: pointer;
+}
+/* Primary/Label4/Medium 12/14 (-0.12) Sementic/Text/primary */
+.emiText {
+  flex: 1;
+  min-width: 0;
+  font: var(--nk-type-text12-medium-lh14);
+  letter-spacing: -0.12px;
+  color: var(--nk-color-text-ink);
+}
+.emiChevron {
+  flex-shrink: 0;
+  display: block;
+}

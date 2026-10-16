@@ -1,0 +1,137 @@
+/* Every value comes from the `button` token group (src/foundations/tokens.ts) → var(--nk-button-*). */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--nk-button-gap);
+  white-space: nowrap;
+  border: var(--nk-button-border-width) solid transparent;
+  user-select: none;
+}
+.block { display: flex; width: 100%; }
+
+.sm { height: var(--nk-button-sm-height); padding: 0 var(--nk-button-sm-padding-x); border-radius: var(--nk-button-sm-radius); font: var(--nk-button-sm-font); }
+.md { height: var(--nk-button-md-height); padding: 0 var(--nk-button-md-padding-x); border-radius: var(--nk-button-md-radius); font: var(--nk-button-md-font); }
+.lg { min-height: var(--nk-button-lg-height); padding: 0 var(--nk-button-lg-padding-x); border-radius: var(--nk-button-lg-radius); font: var(--nk-button-lg-font); }
+
+.primary { background: var(--nk-button-primary-bg); color: var(--nk-button-primary-fg); border-color: var(--nk-button-primary-border); }
+.checkout { background: var(--nk-button-checkout-bg); color: var(--nk-button-checkout-fg); border-color: var(--nk-button-checkout-border); }
+.bright { background: var(--nk-button-bright-bg); color: var(--nk-button-bright-fg); border-color: var(--nk-button-bright-border); }
+.dark { background: var(--nk-button-dark-bg); color: var(--nk-button-dark-fg); border-color: var(--nk-button-dark-border); }
+.outline { background: var(--nk-button-outline-bg); color: var(--nk-button-outline-fg); border-color: var(--nk-button-outline-border); }
+.secondary { background: var(--nk-button-secondary-bg); color: var(--nk-button-secondary-fg); border-color: var(--nk-button-secondary-border); }
+.soft { background: var(--nk-button-soft-bg); color: var(--nk-button-soft-fg); border-color: var(--nk-button-soft-border); }
+.danger { background: var(--nk-button-danger-bg); color: var(--nk-button-danger-fg); border-color: var(--nk-button-danger-border); }
+.ghost { background: var(--nk-button-ghost-bg); color: var(--nk-button-ghost-fg); border-color: var(--nk-button-ghost-border); }
+
+.btn[data-disabled] { cursor: not-allowed; }
+.primary[data-disabled] { background: var(--nk-button-primary-bg-disabled); color: var(--nk-button-primary-fg-disabled); border-color: var(--nk-button-primary-border-disabled); }
+.checkout[data-disabled] { background: var(--nk-button-checkout-bg-disabled); color: var(--nk-button-checkout-fg-disabled); border-color: var(--nk-button-checkout-border-disabled); }
+.bright[data-disabled] { background: var(--nk-button-bright-bg-disabled); color: var(--nk-button-bright-fg-disabled); border-color: var(--nk-button-bright-border-disabled); }
+.dark[data-disabled] { background: var(--nk-button-dark-bg-disabled); color: var(--nk-button-dark-fg-disabled); border-color: var(--nk-button-dark-border-disabled); }
+.outline[data-disabled] { background: var(--nk-button-outline-bg-disabled); color: var(--nk-button-outline-fg-disabled); border-color: var(--nk-button-outline-border-disabled); }
+.secondary[data-disabled] { background: var(--nk-button-secondary-bg-disabled); color: var(--nk-button-secondary-fg-disabled); border-color: var(--nk-button-secondary-border-disabled); }
+.soft[data-disabled] { background: var(--nk-button-soft-bg-disabled); color: var(--nk-button-soft-fg-disabled); border-color: var(--nk-button-soft-border-disabled); }
+.danger[data-disabled] { background: var(--nk-button-danger-bg-disabled); color: var(--nk-button-danger-fg-disabled); border-color: var(--nk-button-danger-border-disabled); }
+.ghost[data-disabled] { background: var(--nk-button-ghost-bg-disabled); color: var(--nk-button-ghost-fg-disabled); border-color: var(--nk-button-ghost-border-disabled); }
+
+/* ── NoonButton presets (marketplaces/noon/components/NoonButton/styles.ts) ──
+   Specificity (0,0,2): above the global button/Pressable resets (≤ 0,0,1), below any caller className (0,1,0),
+   so flows can restyle metrics (padding, font, width…) regardless of stylesheet order. */
+:is(button, div):not(span):where(.noonBase) {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border: var(--nk-button-noon-border-width) solid transparent;
+  border-radius: var(--nk-button-noon-radius);
+  padding: var(--nk-button-noon-padding-y) var(--nk-button-noon-padding-x);
+  font: var(--nk-button-noon-font);
+  text-align: center;
+  cursor: pointer;
+}
+:is(button, div):not(span):where(.noonBase:disabled) { cursor: default; }
+:is(button, div):not(span):where(.noon) { background: var(--nk-button-noon-bg); color: var(--nk-button-noon-fg); }
+:is(button, div):not(span):where(.noon[data-disabled]) { background: var(--nk-button-noon-bg-disabled); color: var(--nk-button-noon-fg-disabled); }
+:is(button, div):not(span):where(.noonSecondary) { border-width: var(--nk-button-noon-secondary-border-width); border-color: var(--nk-button-noon-secondary-border); background: var(--nk-button-noon-secondary-bg); color: var(--nk-button-noon-secondary-fg); }
+:is(button, div):not(span):where(.noonSecondary[data-disabled]) { border-color: var(--nk-button-noon-secondary-border-disabled); background: var(--nk-button-noon-secondary-bg-disabled); color: var(--nk-button-noon-secondary-fg-disabled); }
+:is(button, div):not(span):where(.noonGhost, .noonGhostSecondary, .noonDotted) { padding: 0; background: transparent; }
+:is(button, div):not(span):where(.noonGhost) { color: var(--nk-button-noon-ghost-fg); }
+:is(button, div):not(span):where(.noonGhostSecondary) { color: var(--nk-button-noon-ghost-secondary-fg); }
+:is(button, div):not(span):where(.noonDotted) { color: var(--nk-button-noon-dotted-fg); }
+:is(button, div):not(span):where(.noonGhost[data-disabled]) { color: var(--nk-button-noon-ghost-fg-disabled); }
+:is(button, div):not(span):where(.noonGhostSecondary[data-disabled]) { color: var(--nk-button-noon-ghost-secondary-fg-disabled); }
+:is(button, div):not(span):where(.noonDotted[data-disabled]) { color: var(--nk-button-noon-dotted-fg-disabled); }
+.noonLabel { display: contents; } /* children lay out as direct items of the button; hidden (not removed) while loading */
+.noonDottedInner { display: flex; flex-direction: column; }
+.noonDottedLine { display: block; margin-top: var(--nk-button-noon-dotted-line-gap); overflow: visible; }
+.noonLoader { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+
+/* ── Field DS buttons (@field-ds/components Button/*: sizing.ts, _RectButton, TextButton, NeutralTextButton, RoundButton).
+   Same (0,0,2) specificity scheme as the noon presets, so a caller className restyles them. Size and tone classes only
+   set the local --fb-* properties; .fieldBase reads them. Values: --nk-button-field-* (src/foundations/tokens.ts). */
+:is(button, div):not(span):where(.fieldBase) {
+  position: relative;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  height: var(--fb-height);
+  padding: 0 var(--fb-pad-x);
+  border: var(--nk-button-field-border-width) solid var(--fb-border);
+  border-radius: var(--fb-radius);
+  background: var(--fb-bg);
+  color: var(--fb-fg);
+  font: var(--fb-font);
+  letter-spacing: var(--fb-tracking);
+  white-space: nowrap;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  transition-property: background-color, border-color, color;
+  transition-duration: var(--nk-button-field-press-color-duration);
+  transition-timing-function: var(--nk-button-field-press-ease);
+}
+:is(button, div):not(span):where(.fieldBase:active:not(:disabled):not([data-disabled])) {
+  background: var(--fb-bg-pressed);
+  color: var(--fb-fg-pressed);
+}
+:is(button, div):not(span):where(.fieldBase[data-disabled]) {
+  background: var(--fb-bg-disabled);
+  color: var(--fb-fg-disabled);
+  border-color: var(--fb-border-disabled);
+  cursor: default;
+}
+:is(button, div):not(span):where(.fieldBase[aria-busy]) { cursor: default; }
+.fieldContent { display: inline-flex; flex-direction: row; align-items: center; gap: var(--fb-gap); min-width: 0; }
+.fieldLabel { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fieldLoader { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+
+/* sizes — rectangular (BUTTON_SIZE) */
+:where(.fH56) { --fb-height: var(--nk-button-field-h56-height); --fb-pad-x: var(--nk-button-field-h56-padding-x); --fb-radius: var(--nk-button-field-h56-radius); --fb-gap: var(--nk-button-field-h56-gap); --fb-font: var(--nk-button-field-h56-font); --fb-tracking: var(--nk-button-field-h56-tracking); }
+:where(.fH52) { --fb-tracking: normal; --fb-height: var(--nk-button-field-h52-height); --fb-pad-x: var(--nk-button-field-h52-padding-x); --fb-radius: var(--nk-button-field-h52-radius); --fb-gap: var(--nk-button-field-h52-gap); --fb-font: var(--nk-button-field-h52-font); }
+:where(.fH48) { --fb-tracking: normal; --fb-height: var(--nk-button-field-h48-height); --fb-pad-x: var(--nk-button-field-h48-padding-x); --fb-radius: var(--nk-button-field-h48-radius); --fb-gap: var(--nk-button-field-h48-gap); --fb-font: var(--nk-button-field-h48-font); }
+:where(.fH40) { --fb-tracking: normal; --fb-height: var(--nk-button-field-h40-height); --fb-pad-x: var(--nk-button-field-h40-padding-x); --fb-radius: var(--nk-button-field-h40-radius); --fb-gap: var(--nk-button-field-h40-gap); --fb-font: var(--nk-button-field-h40-font); }
+:where(.fH40Wide) { --fb-tracking: normal; --fb-height: var(--nk-button-field-h40-height); --fb-pad-x: var(--nk-button-field-h40-wide-padding-x); --fb-radius: var(--nk-button-field-h40-wide-radius); --fb-gap: var(--nk-button-field-h40-wide-gap); --fb-font: var(--nk-button-field-h40-wide-font); }
+:where(.fH40Wide.fH40WideA12) { --fb-font: var(--nk-button-field-h40-font); }
+:where(.fH36) { --fb-tracking: normal; --fb-height: var(--nk-button-field-h36-height); --fb-pad-x: var(--nk-button-field-h36-padding-x); --fb-radius: var(--nk-button-field-h36-radius); --fb-gap: var(--nk-button-field-h36-gap); --fb-font: var(--nk-button-field-h36-font); }
+:where(.fH32) { --fb-tracking: normal; --fb-height: var(--nk-button-field-h32-height); --fb-pad-x: var(--nk-button-field-h32-padding-x); --fb-radius: var(--nk-button-field-h32-radius); --fb-gap: var(--nk-button-field-h32-gap); --fb-font: var(--nk-button-field-h32-font); }
+/* sizes — text (TEXT_SIZE) */
+:where(.fTA14) { --fb-tracking: normal; --fb-height: var(--nk-button-field-text-a14-height); --fb-pad-x: var(--nk-button-field-text-a14-padding-x); --fb-radius: var(--nk-button-field-text-a14-radius); --fb-gap: var(--nk-button-field-text-a14-gap); --fb-font: var(--nk-button-field-text-a14-font); }
+:where(.fTA12) { --fb-tracking: normal; --fb-height: var(--nk-button-field-text-a12-height); --fb-pad-x: var(--nk-button-field-text-a12-padding-x); --fb-radius: var(--nk-button-field-text-a12-radius); --fb-gap: var(--nk-button-field-text-a12-gap); --fb-font: var(--nk-button-field-text-a12-font); }
+/* sizes — round (ROUND_SIZE, radius rounded) */
+:where(.fRH40) { --fb-tracking: normal; --fb-height: var(--nk-button-field-round-h40-height); --fb-pad-x: var(--nk-button-field-round-h40-padding-x); --fb-radius: var(--nk-button-field-round-radius); --fb-gap: var(--nk-button-field-round-h40-gap); --fb-font: var(--nk-button-field-round-h40-font); }
+:where(.fRH36) { --fb-tracking: normal; --fb-height: var(--nk-button-field-round-h36-height); --fb-pad-x: var(--nk-button-field-round-h36-padding-x); --fb-radius: var(--nk-button-field-round-radius); --fb-gap: var(--nk-button-field-round-h36-gap); --fb-font: var(--nk-button-field-round-h36-font); }
+
+/* tones (RectButtonTone per public button) */
+:where(.fieldPrimary) { --fb-border-disabled: var(--fb-border); --fb-fg-pressed: var(--fb-fg); --fb-bg: var(--nk-button-field-primary-bg); --fb-bg-pressed: var(--nk-button-field-primary-bg-pressed); --fb-bg-disabled: var(--nk-button-field-primary-bg-disabled); --fb-border: var(--nk-button-field-primary-border); --fb-fg: var(--nk-button-field-primary-fg); --fb-fg-disabled: var(--nk-button-field-primary-fg-disabled); }
+:where(.fieldSecondary) { --fb-fg-pressed: var(--fb-fg); --fb-bg: var(--nk-button-field-secondary-bg); --fb-bg-pressed: var(--nk-button-field-secondary-bg-pressed); --fb-bg-disabled: var(--nk-button-field-secondary-bg-disabled); --fb-border: var(--nk-button-field-secondary-border); --fb-border-disabled: var(--nk-button-field-secondary-border-disabled); --fb-fg: var(--nk-button-field-secondary-fg); --fb-fg-disabled: var(--nk-button-field-secondary-fg-disabled); }
+:where(.fieldSecondaryNeutral) { --fb-bg: var(--nk-button-field-secondary-neutral-bg); --fb-bg-pressed: var(--nk-button-field-secondary-neutral-bg-pressed); --fb-bg-disabled: var(--nk-button-field-secondary-neutral-bg-disabled); --fb-border: var(--nk-button-field-secondary-neutral-border); --fb-border-disabled: var(--nk-button-field-secondary-neutral-border-disabled); --fb-fg: var(--nk-button-field-secondary-neutral-fg); --fb-fg-pressed: var(--nk-button-field-secondary-neutral-fg-pressed); --fb-fg-disabled: var(--nk-button-field-secondary-neutral-fg-disabled); }
+:where(.fieldNeutral) { --fb-border-disabled: var(--fb-border); --fb-fg-pressed: var(--fb-fg); --fb-bg: var(--nk-button-field-neutral-bg); --fb-bg-pressed: var(--nk-button-field-neutral-bg-pressed); --fb-bg-disabled: var(--nk-button-field-neutral-bg-disabled); --fb-border: var(--nk-button-field-neutral-border); --fb-fg: var(--nk-button-field-neutral-fg); --fb-fg-disabled: var(--nk-button-field-neutral-fg-disabled); }
+:where(.fieldText) { --fb-border-disabled: var(--fb-border); --fb-fg-pressed: var(--fb-fg); --fb-bg: var(--nk-button-field-text-bg); --fb-bg-pressed: var(--nk-button-field-text-bg-pressed); --fb-bg-disabled: var(--nk-button-field-text-bg); --fb-border: var(--nk-button-field-text-bg); --fb-fg: var(--nk-button-field-text-fg); --fb-fg-disabled: var(--nk-button-field-text-fg-disabled); }
+:where(.fieldNeutralText) { --fb-border-disabled: var(--fb-border); --fb-fg-pressed: var(--fb-fg); --fb-bg: var(--nk-button-field-neutral-text-bg); --fb-bg-pressed: var(--nk-button-field-neutral-text-bg-pressed); --fb-bg-disabled: var(--nk-button-field-neutral-text-bg); --fb-border: var(--nk-button-field-neutral-text-bg); --fb-fg: var(--nk-button-field-neutral-text-fg); --fb-fg-disabled: var(--nk-button-field-neutral-text-fg-disabled); }
+:where(.fieldRound) { --fb-border-disabled: var(--fb-border); --fb-bg: var(--nk-button-field-round-bg); --fb-bg-pressed: var(--nk-button-field-round-bg-pressed); --fb-bg-disabled: var(--nk-button-field-round-bg-disabled); --fb-border: var(--nk-button-field-round-border); --fb-fg: var(--nk-button-field-round-fg); --fb-fg-pressed: var(--nk-button-field-round-fg-pressed); --fb-fg-disabled: var(--nk-button-field-round-fg-disabled); }

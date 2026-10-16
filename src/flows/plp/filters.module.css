@@ -1,0 +1,106 @@
+/* NoonFiltersScreenV2 / NoonFiltersV2, bappzaar master (values resolved in MAPPING.md → "Filters sheet").
+   The floating frame (inset, r16, grabber above, scrim 0.7) is the Navigator's `sheet: 'floating'`. */
+
+/* gorhom detached sheet: snapPoints 85% of the space above the 36pt bottomInset */
+.sheet { display: flex; flex-direction: column; height: calc((var(--nk-layout-device-height) - var(--nk-space-s36)) * 0.85); max-height: 100%; overflow: hidden; background: var(--nk-color-bg-surface); }
+
+/* header: pt 8, title 18 bold slateBlueGray, padding 4 12 12; no close button (the grabber closes) */
+.header { padding-top: var(--nk-space-s8); }
+.title { margin: 0; padding: var(--nk-space-s4) var(--nk-space-s12) var(--nk-space-s12); font: var(--nk-type-title-small); color: var(--nk-color-text-muted); }
+
+/* search: wrapper 4 12 12 + bottom border; input 44 r12 secondaryBackground; active = white with a border */
+.searchWrap { padding: var(--nk-space-s4) var(--nk-space-s12) var(--nk-space-s12); border-bottom: 1px solid var(--nk-color-border-subtle); }
+.searchWrap[data-active] { padding-bottom: var(--nk-space-s4); border-bottom-color: transparent; }
+.search { display: flex; align-items: center; height: 44px; padding: 0 var(--nk-space-s12); border: 1px solid transparent; border-radius: var(--nk-radius-r12); background: var(--nk-color-bg-subtle); cursor: text; }
+.search[data-active] { background: var(--nk-color-bg-surface); border-color: var(--nk-color-border-subtle); }
+.search input { flex: 1; min-width: 0; padding-inline-start: var(--nk-space-s8); border: 0; outline: 0; background: transparent; font: var(--nk-type-plp-text16-medium-lh20); color: var(--nk-color-text-primary); }
+.search input::placeholder { color: var(--nk-color-text-tertiary); }
+.searchIcon { display: flex; align-items: center; flex-shrink: 0; }
+
+.body { position: relative; flex: 1; min-height: 0; display: flex; overflow: hidden; }
+
+/* sidebar: 25% of the content width, border-end 1 antiFlashWhite */
+.sidebar { position: absolute; inset-block: 0; inset-inline-start: 0; width: 25%; overflow-y: auto; border-inline-end: 1px solid var(--nk-color-border-subtle); }
+[dir='rtl'] .sidebar { transform: none; }
+/* item: py 10 px 8, my 4, gap 4; 13/500 secondaryText; active aliceBlue + 3px accentBlue end bar, blueGray1000 600 */
+.side { display: flex !important; align-items: center; gap: var(--nk-space-s4); width: 100%; margin: var(--nk-space-s4) 0; padding: var(--nk-space-s10) var(--nk-space-s8); border-inline-end: 3px solid transparent !important; text-align: start; font: var(--nk-type-text13-medium-lh16); color: var(--nk-palette-secondary-text-color); }
+.side[data-active] { background: var(--nk-palette-alice-blue); border-inline-end-color: var(--nk-color-brand-blue) !important; color: var(--nk-color-text-strong); font-weight: 600; }
+/* filter-active.webp: ~6pt solid blue dot at the row's end (the label takes the free width), as in production */
+.sideLabel { flex: 1; min-width: 0; }
+.dot { flex-shrink: 0; width: 6px; height: 6px; border-radius: var(--nk-radius-full); background: var(--nk-color-brand-blue); }
+
+.content { position: relative; flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.list { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+.list[hidden] { display: none; }
+/* SectionList fades: 16 at the top, 24 at the bottom */
+.content::before, .content::after { content: ''; position: absolute; inset-inline: 0; z-index: 2; pointer-events: none; }
+.content::before { top: 0; height: 16px; background: linear-gradient(var(--nk-color-bg-surface), transparent); }
+.content::after { bottom: 0; height: 24px; background: linear-gradient(transparent, var(--nk-color-bg-surface)); }
+
+/* FilterHeader: outer pt 8 px 8 white (sticky); inner filterContainerBackground, top radii 16, 14 16, bottom border borderPrimary; 16/600 gray800 */
+.groupHeaderWrap { position: sticky; top: 0; z-index: 1; padding: var(--nk-space-s8) var(--nk-space-s8) 0; background: var(--nk-color-bg-surface); }
+.groupHeader { padding: var(--nk-space-s14) var(--nk-space-s16); border-radius: var(--nk-radius-r16) var(--nk-radius-r16) 0 0; border-bottom: 1px solid var(--nk-palette-border-primary); background: var(--nk-palette-filter-container-background); font: var(--nk-type-text16-semibold-lh20); color: var(--nk-color-text-body); }
+.groupHeader b { font-weight: 700; }
+/* FilterContainer: mx 8, mb 8, bottom radii 16, pb 12 */
+.groupBody { margin: 0 var(--nk-space-s8) var(--nk-space-s8); padding-bottom: var(--nk-space-s12); border-radius: 0 0 var(--nk-radius-r16) var(--nk-radius-r16); background: var(--nk-palette-filter-container-background); }
+
+/* FilterNavPill row: wrap, gap 8, px 12 (the header's 14 bottom padding is the space above) */
+.pills { display: flex; flex-wrap: wrap; gap: var(--nk-space-s8); padding: 0 var(--nk-space-s12); }
+.pills b, .fulfilLabel b, .card b { font-weight: 700; }
+
+/* FilterFulfillmentCard: column gap 10 px 12; card min 42, r12, 1px lightGrey, white, p 8, gap 8 */
+.fulfilList { display: flex; flex-direction: column; gap: var(--nk-space-s10); padding: 0 var(--nk-space-s12); }
+.fulfil { display: flex !important; align-items: center; gap: var(--nk-space-s8); width: 100%; min-height: 42px; padding: var(--nk-space-s8); border: 1px solid var(--nk-color-border) !important; border-radius: var(--nk-radius-r12); background: var(--nk-color-bg-surface) !important; text-align: start; }
+/* selected: 2px accentBlue (inset ring keeps the size), filterSelectedBackground, label neutralBlack 600 */
+.fulfil[data-selected] { border-color: var(--nk-color-brand-blue) !important; box-shadow: inset 0 0 0 1px var(--nk-color-brand-blue); background: var(--nk-palette-filter-selected-background) !important; }
+/* logo box: 86 wide, min 26, r6, py 4 px 8, the API's background_color */
+.fulfilLogo { display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 86px; min-height: 26px; padding: var(--nk-space-s4) var(--nk-space-s8); border-radius: var(--nk-radius-r6); background: var(--nk-palette-gray-color); }
+.fulfilLogo[data-logo='supermall'] { background: var(--nk-color-plp-fulfil-supermall); }
+.fulfilLogo[data-logo='express'] { background: var(--nk-color-plp-fulfil-express); }
+.fulfilLogo[data-logo='global'] { background: var(--nk-color-plp-fulfil-global); }
+.globalLogo { display: block; height: 18px; width: auto; }
+.fulfilLabel { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: var(--nk-type-product-title); color: var(--nk-color-text-body); }
+.fulfil[data-selected] .fulfilLabel { color: var(--nk-color-text-ink); font-weight: 600; }
+
+/* FilterCard (product_rating): flexBasis 45% grow, py 10 px 8, r10, 1px lightGrey, gap 10, 14/500 centred */
+.cards { display: flex; flex-wrap: wrap; gap: var(--nk-space-s8); padding: 0 var(--nk-space-s12); }
+.card { flex: 1 0 45%; display: flex !important; flex-direction: column; align-items: center; gap: var(--nk-space-s10); padding: var(--nk-space-s10) var(--nk-space-s8); border: 1px solid var(--nk-color-border) !important; border-radius: var(--nk-radius-r10); background: var(--nk-color-bg-surface) !important; font: var(--nk-type-product-title); color: var(--nk-color-text-body); text-align: center; }
+.card[data-selected] { border-color: var(--nk-color-brand-blue) !important; box-shadow: inset 0 0 0 1px var(--nk-color-brand-blue); background: var(--nk-palette-filter-selected-background) !important; color: var(--nk-color-brand-blue); font-weight: 600; }
+
+/* FilterSortSection: own grey card r16, py 16 px 12, m 8; "Sort by" 16/600 gray800; selected label 12/600 accentBlue */
+.sortCard { margin: var(--nk-space-s8); padding: var(--nk-space-s16) var(--nk-space-s12); border-radius: var(--nk-radius-r16); background: var(--nk-palette-filter-container-background); }
+.sortHeader { display: flex !important; align-items: center; gap: var(--nk-space-s8); width: 100%; text-align: start; }
+.sortTitle { flex: 1; font: var(--nk-type-text16-semibold-lh20); color: var(--nk-color-text-body); }
+.sortValue { font: var(--nk-type-text12-semibold-lh16); color: var(--nk-color-brand-blue); }
+.sortPills { display: flex; flex-wrap: wrap; gap: var(--nk-space-s8); margin-top: var(--nk-space-s16); }
+
+/* FilterRangeSlider: px 12, gap 12; slider 42 high; rail 4 noonGrey3, selected rail accent; thumb 24 white + 3px accentBlue */
+.range { display: flex; flex-direction: column; gap: var(--nk-space-s12); padding: 0 var(--nk-space-s12); }
+.slider { position: relative; height: 42px; }
+.rail, .railFill { position: absolute; top: 50%; height: 4px; margin-top: -2px; border-radius: var(--nk-radius-r2); }
+.rail { inset-inline: 0; background: var(--nk-color-plp-range-rail); }
+.railFill { background: var(--nk-color-plp-range-fill); }
+.slider input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; background: transparent; appearance: none; -webkit-appearance: none; pointer-events: none; }
+.slider input::-webkit-slider-thumb { -webkit-appearance: none; width: 24px; height: 24px; border-radius: var(--nk-radius-full); border: 3px solid var(--nk-color-brand-blue); background: var(--nk-color-bg-surface); pointer-events: auto; cursor: grab; }
+.slider input::-moz-range-thumb { width: 18px; height: 18px; border-radius: var(--nk-radius-full); border: 3px solid var(--nk-color-brand-blue); background: var(--nk-color-bg-surface); pointer-events: auto; cursor: grab; }
+.rangeInputs { display: flex; gap: var(--nk-space-s16); }
+/* "Min" / "Max" 12/400 gray800 mb 4; input 1px filterLineGray r8 p 8, 14 */
+.rangeField { flex: 1; display: flex; flex-direction: column; gap: var(--nk-space-s4); font: var(--nk-type-caption); color: var(--nk-color-text-body); }
+.rangeField input { width: 100%; padding: var(--nk-space-s8); border: 1px solid var(--nk-palette-filter-line-gray); border-radius: var(--nk-radius-r8); outline: 0; background: var(--nk-color-bg-surface); font: var(--nk-type-body); color: var(--nk-color-text-primary); }
+
+/* search results: "{n} filters match" 12/500 bluishGrey, pt 12 px 12 */
+.matchCount { margin: 0; padding: var(--nk-space-s12) var(--nk-space-s12) 0; font: var(--nk-type-text12-medium-lh16); color: var(--nk-color-text-tertiary); }
+.empty { display: flex; flex-direction: column; align-items: center; gap: var(--nk-space-s4); padding: var(--nk-space-s40) var(--nk-space-s24); text-align: center; }
+.emptyTitle { margin: var(--nk-space-s12) 0 0; font: var(--nk-type-section); color: var(--nk-color-text-primary); }
+.emptyText { margin: 0; font: var(--nk-type-text12-medium-lh16); color: var(--nk-color-text-secondary); }
+/* "Clear selection": 36 high, r18, 1px antiFlashWhite, px 12, 12/600 slateBlueGray */
+.clearSelectionRow { display: flex; justify-content: center; padding: var(--nk-space-s12); overflow: hidden; }
+.clearSelection { height: 36px; padding: 0 var(--nk-space-s12); border: 1px solid var(--nk-color-border-subtle) !important; border-radius: var(--nk-radius-full); background: var(--nk-color-bg-surface) !important; font: var(--nk-type-text12-semibold-lh16); color: var(--nk-color-text-muted); }
+
+/* footer: white, top border, gap 8, py 10 px 12; buttons min 56, r14, 18/600 */
+.footer { display: flex; gap: var(--nk-space-s8); padding: var(--nk-space-s10) var(--nk-space-s12); border-top: 1px solid var(--nk-color-border-subtle); background: var(--nk-color-bg-surface); }
+.clear, .show { display: flex !important; align-items: center; justify-content: center; min-height: 56px; border-radius: var(--nk-radius-r14); font: var(--nk-type-plp-text18-semibold-lh1); white-space: nowrap; }
+.clear { flex: 0.4; border: 1px solid var(--nk-palette-bright-grey-color) !important; background: var(--nk-color-bg-surface) !important; color: var(--nk-color-text-ink); }
+.show { flex: 0.6; min-width: 0; border: 1px solid var(--nk-color-brand-blue) !important; background: var(--nk-color-brand-blue) !important; color: var(--nk-color-text-inverse); }
+.show[data-full] { flex: 1; }
+.show:disabled { opacity: 0.5; }

@@ -1,0 +1,593 @@
+/* ───────────── VIPCancelMembershipV2Screen (styles.ts) ───────────── */
+/* container #F9F9F9 under LinearGradient ['#FFFFFF', '#F4F3F3'] locations [0, 0.4] */
+.headerWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  height: calc(var(--nk-inset-top) + 52px);
+  pointer-events: none;
+}
+.headerBg {
+  position: absolute;
+  inset: 0;
+  background: var(--nk-color-bg-surface);
+  box-shadow: var(--nk-shadow-mb-shadow2);
+}
+.backButton {
+  position: absolute;
+  top: calc(var(--nk-inset-top) + 4px);
+  left: 14px;
+  pointer-events: auto;
+}
+[dir='rtl'] .backButton {
+  left: auto;
+  right: 14px;
+}
+
+/* sticky buttonsContainer: white, padding 16, gap 12, top radius 12, paddingBottom stickyBottomPadding, shadow3 */
+.buttonsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s12);
+  background: var(--nk-color-bg-surface);
+  padding: var(--nk-space-s16) var(--nk-space-s16) var(--nk-inset-bottom);
+  border-radius: var(--nk-radius-r12) var(--nk-radius-r12) 0 0;
+  box-shadow: var(--nk-shadow-mb-shadow3);
+}
+/* overlayButtonsContainer: row, padding 16, gap 12, paddingBottom overlayCtaBottomPadding (12) */
+.overlayButtonsContainer {
+  display: flex;
+  flex-direction: row;
+  gap: var(--nk-space-s12);
+  padding: var(--nk-space-s16) var(--nk-space-s16) var(--nk-space-mb-overlay-float);
+}
+/* button: h52, r12, border 1 · overlayButton: flex 1, h56 */
+.button {
+  height: 52px;
+  border-radius: var(--nk-radius-r12);
+  border: 1px solid transparent;
+  width: 100%;
+}
+.overlayButton {
+  flex: 1;
+  height: 56px;
+}
+.buttonText {
+  font: var(--nk-type-text16-semibold-lh20);
+}
+.buttonTextDisabled {
+  color: var(--nk-color-mb-button-text-disabled) !important;
+}
+.offerCallout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--nk-space-s8);
+  font: var(--nk-type-mb-offer-callout);
+  color: var(--nk-color-best-price-ink);
+  text-align: center;
+}
+.offerCallout img {
+  width: 16px;
+  height: 16px;
+}
+
+/* overlay page chrome (overlayFeedbackView r18 · leave/reminder marginHorizontal 6 · review sheet marginHorizontal 16) */
+.overlayContainer {
+  padding-top: var(--nk-space-s16);
+  background: var(--nk-color-bg-surface);
+}
+.reviewContainer {
+  padding-top: 0;
+}
+.loadingCover {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--nk-palette-white-alpha-light);
+}
+
+/* ───────────── HtmlView headers (shared by pages) ───────────── */
+.html :global(a) {
+  color: var(--nk-color-primary);
+  text-decoration: none;
+}
+
+/* ───────────── BenefitsScreen ───────────── */
+.benefits {
+  padding: 0 var(--nk-space-s16);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.headerBlock {
+  display: flex;
+  flex-direction: column;
+}
+.benefitsRow {
+  display: flex;
+  flex-direction: row;
+  gap: var(--nk-space-s12);
+}
+.benefitCard {
+  flex: 1;
+  min-width: 0;
+  min-height: 118px;
+  border-radius: var(--nk-radius-r16);
+  background: var(--nk-color-bg-surface);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid var(--nk-color-bg-page);
+}
+.benefitTextBig {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: var(--nk-space-s12);
+}
+.benefitTextSmall {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: var(--nk-space-s8);
+}
+.benefitTitleBig {
+  font: var(--nk-type-mb-b14-medium);
+  letter-spacing: var(--nk-space-mb-ls10);
+  color: var(--nk-color-text-body);
+}
+.benefitTitleSmall {
+  font: var(--nk-type-text12-medium-lh18);
+  letter-spacing: var(--nk-space-mb-ls10);
+  color: var(--nk-color-text-body);
+}
+.benefitIcon {
+  align-self: flex-end;
+  display: block;
+}
+.unused {
+  display: flex;
+  align-items: center;
+  background: var(--nk-color-bg-surface);
+  border-radius: var(--nk-radius-r16);
+  overflow: hidden;
+  padding: var(--nk-space-s12);
+  gap: var(--nk-space-s12);
+}
+.unusedIcon {
+  width: 30px;
+  height: 21px;
+  object-fit: contain;
+}
+.unusedText {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.unusedTitle {
+  font: var(--nk-type-mb-cregular12);
+  letter-spacing: var(--nk-space-mb-cls12);
+  color: var(--nk-color-text-body);
+}
+.unusedDesc {
+  font: var(--nk-type-mb-cbold15);
+  letter-spacing: var(--nk-space-mb-cls16);
+  color: var(--nk-color-text-body);
+}
+.unusedButton {
+  background: var(--nk-color-bg-surface);
+  border: 1px solid var(--nk-color-bg-page) !important;
+  border-radius: var(--nk-radius-r8);
+  padding: 0 var(--nk-space-s12);
+  height: 34px;
+  min-width: 72px;
+  box-shadow: var(--nk-shadow-mb-chairline);
+  font: var(--nk-type-mb-csemibold14);
+  color: var(--nk-color-text-strong);
+}
+.support {
+  background: var(--nk-color-bg-surface);
+  border-radius: var(--nk-radius-r16);
+  padding: var(--nk-space-s8) var(--nk-space-s12);
+}
+.support :global(a) {
+  color: var(--nk-color-primary);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* ───────────── ReminderScreen ───────────── */
+.reminderPage {
+  padding: 0 var(--nk-space-s16);
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s12);
+}
+.rPlan {
+  background: var(--nk-color-bg-surface);
+  border-radius: var(--nk-radius-r12);
+  box-shadow: var(--nk-shadow-mb-csoft);
+}
+.rTitleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--nk-space-s12);
+}
+.rTitleInner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.rCurrent {
+  font: var(--nk-type-mb-cregular12);
+  color: var(--nk-color-text-secondary);
+  margin-bottom: var(--nk-space-s4);
+}
+.rPlanTitle {
+  font: var(--nk-type-text16-bold-lh20);
+  color: var(--nk-palette-black);
+  padding-inline-end: var(--nk-space-s8);
+}
+/* statusTag: border 1 (no right), left radius 24, marginRight -12, max 170 */
+.rStatus {
+  border: 1px solid;
+  border-right-width: 0;
+  padding: var(--nk-space-s4) var(--nk-space-s12);
+  border-radius: var(--nk-radius-r24) 0 0 var(--nk-radius-r24);
+  margin-right: -12px;
+  max-width: 170px;
+}
+.rBilling {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--nk-space-s12);
+  padding: var(--nk-space-s16) var(--nk-space-s12);
+  background: var(--nk-palette-blue-gray50);
+  border-radius: 0 0 var(--nk-radius-r12) var(--nk-radius-r12);
+}
+.rBillingRow {
+  display: flex;
+  align-items: center;
+}
+.rBillingRow img {
+  width: 16px;
+  height: 16px;
+  margin-right: var(--nk-space-s4);
+}
+.rReminder {
+  background: var(--nk-color-bg-surface);
+  border-radius: var(--nk-radius-r12);
+  padding: var(--nk-space-s16);
+}
+.rReminderHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s8);
+}
+.rReminderHeader img {
+  width: 18px;
+  height: 18px;
+}
+.rReminderTitle {
+  font: var(--nk-type-mb-cbold15);
+  color: var(--nk-palette-deep-red-color);
+}
+.rReminderDesc {
+  margin-top: var(--nk-space-s4);
+  font: var(--nk-type-text13-regular-lh20);
+  color: var(--nk-color-text-muted);
+}
+
+/* ───────────── SurveyScreen ───────────── */
+.survey {
+  padding: 0 var(--nk-space-s16);
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s16);
+}
+.options {
+  background: var(--nk-color-bg-surface);
+  border-radius: var(--nk-radius-r16);
+  padding: var(--nk-space-s8) var(--nk-space-s12);
+  box-shadow: var(--nk-shadow-mb-csurvey);
+}
+.optionRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--nk-space-s8);
+  width: 100%;
+  padding: var(--nk-space-s12) 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-align: start;
+}
+.optionRow:first-child {
+  padding-top: var(--nk-space-s8);
+}
+.optionText {
+  flex: 1;
+  font: var(--nk-type-mb-b14-medium);
+  letter-spacing: var(--nk-space-mb-ls10);
+  color: var(--nk-color-text-body);
+}
+.optionRow img {
+  width: 24px;
+  height: 24px;
+}
+.commentsOuter {
+  padding-bottom: var(--nk-space-s8);
+  overflow: hidden;
+}
+.comments {
+  position: relative;
+  display: flex;
+  background: var(--nk-color-mb-ccomment-bg);
+  border-radius: var(--nk-radius-r12);
+  border: 1px solid transparent;
+}
+.commentsError {
+  border-color: var(--nk-palette-red);
+  border-radius: var(--nk-radius-r16);
+}
+.commentsLabel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font: var(--nk-type-text16-regular-lh20);
+  color: var(--nk-color-text-secondary);
+  transform-origin: left top;
+  pointer-events: none;
+}
+[dir='rtl'] .commentsLabel {
+  left: auto;
+  right: 0;
+  transform-origin: right top;
+}
+.commentsInput {
+  width: 100%;
+  height: 80px;
+  padding: 36px 36px 0 12px;
+  font: var(--nk-type-text16-bold-lh20);
+  color: var(--nk-color-text-primary);
+  background: transparent;
+  border: 0;
+  outline: none;
+  resize: none;
+}
+.clearButton {
+  position: absolute;
+  right: 12px;
+  top: 30px;
+  padding: var(--nk-space-s4);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+.clearButton img {
+  display: block;
+  width: 10px;
+  height: 10px;
+}
+.errorText {
+  margin-top: var(--nk-space-s4);
+  font: var(--nk-type-mb-cregular12);
+  color: var(--nk-palette-red);
+}
+.tip {
+  background: var(--nk-color-bg-surface);
+  border-radius: var(--nk-radius-r16);
+  padding: var(--nk-space-s12);
+  box-shadow: var(--nk-shadow-mb-ctip);
+}
+
+/* ───────────── DiscountOfferScreen + VIPTimedExclusiveOfferModule ───────────── */
+.offer {
+  padding: 0 var(--nk-space-s16);
+}
+.offerHeader {
+  margin-bottom: var(--nk-space-s16);
+  display: flex;
+  flex-direction: column;
+}
+.coupon {
+  position: relative;
+}
+.couponInner {
+  overflow: hidden;
+  border-radius: 14px;
+}
+.planInfo {
+  background: var(--nk-color-bg-surface);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--nk-space-s12);
+  border-radius: 14px 14px 0 0;
+}
+.offerHeaderText {
+  font: var(--nk-type-mb-cbig19);
+  color: var(--nk-color-text-ink);
+  margin-bottom: var(--nk-space-s12);
+}
+.priceBox {
+  background: var(--nk-palette-lavender);
+  border: 1px dashed var(--nk-color-mb-coffer-price-border);
+  border-radius: var(--nk-radius-r12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--nk-space-s10);
+  margin-bottom: var(--nk-space-s12);
+}
+.priceText {
+  font: var(--nk-type-mb-cprice24);
+  color: var(--nk-color-link);
+  text-align: center;
+  white-space: nowrap;
+}
+.wave {
+  display: block;
+  background: var(--nk-color-bg-surface);
+}
+.timer {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: var(--nk-space-s4);
+  border-radius: 0 0 14px 14px;
+  padding: var(--nk-space-s12);
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  min-height: 44px;
+}
+.timerText {
+  font: var(--nk-type-text13-medium-lh18);
+  letter-spacing: var(--nk-space-mb-ls10);
+}
+
+/* ───────────── VIPReviewCancelUpgradeScreen ───────────── */
+.review {
+  padding: var(--nk-space-s16) var(--nk-space-s16) var(--nk-space-mb-overlay-float);
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s8);
+  background: var(--nk-color-bg-surface);
+}
+.reviewTitle {
+  font: var(--nk-type-text16-bold-lh20);
+  letter-spacing: var(--nk-space-mb-cls16);
+}
+.reviewBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s8);
+}
+.infoCard {
+  border: 1px solid var(--nk-palette-border-primary);
+  border-radius: var(--nk-radius-r12);
+  padding: var(--nk-space-s12);
+}
+.reviewFooter {
+  margin: 0 calc(-1 * var(--nk-space-s16));
+}
+.divider {
+  height: 1px;
+  width: 100%;
+  background: var(--nk-color-border);
+}
+.actionRow {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s16);
+  padding: var(--nk-space-s8) var(--nk-space-s16) 0;
+}
+.payRow {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s8);
+  flex-shrink: 0;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-align: start;
+}
+.payIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--nk-radius-r8);
+  background: var(--nk-color-bg-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.payIcon img {
+  width: 40px;
+  height: 24px;
+  object-fit: contain;
+}
+.payCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.payHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s4);
+  font: var(--nk-type-text13-medium-lh16);
+  letter-spacing: var(--nk-space-mb-cls26);
+  color: var(--nk-color-mb-cpay-label);
+}
+.payHeader img {
+  width: 13px;
+  height: 13px;
+  transform: rotate(180deg);
+}
+.payText {
+  font: var(--nk-type-mb-cbold15);
+  letter-spacing: var(--nk-space-mb-cls26);
+  color: var(--nk-palette-night-fall);
+}
+.confirmButton {
+  flex: 1;
+  height: 56px;
+  border-radius: var(--nk-radius-r12);
+  background: var(--nk-color-text-strong);
+  padding: 0 var(--nk-space-s12);
+  font: var(--nk-type-mb-cbutton17);
+  letter-spacing: var(--nk-space-mb-cls26);
+  color: var(--nk-color-text-inverse);
+  text-align: center;
+}
+
+/* ───────────── VIPLeaveFamilyPlanOverlayScreen ───────────── */
+.leave {
+  background: var(--nk-color-bg-surface);
+}
+.leaveCard {
+  padding: 0 var(--nk-space-s16);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--nk-space-s8);
+}
+.leaveIcon {
+  width: 56px;
+  height: 56px;
+  margin: var(--nk-space-s8) 0;
+  object-fit: contain;
+}
+.leaveText {
+  margin-bottom: var(--nk-space-s8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s8);
+}
+.leaveTitle {
+  font: var(--nk-type-mb-h18-bold);
+  letter-spacing: var(--nk-space-mb-ls15);
+  color: var(--nk-color-text-body);
+  text-align: center;
+}
+.leaveDesc {
+  font: var(--nk-type-mb-b14-medium);
+  letter-spacing: var(--nk-space-mb-ls10);
+  color: var(--nk-color-text-secondary);
+  text-align: center;
+}

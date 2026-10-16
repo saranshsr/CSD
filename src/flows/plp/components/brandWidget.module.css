@@ -1,0 +1,46 @@
+/* "Shop phones by brand" (Figma 1214:145919) — measurements from github.com/saswata2002/Brand-Widget-PLP styles.css (.brw*) */
+.box { position: relative; }
+.bar { position: absolute; left: 16px; right: 16px; top: 2px; border-radius: 16px; background: var(--nk-color-bg-pill); overflow: hidden; transform-origin: 50% 50%; opacity: 0; -webkit-tap-highlight-color: transparent; }
+.grid { position: relative; z-index: 1; background: var(--nk-color-bg-surface); } /* opaque: its top edge is the panel's reveal line */
+
+.head { position: absolute; left: 14px; right: 13px; top: 16px; display: flex; align-items: center; opacity: 0; letter-spacing: -0.1px; }
+.hTitle { flex: 1 0 0; min-width: 1px; font: var(--nk-type-heading); color: var(--nk-color-text-primary); transform-origin: 0 0; white-space: nowrap; }
+.count { flex: none; font: var(--nk-type-text12-medium-lh16); color: var(--nk-color-text-secondary); white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+.sel { position: absolute; inset: 0 0 auto; height: 60px; pointer-events: none; }
+.selOn { pointer-events: auto; }
+.coin { position: absolute; left: 16px; top: 15px; width: 30px; height: 30px; border: 1px solid var(--nk-palette-brand-widget-coin-border); border-radius: 999px; background: var(--nk-color-bg-surface); display: flex; align-items: center; justify-content: center; overflow: hidden; opacity: 0; }
+.coin img { display: block; flex: none; }
+.sTxt { position: absolute; left: 58px; right: 60px; top: 13.5px; display: flex; flex-direction: column; gap: 1px; letter-spacing: -0.1px; white-space: nowrap; }
+.sTitle { overflow: hidden; text-overflow: ellipsis; font: var(--nk-type-body-semibold); color: var(--nk-color-text-primary); opacity: 0; transform-origin: 0 0; }
+.sSub { overflow: hidden; text-overflow: ellipsis; font: var(--nk-type-text11-regular-lh14); color: var(--nk-color-text-tertiary); opacity: 0; }
+.clear { position: absolute; right: 16px; top: 22px; padding: 0; border: 0; background: none; cursor: pointer; opacity: 0; font: var(--nk-type-text13-regular-lh16); color: var(--nk-palette-red600); white-space: nowrap; text-decoration: underline dotted; text-underline-position: from-font; -webkit-tap-highlight-color: transparent; }
+
+.rail { position: absolute; left: 0; right: 0; top: 50px; height: 384px; }
+.railOff { pointer-events: none; }
+.track { gap: 10px; padding: 0 14px; will-change: transform; }
+.slot { flex: none; width: 204px; height: 384px; }
+
+.card { position: relative; width: 204px; height: 384px; border-radius: 20px; background: var(--nk-color-bg-surface); overflow: hidden; opacity: 0; letter-spacing: -0.1px; white-space: nowrap; }
+.media { position: relative; width: 204px; height: 139px; overflow: hidden; }
+.img { position: absolute; display: block; object-fit: contain; mix-blend-mode: multiply; pointer-events: none; -webkit-user-drag: none; }
+.heart { position: absolute; left: 177px; top: 10px; display: flex; color: var(--nk-color-text-primary); }
+.body { display: flex; flex-direction: column; gap: 3px; padding: 12px; }
+.logo { display: flex; align-items: center; gap: 4px; height: 14px; }
+.logo img { display: block; flex: none; -webkit-user-drag: none; }
+.logo b { font: var(--nk-type-micro); color: var(--nk-color-text-secondary); }
+.letter { flex: none; width: 11px; height: 11px; border-radius: 3px; background: var(--nk-color-text-primary); color: var(--nk-color-text-inverse); font: var(--nk-type-plp-text8-bold-lh11); text-align: center; }
+.coin .letter { width: 12px; height: 12px; line-height: 12px; }
+.name { font: var(--nk-type-body-semibold); letter-spacing: -0.2px; color: var(--nk-color-text-primary); overflow: hidden; text-overflow: ellipsis; }
+.price { display: flex; align-items: baseline; gap: 5px; letter-spacing: 0; }
+.now { font: var(--nk-type-plp-text17-bold-lh20); letter-spacing: -0.3px; color: var(--nk-color-brand-ink); }
+.was { font: var(--nk-type-text11-regular-lh14); color: var(--nk-palette-brand-widget-muted-text); text-decoration: line-through; }
+.off { font: var(--nk-type-plp-text11-semibold-lh14); color: var(--nk-color-success); }
+.note { font: var(--nk-type-micro); color: var(--nk-color-text-secondary); }
+.specs { display: flex; flex-direction: column; padding-top: 8px; }
+.spec { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 5px 0; border-top: 1px solid var(--nk-palette-brand-widget-divider); }
+.spec span { font: var(--nk-type-text11-regular-lh14); letter-spacing: 0; color: var(--nk-palette-brand-widget-muted-text); }
+.spec b { font: var(--nk-type-text12-medium-lh16); color: var(--nk-color-text-primary); overflow: hidden; text-overflow: ellipsis; }
+.ctaGap { display: block; height: 2px; flex: none; }
+.cta { display: flex; align-items: center; justify-content: center; gap: 2px; width: 100%; height: 36px; padding: 0 8px 0 12px; border: 0; border-radius: 10px; background: var(--nk-palette-brand-widget-cta); cursor: pointer; font: var(--nk-type-text13-semibold-lh18); letter-spacing: -0.1px; color: var(--nk-color-text-primary); white-space: nowrap; -webkit-tap-highlight-color: transparent; }
+.cta:active { background: var(--nk-palette-brand-widget-cta-pressed); }

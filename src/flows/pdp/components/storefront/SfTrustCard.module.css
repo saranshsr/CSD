@@ -1,0 +1,28 @@
+/* Storefront trust markers — Figma 3499:75389 */
+.row { display: flex; gap: var(--nk-space-s8); }
+.row[data-scroll] { overflow-x: auto; scrollbar-width: none; scroll-snap-type: x mandatory; margin: 0 calc(-1 * var(--nk-space-s12)); padding: 0 var(--nk-space-s12); scroll-padding: 0 var(--nk-space-s12); }
+.row[data-scroll]::-webkit-scrollbar { display: none; }
+.tile {
+  flex: 1 1 0;
+  min-width: 0;
+  height: var(--nk-layout-pdp-sfc-trust-tile-h);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--nk-space-s4);
+  padding: var(--nk-space-s14) var(--nk-space-s8);
+  border: 1px solid var(--nk-color-border-subtle);
+  border-radius: var(--nk-radius-r12);
+  background: var(--nk-color-bg-surface);
+}
+.row[data-scroll] .tile { flex: 0 0 var(--nk-layout-pdp-sfc-trust-tile-w); scroll-snap-align: start; }
+.label {
+  max-width: 80px;
+  font: var(--nk-type-text12-semibold-lh14);
+  letter-spacing: -0.12px;
+  font-feature-settings: 'case' 1;
+  color: var(--nk-color-text-strong);
+  text-align: center;
+  overflow-wrap: break-word;
+}

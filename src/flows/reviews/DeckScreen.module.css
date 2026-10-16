@@ -1,0 +1,8 @@
+/* DeckScreen — repo PastOrderRatingScreen deck: 56px under the title, cards stacked from the top. */
+/* clip x only: thrown cards leave to the left, the behind cards still peek above the stage */
+.stage { margin-top: var(--nk-space-s56); overflow-x: clip; }
+/* every card sits in the same grid cell (stack without absolute positioning, so the stage keeps the front card's height) */
+.deck { display: grid; justify-items: center; align-items: start; }
+.slot { grid-area: 1 / 1; transform-origin: top center; pointer-events: none; }
+.slot[data-front] { pointer-events: auto; touch-action: pan-y; cursor: grab; }
+.slot[data-front]:active { cursor: grabbing; }

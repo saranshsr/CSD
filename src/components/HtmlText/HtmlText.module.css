@@ -1,0 +1,24 @@
+/* bappzaar src/components/HtmlView/styles.ts baseStyle + Styles.baseTextStyle (13px, #404553).
+   Low specificity on purpose: the root rule is (0,0,0) and tag rules are element-only, so a caller's
+   sheet (`.sheet` / `.sheet :global(tag)`) always wins regardless of stylesheet order. */
+:where(.base) { font: var(--nk-type-text13-regular-lh1p35); color: var(--nk-color-text-legacy); min-width: 0; }
+:where(.base) highlight { font-weight: var(--nk-font-weight-bold); color: var(--nk-palette-green-color); }
+:where(.base) :is(b, em) { font-weight: var(--nk-font-weight-bold); font-style: normal; }
+:where(.base) semibold { font-weight: var(--nk-font-weight-semibold); }
+:where(.base) steel { color: var(--nk-color-cart-steel); }
+:where(.base) slategray { color: var(--nk-color-text-secondary); }
+:where(.base) emerald { color: var(--nk-color-cart-emerald); }
+:where(.base) bluegray { color: var(--nk-color-text-primary); }
+:where(.base) accentblue { color: var(--nk-color-brand-blue); }
+:where(.base) mediumbold { font-weight: var(--nk-font-weight-medium); }
+:where(.base) small { font-size: var(--nk-font-size-body-small); }
+:where(.base) xsmall { font-size: var(--nk-font-size-caption); }
+:where(.base) normal { font-size: var(--nk-font-size-body); }
+:where(.base) :is(h4, h5) { display: inline; margin: 0; font-weight: inherit; }
+:where(.base) :is(medium, h5) { font-size: var(--nk-font-size-body-large); }
+:where(.base) :is(big, h4) { font-size: var(--nk-font-size-title-small); }
+:where(.base) large { font-size: var(--nk-font-size-title-promo); }
+:where(.base) strike { text-decoration: line-through; }
+:where(.base) img:is(img) { display: inline-block; vertical-align: middle; }
+
+.clamp { display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; }

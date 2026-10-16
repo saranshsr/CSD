@@ -1,0 +1,25 @@
+.root {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+.root > svg {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+/* Field hitSlop: the touch target reaches ~44px (H16 +14, H20 +12, H24 +4) without changing the disc size */
+.interactive::before {
+  content: '';
+  position: absolute;
+  inset: calc(var(--nk-radio-hit, 4px) * -1);
+}
+.interactive:disabled {
+  cursor: default;
+}
+.interactive:focus-visible {
+  outline: 2px solid var(--nk-field-border-action-bold);
+  outline-offset: 2px;
+  border-radius: 50%;
+}

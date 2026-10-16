@@ -1,0 +1,16 @@
+/* NewReview picks card + manual card — repo NewReviewScreen input zone (Figma 7629:275417, 10562-228822). */
+.card { display: flex; flex-direction: column; background: var(--nk-color-bg-surface); border-radius: var(--nk-radius-r16); padding: var(--nk-space-s16); }
+.fold { overflow: hidden; }
+.fold[data-folded] { pointer-events: none; }
+.groups { display: flex; flex-direction: column; gap: var(--nk-space-s20); padding-bottom: var(--nk-space-s20); }
+
+/* the note box: border + padding animate (motion); the shared field inside drops its own box */
+.note { display: flex; flex-direction: column; justify-content: space-between; background: var(--nk-color-bg-surface); border: 1px solid; border-radius: var(--nk-radius-r12); cursor: text; }
+.note .noteField[data-size] { border: none; padding: 0; border-radius: 0; background: transparent; }
+.noteActions { overflow: hidden; flex-shrink: 0; }
+.noteRow { display: flex; align-items: flex-end; justify-content: space-between; }
+.counter { font: var(--nk-type-text12-regular-lh18); color: var(--nk-color-text-secondary); }
+.addNote { padding: 0 var(--nk-space-s16); font: var(--nk-type-text14-semibold-lh20); }
+
+.manual { display: flex; flex-direction: column; background: var(--nk-color-bg-surface); border: 1px solid var(--nk-color-border); border-radius: var(--nk-radius-r16); padding: var(--nk-space-s16); min-height: 168px; }
+.manual .manualField[data-size] { border: none; padding: 0; border-radius: 0; background: transparent; flex: 1; }

@@ -1,0 +1,42 @@
+/* src/components/Toast/styles.ts + NoonCheckoutScreen voucherSuccessToast / voucherToastMessage* / confettiAnimation */
+.toast {
+  position: absolute;
+  left: var(--nk-space-s8);
+  right: var(--nk-space-s8);
+  top: calc(var(--nk-inset-top) + 18px + 52px);
+  z-index: 99;
+  background: var(--nk-palette-black-alpha83);
+  padding: var(--nk-space-s8);
+  border-radius: 5px;
+  box-shadow: 3px 6px 0 var(--nk-palette-black-alpha11);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  pointer-events: none;
+  isolation: isolate;
+}
+.confetti {
+  position: absolute;
+  width: 150%;
+  left: -25%;
+  top: 50%;
+  translate: 0 -50%;
+  z-index: -1;
+  opacity: 0.9;
+}
+.row {
+  display: flex;
+  align-items: center;
+  column-gap: var(--nk-space-s8);
+  padding: var(--nk-space-s8);
+  border-radius: var(--nk-radius-r8);
+}
+.message {
+  max-width: 80%;
+  font: var(--nk-type-body-bold);
+  color: var(--nk-color-text-inverse);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

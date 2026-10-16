@@ -1,0 +1,481 @@
+/* ── Pin (MapPinTooltip) — anchored so the pin tip sits on the map centre ── */
+.pinAnchor {
+  position: absolute;
+  left: calc(50% - 180px);
+  width: 360px;
+  bottom: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+  z-index: 3;
+  transform-origin: 50% 100%;
+}
+.pinColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.tooltipWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.tooltip {
+  background: var(--nk-color-bg-surface);
+  padding: 8px 12px;
+  border-radius: var(--nk-radius-r8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 30px var(--nk-palette-kit-gray9-alpha8);
+}
+.tooltip[data-warning='true'] {
+  background: var(--nk-color-addr-tooltip-warn-bg);
+}
+.tooltip[data-error='true'] {
+  background: var(--nk-color-addr-tooltip-error-bg);
+}
+.tooltipText {
+  color: var(--nk-palette-black);
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+.tooltip[data-warning='true'] .tooltipText {
+  color: var(--nk-color-addr-tooltip-warn-text);
+  font-size: 14px;
+}
+.tooltip[data-error='true'] .tooltipText {
+  color: var(--nk-color-addr-tooltip-error-text);
+  font-size: 14px;
+}
+.tooltipArrow {
+  margin-bottom: 5px;
+  position: relative;
+  top: -1px;
+}
+.tooltipPlaceholder {
+  height: 51px; /* PIN_PLACEHOLDER_HEIGHT + 16 */
+}
+.pin {
+  object-fit: contain;
+  display: block;
+}
+
+/* ── MapV2SearchButton ── */
+.searchButton {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--nk-color-border-subtle);
+  background: var(--nk-color-bg-surface);
+  padding-right: 12px;
+  padding-left: 0;
+  border-radius: var(--nk-radius-r12);
+  margin: 0 12px;
+  height: 52px;
+  box-shadow: 0 1px 3px var(--nk-palette-primary-alpha4);
+}
+.searchBack {
+  border: 0;
+  background: none;
+  padding: 0 0 0 8px;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  cursor: pointer;
+}
+.searchSub {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  cursor: pointer;
+}
+.searchText {
+  font: inherit;
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 500;
+  color: var(--nk-color-addr-search-text);
+  padding: 0 8px;
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.searchText::placeholder {
+  color: var(--nk-color-text-primary);
+  opacity: 1;
+}
+.searchTextStatic {
+  color: var(--nk-color-text-primary);
+}
+
+/* ── AddressV2CurrentLocationButton (map) ── */
+.currentLocationContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.currentLocationButton {
+  display: flex;
+  align-items: center;
+  background: var(--nk-color-bg-surface);
+  border: 1px solid var(--nk-palette-white-alpha80);
+  padding: 12px;
+  border-radius: var(--nk-radius-r32);
+  box-shadow: 0 7px 16px var(--nk-palette-black-alpha8);
+  cursor: pointer;
+  pointer-events: auto;
+}
+.currentLocationIcon {
+  padding: 2px;
+  display: flex;
+}
+.currentLocationText {
+  color: var(--nk-color-bg-inverse);
+  margin-inline-start: 7px;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 600;
+}
+
+/* search-screen variant */
+.searchLocateMe {
+  width: calc(100% - 24px);
+  margin: 10px 12px 12px;
+  border: 0;
+  border-radius: var(--nk-radius-r12);
+  background: var(--nk-color-bg-surface);
+  padding: 14px 12px;
+  display: flex;
+  align-items: center;
+  text-align: start;
+  font: inherit;
+  cursor: pointer;
+  box-shadow: 0 7px 16px var(--nk-palette-black-alpha8);
+}
+.searchLocateMe:active {
+  opacity: 0.7;
+}
+.searchLocateIcon {
+  padding: 2.5px;
+  display: flex;
+}
+.searchLocateTexts {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.searchLocateTitle {
+  color: var(--nk-color-cta);
+  margin-inline-start: 15px;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 600;
+}
+.searchLocateSub {
+  font-size: 14px;
+  line-height: 18px;
+  color: var(--nk-color-text-body);
+  margin-inline-start: 15px;
+  padding-inline-end: var(--nk-space-s15);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* AddressV2LocateOnMapButton */
+.locateOnMap {
+  width: 100%;
+  border: 0;
+  background: var(--nk-color-bg-surface);
+  border-radius: var(--nk-radius-r12);
+  box-shadow: 0 7px 16px var(--nk-palette-black-alpha8);
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  display: flex;
+}
+.locateOnMap:active {
+  opacity: 0.5;
+}
+.locateOnMapRow {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 12px;
+  width: 100%;
+}
+.locateOnMapTextRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 90%;
+}
+.locateOnMapText {
+  font-size: 16px;
+  line-height: 20px;
+  margin-inline-start: 8px;
+  color: var(--nk-color-cta);
+  font-weight: 600;
+}
+
+/* ── LocationSummary ── */
+.summary {
+  border: 2px solid var(--nk-palette-white);
+  border-radius: var(--nk-radius-r12);
+  overflow: hidden;
+}
+.summary[data-variant='MAP'] {
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
+}
+.summaryContent {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background-size: cover;
+  background-position: center;
+}
+.summaryContent[data-padded='true'] {
+  padding: 12px;
+}
+.summaryLeft {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-width: 0;
+  flex-shrink: 1;
+  gap: 10px;
+}
+.summaryTexts {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 6px;
+}
+.summaryTitle {
+  color: var(--nk-color-text-strong);
+  line-height: 20px;
+  letter-spacing: -0.16px;
+  font-size: 18px;
+  font-weight: 700;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.summaryTitle[data-variant='SCANNED'] {
+  font-size: 14px;
+  font-weight: 600;
+}
+.summarySubtitle {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 16px;
+  color: var(--nk-color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.summarySubtitle[data-variant='SCANNED'] {
+  line-height: 14px;
+  color: var(--nk-color-text-body);
+}
+.changeButton {
+  background: var(--nk-color-bg-surface);
+  border-radius: var(--nk-radius-r8);
+  padding: 8px 10px;
+  box-shadow: 0 1px 3px var(--nk-palette-primary-alpha4);
+  border: 1px solid var(--nk-color-addr-tag-border);
+  color: var(--nk-color-addr-nickname);
+  font: inherit;
+  font-size: 12px;
+  line-height: 15px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.changeButton:active {
+  opacity: 0.2;
+}
+
+/* LocationLoading */
+.loadingRow {
+  display: flex;
+  flex-direction: row;
+  flex-shrink: 1;
+}
+.loadingIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--nk-radius-r8);
+  padding: 4px;
+  margin-inline-end: 10px;
+}
+.loadingLines {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* MapV2ScreenUnServiceableView */
+.unserviceableRow {
+  display: flex;
+  align-items: center;
+}
+.unserviceableIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--nk-radius-r8);
+  padding: 4px;
+  margin-inline-end: 8px;
+}
+.unserviceableTexts {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.unserviceableTitle {
+  margin-bottom: 2px;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 600;
+  color: var(--nk-color-text-strong);
+}
+.unserviceableSub {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  color: var(--nk-color-text-muted);
+}
+
+/* ── FloatingOverlay ── */
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  pointer-events: none;
+  padding-top: calc(var(--nk-inset-top) + 12px);
+  z-index: 20;
+}
+.scrim {
+  position: absolute;
+  inset: 0;
+}
+.topContent {
+  position: relative;
+  align-self: stretch;
+}
+.container {
+  position: relative;
+  border: 1px solid var(--nk-color-addr-overlay-border);
+  border-radius: var(--nk-radius-r16);
+  box-shadow: 0 7px 16px var(--nk-palette-black-alpha40);
+  margin: 0 12px var(--nk-inset-bottom);
+  pointer-events: auto;
+  overflow: hidden;
+  flex-shrink: 1;
+  max-height: calc((844px - var(--nk-inset-top) - var(--nk-inset-bottom)) * 0.85);
+}
+.inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-height: calc((844px - var(--nk-inset-top) - var(--nk-inset-bottom)) * 0.85 - 2px);
+}
+.expanded {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  max-height: inherit;
+  flex-shrink: 1;
+}
+.fixedAction {
+  position: absolute;
+  left: 13px;
+  right: 13px;
+  bottom: var(--nk-inset-bottom);
+  padding: 8px 12px 12px;
+  z-index: 3;
+  border-radius: var(--nk-radius-r16);
+  pointer-events: auto;
+}
+
+/* ── MapScreen ── */
+.viewport {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--nk-color-addr-map-bg);
+}
+.scaler {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 50%;
+}
+.world {
+  position: absolute;
+  left: 0;
+  top: 0;
+  cursor: grab;
+  touch-action: none;
+}
+.world:active {
+  cursor: grabbing;
+}
+.userLocation {
+  position: absolute;
+  width: 100px;
+  height: 120px;
+  pointer-events: none;
+}
+.mapHeader {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--nk-inset-top) + 12px);
+  z-index: 4;
+}
+
+/* MapLatLngFooter collapsed content */
+.footerContent {
+  max-height: 600px;
+  overflow: hidden;
+  padding: 12px;
+}
+.footerTop {
+  border-radius: var(--nk-radius-r16);
+}
+.footerTop[data-bordered='true'] {
+  border: 1px solid var(--nk-color-addr-tooltip-warn-bg);
+  background: var(--nk-color-addr-tooltip-warn-bg);
+  overflow: hidden;
+}
+.distanceNote {
+  text-align: center;
+  padding: 6px 0;
+  color: var(--nk-color-addr-tooltip-warn-text);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+}

@@ -1,0 +1,36 @@
+/*
+ * NoonCouponInput (parentScreen="cart"), bappzaar master marketplaces/noon/components/NoonCouponInput/styles.ts
+ * + NoonCartScreen styles.couponInputContainer. Values resolved from NoonColors (see FIGMA-MAPPING.md → Coupons).
+ */
+/* outerContainer: lightGreyColor, relative, overflow hidden · couponInputContainer: mt 12, mx 12, r16, 1px lightGreyColor */
+.outer { position: relative; overflow: hidden; margin: var(--nk-space-s12) var(--nk-space-s12) 0; border: 1px solid var(--nk-color-border); border-radius: var(--nk-radius-r16); background: var(--nk-color-border); }
+/* container: white, r16, pt 10, pb 18, px 16 */
+.container { position: relative; padding: var(--nk-space-s10) var(--nk-space-s16) 18px; border-radius: var(--nk-radius-r16); background: var(--nk-color-bg-surface); }
+/* title: mb 10, 16 bold newTextPrimary */
+.title { margin-bottom: var(--nk-space-s10); font: var(--nk-type-text16-bold-lh20); color: var(--nk-color-brand-ink); }
+/* inputButtonRow: row, space-between, secondaryBackground, r12, 1px antiFlashWhite, min-height 54 */
+.row { display: flex; flex-direction: row; justify-content: space-between; min-height: 54px; background: var(--nk-color-bg-subtle); border: 1px solid var(--nk-palette-anti-flash-white); border-radius: var(--nk-radius-r12); overflow: hidden; }
+.success { border-color: var(--nk-color-cart-coupon-success-border); }
+.error { border-color: var(--nk-color-cart-coupon-error-border); }
+.warning { border-color: var(--nk-color-cart-coupon-warning-border); }
+.inner { display: flex; flex-direction: row; flex: 1; min-width: 0; }
+/* appliedCouponIconContainer: min-height 52, centred, paddingLeft 12; icon max 16 */
+.appliedIcon { display: flex; align-items: center; min-height: 52px; padding-left: var(--nk-space-s12); }
+[dir='rtl'] .appliedIcon { padding-left: 0; padding-right: var(--nk-space-s12); }
+/* input: 14 semibold newTextPrimary, paddingLeft 12; placeholder slateGray */
+.input { flex: 1; min-width: 0; padding: 0 0 0 var(--nk-space-s12); border: 0; outline: 0; background: transparent; font: var(--nk-type-body-semibold); color: var(--nk-color-brand-ink); }
+[dir='rtl'] .input { padding: 0 var(--nk-space-s12) 0 0; }
+.input::placeholder { color: var(--nk-color-text-secondary); }
+.success .input { color: var(--nk-color-cart-emerald); }
+.error .input { color: var(--nk-color-cart-coupon-error); }
+.warning .input { color: var(--nk-color-cart-coupon-warning); }
+/* applyButtonContainer: row, centred, gap 4, px 12 · applyButtonText: uppercase 12 semibold gray800; disabled bluishGrey */
+.apply { display: flex; flex-direction: row; align-items: center; column-gap: var(--nk-space-s4); padding: 0 var(--nk-space-s12); border: 0; background: none; cursor: pointer; text-transform: uppercase; font: var(--nk-type-caption-bold); color: var(--nk-color-text-body); }
+.applyDisabled { color: var(--nk-color-text-tertiary); cursor: default; }
+/* couponFeedbackContainer: px 2, pt 2 */
+.feedback { padding: 2px 2px 0; }
+/* availableOffersContainer: mx 16, my 12 · button: row, space-between, gap 8 · content: row, gap 8 */
+.offers { display: flex; flex-direction: row; align-items: center; justify-content: space-between; column-gap: var(--nk-space-s8); width: calc(100% - 32px); margin: var(--nk-space-s12) var(--nk-space-s16); padding: 0; border: 0; background: none; cursor: pointer; }
+.offersContent { flex: 1; display: flex; flex-direction: row; align-items: center; column-gap: var(--nk-space-s8); min-width: 0; }
+/* availableOffersText: 14 semibold newTextPrimary */
+.offersText { flex-shrink: 1; font: var(--nk-type-body-semibold); color: var(--nk-color-brand-ink); text-align: start; }

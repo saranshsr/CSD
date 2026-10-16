@@ -1,0 +1,10 @@
+/* screens/PaymentCardAdditionSuccessScreen/styles.ts */
+.root { position: relative; height: 100%; overflow: hidden; background: var(--nk-color-bg-surface); }
+.gradient { position: absolute; inset: 0; background: linear-gradient(180deg, var(--nk-color-cards-light-silver) 0.68%, var(--nk-color-bg-surface) 45.48%); }
+.content { position: absolute; top: 0; bottom: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.cardWrap { position: relative; margin-top: -1px; overflow: hidden; border-radius: var(--nk-radius-r12); display: flex; align-items: center; justify-content: center; }
+.cardFill { width: 100%; height: 100%; }
+.cardImage { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: var(--nk-radius-r12); }
+.cardTitle { position: absolute; bottom: 12px; left: 12px; max-width: 350px; z-index: 2; overflow: hidden; border-radius: var(--nk-radius-r8); background: var(--nk-color-cards-success-title-bg); }
+.cardTitleText { display: block; padding: 6px; font: var(--nk-type-text16-semibold-lh18); color: var(--nk-color-text-inverse); white-space: pre; }
+.cardIssuer { position: absolute; top: 16px; left: 12px; right: 80px; font: var(--nk-type-heading); color: var(--nk-color-text-strong); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }

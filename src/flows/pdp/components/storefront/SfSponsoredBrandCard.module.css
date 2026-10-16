@@ -1,0 +1,30 @@
+/* Storefront sponsored brand carousel — Figma 2ldJbjmQq4RkhnrNFCfXQB · 3499:75701 */
+/* outer: blue-gray/100, 1px white, r16, inset 12 like every PDP card */
+.root { margin: 0 var(--nk-space-s12) var(--nk-space-s12); border: 1px solid var(--nk-color-bg-surface); border-radius: var(--nk-radius-r16); background: var(--nk-color-bg-subtle); overflow: hidden; }
+/* inner white panel: r12, pb 12, gap 4 */
+.panel { display: flex; flex-direction: column; gap: var(--nk-space-s4); padding-bottom: var(--nk-space-s12); border-radius: var(--nk-radius-r12); background: var(--nk-color-bg-surface); }
+
+/* header px 12 py 12 */
+.header { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--nk-space-s8); padding: var(--nk-space-s12); }
+.brand { /* button reset inline: a cross-file composes loads later and would wipe this rule's padding */ border: 0; background: none; padding: 0; margin: 0; cursor: pointer; font: inherit; color: inherit; text-align: inherit; display: flex; align-items: center; gap: var(--nk-space-s8); min-width: 0; }
+.logo { display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: var(--nk-layout-pdp-sfd-brand-logo); height: var(--nk-layout-pdp-sfd-brand-logo); padding: var(--nk-space-s2); border: 1px solid var(--nk-palette-border-primary); border-radius: var(--nk-radius-r10); background: var(--nk-palette-alabaster); overflow: hidden; }
+.logoText { font: var(--nk-type-text10-semibold-lh12); color: var(--nk-color-text-strong); text-transform: uppercase; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
+.brandText { display: flex; flex-direction: column; gap: var(--nk-space-s2); min-width: 0; text-align: start; }
+.tagline { font: var(--nk-type-body); color: var(--nk-palette-dark-navy-alpha92); white-space: nowrap; }
+.shopRow { display: flex; align-items: center; gap: var(--nk-space-s4); }
+.shop { font: var(--nk-type-pdp-sfd-text13-bold-lh18); color: var(--nk-color-link); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* cards: px 12, gap 10, h-scroll */
+.row { display: flex; gap: var(--nk-space-s10); padding: 0 var(--nk-space-s12); overflow-x: auto; scrollbar-width: none; }
+.row::-webkit-scrollbar { display: none; }
+/* 216 wide, p 4, r10, 1px blue-gray/100 */
+.card { /* button reset inline: a cross-file composes loads later and would wipe this rule's padding */ border: 0; background: none; padding: 0; margin: 0; cursor: pointer; font: inherit; color: inherit; text-align: inherit; display: flex; align-items: flex-start; flex-shrink: 0; width: var(--nk-layout-pdp-sfd-brand-card-w); padding: var(--nk-space-s4); border: 1px solid var(--nk-color-bg-subtle); border-radius: var(--nk-radius-r10); overflow: hidden; }
+.image { position: relative; display: block; flex-shrink: 0; width: var(--nk-layout-pdp-sfd-brand-image-w); height: var(--nk-layout-pdp-sfd-brand-image-h); border-radius: var(--nk-radius-r8); overflow: hidden; }
+/* Figma rgba(53,60,115,.03) tint → kit image overlay (2% black) */
+.overlay { position: absolute; inset: 0; border-radius: var(--nk-radius-r8); background: var(--nk-color-image-overlay); pointer-events: none; }
+.info { display: flex; flex-direction: column; gap: var(--nk-space-s4); flex: 1; min-width: 0; padding: 0 var(--nk-space-s6); text-align: start; }
+.title { font: var(--nk-type-text12-medium-lh15); color: var(--nk-color-text-product); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.price { font: var(--nk-type-text12-bold-lh16); color: var(--nk-color-text-primary); }
+.eta { display: flex; height: var(--nk-layout-pdp-sfd-eta); }
+
+.card:active { opacity: var(--nk-layout-pdp-press-opacity); }

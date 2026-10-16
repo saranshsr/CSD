@@ -1,0 +1,4 @@
+/* Homepage Revamp 2025 feed layout (Figma 1337:5102). Module internals live in each component's CSS module. */
+.feed { display: flex; flex-direction: column; padding: 0; background: var(--nk-color-bg-surface); } /* bappzaar: spacing is per module (ModuleWrapper); opaque: the screen behind is tinted for over-scroll */
+.module { display: flex; flex-direction: column; gap: 8px; }
+.title { margin: 0; padding: 0 14px; letter-spacing: -0.34px; }

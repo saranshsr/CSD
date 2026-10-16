@@ -1,0 +1,62 @@
+/* Product rails. Card look: Storefront 3499:75876 / 3499:75877 and New PDP 89:62855 (shell = Sections.tsx `Card`).
+   Bleed look: New PDP (All flows 64:5571) 89:62853 / 89:62854 — full-width white band. */
+.btnReset { appearance: none; border: 0; background: none; padding: 0; margin: 0; font: inherit; color: inherit; cursor: pointer; }
+
+.title { margin: 0; padding: 0 var(--nk-space-s2); font: var(--nk-type-pdp-sfe-title); letter-spacing: -0.28px; color: var(--nk-color-text-strong); }
+
+/* bleed: white band, py12, content inset 12 (title 12 + px2 = 14); stacked bleed rails share the band (12 white between) */
+.bleed { display: flex; flex-direction: column; padding: var(--nk-space-s12); margin-bottom: var(--nk-space-s12); background: var(--nk-color-bg-surface); }
+.bleed:has(+ .bleed) { margin-bottom: 0; padding-bottom: var(--nk-space-s24); }
+/* list: pt16, gap 12, runs to the card edge (the Figma row is 375 wide inside the 351 card) */
+.list { display: flex; align-items: flex-start; gap: var(--nk-space-s12); margin: 0 calc(-1 * var(--nk-space-s12)); padding: var(--nk-space-s16) var(--nk-space-s12) 0; overflow-x: auto; scrollbar-width: none; }
+.list::-webkit-scrollbar { display: none; }
+
+/* Product card: 134 wide, 0.5px Blue-Gray/200, r10 */
+.card { flex-shrink: 0; width: 134px; display: flex; flex-direction: column; box-sizing: border-box; border: 0.5px solid var(--nk-color-border-subtle); border-radius: var(--nk-radius-r10); overflow: hidden; background: var(--nk-color-bg-surface); cursor: pointer; }
+
+/* image container 3:4 (170.5 / 227.33), 2% cobalt tint */
+.media { position: relative; width: 100%; aspect-ratio: 3 / 4; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: var(--nk-radius-r10); background: linear-gradient(var(--nk-color-pdp-sfe-reco-media-tint), var(--nk-color-pdp-sfe-reco-media-tint)), var(--nk-color-bg-surface); }
+
+/* page controls: 4 · 3 · 2 · 1 dots, gap 3, bottom 6, centred */
+.dots { position: absolute; left: 50%; bottom: var(--nk-space-s6); transform: translateX(-50%); display: flex; align-items: center; gap: 3px; padding: var(--nk-space-s2) var(--nk-space-s4); border-radius: var(--nk-radius-full); }
+.dot { display: block; width: 4px; height: 4px; border-radius: var(--nk-radius-full); background: var(--nk-color-text-ink); }
+.dot[data-i='1'] { width: 3px; height: 3px; background: var(--nk-palette-primary-alpha25); }
+.dot[data-i='2'] { width: 2px; height: 2px; background: var(--nk-palette-primary-alpha25); }
+.dot[data-i='3'] { width: 1px; height: 1px; background: var(--nk-palette-primary-alpha25); }
+
+/* "Best Seller": 20h, px6 py2, Emerald/900, bottom-right r10, Label4/Semibold white */
+.tag { position: absolute; left: 0; top: 0; height: 20px; box-sizing: border-box; display: inline-flex; align-items: center; padding: var(--nk-space-s2) var(--nk-space-s6); border-end-end-radius: var(--nk-radius-r10); background: var(--nk-color-best-seller-tag); font: var(--nk-type-text12-semibold-lh14); color: var(--nk-color-text-inverse); white-space: nowrap; }
+
+/* "Ad": bottom-left 6/6, Blue-Gray/200, r4, px4 py2, 10/11 Blue-Gray/700 */
+.ad { position: absolute; left: var(--nk-space-s6); bottom: var(--nk-space-s6); padding: var(--nk-space-s2) var(--nk-space-s4); border-radius: var(--nk-radius-r4); background: var(--nk-color-border-subtle); font: var(--nk-type-text10-regular-lh11); color: var(--nk-color-text-muted); }
+
+/* wishlist: 16 heart in a white-20% circle, p4, top 6 / right 6 */
+.heart { composes: btnReset; position: absolute; top: var(--nk-space-s6); right: var(--nk-space-s6); display: flex; align-items: center; justify-content: center; padding: var(--nk-space-s4); border-radius: var(--nk-radius-full); background: var(--nk-palette-white-alpha20); }
+.heartIcon { display: flex; }
+
+/* quick add: 24 plus, white, 1.2px Blue-Gray/200, r8, p4, bottom 6 / right 6 */
+.add { composes: btnReset; position: absolute; right: var(--nk-space-s6); bottom: var(--nk-space-s6); display: flex; align-items: center; padding: var(--nk-space-s4); background: var(--nk-color-bg-surface); border: 1.2px solid var(--nk-color-border-subtle); border-radius: var(--nk-radius-r8); }
+
+/* info: pt6 px6 pb8, gap 8 */
+.info { display: flex; flex-direction: column; align-items: flex-start; gap: var(--nk-space-s8); padding: var(--nk-space-s6) var(--nk-space-s6) var(--nk-space-s8); }
+.nameBlock { display: flex; flex-direction: column; align-items: flex-start; gap: var(--nk-space-s2); align-self: stretch; }
+.name { font: var(--nk-type-text13-medium-lh17); letter-spacing: -0.14px; color: var(--nk-color-text-product); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+/* rating pill: 18h, px4 py2, r4, soft grey; 12 star + "4.3" 600 + "(128)" 400 Blue-Gray/600 */
+.rating { display: inline-flex; align-items: center; gap: var(--nk-space-s2); height: 18px; box-sizing: border-box; padding: var(--nk-space-s2) var(--nk-space-s4); border-radius: var(--nk-radius-r4); background: var(--nk-color-bg-pill); }
+.ratingScore { font: var(--nk-type-text12-semibold-lh14); color: var(--nk-color-text-strong); }
+.ratingCount { font: var(--nk-type-text12-regular-lh14); color: var(--nk-color-text-secondary); }
+
+.priceBlock { display: flex; flex-direction: column; align-items: flex-start; gap: var(--nk-space-s2); align-self: stretch; }
+.priceRow { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--nk-space-s2); }
+.price { font: var(--nk-type-pdp-sfe-price); letter-spacing: 0.07px; color: var(--nk-color-text-primary); white-space: nowrap; }
+.was { font: var(--nk-type-text12-regular-lh14); letter-spacing: -0.12px; color: var(--nk-color-text-tertiary); text-decoration: line-through; white-space: nowrap; }
+.pct { font: var(--nk-type-text12-semibold-lh14); letter-spacing: -0.12px; color: var(--nk-palette-emerald-green); white-space: nowrap; }
+
+/* nudge flipper: 16h clip, 14 icon + 12/16 Blue-Gray/700 */
+.nudge { position: relative; height: 16px; align-self: stretch; overflow: hidden; }
+.nudgeItem { display: flex; align-items: center; gap: var(--nk-space-s2); height: 16px; }
+.nudgeText { flex: 1; min-width: 0; font: var(--nk-type-caption); letter-spacing: -0.12px; color: var(--nk-color-text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ETA "express Today" pill, 122 × 18 (Figma HP ETA "Express today") */
+.eta { display: block; width: 122px; height: 18px; }

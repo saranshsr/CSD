@@ -1,0 +1,57 @@
+/* Keep shopping for — Figma 1337:5804. */
+.rail { gap: var(--nk-space-s12); padding: 0 var(--nk-space-s12); align-items: flex-start; }
+
+.card {
+  flex: 0 0 auto;
+  min-width: 96px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--nk-space-s8);
+  text-align: start;
+}
+
+.box {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border: 1px solid transparent;
+  border-radius: var(--nk-radius-r12);
+}
+.boxSearch { background: var(--nk-color-bg-subtle); border-color: var(--nk-color-bg-chip); }
+.boxViewed { background: var(--nk-color-bg-subtle); border-color: var(--nk-palette-primary-alpha4); }
+.boxCollection { background: var(--nk-color-home-keep-collection-bg); border-color: var(--nk-palette-charcoal-navy-alpha8); }
+.img { position: absolute; top: 50%; left: 50%; object-fit: cover; pointer-events: none; }
+
+.tag {
+  position: absolute;
+  top: 6px;
+  inset-inline-start: 6px;
+  padding: var(--nk-space-s4);
+  border-radius: var(--nk-radius-r10);
+  background: var(--nk-color-bg-surface);
+  font: var(--nk-type-text10-semibold-lh12);
+  letter-spacing: -0.1px;
+  color: var(--nk-color-text-ink);
+  white-space: nowrap;
+}
+.tagSoft { background: var(--nk-color-home-keep-tag-soft); }
+
+.text { display: flex; flex-direction: column; align-items: flex-start; gap: var(--nk-space-s4); width: 100%; }
+.textInset { padding: 0 var(--nk-space-s2); }
+.nameRow { display: flex; align-items: center; gap: var(--nk-space-s2); width: 100%; min-width: 0; }
+.name { letter-spacing: -0.26px; min-width: 0; }
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--nk-space-s4);
+  border-radius: var(--nk-radius-r4);
+  white-space: nowrap;
+}
+.chipViewed { padding: var(--nk-space-s2) var(--nk-space-s2) var(--nk-space-s2) var(--nk-space-s4); background: var(--nk-color-bg-chip); font: var(--nk-type-text12-medium-lh16); color: var(--nk-color-link); }
+.chipProducts { padding: var(--nk-space-s2) var(--nk-space-s4); background: var(--nk-color-bg-surface); font: var(--nk-type-text12-medium-lh16); color: var(--nk-color-home-keep-purple); }
+.chipCollection { padding: var(--nk-space-s2) var(--nk-space-s4); background: var(--nk-color-bg-chip); font: var(--nk-type-micro); letter-spacing: -0.16px; color: var(--nk-color-link); } /* Figma #EEF5FD ≈ bgChip */
+.chipPlain { font: var(--nk-type-micro); letter-spacing: -0.16px; color: var(--nk-color-link); }
+.caret { transform: rotate(-90deg); }
+[dir='rtl'] .caret { transform: rotate(90deg); }

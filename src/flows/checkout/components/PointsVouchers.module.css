@@ -1,0 +1,142 @@
+/* Figma "All flows" Checkout · 🇸🇦 Points & Vouchers section 143:13577 (master NoonCheckoutBurnSection) */
+.section {
+  margin-top: var(--nk-space-s12);
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s4);
+  padding: var(--nk-space-s12);
+  border-radius: var(--nk-radius-r16);
+  background: var(--nk-color-bg-surface);
+  overflow: hidden;
+}
+.titleRow {
+  height: 28px;
+}
+/* Primary/Label2/Bold 16/20 (-0.16) Blue-Gray/900 */
+.title {
+  display: block;
+  font: var(--nk-type-text16-bold-lh20);
+  letter-spacing: -0.16px;
+  color: var(--nk-color-text-primary);
+}
+/* the Points and Finance frames sit 4 apart (column gap) */
+.callouts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s4);
+}
+/* Points: row gap 4, h43 */
+.loyalty {
+  display: flex;
+  gap: var(--nk-space-s4);
+}
+/* Redeem card: Blue-Gray/100, r8, pr10 py2, gap 2 */
+.callout {
+  flex: 1;
+  min-width: 0;
+  height: 43px;
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s2);
+  padding: var(--nk-space-s2) var(--nk-space-s10) var(--nk-space-s2) 0;
+  border: 0;
+  border-radius: var(--nk-radius-r8);
+  background: var(--nk-color-bg-subtle);
+  cursor: pointer;
+}
+.callout:disabled {
+  opacity: 0.4;
+}
+/* Redemption Programs images ATOM: fills the card, logo centred (+0.25 / +0.5), clipped r8 */
+.calloutLogo {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--nk-radius-r8);
+  overflow: hidden;
+}
+.calloutLogo img {
+  display: block;
+  flex-shrink: 0;
+}
+.chevron {
+  flex-shrink: 0;
+  display: block;
+}
+[dir='rtl'] .chevron {
+  transform: scaleX(-1);
+}
+/* Finance: Blue-Gray/100, h44, p10, r12, gap 4 */
+.voucher {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--nk-space-s4);
+  padding: var(--nk-space-s10);
+  border: 0;
+  border-radius: var(--nk-radius-r12);
+  background: var(--nk-color-bg-subtle);
+  text-align: start;
+  cursor: pointer;
+}
+.voucherText {
+  flex-shrink: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.voucherRight {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s8);
+}
+.voucherLogos {
+  display: flex;
+  align-items: center;
+}
+/* 29.145 frame (white 14%), −10 overlap */
+.roundOuter {
+  width: 29.145px;
+  height: 29.145px;
+  margin-inline-end: -10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--nk-radius-r16);
+  background: var(--nk-palette-white-alpha14);
+}
+.roundOuter:last-child {
+  margin-inline-end: 0;
+}
+.round {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--nk-radius-full);
+  overflow: hidden;
+}
+.round img {
+  display: block;
+}
+.roundTamam {
+  width: 27.323px;
+  height: 27.323px;
+  background: var(--nk-color-chk-af-tamam-bg);
+}
+.roundEmkan {
+  width: 26.924px;
+  height: 26.924px;
+  background: var(--nk-color-chk-fig-emkan-bg);
+}
+.roundQuara {
+  width: 27.278px;
+  height: 27.278px;
+  background: var(--nk-color-chk-fig-quara2);
+}

@@ -1,0 +1,16 @@
+/* features/vip/screens/VIPCartOverlayScreen/styles.ts */
+.sheet { border-top-left-radius: var(--nk-radius-vip-cart-sheet-top); border-top-right-radius: var(--nk-radius-vip-cart-sheet-top); max-height: 90%; }
+.container { display: flex; flex-direction: column; row-gap: var(--nk-space-s8); min-height: 0; }
+.header { display: flex; align-items: center; justify-content: center; margin-top: var(--nk-space-s15); }
+.headerIcon { width: var(--nk-layout-vip-cart-logo-w); aspect-ratio: var(--nk-layout-vip-cart-logo-ratio); object-fit: contain; }
+.scroll { max-height: 50vh; overflow-y: auto; display: flex; flex-direction: column; align-items: center; row-gap: var(--nk-space-s8); scrollbar-width: none; }
+.titleWrapper { display: flex; flex-direction: column; align-items: center; width: 100%; padding: var(--nk-space-s15); box-sizing: border-box; }
+.titleText { padding: 0 var(--nk-space-s15); margin-bottom: var(--nk-space-s8); font: var(--nk-type-vip-cart-title); color: var(--nk-color-text-legacy); text-align: center; }
+.subtitle { font: var(--nk-type-vip-text14); color: var(--nk-color-text-legacy); text-align: center; }
+.items { display: flex; column-gap: var(--nk-space-s8); align-items: center; max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+.item { display: flex; flex-direction: column; row-gap: var(--nk-space-s4); align-items: center; flex-shrink: 0; }
+.itemImage { width: var(--nk-layout-vip-cart-item-image); height: var(--nk-layout-vip-cart-item-image); object-fit: contain; }
+.itemPrice { text-align: center; }
+.itemIcon { width: var(--nk-layout-vip-cart-item-icon-w); height: var(--nk-layout-vip-cart-item-icon-h); object-fit: contain; }
+.buttons { border-top: 1px solid var(--nk-color-bg-muted); padding: var(--nk-space-s4) 0; margin: var(--nk-space-s15); margin-bottom: calc(var(--nk-inset-bottom) + var(--nk-layout-vip-sheet-float)); }
+.button { width: 100%; height: var(--nk-layout-vip-cart-button-h); border-radius: var(--nk-radius-r8); border: var(--nk-layout-vip-cart-button-border) solid; margin-top: var(--nk-space-s8); display: flex; align-items: center; justify-content: center; font: var(--nk-type-vip-text14-bold); text-transform: uppercase; }

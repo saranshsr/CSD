@@ -1,0 +1,78 @@
+/* Shared plans-area pieces: VIPSubscriptionButtonV2, VIP scroll header (VIPQuickPlanSelectV3Screen / VIPFamilyPlansScreen
+   headerWrapper), VIPDashedBorder, VIPPlanMembers. Values: features/vip/** styles.ts (see mapping/plans.md). */
+
+/* ── VIPSubscriptionButtonV2 (styles.ts stylesObj) ── */
+.subContainer { width: 100%; display: flex; flex-direction: row; align-items: center; gap: var(--nk-space-s20); }
+.payRow { display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: var(--nk-space-s8); flex-shrink: 0; }
+.cardType { width: var(--nk-layout-vip-card-icon-w); height: var(--nk-layout-vip-card-icon-h); object-fit: contain; }
+.payRowHeader { display: flex; flex-direction: row; align-items: center; gap: var(--nk-space-s4); }
+.payRowHeaderText { font: var(--nk-type-vip13-medium); color: var(--nk-color-vip-pay-with-label); }
+.chevron { display: flex; transform: rotate(180deg); }
+.payText { font: var(--nk-type-vip15-medium); color: var(--nk-palette-night-fall); text-align: start; }
+.subButton {
+  flex: 1;
+  height: var(--nk-layout-vip-sticky-button-pay);
+  border-radius: var(--nk-radius-r12);
+  background: var(--nk-color-vip-black);
+}
+.subButton:disabled { background: var(--nk-palette-noon-grey2); }
+/* buttonTextStyle p: white bold 14 (callers override size) · s: 400 line-through, size − 2 */
+.subText { font: var(--nk-type-vip14-bold); color: var(--nk-palette-white); }
+.subText :global(s) { font-weight: var(--nk-font-weight-regular); text-decoration: line-through; font-size: calc(1em - 2px); }
+
+/* ── scroll header (headerWrapper / headerBg / header / backButton) ── */
+.headerWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  padding: var(--nk-space-s12);
+  padding-top: var(--nk-inset-top);
+}
+.headerBg { position: absolute; inset: 0; background: var(--nk-color-bg-surface); box-shadow: 0 3.2px 3.2px var(--nk-color-vip-header-shadow); }
+.header { position: relative; width: 100%; height: var(--nk-space-s40); display: flex; flex-direction: row; align-items: center; gap: var(--nk-space-s8); }
+.headerTitle { font: var(--nk-type-vip-header-title); color: var(--nk-color-text-ink); }
+.backButton {
+  z-index: 999;
+  width: var(--nk-layout-vip-back-button);
+  height: var(--nk-layout-vip-back-button);
+  flex-shrink: 0;
+  background: var(--nk-color-bg-surface);
+  border-radius: var(--nk-radius-r20);
+  border: 1px solid var(--nk-color-vip-back-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.backIcon { display: flex; margin-inline-start: calc(-1 * var(--nk-space-s2)); }
+:global([dir='rtl']) .backIcon { transform: rotate(180deg); }
+
+/* ── VIPPlanMembers ── */
+.members {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: var(--nk-color-bg-page);
+  border: 1px solid var(--nk-color-bg-page);
+  border-radius: var(--nk-radius-r48);
+  align-self: flex-start;
+}
+.memberRing {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-style: solid;
+  border-color: var(--nk-palette-white);
+  flex-shrink: 0;
+  box-sizing: content-box;
+}
+.memberFill { display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+.memberEmpty { background: var(--nk-color-border); }
+.memberText { font: var(--nk-type-vip-member-initial); letter-spacing: -0.28px; color: var(--nk-palette-white); text-align: center; }
+.addMark { position: relative; display: flex; align-items: center; justify-content: center; }
+.addBar { position: absolute; border-radius: 1px; background: var(--nk-color-text-tertiary); }
+
+/* ── VIPDashedBorder (SVG rects) ── */
+.dashed { width: 100%; display: block; overflow: hidden; }

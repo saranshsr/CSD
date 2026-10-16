@@ -1,0 +1,3 @@
+.hex { position: relative; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.hexText { position: absolute; font-weight: var(--nk-font-weight-bold); line-height: 1; text-align: center; }
+:global([dir='rtl']) .flip { transform: scaleX(-1); }

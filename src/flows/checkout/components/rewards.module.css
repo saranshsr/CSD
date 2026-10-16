@@ -1,0 +1,175 @@
+/* Shared rewards primitives — NoonCheckoutProviderCallout, NoonCheckoutTag, NoonCheckoutProviderInfoEditButton */
+
+.logoWordmark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.logoBadge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* NoonCheckoutTag (styles.ts): absolute top -2 left -2, h16, px6, r12, 12/600 white lh14 */
+.tag {
+  position: absolute;
+  top: -2px;
+  left: -2px; /* master: left -2 in both directions */
+  z-index: 1;
+  height: 16px;
+  padding: 0 var(--nk-space-s6);
+  border-radius: var(--nk-radius-r12);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+.tagMessage {
+  font: var(--nk-type-text12-semibold-lh14);
+  color: var(--nk-color-text-inverse);
+  white-space: nowrap;
+}
+.tagShimmer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -15px;
+  width: 15px;
+  background: var(--nk-color-bg-subtle);
+  opacity: 0.4;
+  transform-origin: center;
+  rotate: 20deg;
+  scale: 1 1.5;
+}
+
+/* NoonCheckoutProviderCallout */
+.calloutWrapper {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+}
+.calloutWrapperExpanded {
+  position: relative;
+  display: flex;
+}
+.callout {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--nk-space-s8);
+  background: var(--nk-color-bg-subtle);
+  border-radius: var(--nk-radius-r8);
+  padding: 0 var(--nk-space-s10);
+  border: 0;
+  cursor: pointer;
+  text-align: start;
+  transition: opacity 150ms;
+}
+.callout:active {
+  opacity: 0.5;
+}
+.calloutExpanded {
+  padding: var(--nk-space-s2) var(--nk-space-s8) var(--nk-space-s2) var(--nk-space-s2);
+  border: 1px solid var(--nk-palette-bright-grey-color); /* brightGreyColor */
+}
+.disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.logoCollapsedContainer {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 0;
+  min-width: 0;
+}
+.logoExpandedContainer {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-start-start-radius: var(--nk-radius-r6);
+  border-end-start-radius: var(--nk-radius-r6);
+}
+.calloutInfo {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--nk-space-s2);
+}
+.calloutTitle {
+  font: var(--nk-type-body-semibold);
+  color: var(--nk-color-text-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.calloutDescription {
+  font: var(--nk-type-text13-regular-lh17);
+  color: var(--nk-color-text-legacy);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chevronDot {
+  width: 14px;
+  height: 14px;
+  border-radius: var(--nk-radius-r20);
+  background: var(--nk-palette-new-border-color); /* newBorderColor */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.chevronDotIcon {
+  width: 4px;
+  height: 7px;
+}
+[dir='rtl'] .chevronDotIcon {
+  transform: rotate(180deg);
+}
+
+/* NoonCheckoutProviderInfoEditButton */
+.infoEdit {
+  display: flex;
+  border: 0;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+  align-self: flex-start;
+}
+.infoEditGradient {
+  border-radius: var(--nk-radius-r12);
+  padding: var(--nk-space-s2) var(--nk-space-s8);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.infoEditText {
+  font: var(--nk-type-text13-regular-lh17);
+  color: var(--nk-color-text-legacy);
+}
+
+.mask {
+  display: inline-block;
+  mask-size: contain;
+  -webkit-mask-size: contain;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  flex-shrink: 0;
+}

@@ -1,0 +1,20 @@
+/* New PDP sponsored product "Ads" (Big Ad) — Figma Af34gfmhQ1D0wstXUEHSIF · 64:5589 */
+/* card: white r14, clip; inset 12, 12 below the previous card */
+.outer { position: relative; display: flex; width: calc(100% - 2 * var(--nk-space-s12)); margin: 0 var(--nk-space-s12) var(--nk-space-s12); border-radius: var(--nk-radius-r14); background: var(--nk-color-bg-surface); overflow: hidden; text-align: start; }
+/* inner frame 64:729: 1px gray/200, padding 4 / end 12, gap 12 */
+.row { flex: 1 1 0; min-width: 0; display: flex; align-items: center; gap: var(--nk-space-s12); padding: var(--nk-space-s4) var(--nk-space-s12) var(--nk-space-s4) var(--nk-space-s4); border: 1px solid var(--nk-palette-border-primary); border-radius: var(--nk-radius-r14); }
+/* thumb 51.3 × 70 r9 on 3% cobalt; product image 44.5 × 60.7 at 3.42 / 4.67, multiplied */
+.thumb { position: relative; flex-shrink: 0; width: var(--nk-layout-pdp-npb-ad-thumb-w); height: var(--nk-layout-pdp-npb-ad-thumb-h); border-radius: var(--nk-radius-pdp-npb-r9); background: linear-gradient(var(--nk-color-pdp-npb-media-tint), var(--nk-color-pdp-npb-media-tint)), var(--nk-color-bg-surface); overflow: hidden; }
+.thumbImage { position: absolute; left: 3.42px; top: 4.67px; width: var(--nk-layout-pdp-npb-ad-image-w); height: var(--nk-layout-pdp-npb-ad-image-h); border-radius: var(--nk-radius-pdp-npb-r9); overflow: hidden; mix-blend-mode: multiply; }
+/* text column: py 4, gap 6 */
+.info { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: var(--nk-space-s6); padding: var(--nk-space-s4) 0; }
+/* 14/500/18 #212121 −0.14, two lines (36 high) */
+.title { height: 36px; font: var(--nk-type-product-title); letter-spacing: -0.14px; color: var(--nk-palette-ink-black); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+/* price row: gap 4, bottom-aligned */
+.priceRow { display: flex; align-items: flex-end; gap: var(--nk-space-s4); min-width: 0; padding-inline-end: 22px; }
+.price { font: var(--nk-type-text16-bold-lh20); letter-spacing: -0.16px; color: var(--nk-color-text-primary); white-space: nowrap; }
+.discount { display: flex; align-items: center; gap: var(--nk-space-s4); padding-bottom: var(--nk-space-s2); white-space: nowrap; }
+.was { font: var(--nk-type-text12-regular-lh14); letter-spacing: -0.12px; color: var(--nk-color-text-tertiary); text-decoration: line-through; }
+.off { font: var(--nk-type-text12-semibold-lh14); letter-spacing: -0.12px; color: var(--nk-palette-irish-green); }
+/* express artwork 46.9 × 14, py 3 */
+.express { display: flex; flex-shrink: 0; padding: 3px 0; }

@@ -1,0 +1,1098 @@
+/* ───────── VIPPlanMembers ───────── */
+.members {
+  display: inline-flex;
+  align-items: center;
+  background: var(--nk-color-bg-page);
+  border: 1px solid var(--nk-color-bg-page);
+  border-radius: 40px;
+}
+.memberRing {
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-style: solid;
+  border-color: var(--nk-color-bg-surface);
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+.memberFill {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--nk-color-text-inverse);
+  font: var(--nk-type-mb-fam-member-initial);
+  letter-spacing: var(--nk-space-mb-fam-ls-member);
+}
+.memberFill[style*='font-size'] {
+  line-height: 1;
+}
+.plus {
+  position: relative;
+  width: 10px;
+  height: 10px;
+}
+.plus::before,
+.plus::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background: var(--nk-color-text-tertiary);
+  border-radius: 1px;
+  transform: translate(-50%, -50%);
+}
+.plus::before {
+  width: 10px;
+  height: 1.5px;
+}
+.plus::after {
+  width: 1.5px;
+  height: 10px;
+}
+
+/* ───────── VIPFamilyPlansScreen ───────── */
+.header {
+  position: relative;
+  padding: var(--nk-space-s12);
+  padding-top: var(--nk-inset-top);
+}
+.headerBg {
+  position: absolute;
+  inset: 0;
+  background: var(--nk-color-bg-surface);
+  box-shadow: var(--nk-shadow-mb-shadow2);
+}
+.headerRow {
+  position: relative;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s12);
+}
+.headerTitle {
+  flex: 1;
+  font: var(--nk-type-text16-bold-lh20);
+  letter-spacing: var(--nk-space-mb-ls15);
+  color: var(--nk-color-text-primary);
+}
+
+.hero {
+  display: flex;
+  justify-content: center;
+}
+.heroLottie {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+.plans {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--nk-space-s12);
+  padding: 0 var(--nk-space-s16);
+  margin-top: var(--nk-space-mb-fam-plans-overlap);
+}
+.planOuter {
+  position: relative;
+  flex: 1;
+  border-radius: var(--nk-radius-r16);
+  background: var(--nk-color-bg-surface);
+  border: 0;
+  padding: 0;
+  text-align: start;
+  cursor: pointer;
+}
+.planOuter[data-selected] {
+  z-index: 2;
+  cursor: default;
+}
+.planGlow {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--nk-radius-r16);
+  box-shadow: var(--nk-shadow-mb-glow);
+  pointer-events: none;
+}
+.planWrapper {
+  position: relative;
+  height: 100%;
+  border-radius: var(--nk-radius-r16);
+  border: 2px solid var(--nk-color-border);
+  overflow: hidden;
+  background: var(--nk-color-bg-surface);
+}
+.planBorderOn {
+  position: absolute;
+  inset: -2px;
+  border-radius: var(--nk-radius-r16);
+  border: 2px solid var(--nk-color-success);
+  pointer-events: none;
+}
+.planContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--nk-space-s4);
+}
+.planHeader {
+  width: 100%;
+  padding: var(--nk-space-s12) var(--nk-space-s10);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.planMembersPill {
+  align-self: flex-start;
+  background: var(--nk-color-bg-page);
+  border-radius: 40px;
+  padding: var(--nk-space-s2);
+  display: flex;
+}
+.planTitleRow {
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s4);
+  padding-top: var(--nk-space-s10);
+}
+.planName {
+  font: var(--nk-type-mb-h18-bold);
+  letter-spacing: var(--nk-space-mb-ls15);
+  color: var(--nk-color-text-primary);
+  transition: color 200ms;
+}
+.planOuter[data-selected] .planName {
+  color: var(--nk-color-success);
+}
+.planCheck {
+  width: 20px;
+  height: 20px;
+}
+.planSubtitle {
+  align-self: stretch;
+  margin-bottom: var(--nk-space-s6);
+  font: var(--nk-type-text12-regular-lh18);
+  letter-spacing: var(--nk-space-mb-ls10);
+  color: var(--nk-color-text-secondary);
+}
+.planPriceBox {
+  position: relative;
+  width: 100%;
+  padding: var(--nk-space-s12);
+  border-radius: var(--nk-radius-r12);
+  background: var(--nk-color-bg-subtle);
+  overflow: hidden;
+}
+.planPriceOn {
+  position: absolute;
+  inset: 0;
+  background: var(--nk-color-mb-success-surface);
+  pointer-events: none;
+}
+.planPrice {
+  position: relative;
+  display: block;
+  font: var(--nk-type-text16-bold-lh20);
+  letter-spacing: var(--nk-space-mb-ls15);
+  color: var(--nk-color-text-primary);
+}
+.planDescription {
+  position: relative;
+  display: block;
+  margin-top: var(--nk-space-s4);
+  font: var(--nk-type-text12-regular-lh18);
+  letter-spacing: var(--nk-space-mb-ls10);
+  color: var(--nk-color-text-secondary);
+}
+.planDescription :global(b) {
+  font: var(--nk-type-mb-fam-b12-bold);
+}
+
+.section {
+  margin: var(--nk-space-s16) var(--nk-space-s16) 0;
+  background: var(--nk-color-bg-surface);
+  border-radius: var(--nk-radius-r16);
+  border: 4px solid var(--nk-color-bg-surface);
+}
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s12);
+  padding: var(--nk-space-s12);
+}
+.sectionIcon {
+  width: 24px;
+  height: 24px;
+}
+.sectionTitle {
+  font: var(--nk-type-mb-b16-bold);
+  letter-spacing: var(--nk-space-mb-ls15);
+  color: var(--nk-color-text-body);
+}
+.faqSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s4);
+  padding: var(--nk-space-s4);
+}
+.faqSectionTitle {
+  font: var(--nk-type-text14-semibold-lh20);
+  letter-spacing: var(--nk-space-mb-ls10);
+}
+
+/* VIPBenefitsModule family variant */
+.benefits {
+  background: var(--nk-color-bg-subtle);
+  border-radius: var(--nk-radius-r12);
+  padding: var(--nk-space-s20) var(--nk-space-s12);
+}
+.benefitRow {
+  display: flex;
+  align-items: flex-start;
+  padding-inline-start: var(--nk-space-s2);
+}
+.benefitText {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--nk-space-s6);
+}
+.benefitTitle {
+  font: var(--nk-type-text14-semibold-lh20);
+  letter-spacing: var(--nk-space-mb-ls10);
+  color: var(--nk-color-text-primary);
+}
+.benefitDescription {
+  font: var(--nk-type-text12-medium-lh18);
+  letter-spacing: var(--nk-space-mb-ls10);
+  color: var(--nk-color-text-secondary);
+}
+.benefitIcon {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+}
+.benefitDash {
+  margin: var(--nk-space-s16) 0;
+}
+
+/* Steps */
+.steps {
+  background: var(--nk-color-bg-subtle);
+  border-radius: var(--nk-radius-r12);
+  padding: var(--nk-space-s16) var(--nk-space-s12);
+}
+.step {
+  display: flex;
+  align-items: stretch;
+  gap: var(--nk-space-s12);
+}
+.stepNumberColumn {
+  position: relative;
+  width: 24px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+.stepRail {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 24px;
+  background: var(--nk-color-bg-surface);
+}
+.stepRail[data-first] {
+  border-top-left-radius: var(--nk-radius-r12);
+  border-top-right-radius: var(--nk-radius-r12);
+}
+.stepRail[data-last] {
+  bottom: auto;
+  height: 24px;
+  border-bottom-left-radius: var(--nk-radius-r12);
+  border-bottom-right-radius: var(--nk-radius-r12);
+}
+.stepChevrons {
+  position: absolute;
+  top: 24px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--nk-space-s4) 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.stepChevron {
+  transform: rotate(270deg);
+}
+.stepNumber {
+  position: relative;
+  z-index: 1;
+  width: 18px;
+  height: 18px;
+  margin-top: 3px;
+  border-radius: 9px;
+  background: var(--nk-color-bg-page);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: var(--nk-type-mb-fam-step-number);
+  letter-spacing: var(--nk-space-mb-fam-ls-step);
+  color: var(--nk-color-text-body);
+}
+.stepContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.stepTitle {
+  margin-bottom: var(--nk-space-s6);
+  font: var(--nk-type-text14-semibold-lh20);
+  letter-spacing: var(--nk-space-mb-ls10);
+  color: var(--nk-color-text-primary);
+}
+.stepDescription {
+  font: var(--nk-type-text12-medium-lh18);
+  letter-spacing: var(--nk-space-mb-ls10);
+  color: var(--nk-color-text-secondary);
+}
+.stepDash {
+  margin: var(--nk-space-s16) 0;
+}
+
+/* Share section */
+.share {
+  background: var(--nk-color-bg-subtle);
+  border-radius: var(--nk-radius-r12);
+  padding: var(--nk-space-s16);
+}
+.shareTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 26px;
+}
+.shareText {
+  max-width: 60%;
+  font: var(--nk-type-mb-b13-semibold);
+  color: var(--nk-color-text-primary);
+}
+.shareMembers {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.shareIcon {
+  position: absolute;
+  bottom: -8px;
+  width: 24px;
+  height: 24px;
+}
+.shareButton {
+  width: 100%;
+  height: 48px;
+  border-radius: var(--nk-radius-r10) !important;
+  border: 1px solid var(--nk-color-border) !important;
+  background: var(--nk-color-bg-surface) !important;
+}
+.shareButtonIcon {
+  width: 20px;
+  height: 20px;
+}
+.shareButtonText {
+  margin-inline-start: var(--nk-space-s8);
+  font: var(--nk-type-text14-semibold-lh20);
+  letter-spacing: var(--nk-space-mb-ls10);
+  color: var(--nk-color-text-primary);
+}
+
+/* FAQ grouped */
+.faqRows {
+  background: var(--nk-color-bg-subtle);
+  border-radius: var(--nk-radius-r14);
+  overflow: hidden;
+}
+.faqRow {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: var(--nk-space-s16) var(--nk-space-s12);
+  border: 0;
+  background: transparent;
+  text-align: start;
+  cursor: pointer;
+}
+.faqHeaderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--nk-space-s12);
+}
+.faqHeader {
+  flex: 1;
+  font: var(--nk-type-text14-semibold-lh20);
+  letter-spacing: var(--nk-space-mb-ls10);
+  color: var(--nk-color-text-primary);
+}
+.faqChevron {
+  width: 16px;
+  height: 16px;
+}
+.faqBodyWrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s8);
+  overflow: hidden;
+}
+.faqLine {
+  display: block;
+  margin-top: var(--nk-space-s8);
+  height: 1px;
+  background: var(--nk-color-bg-surface);
+}
+.faqBody {
+  font: var(--nk-type-text14-regular-lh20);
+  letter-spacing: var(--nk-space-mb-ls10);
+  color: var(--nk-color-text-primary);
+}
+
+.footerNote {
+  margin: var(--nk-space-s16) 0 var(--nk-space-s40);
+  padding: 0 var(--nk-space-s32);
+  text-align: center;
+  font: var(--nk-type-text12-medium-lh16);
+  color: var(--nk-color-text-secondary);
+}
+.listEnd {
+  height: 80px;
+}
+
+.sticky {
+  padding: var(--nk-space-s16) var(--nk-space-s12) calc(var(--nk-inset-bottom) + var(--nk-space-s8));
+  background: var(--nk-color-bg-surface);
+  border-radius: var(--nk-radius-r16) var(--nk-radius-r16) 0 0;
+  box-shadow: var(--nk-shadow-mb-shadow3);
+}
+.stickyButton {
+  width: 100%;
+  height: 52px;
+  border-radius: var(--nk-radius-r12) !important;
+  background: var(--nk-color-text-strong) !important;
+  color: var(--nk-color-text-inverse) !important;
+  font: var(--nk-type-text16-semibold-lh20);
+  letter-spacing: var(--nk-space-mb-ls15);
+}
+
+/* blocking error (FamilyPlansErrorType) */
+.blocking {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--nk-space-s24);
+  padding: 0 var(--nk-space-s24);
+}
+.blockingContent {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--nk-space-s16);
+}
+.blockingImage {
+  width: 119px;
+  height: 93px;
+  object-fit: contain;
+}
+.blockingCopy {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--nk-space-s8);
+  padding: 0 var(--nk-space-s36);
+  text-align: center;
+}
+.blockingTitle {
+  font: var(--nk-type-mb-h20-bold);
+  letter-spacing: var(--nk-space-mb-ls25);
+  color: var(--nk-color-text-primary);
+}
+.blockingDescription {
+  font: var(--nk-type-mb-b16-medium);
+  letter-spacing: var(--nk-space-mb-ls15);
+  color: var(--nk-color-text-secondary);
+}
+.blockingButton {
+  height: 52px;
+  padding: 14px var(--nk-space-s20) !important;
+  border-radius: var(--nk-radius-r12) !important;
+  background: var(--nk-color-text-strong) !important;
+  color: var(--nk-color-text-inverse) !important;
+  font: var(--nk-type-text16-semibold-lh20);
+  line-height: 24px;
+  letter-spacing: var(--nk-space-mb-ls15);
+}
+
+/* skeletons */
+.skeleton {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  background: var(--nk-color-bg-page);
+  padding-top: calc(var(--nk-inset-top) + 72px);
+}
+.skTitle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--nk-space-s12);
+  margin: 60px 0 28px;
+  padding: 0 48px;
+}
+.skPlans {
+  display: flex;
+  gap: var(--nk-space-s12);
+  padding: 0 var(--nk-space-s16);
+  margin-top: 110px;
+}
+.skCard {
+  flex: 1;
+  background: var(--nk-color-bg-surface);
+  border-radius: var(--nk-radius-r20);
+  padding: var(--nk-space-s16);
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s10);
+}
+.skInner {
+  margin-top: var(--nk-space-s8);
+  padding: var(--nk-space-s12);
+  border-radius: var(--nk-radius-r14);
+  background: var(--nk-color-bg-page);
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s10);
+}
+.skSection {
+  margin-top: var(--nk-space-s16);
+  padding: 0 var(--nk-space-s16);
+}
+.skFooter {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: var(--nk-space-s12) var(--nk-space-s16) var(--nk-inset-bottom);
+  background: var(--nk-color-bg-page);
+}
+.skButton {
+  height: 56px;
+  border-radius: var(--nk-radius-r16);
+  background: var(--nk-color-text-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ───────── VIPPlanDetailsPopup FAMILY_PLAN (review sheet) ───────── */
+.review {
+  padding: 22px var(--nk-space-s12) var(--nk-space-mb-overlay-float);
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s12);
+  background: var(--nk-color-bg-subtle);
+}
+.reviewSheet {
+  margin: 0 var(--nk-space-s12) calc(var(--nk-space-mb-overlay-float) + var(--nk-inset-bottom)) !important;
+  border-radius: var(--nk-radius-r16) !important;
+  background: var(--nk-color-bg-subtle) !important;
+}
+.reviewHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--nk-space-s10);
+  padding: 0 var(--nk-space-s24);
+  margin-top: var(--nk-space-s12);
+  text-align: center;
+}
+.reviewTitle {
+  font: var(--nk-type-mb-h18-bold);
+  letter-spacing: var(--nk-space-mb-ls15);
+  color: var(--nk-color-success);
+}
+.reviewSubtitle {
+  font: var(--nk-type-text14-regular-lh20);
+  letter-spacing: var(--nk-space-mb-ls10);
+  color: var(--nk-color-text-secondary);
+}
+.reviewCard {
+  width: 100%;
+  background: var(--nk-color-bg-surface);
+  border-radius: var(--nk-radius-r16) var(--nk-radius-r16) var(--nk-radius-r14) var(--nk-radius-r14);
+  border: 1.5px solid var(--nk-color-bg-subtle);
+  padding: 14px 0 var(--nk-space-s16);
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s16);
+  overflow: hidden;
+}
+.reviewCardTitleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--nk-space-s8);
+  padding: var(--nk-space-s2) var(--nk-space-s16) 0;
+}
+.reviewCardTitle {
+  flex: 1;
+  font: var(--nk-type-mb-h18-bold);
+  letter-spacing: var(--nk-space-mb-ls15);
+  color: var(--nk-color-text-primary);
+}
+.reviewMembers {
+  padding: var(--nk-space-s4);
+  border-radius: 40px;
+  background: var(--nk-color-bg-subtle);
+  display: flex;
+}
+.reviewInvoice {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s16);
+}
+.reviewInvoiceRows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s16);
+  padding: 0 var(--nk-space-s16);
+}
+.reviewInvoiceRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.reviewInvoiceText {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s2);
+  padding-inline-end: var(--nk-space-s12);
+}
+.reviewInvoiceTitle {
+  font: var(--nk-type-mb-b13-semibold);
+  color: var(--nk-color-text-muted);
+}
+.reviewInvoiceSubtitle {
+  font: var(--nk-type-text13-regular-lh18);
+  color: var(--nk-color-text-tertiary);
+}
+.reviewInvoiceValue {
+  font: var(--nk-type-mb-b13-semibold);
+  color: var(--nk-color-text-primary);
+}
+.reviewNote {
+  width: 100%;
+  background: var(--nk-color-bg-surface);
+  border-radius: var(--nk-radius-r12);
+  padding: var(--nk-space-s12);
+  font: var(--nk-type-text12-regular-lh18);
+  letter-spacing: var(--nk-space-mb-ls10);
+  color: var(--nk-color-text-body);
+}
+.reviewNote :global(a) {
+  color: var(--nk-color-primary);
+}
+.reviewSeparator {
+  height: 1px;
+  width: 100%;
+  background: var(--nk-color-border);
+}
+.reviewButtonWrap {
+  padding-top: var(--nk-space-s12);
+}
+
+/* Reminder (VIPPlanDetailsPopup) */
+.reminder {
+  width: 100%;
+  background: var(--nk-color-bg-surface);
+  border-radius: var(--nk-radius-r12);
+  padding: var(--nk-space-s12);
+}
+.reminderHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s8);
+}
+.reminderIcon {
+  width: 18px;
+  height: 18px;
+}
+.reminderTitle {
+  font: var(--nk-type-mb-fam-reminder-title);
+  color: var(--nk-color-mb-fam-reminder-title);
+}
+.reminderDescription {
+  display: block;
+  margin-top: var(--nk-space-s4);
+  font: var(--nk-type-text13-regular-lh20);
+  color: var(--nk-color-text-secondary);
+}
+
+/* VIPSubscriptionButtonV2 */
+.subscription {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s20);
+}
+.payRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--nk-space-s8);
+  border: 0;
+  padding: 0;
+  background: transparent;
+  text-align: start;
+  cursor: pointer;
+}
+.payCard {
+  width: 44px;
+  height: 40px;
+  object-fit: contain;
+}
+.payHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s4);
+}
+.payLabel {
+  font: var(--nk-type-mb-fam-pay-label);
+  color: var(--nk-color-mb-fam-pay-label);
+}
+.payChevron {
+  width: 14px;
+  height: 14px;
+  transform: rotate(180deg);
+}
+.payNumber {
+  display: block;
+  font: var(--nk-type-text15-medium-lh18);
+  color: var(--nk-palette-night-fall);
+}
+.subscriptionButton {
+  flex: 1;
+  height: 60px;
+  border-radius: var(--nk-radius-r12) !important;
+  background: var(--nk-color-text-strong) !important;
+  color: var(--nk-color-text-inverse) !important;
+  font: var(--nk-type-mb-b16-semibold);
+  letter-spacing: var(--nk-space-mb-ls15);
+}
+.subscriptionButtonWithPayment {
+  height: 48px;
+  font: var(--nk-type-mb-fam-button18);
+}
+
+/* ───────── VIPSharePlanInviteScreen ───────── */
+.inviteHeader {
+  position: relative;
+  padding: var(--nk-space-s12);
+  padding-top: var(--nk-inset-top);
+}
+.inviteHeaderBg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(var(--nk-palette-white), var(--nk-palette-white-alpha0));
+}
+.inviteHeaderRow {
+  position: relative;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s8);
+}
+.inviteBack svg {
+  margin-inline-start: -2px;
+}
+.inviteBody {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: calc(var(--nk-inset-top) + 72px) var(--nk-space-s12) 0;
+}
+.inviteContent {
+  flex: 1;
+}
+.heroButton {
+  display: block;
+  margin: 0 42px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  box-shadow: var(--nk-shadow-mb-fam-hero);
+  border-radius: var(--nk-radius-r24);
+}
+.heroCard {
+  position: relative;
+  height: 315px;
+  border-radius: var(--nk-radius-r24);
+  overflow: hidden;
+  background: linear-gradient(160deg, var(--nk-color-mb-light-yellow) 0%, var(--nk-palette-white) 60%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--nk-space-s16);
+}
+.heroLogo {
+  font: var(--nk-type-mb-h28-bold);
+  letter-spacing: var(--nk-space-mb-ls25);
+  color: var(--nk-color-text-ink);
+}
+.heroLogo b {
+  background: var(--nk-color-brand);
+  padding: 0 var(--nk-space-s6);
+  border-radius: var(--nk-radius-r8);
+}
+.heroHexes {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s4);
+}
+.heroBadge {
+  padding: var(--nk-space-s6) var(--nk-space-s12);
+  border-radius: var(--nk-radius-full);
+  background: var(--nk-color-mb-success-surface);
+  color: var(--nk-color-success);
+  font: var(--nk-type-text13-semibold-lh16);
+}
+.inviteTitle {
+  margin-top: var(--nk-space-s40);
+  text-align: center;
+  font: var(--nk-type-mb-fam-h24-semibold);
+  letter-spacing: var(--nk-space-mb-ls25);
+  color: var(--nk-color-text-primary);
+}
+.inviteBenefits {
+  margin-top: var(--nk-space-mb-fam-benefits-top);
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+}
+.inviteBenefit {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--nk-space-s10);
+  padding: 0 var(--nk-space-s12);
+  text-align: center;
+  font: var(--nk-type-text12-regular-lh18);
+  letter-spacing: var(--nk-space-mb-ls10);
+  color: var(--nk-color-text-muted);
+}
+.inviteBenefit img {
+  width: 24px;
+  height: 24px;
+}
+.fadedLine {
+  width: 1px;
+  align-self: stretch;
+  background: linear-gradient(var(--nk-palette-white-alpha0), var(--nk-color-border-strong) 18%, var(--nk-color-border-strong));
+  opacity: 1;
+  border-radius: 0 0 3px 3px;
+}
+.inviteFooter {
+  padding: var(--nk-space-s12) 0 var(--nk-inset-bottom);
+}
+.inviteButton {
+  width: 100%;
+  height: 52px;
+  gap: var(--nk-space-s8);
+  border-radius: var(--nk-radius-r12) !important;
+  background: var(--nk-color-text-strong) !important;
+  color: var(--nk-color-text-inverse) !important;
+  font: var(--nk-type-mb-b16-semibold);
+  letter-spacing: var(--nk-space-mb-ls15);
+}
+.inviteButtonIcon {
+  width: 24px;
+  height: 24px;
+}
+.inviteSkeleton {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  background: var(--nk-color-bg-subtle);
+  display: flex;
+  flex-direction: column;
+}
+.inviteSkContent {
+  flex: 1;
+  padding: calc(var(--nk-inset-top) + 64px) var(--nk-space-s24) 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.inviteSkBenefits {
+  margin-top: 35px;
+  display: flex;
+  gap: var(--nk-space-s12);
+}
+.inviteSkBenefit {
+  width: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--nk-space-s2);
+}
+.inviteSkDivider {
+  width: 1px;
+  height: 50px;
+  margin-top: 4px;
+  background: var(--nk-color-border);
+}
+.inviteSkFooter {
+  padding: var(--nk-space-s12) var(--nk-space-s24) var(--nk-inset-bottom);
+}
+
+/* ───────── VIPRemoveFamilyMemberOverlayScreen ───────── */
+.removeSheet {
+  background: transparent !important;
+}
+.removeCard {
+  margin: 0 var(--nk-space-s6);
+  border-radius: var(--nk-radius-r16);
+  overflow: hidden;
+  background: var(--nk-color-bg-surface);
+}
+.removeContent {
+  padding: 0 var(--nk-space-s12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--nk-space-s8);
+}
+.removeIcon {
+  margin: var(--nk-space-s8) 0 var(--nk-space-s12);
+}
+.removeTitleBox {
+  margin: 0 19px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s8);
+  text-align: center;
+}
+.removeTitle {
+  font: var(--nk-type-mb-h18-bold);
+  letter-spacing: var(--nk-space-mb-ls15);
+  color: var(--nk-color-text-body);
+}
+.removeDescription {
+  font: var(--nk-type-mb-b14-medium);
+  letter-spacing: var(--nk-space-mb-ls10);
+  color: var(--nk-color-text-secondary);
+}
+.removeButtons {
+  display: flex;
+  gap: var(--nk-space-s12);
+  padding: 0 var(--nk-space-s16) var(--nk-space-mb-overlay-float);
+}
+.cancelButton {
+  flex: 1;
+  height: 52px;
+  border-radius: var(--nk-radius-r12) !important;
+  border: 1px solid var(--nk-color-border) !important;
+  background: var(--nk-color-bg-surface) !important;
+  color: var(--nk-color-text-primary) !important;
+  font: var(--nk-type-mb-b16-semibold);
+  letter-spacing: var(--nk-space-mb-ls15);
+}
+.removeButton {
+  flex: 1;
+  height: 52px;
+  border-radius: var(--nk-radius-r12) !important;
+  background: var(--nk-palette-danger-red) !important;
+  color: var(--nk-color-text-inverse) !important;
+  font: var(--nk-type-mb-b16-semibold);
+  letter-spacing: var(--nk-space-mb-ls15);
+}
+
+/* ───────── VIPLeaveFamilyPlanScreen ───────── */
+.leave {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--nk-color-bg-subtle);
+}
+.leaveHeader {
+  padding: calc(var(--nk-inset-top) + var(--nk-space-s8)) var(--nk-space-s16) var(--nk-space-s8);
+}
+.leaveBack {
+  border-color: transparent !important;
+}
+[dir='rtl'] .leaveBack svg {
+  transform: scaleX(-1);
+}
+.leaveContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--nk-space-s12);
+  padding: 0 var(--nk-space-s24);
+  text-align: center;
+}
+.leaveTitle {
+  font: var(--nk-type-mb-h24-bold);
+  letter-spacing: var(--nk-space-mb-ls25);
+  color: var(--nk-color-text-body);
+}
+.leaveSubtitle {
+  font: var(--nk-type-mb-b14-medium);
+  letter-spacing: var(--nk-space-mb-ls10);
+  color: var(--nk-color-text-secondary);
+}
+.leaveFooter {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s12);
+  padding: var(--nk-space-s12) var(--nk-space-s16) var(--nk-inset-bottom);
+}
+.keepButton {
+  height: 52px;
+  border-radius: var(--nk-radius-r14) !important;
+  background: var(--nk-color-text-strong) !important;
+  color: var(--nk-color-text-inverse) !important;
+  font: var(--nk-type-mb-b16-semibold);
+  letter-spacing: var(--nk-space-mb-ls15);
+}
+.leaveButton {
+  height: 52px;
+  border-radius: var(--nk-radius-r14) !important;
+  border: 1px solid var(--nk-color-border) !important;
+  background: var(--nk-color-bg-surface) !important;
+  color: var(--nk-color-text-primary) !important;
+  font: var(--nk-type-mb-b16-semibold);
+  letter-spacing: var(--nk-space-mb-ls15);
+}

@@ -1,0 +1,50 @@
+/* features/vip/screens/VIPAcceptPlanInviteOverlayScreen/styles.ts + skeletonStyles.ts */
+.sheet { background: transparent; margin-inline: var(--nk-space-s6); }
+.container { display: flex; flex-direction: column; gap: var(--nk-space-s12); align-items: center; background: var(--nk-color-bg-subtle); border-radius: var(--nk-radius-vip-sheet); overflow: hidden; }
+.headerContainer { width: 100%; display: flex; align-items: center; justify-content: center; }
+.headerAnimation { position: relative; width: 100%; aspect-ratio: 654 / 412; display: flex; align-items: center; justify-content: center; }
+.hexSlot { position: absolute; pointer-events: none; display: flex; }
+.content {
+  position: relative; z-index: 99;
+  width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 0 var(--nk-space-s16) var(--nk-layout-vip-sheet-float);
+  margin-top: var(--nk-layout-vip-of-invite-overlap);
+}
+/* bold h24 (24 / 32 / −0.25), textPrimary */
+.title { color: var(--nk-color-text-primary); text-align: center; font: var(--nk-type-vip-h24); letter-spacing: var(--nk-layout-vip-of-track-xl); margin-bottom: var(--nk-space-s6); }
+/* regular b14 (14 / 20 / −0.1), textSecondary #475067 */
+.subtitle { color: var(--nk-color-text-muted); font: var(--nk-type-text14-regular-lh20); letter-spacing: var(--nk-layout-vip-of-track-b); text-align: center; }
+/* benefitsModule: white(0.8), border 2 white, mt24 mb22; containerFamily r12 p20/12 */
+.benefits {
+  width: 100%; margin: var(--nk-space-s24) 0 22px;
+  border: 2px solid var(--nk-palette-white); border-radius: var(--nk-radius-r12);
+  background: var(--nk-color-vip-of-white80);
+  padding: var(--nk-space-s20) var(--nk-space-s12);
+}
+.benefitRow { display: flex; flex-direction: row; align-items: flex-start; padding-inline-start: var(--nk-space-s2); }
+.benefitText { flex: 1; display: flex; flex-direction: column; align-items: flex-start; gap: var(--nk-space-s6); }
+/* titleFamily: semibold b14 */
+.benefitTitle { font: var(--nk-type-text14-semibold-lh20); letter-spacing: var(--nk-layout-vip-of-track-b); color: var(--nk-color-text-primary); }
+/* descriptionFamily: medium b12, textTertiary #666D85 */
+.benefitDescription { font: var(--nk-type-text12-medium-lh18); letter-spacing: var(--nk-layout-vip-of-track-b); color: var(--nk-color-text-secondary); }
+/* icon 44×44 (server image) */
+.benefitIcon { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.benefitDash { margin-block: var(--nk-space-s16); }
+.button { width: 100%; flex-direction: row; gap: var(--nk-space-s8); height: 52px; border-radius: var(--nk-radius-r12); background: var(--nk-color-text-strong); }
+/* semibold h16 (16 / 20 / −0.15) white */
+.buttonText { color: var(--nk-palette-white); font: var(--nk-type-text16-semibold-lh20); letter-spacing: var(--nk-layout-vip-of-track-h); }
+.footerNote { margin: 18px var(--nk-space-s8) 0; }
+/* medium b12, textMuted #989FB3, link underlined */
+.footerNoteText { font: var(--nk-type-text12-medium-lh18); letter-spacing: var(--nk-layout-vip-of-track-b); color: var(--nk-color-text-tertiary); text-align: center; }
+.footerNoteText :global(a) { color: inherit; text-decoration: underline; }
+
+/* skeleton */
+.skContainer { width: 100%; background: var(--nk-color-bg-page); border-radius: var(--nk-radius-vip-sheet); overflow: hidden; }
+.skHeader { width: 100%; aspect-ratio: 654 / 412; display: flex; align-items: center; justify-content: center; }
+.skCluster { position: relative; width: 160px; height: 150px; }
+.skContent { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; padding: 0 var(--nk-space-s16) var(--nk-space-s24); margin-top: var(--nk-layout-vip-of-invite-overlap); }
+.skCard { width: 100%; background: var(--nk-color-bg-surface); border: 2px solid var(--nk-palette-white); border-radius: var(--nk-radius-r16); padding: var(--nk-space-s16) var(--nk-space-s14); margin-bottom: 22px; }
+.skRow { display: flex; flex-direction: row; align-items: center; gap: var(--nk-space-s12); }
+.skCol { flex: 1; display: flex; flex-direction: column; gap: var(--nk-space-s8); }
+.skDivider { display: block; height: 1px; margin-block: var(--nk-space-s14); background: var(--nk-color-border); }
+.skButton { display: block; width: 100%; height: 52px; border-radius: var(--nk-radius-r12); background: var(--nk-color-text-strong); }

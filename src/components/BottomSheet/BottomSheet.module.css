@@ -1,0 +1,84 @@
+/* Origin M-BottomSheet slots (Figma wFRKiKskxZ4vjIHbDVvngJ · 3207:15). Chrome lives in kit/Navigator.module.css. */
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s8);
+  min-height: var(--nk-sheet-header-height);
+  padding: var(--nk-space-s4) var(--nk-sheet-padding);
+  flex-shrink: 0;
+}
+
+.header:has(.close) {
+  padding-inline-end: var(--nk-space-s2);
+}
+
+.headerText {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.header[data-align='center'] .headerText {
+  align-items: center;
+  text-align: center;
+}
+
+.title {
+  font: var(--nk-sheet-title-font);
+  color: var(--nk-sheet-title-fg);
+}
+
+.subtitle {
+  font: var(--nk-sheet-subtitle-font);
+  color: var(--nk-sheet-subtitle-fg);
+}
+
+.close {
+  width: var(--nk-sheet-close-size);
+  height: var(--nk-sheet-close-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.inset {
+  padding: 0 var(--nk-sheet-padding);
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--nk-sheet-footer-gap);
+  padding: var(--nk-sheet-footer-padding);
+  flex-shrink: 0;
+}
+
+.footerExtra {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--nk-sheet-footer-gap);
+  padding: 0 var(--nk-sheet-padding) var(--nk-sheet-padding);
+  flex-shrink: 0;
+}
+
+.slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer .secondary {
+  background: var(--nk-sheet-secondary-bg);
+  color: var(--nk-sheet-secondary-fg);
+  border-color: var(--nk-sheet-secondary-border);
+}

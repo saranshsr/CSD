@@ -1,0 +1,6 @@
+/* SliderScreen — repo PastOrderRatingScreenB strip: 48px under the title, 286 cards 16 apart, current one centred. */
+.stage { margin-top: var(--nk-space-s48); overflow: hidden; }
+/* starts so card 0 is centred ((375 − 286) / 2 = 44.5 on the 375 frame); the strip moves by transform only */
+.strip { display: flex; align-items: flex-start; gap: var(--reviews-slider-gap); padding-inline-start: calc(50% - var(--reviews-slider-card) / 2); width: max-content; }
+.slot { width: var(--reviews-slider-card); flex-shrink: 0; }
+.slot[data-peek] { cursor: pointer; }

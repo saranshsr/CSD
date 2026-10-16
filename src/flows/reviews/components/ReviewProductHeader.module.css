@@ -1,0 +1,14 @@
+/* ReviewProductHeader — repo ManualReview ProductHeader (rate), ReviewDraftB card header (compact),
+   NewReview / RatePastOrders docked nav product (docked). */
+.root { display: flex; align-items: center; gap: var(--nk-space-s12); min-width: 0; }
+.root[data-variant='docked'] { gap: var(--nk-space-s8); justify-content: center; }
+.image { flex-shrink: 0; overflow: hidden; background: var(--nk-color-bg-surface); border: 1px solid var(--nk-color-border); }
+.image img { width: 100%; height: 100%; display: block; object-fit: cover; }
+.root[data-variant='rate'] .image { border-radius: var(--nk-radius-r12); }
+.root[data-variant='compact'] .image,
+.root[data-variant='docked'] .image { border-radius: var(--nk-radius-r8); }
+.root[data-variant='compact'] .image img { object-fit: contain; }
+.text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--nk-space-s6); }
+.name { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.root[data-variant='rate'] .name { font: var(--nk-type-reviews-text16-semibold-lh24); color: var(--nk-color-text-primary); }
+.root[data-variant='compact'] .name { font: var(--nk-type-reviews-text14-medium-lh20); color: var(--nk-color-text-muted); }

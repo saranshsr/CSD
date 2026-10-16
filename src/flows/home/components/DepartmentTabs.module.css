@@ -1,0 +1,84 @@
+/* Department tabs + tab CMS widget (ashbun/noon-app TabLayout / TabContent). Values: homeTabsTokens + --nk-*-home-tab-*. */
+@font-face { font-family: 'Lobster'; src: url('../../../assets/fonts/Lobster-Regular-latin.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Tourney'; src: url('../../../assets/fonts/Tourney-Black-latin.woff2') format('woff2'); font-weight: 900; font-display: swap; }
+
+.band { position: relative; display: flex; flex-direction: column; width: 100%; overflow: hidden; flex-shrink: 0; }
+.bg { position: absolute; inset: 0; }
+
+.nav { position: relative; height: 56px; flex-shrink: 0; }
+.navRow { position: relative; display: flex; align-items: center; width: max-content; }
+.tab { position: relative; flex: none; width: 76px; height: 56px; display: flex !important; flex-direction: column; align-items: center; justify-content: center; padding: 4px 0 !important; border-bottom: 1px solid transparent !important; transition: border-color 300ms; }
+.tabInner { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.tabIcon { display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; }
+.tabIcon img { display: block; transition: opacity 300ms, filter 300ms; }
+.tabLabel { width: 76px; text-align: center; font: var(--nk-type-home-tab-label); letter-spacing: -0.16px; transition: color 300ms; white-space: nowrap; }
+.tabLabel[data-active] { font: var(--nk-type-home-tab-label-active); }
+.newBadge { position: absolute; left: 24px; top: 0; display: flex; align-items: center; justify-content: center; width: 28px; height: 12px; border-radius: 3px; background: var(--nk-color-home-tab-new-badge); color: var(--nk-color-text-inverse); font: var(--nk-type-home-tab-new); letter-spacing: -0.16px; }
+.indicator { position: absolute; left: 12px; bottom: 0; width: 52px; height: 2.5px; border-radius: 8px 8px 0 0; pointer-events: none; }
+
+.panel { position: relative; width: 100%; flex-shrink: 0; }
+.layer { position: absolute; inset: 0; }
+
+/* headline + sub-category rail */
+.star { position: absolute; width: 37.81px; height: 37.81px; top: 23.09px; }
+.headline { position: absolute; left: 0; top: 27px; width: 100%; margin: 0; text-align: center; font-family: 'Lobster', cursive; font-size: 30px; line-height: 1; }
+.rail { position: absolute; left: 0; top: 84px; width: 100%; height: 100px; }
+.railRow { display: flex; gap: 12px; padding: 0 16px; width: max-content; height: 100px; }
+.tile { position: relative; flex: none; width: 84px; height: 100px; border-radius: 16px; overflow: hidden; text-align: start; }
+.band2 { position: absolute; left: 0; width: 84px; }
+.clip { position: absolute; overflow: hidden; }
+.clip img { position: absolute; max-width: none; }
+.tileLabel { position: absolute; left: 0; width: 100%; z-index: 1; text-align: center; font: var(--nk-type-home-tab-tile); letter-spacing: -0.1px; }
+.tileLabel span { display: block; white-space: pre; }
+/* Figma's 0.5px INSIDE stroke fades to transparent: a gradient masked down to a ring */
+.ring { position: absolute; inset: 0; z-index: 2; pointer-events: none; padding: 0.5px; border-radius: 16px; -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; } /* token-lint-ignore — mask alpha, not a colour */
+
+/* grocery 4 × 2 grid */
+.grid { position: absolute; left: 0; top: 84px; width: 100%; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 0 12px; }
+.grid .tile { width: auto; min-width: 0; }
+.blur { filter: blur(2px); }
+.rot { position: absolute; display: flex; align-items: center; justify-content: center; }
+.rot > span { position: relative; overflow: hidden; transform: rotate(90deg); flex: none; }
+.rot img { position: absolute; max-width: none; }
+
+/* "All" CMS widgets */
+.cms { display: flex; align-items: center; gap: 12px; padding: 12px; width: max-content; height: 348px; }
+.card { position: relative; flex: none; width: 204px; height: 324px; border-radius: 16px; border: 1px solid var(--nk-color-home-tab-cms-border); background: var(--nk-color-bg-surface); overflow: hidden; }
+.cardPad { display: flex !important; flex-direction: column; gap: 8px; padding: 8px !important; }
+.ajmal { background: var(--nk-color-home-tab-ajmal-bg); border-color: transparent; }
+.cover { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.ad { position: absolute; padding: 2px 4px; border-radius: 4px; background: var(--nk-color-home-tab-ad-bg); font: var(--nk-type-home-tab-ad); color: var(--nk-color-text-secondary); }
+.pause { position: absolute; left: 6px; bottom: 6px; width: 32px; height: 32px; display: flex !important; align-items: center; justify-content: center; border-radius: 10px; background: var(--nk-color-home-tab-pause-bg); backdrop-filter: blur(3px); }
+.banner { position: relative; width: 188px; height: 52px; flex-shrink: 0; border-radius: 8px; overflow: hidden; background: var(--nk-color-bg-surface); }
+.banner img { position: absolute; max-width: none; }
+.bannerFill { flex: 1; min-height: 0; height: auto; }
+.promoGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; width: 188px; }
+.promoGrid[data-fill] { flex: 1; }
+.promo { display: flex !important; flex-direction: column; align-items: flex-start; gap: 4px; width: 90px; text-align: start; }
+.promoImg { position: relative; width: 90px; height: 120px; flex-shrink: 0; border-radius: 8px; overflow: hidden; background: var(--nk-color-home-tab-cms-border); }
+.promoImg img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.notch { position: absolute; left: 0; top: 0; display: flex; align-items: center; height: 15px; padding: 0 4px; border-bottom-right-radius: 6px; font: var(--nk-type-home-tab-badge); letter-spacing: -0.1px; color: var(--nk-color-text-inverse); }
+.promoTitle { display: block; width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: var(--nk-type-home-tab-promo-title); letter-spacing: -0.1px; color: var(--nk-color-text-secondary); }
+.promoPrice { display: flex; align-items: flex-end; gap: 3px; letter-spacing: -0.1px; }
+.promoPrice b { font: var(--nk-type-home-tab-promo-price); color: var(--nk-color-text-primary); }
+.promoPrice s { font: var(--nk-type-home-tab-promo-title); color: var(--nk-color-text-tertiary); }
+
+/* Fashion sponsored spotlight */
+.spotHead { position: relative; height: 60px; }
+.spotLogo { position: absolute; left: 42.11px; top: 17.01px; width: 60.37px; height: 30.54px; overflow: hidden; }
+.spotLogo img { position: absolute; left: 0; top: 0; width: 72.65px; height: 49.4px; max-width: none; }
+.spotTitle { position: absolute; left: 113.27px; top: 18px; margin: 0; white-space: nowrap; font-family: 'Tourney', var(--nk-font-family); font-weight: 900; font-size: 28px; line-height: 36.94px; letter-spacing: -0.287px; color: var(--nk-color-text-inverse); }
+.spotRail { height: 287px; }
+.spotRow { display: flex; gap: 8px; margin-top: 11.53px; padding: 0 14.5px 16px; width: max-content; }
+.spot { flex: none; display: flex !important; flex-direction: column; gap: 6px; width: 133px; height: 259px; padding: 0 0 8px !important; border-radius: 8px; overflow: hidden; border: 1px solid var(--nk-color-home-tab-sponsored-border) !important; background: var(--nk-color-bg-surface) !important; text-align: start; }
+.spotMedia { position: relative; width: 100%; height: 179px; flex-shrink: 0; overflow: hidden; border-radius: 8px 8px 0 0; background: var(--nk-color-home-tab-sponsored-border); }
+.spotMedia > img { position: absolute; max-width: none; pointer-events: none; }
+.spotHeart { position: absolute; right: 3px; top: 4px; display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: var(--nk-palette-white-alpha20, transparent); }
+.spotAtc { position: absolute; right: 8px; bottom: 8px; display: flex !important; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 8px; border: 1.2px solid var(--nk-color-home-tab-cms-border) !important; background: var(--nk-color-bg-surface) !important; color: var(--nk-color-text-primary); }
+.spotAd { position: absolute; left: 6px; top: 158px; padding: 2px 4px; border-radius: 4px; background: var(--nk-color-bg-surface); font: var(--nk-type-home-tab-ad); color: var(--nk-color-text-secondary); }
+.spotBody { display: flex; flex-direction: column; gap: 6px; padding: 0 8px; }
+.spotName { margin: 0; height: 36px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; font: var(--nk-type-product-title); letter-spacing: -0.14px; color: var(--nk-color-home-tab-sponsored-title); }
+.spotPrice { display: flex; align-items: flex-end; gap: 4px; height: 18px; }
+.spotPrice b { font: var(--nk-type-home-tab-sponsored-price); letter-spacing: -0.16px; color: var(--nk-palette-blue-gray1000); }
+.spotPrice s { font: var(--nk-type-caption); color: var(--nk-color-text-tertiary); }
+.spotPrice em { font-style: normal; font: var(--nk-type-text12-semibold-lh14); letter-spacing: -0.12px; color: var(--nk-color-success); white-space: nowrap; }

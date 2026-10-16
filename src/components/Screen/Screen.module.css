@@ -1,0 +1,9 @@
+.screen { position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.header { position: relative; z-index: 10; flex-shrink: 0; }
+.overlayHeader { position: absolute; top: 0; left: 0; right: 0; z-index: 10; }
+.content { flex: 1; min-height: 0; position: relative; contain: paint; isolation: isolate; } /* own paint/stacking scope: running transform animations elsewhere (tickers, header, floating pills) can't force every block inside into its own repainting layer while scrolling */
+.footer { position: relative; z-index: 10; flex-shrink: 0; }
+/* above the navigator's tab bar dock (z 50) and its GlassFade: floating buttons (NeedHelpButton) stay crisp and tappable over the glass bar */
+.overlay { position: absolute; inset: 0; z-index: 60; pointer-events: none; }
+.overlay > * { pointer-events: auto; }
+.floatingFooter { position: absolute; left: 0; right: 0; bottom: 0; z-index: 10; }

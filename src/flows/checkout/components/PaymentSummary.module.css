@@ -1,0 +1,227 @@
+/* Figma "🚧 Checkout 2.0" Payment Summary 14288:184228 */
+/* Payment Summary: pb 12; Order Summary Container is 355 wide at x −2 (2px wider than the 351 sections) */
+.wrapper {
+  margin-top: var(--nk-space-s12);
+  margin-inline: -2px; /* Figma x −2 (geometry) */
+  padding-bottom: var(--nk-space-s12);
+}
+/* Figma "All flows" 127:44358: Payment Summary is 351 wide like the other sections */
+.flush {
+  margin-inline: 0;
+}
+/* NEW Order summary (r12 top / r23 bottom clip) ∩ Payment summary (white r16) → 12 / 16 */
+.card {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--nk-radius-r12) var(--nk-radius-r12) var(--nk-radius-r16) var(--nk-radius-r16);
+  overflow: hidden;
+  background: var(--nk-color-bg-surface);
+}
+/* Content: py 16, gap 16 */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s16);
+  padding: var(--nk-space-s16) 0;
+}
+.header {
+  padding: 0 var(--nk-space-s12);
+}
+/* h4 Bold 16/24 (-0.2) Blue-Gray/900 */
+.title {
+  font: var(--nk-type-chk-fig-text16-bold-lh24);
+  letter-spacing: -0.2px;
+  color: var(--nk-color-text-primary);
+}
+/* Breakdown / List: gap 12, centred (dividers are 327 wide) */
+.breakdown,
+.list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--nk-space-s12);
+}
+.list {
+  align-self: stretch;
+}
+/* Breakdown Container: px 12, pb 4, gap 6 */
+.strips {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s6);
+  padding: 0 var(--nk-space-s12) var(--nk-space-s4);
+}
+/* .strips h28, space-between */
+.strip {
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--nk-space-s8);
+  white-space: nowrap;
+}
+/* Primary/Label-2 Medium 15/18 (-0.26) Blue-Gray/700 */
+.label {
+  font: var(--nk-type-text15-medium-lh18);
+  letter-spacing: -0.26px;
+  color: var(--nk-color-text-muted);
+}
+/* Subtotal: 🚧 text/👀 secondary, dotted underline */
+.labelUnderlined {
+  font: var(--nk-type-text15-medium-lh18);
+  letter-spacing: -0.26px;
+  color: var(--nk-color-chk-fig-text-secondary-alpha);
+  text-decoration: underline dotted;
+  text-decoration-skip-ink: none;
+  text-underline-position: from-font;
+}
+/* Right element: gap 4, py 6 */
+.right {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s4);
+  padding: var(--nk-space-s6) 0;
+  text-align: right;
+}
+/* Figtree Medium 15 (cap-trimmed lh16, -0.14) 🚧 text/👀 tertiary, struck */
+.struck {
+  font: var(--nk-type-chk-fig-text15-medium-lh16);
+  letter-spacing: -0.14px;
+  color: var(--nk-color-chk-fig-text-tertiary-alpha);
+  text-decoration: line-through;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+/* Figtree SemiBold 15 (lh16, -0.14) Blue-Gray/1000 */
+.value {
+  font: var(--nk-type-chk-fig-text15-semibold-lh16);
+  letter-spacing: -0.14px;
+  color: var(--nk-color-text-strong);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.valueFree {
+  font: var(--nk-type-chk-fig-text15-semibold-lh16);
+  letter-spacing: -0.14px;
+  color: var(--nk-palette-emerald-green);
+}
+/* Free With Text Container: gap 4 — "Free with" 12/16 Medium (-0.26) Blue/700 */
+.freeWith {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s4);
+  height: 16px;
+}
+.freeWithText {
+  font: var(--nk-type-text12-medium-lh16);
+  letter-spacing: -0.26px;
+  color: var(--nk-color-brand-blue);
+}
+/* Mini Badge 28.35 × 19.44 window (Mini Badge Container h15) */
+.miniBadge {
+  position: relative;
+  flex-shrink: 0;
+  width: 28.35px;
+  height: 19.44px;
+  margin: -2.22px 0;
+  overflow: hidden;
+}
+/* Badge Text at left −28.35, top 0.75 + pt 2.835 → Noon One logo 56.095 × 15.682 */
+.miniBadgeLogo {
+  position: absolute;
+  left: -28.35px;
+  top: 3.585px;
+  width: 56.095px;
+  height: 15.682px;
+}
+.logoA,
+.logoB,
+.logoC {
+  position: absolute;
+  display: block;
+  max-width: none;
+}
+.logoA {
+  left: 29.04px; /* inset left 51.77% */
+  top: 0;
+}
+.logoB {
+  left: 33.074px; /* inset 29.64% / 58.96% */
+  top: 4.648px;
+}
+.logoC {
+  left: 0; /* inset 26.55% / 0 */
+  top: 4.164px;
+}
+/* Divider / Seperator: 327 wide (14px in from the 355 card) dashed Blue-Gray/400 */
+.divider {
+  display: block;
+  width: calc(100% - 28px);
+  height: 1px;
+}
+/* Coupon Discount Container: px 12, gap 6 */
+.couponContainer {
+  align-self: stretch;
+  padding: 0 var(--nk-space-s12);
+}
+/* Grand total: px 12 — Primary/Label-1/Bold 17/20 (-0.26) Blue-Gray/1000 */
+.grandTotal {
+  align-self: stretch;
+  display: flex;
+  align-items: flex-start;
+  padding: 0 var(--nk-space-s12);
+  font: var(--nk-type-chk-fig-text17-bold-lh20);
+  letter-spacing: -0.26px;
+  color: var(--nk-color-text-strong);
+}
+.totalLabel {
+  flex: 1;
+}
+.totalValue {
+  white-space: nowrap;
+}
+
+/* Savings strip: Emerald/100 under the 5px white wave */
+.savings {
+  display: flex;
+  flex-direction: column;
+  background: var(--nk-palette-emerald100);
+}
+.savingsWave {
+  display: block;
+  width: 100%;
+  height: 5px;
+}
+/* Grand total (strip): p 12, gap 8 */
+.savingsContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s8);
+  padding: var(--nk-space-s12);
+}
+.savingsGroup {
+  display: flex;
+  flex-direction: column;
+}
+/* 15/18 (-0.26) Emerald/1000 — label Figtree SemiBold, amount Bold */
+.savingsRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--nk-palette-emerald1000);
+}
+.savingsLabel {
+  flex: 1;
+  font: var(--nk-type-chk-fig-text15-semibold-lh18);
+  letter-spacing: -0.26px;
+}
+.savingsValue {
+  font: var(--nk-type-chk-fig-text15-bold-lh18);
+  letter-spacing: -0.26px;
+  white-space: nowrap;
+}
+/* 11/16 Regular (-0.26) Emerald/1000 */
+.savingsInfo {
+  font: var(--nk-type-chk-fig-text11-regular-lh16);
+  letter-spacing: -0.26px;
+  color: var(--nk-palette-emerald1000);
+}

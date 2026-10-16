@@ -1,0 +1,13 @@
+/* AttributeChips — repo NewReviewScreen Chip / ChipGroup (40px) and RatePastOrdersScreen Chip36 (36px).
+   Figma "Chips": 1px border, 12px inline padding, always SemiBold 14/20. */
+.group { display: flex; flex-direction: column; gap: var(--nk-space-s12); }
+.title { font: var(--nk-type-section); color: var(--nk-color-text-primary); }
+.wrap { display: flex; flex-wrap: wrap; gap: var(--nk-space-s8); }
+.chip {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: var(--nk-space-s40); padding: 0 var(--nk-space-s12); border-radius: var(--nk-radius-r20);
+  border: 1px solid var(--nk-color-border); background: var(--nk-color-bg-surface);
+  font: var(--nk-type-text14-semibold-lh20); color: var(--nk-color-text-muted); white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+}
+.chip[data-size='sm'] { height: var(--nk-space-s36); border-radius: var(--nk-radius-reviews-r18); }

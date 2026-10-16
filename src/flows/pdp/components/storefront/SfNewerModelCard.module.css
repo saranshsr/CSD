@@ -1,0 +1,15 @@
+/* Storefront "OrderHistoryItems" newer-model card — Figma 2ldJbjmQq4RkhnrNFCfXQB · 3499:75229 */
+.card { display: flex; flex-direction: column; gap: var(--nk-space-s10); margin: 0 var(--nk-space-s12) var(--nk-space-s12); padding: 0 0 var(--nk-space-s12); border-radius: var(--nk-radius-r16); background: var(--nk-color-bg-surface); overflow: hidden; text-align: start; width: calc(100% - 2 * var(--nk-space-s12)); }
+
+/* _BaseStatus: purple/100 → white, padding 10 12 8, gap 6 */
+.strip { display: flex; align-items: center; gap: var(--nk-space-s6); padding: var(--nk-space-s10) var(--nk-space-s12) var(--nk-space-s8); background: linear-gradient(to right, var(--nk-palette-lavender-mist), var(--nk-color-bg-surface)); }
+.stripText { flex: 1 1 0; min-width: 0; font: var(--nk-type-caption-bold); color: var(--nk-palette-deep-purple); }
+
+.body { display: flex; align-items: center; gap: var(--nk-space-s12); padding: 0 var(--nk-space-s12); }
+.thumb { flex-shrink: 0; width: var(--nk-layout-pdp-sfb-thumb-w); height: var(--nk-layout-pdp-sfb-thumb-h); border: 1px solid var(--nk-color-border); border-radius: var(--nk-radius-r8); overflow: hidden; }
+.info { flex: 1 1 0; min-width: 0; align-self: stretch; display: flex; flex-direction: column; gap: var(--nk-space-s4); padding-top: var(--nk-space-s4); margin-inline-start: calc(var(--nk-space-s8) - var(--nk-space-s12)); color: var(--nk-color-text-primary); }
+.title { font: var(--nk-type-pdp-sfb-text14-medium-lh20); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.price { font: var(--nk-type-text13-semibold-lh18); white-space: nowrap; }
+
+/* M-SecondaryNeutralButton: white, 1px blue-gray/300, full radius, padding 12, 14px chevron */
+.go { flex-shrink: 0; display: flex; padding: var(--nk-space-s12); border: 1px solid var(--nk-color-border); border-radius: var(--nk-radius-full); background: var(--nk-color-bg-surface); }

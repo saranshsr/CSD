@@ -1,0 +1,21 @@
+/* ListRow variant="field" (Field DS M-ListItem). The default ListRow is styled inline and does not use this file. */
+.field {
+  display: flex; align-items: center; gap: var(--nk-space-s8); width: 100%;
+  padding: var(--nk-space-s12); background: var(--nk-field-surface-primary); text-align: start;
+}
+.leading { display: flex; flex: none; width: 24px; height: 24px; align-items: center; justify-content: center; }
+.body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--nk-space-s2); }
+.titleRow { display: flex; align-items: center; gap: var(--nk-space-s8); }
+.title {
+  flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font: var(--nk-type-field-b14-semibold); letter-spacing: var(--nk-field-tracking-b); color: var(--nk-field-text-primary);
+}
+.field[data-size='big'] .title { font: var(--nk-type-field-h16-bold); letter-spacing: var(--nk-field-tracking-h16); }
+.titleSlot { display: flex; flex: none; width: 16px; height: 16px; }
+.subtitle {
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden;
+  font: var(--nk-type-field-b12-regular); letter-spacing: var(--nk-field-tracking-b); color: var(--nk-field-text-secondary);
+}
+.trailing { display: flex; flex: none; align-items: center; justify-content: flex-end; }
+/* the row already swaps sides in RTL; mirror the trailing affordance so a chevron points the right way */
+[dir='rtl'] .trailing { transform: scaleX(-1); }

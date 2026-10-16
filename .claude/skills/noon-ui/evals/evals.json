@@ -1,0 +1,59 @@
+{
+  "skill_name": "noon-ui",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I want to build a loyalty page for noon: a hub showing my points and tier, a list of rewards I can redeem, and a history of points earned. Make it clickable.",
+      "expected_output": "A new flow in src/flows/loyalty created with `npm run new-flow`, registered in src/flows/index.ts with a page URL (/loyalty) in src/kit/routes.ts. 3–5 screens (hub, rewards, reward detail as a sheet, history) each wrapped in Screen with Header/footer, built from central components (SectionCard, ListRow, Pill, Tag, Button, Price, Text) plus flow-local components on tokens only. Copy and mock data in data.ts, tier colours/gradient in tokens.ts. Motion via registered transitions, FadeIn/Stagger and CountUp for points. Every ScreenDef has title, notes and source. typecheck, lint:tokens (0 for the flow folder) and check:routes pass, and every screen was screenshotted with scripts/shot.mjs and the PNGs were read.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Update the orders list to match this reference screenshot from another shopping app (cards grouped by status with a progress bar and a big 'Track' button).",
+      "files": ["reference.png"],
+      "expected_output": "Before screenshots of orders/list taken first. A mapping table (reference element → kit piece → token → status) written in src/flows/orders/MAPPING.md. Changes made only in the orders flow's files; routes and screen ids unchanged. Reference colours, fonts and radii snapped to noon tokens, not copied; buttons are Button, labels are Tag/Pill, prices use Price with the dirham sign. Before, after and reference compared side by side; lint:tokens 0 for src/flows/orders; check:routes clean."
+    },
+    {
+      "id": 3,
+      "prompt": "Add a 'refer a friend' screen to the account flow with a share code, a how-it-works list and a share button that shows a toast.",
+      "expected_output": "One new ScreenDef in src/flows/account/index.ts with a path, reachable from the account screen via nav.push with a transition. Built with Screen, Header, SectionCard, ListRow, Button and a sticky footer that clears --nk-inset-bottom; the share button calls nav.toast. Tokens only, copy in data.ts. Screenshot read; check:routes clean.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Make me a new home page variant for a Ramadan campaign with a hero banner, deal carousels and category tiles.",
+      "expected_output": "Starts from the home flow (reads its HomeScreen, data.ts, tokens.ts and components) rather than inventing a layout. Either a new screen in the home flow or a new flow, with campaign colours as flow tokens, ProductCard carousels and category tiles reused from home/categories, Stagger/FadeIn motion, and real assets placed in src/assets/<flow>/ and optimised. Verified with screenshots at top and scrolled.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "Add a 'Delayed' order state to order tracking: amber status line, a new ETA, an apology message and a 'Get help' button, and show it in the orders list too.",
+      "expected_output": "Loads the orders skill (spec.md, then src/flows/orders/MAPPING.md → States). Adds a new demo order with a new id (o1, o3, o4, o5, o7, o8, o9 keep their meaning) and a new status handled by a case in trackingFor (status line, headline tone, timeline, message, actions) in src/flows/orders/data.ts; the CTA is an existing action code dispatched through useOrderAction, not a hard-coded nav call. The list shows it via ActiveOrderCard / StatusHeader without new primitives; motion only from src/flows/orders/motion.ts (reveal, pressDip); haptics only on taps. Tokens only (lint:tokens 0 for src/flows/orders), check:routes clean, orders/tracking?orderId=<new id> and orders/list screenshotted and read against the PDS measurements.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "Add two-step verification to Account security: a row in the security sheet that opens a screen with an on/off switch, a phone number and a confirm sheet before turning it off.",
+      "expected_output": "Loads the account skill (spec.md, MAPPING.md). Adds a row to the SecuritySheet list (closes the sheet with nav.back, then nav.push like the existing rows), one pushed ScreenDef in src/flows/account/index.ts (Header back, title, notes, source) and a confirm sheet built on SheetBody + SheetButtons; the switch is the central Switch and its value lives in src/flows/account/store.ts (a new AccountState field, read by both screen and sheet), not local state. No new primitives; copy in data.ts copy; master press feedback rules kept (opacity, not scale, where master has it). Tokens only (lint:tokens 0 for src/flows/account), check:routes clean, sheet and screen screenshotted and read.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "Add a 'Pay later' option to the noon One subscription payment screen, and make sure the account page shows the right state after I subscribe.",
+      "expected_output": "Loads the noon-one skill (and noon-ui). Reads src/flows/noonone/screens/PaymentScreen.tsx, store.ts, data.payment.ts and MAPPING.md → Payment first. Adds the method as a new group or row on noonone/payment, with copy in data.payment.ts and values as vip* flow tokens in tokens.ts. Any sheet it opens is an overlay with { presentation: 'modal', transition: 'noonone-overlay' } and the VIPOverlay chrome, closed via close(then). Subscribing still goes through completeSubscription(nav, plan): the membership store is written only by noonOneJourneyActions.subscribe, the landing plays the success animation and switches to the member view, and the account ProfileCard strip then shows the member state and opens membership/manage. No membership flag is kept in flow state, and prices use CURRENCY (no 'AED' text). The routes and URL aliases stay the same. lint:tokens is 0 for src/flows/noonone and check:routes is clean. Payment and landing are screenshotted before and after subscribing, and the PNGs are read.",
+      "files": []
+    },
+    {
+      "id": 8,
+      "prompt": "When I tap a star on a delivered order, I want a review page where I can pick what went well, let AI write the review, add photos and submit — then show a thank-you and let me rate my other past orders by swiping cards.",
+      "expected_output": "Loads the reviews skill (or noon-ui routes to it) and recognises this as the existing R&R 2.0 flow, not a new one: reuses reviews/new (or rate → aiLoader → draft), reviews/submitted and reviews/deck instead of rebuilding. Any change stays in src/flows/reviews. Navigation only via openReview / reviewsNav helpers in store.ts, with session state in reviewsStore through reviewsActions and useReviewParams on every screen. Shared components are reused (ReviewHeader, ReviewFooter, AttributeChips, StarRatingInput, DraftCard, AddPhotos, PastOrderCard); sheets stay in-screen overlays; motion comes from reviewsMotion. Tokens only (lint:tokens 0 for src/flows/reviews), check:routes clean, and the graph is clicked through from an orders/list star on o3 with screenshots read against the Figma KzR8dy12uT8CtgBRHHY6Qx nodes.",
+      "files": []
+    },
+    {
+      "id": 9,
+      "prompt": "Add an 'exchange for a different size' option to the return flow: after the reason, let me pick exchange vs refund, and if exchange, choose a new size before pickup.",
+      "expected_output": "Loads the returns skill (spec.md, then src/flows/returns/MAPPING.md §11). Extends the existing submission rather than building a new screen: the exchange option goes into resolution.modes in data.ts, and size choice is a new section code in sectionOrder with a component in components/sections/Sections.tsx, a footer case and a summaryRow case in ReturnSubmitScreen.tsx, and a collapsed edit card when done. Any size picker is a ReturnsOverlay, not a nav.sheet route. The record is saved through returnsStore.create, and details opens with success=1. Routes, the /returns alias and the o3/o9 ids are unchanged. Uses AFSButton/Tap, flow tokens in tokens.ts with a MAPPING.md row, and motion from returnsTokens. lint:tokens is 0 for src/flows/returns, check:routes is clean, and screenshots of returns/submit were read.",
+      "files": []
+    }
+  ]
+}

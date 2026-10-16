@@ -1,0 +1,19 @@
+/* Field DS M-Accordion. Values: Field tokens var(--nk-field-*), Field type var(--nk-type-field-*). */
+.root { background: var(--nk-field-surface-primary); border-radius: var(--nk-radius-r12); overflow: hidden; }
+.header {
+  display: flex; align-items: center; gap: var(--nk-space-s8); width: 100%;
+  min-height: 44px; /* token-lint-ignore — M-Accordion HEADER_MIN_HEIGHT (space.44) */
+  padding: var(--nk-space-s12); background: var(--nk-field-surface-secondary); text-align: start;
+}
+.titleBlock { flex: 1; min-width: 0; display: flex; align-items: center; gap: var(--nk-space-s4); }
+.icon { display: flex; flex: none; width: 20px; height: 20px; align-items: center; justify-content: center; }
+.title {
+  flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font: var(--nk-type-field-b14-semibold); letter-spacing: var(--nk-field-tracking-b); color: var(--nk-field-text-primary);
+}
+.chevron { display: flex; flex: none; width: 20px; height: 20px; }
+.body { overflow: hidden; }
+/* 1px hairline: surfacePrimary shows through between header and body */
+.hairline { height: 1px; background: var(--nk-field-surface-primary); }
+.details { padding: var(--nk-space-s12); background: var(--nk-field-surface-secondary); }
+.text { margin: 0; font: var(--nk-type-field-b14-regular); letter-spacing: var(--nk-field-tracking-b); color: var(--nk-field-text-primary); }

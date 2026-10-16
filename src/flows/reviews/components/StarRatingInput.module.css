@@ -1,0 +1,6 @@
+/* StarRatingInput — repo star rows (ManualReview ProductHeader, NewReview MorphingHeader, PastOrder OrderCard,
+   RatePastOrders panel, ReviewDraft StarRow). Tokens only. */
+.row { display: inline-flex; align-items: center; gap: var(--reviews-star-gap, var(--nk-space-s4)); }
+.star { position: relative; display: inline-flex; flex-shrink: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+.star[data-readonly] { cursor: default; }
+.fill { position: absolute; inset: 0; display: inline-flex; }

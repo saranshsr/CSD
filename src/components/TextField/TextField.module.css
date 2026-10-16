@@ -1,0 +1,77 @@
+/*
+ * Field DS M-InputText (TextField) + shared label / helper rows for M-InputTextarea (TextArea).
+ * Values: Field tokens var(--nk-field-*) + Field type var(--nk-type-field-*); motion vars --tf-* come from
+ * fieldMotion (parts.tsx). State lives on the root: data-state="rest|focus|error|disabled", data-filled, data-lifted.
+ */
+.root { display: flex; flex-direction: column; gap: var(--nk-space-s6); width: 100%; }
+
+/* ── external label ── */
+.label { display: flex; align-items: center; gap: var(--nk-space-s2); min-width: 0; font: var(--nk-type-field-b12-medium); letter-spacing: var(--nk-field-tracking-b); color: var(--nk-field-text-secondary); }
+.labelText { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.required { color: var(--nk-field-text-error); }
+.root[data-state='focus'] .label { color: var(--nk-field-text-primary); }
+.root[data-state='disabled'] .label { color: var(--nk-field-text-muted); }
+.root[data-state='error'] .label { color: var(--nk-field-text-error); }
+
+/* ── the field box ── */
+.field {
+  display: flex; align-items: center; gap: var(--nk-space-s8);
+  height: 48px; /* token-lint-ignore — M-InputText FIELD_HEIGHT */
+  padding: var(--nk-space-s12) var(--nk-space-s16);
+  border: 1px solid var(--nk-field-border-primary); border-radius: var(--nk-radius-r12);
+  background: var(--nk-field-surface-primary); cursor: text;
+  transition: border-color var(--tf-focus) var(--tf-ease);
+}
+.root[data-mode='inline'] .field {
+  align-items: stretch;
+  height: 56px; /* token-lint-ignore — M-InputText INLINE_FIELD_HEIGHT */
+  padding-block: var(--nk-space-s8);
+}
+.root[data-state='focus'] .field { border-color: var(--nk-field-border-medium); }
+.root[data-state='error'] .field { border-color: var(--nk-field-border-error-bold); }
+.root[data-state='disabled'] .field { background: var(--nk-field-surface-muted); cursor: default; }
+
+/* 20 × 20 left / right slots */
+.slot { display: flex; align-items: center; justify-content: center; flex: none; align-self: center; width: 20px; height: 20px; }
+
+/* ── the input ── */
+.input {
+  flex: 1; min-width: 0; height: 100%; margin: 0; padding: 0; border: 0; outline: 0; background: transparent;
+  font: var(--nk-type-field-b14-regular); letter-spacing: var(--nk-field-tracking-b);
+  color: var(--nk-field-text-primary); caret-color: var(--nk-field-surface-action-bold);
+}
+.input::placeholder { color: var(--nk-field-text-muted); opacity: 1; }
+.root[data-filled] .input { font: var(--nk-type-field-b14-medium); letter-spacing: var(--nk-field-tracking-b); }
+.root[data-state='disabled'] .input { color: var(--nk-field-text-muted); cursor: default; }
+.input:disabled { -webkit-text-fill-color: currentColor; }
+
+/* ── inline label mode: 40px content box, label floats 14/18 → 11/14 and 11 → 0 from the top over 200ms ── */
+.inlineContent { position: relative; flex: 1; min-width: 0; }
+.floatLabel {
+  position: absolute; inset-inline: 0; top: 0; pointer-events: none;
+  font: var(--nk-type-product-title); /* 14/18 Medium = M-InputText inline label at rest */
+  letter-spacing: var(--nk-field-tracking-b); color: var(--nk-field-text-muted);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  transform-origin: top left;
+  /* 11px rest offset = (40 − 18) / 2 */
+  transform: translateY(11px);
+  transition: transform var(--tf-lift) var(--tf-ease), color var(--tf-focus) var(--tf-ease);
+}
+[dir='rtl'] .floatLabel { transform-origin: top right; }
+/* 11 / 14 = 0.7857 → the 11px lifted label (18 × 0.7857 ≈ 14 line) */
+.root[data-lifted] .floatLabel { transform: translateY(0) scale(0.7857); width: 127.27%; color: var(--nk-field-text-secondary); }
+.root[data-state='disabled'] .floatLabel { color: var(--nk-field-text-muted); }
+.root[data-state='error'] .floatLabel { color: var(--nk-field-text-error); }
+.inlineInputWrap {
+  position: absolute; inset-inline: 0; bottom: 0; height: 18px; display: flex;
+  opacity: 0; pointer-events: none; transition: opacity var(--tf-lift) var(--tf-ease);
+}
+.root[data-lifted] .inlineInputWrap { opacity: 1; pointer-events: auto; }
+.root[data-mode='inline'][data-filled] .input { font: var(--nk-type-field-b14-semibold); letter-spacing: var(--nk-field-tracking-b); }
+
+/* ── helper / error + counter ── */
+.helperRow { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--nk-space-s8); }
+.helper { flex: 1; min-width: 0; font: var(--nk-type-field-b12-regular); letter-spacing: var(--nk-field-tracking-b); color: var(--nk-field-text-tertiary); }
+.root[data-state='disabled'] .helper { color: var(--nk-field-text-muted); }
+.root[data-state='error'] .helper { color: var(--nk-field-text-error); }
+.counter { flex: none; font: var(--nk-type-field-b11-regular); letter-spacing: var(--nk-field-tracking-b); color: var(--nk-field-text-muted); }

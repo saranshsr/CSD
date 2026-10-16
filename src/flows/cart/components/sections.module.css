@@ -1,0 +1,51 @@
+/* Figma Cart 2.0 lower sections: Product Carousel (10575:94169 / 10575:94308), OOS style freebies (11316:46017) */
+/* All flows "Product Carousel" 127:39775 / 127:39914: 1px Blue-Gray/200 border, py 12; sections 8 apart, carousels 12 apart */
+.carousel { margin: var(--nk-space-s8) var(--nk-space-s12) 0; padding: var(--nk-space-s12) 0; border: 1px solid var(--nk-color-border-subtle); border-radius: var(--nk-radius-r16); background: var(--nk-color-bg-surface); overflow: hidden; }
+.carousel + .carousel { margin-top: var(--nk-space-s12); }
+/* Cards Header: px 16, title B16/Bold 16/22 −0.15 #1D2539 + "Sponsored" Label4/Medium Text/tertiary */
+.cardsHeader { display: flex; flex-direction: row; align-items: center; column-gap: var(--nk-space-s8); padding: 0 var(--nk-space-s16); }
+.cardsTitle { flex: 1; min-width: 0; margin: 0; font: var(--nk-type-section); letter-spacing: -0.15px; color: var(--nk-color-text-primary); }
+.cardsSponsored { font: var(--nk-type-text12-medium-lh14); letter-spacing: -0.12px; color: var(--nk-palette-lighter-spanish-gray-color); white-space: nowrap; }
+.carouselRow { display: flex; gap: var(--nk-space-s12); padding: 0 var(--nk-space-s12); margin-top: var(--nk-space-s12); }
+
+
+/* OOS style freebies */
+.gifts { margin: var(--nk-space-s8) var(--nk-space-s12) 0; border: 1px solid var(--nk-palette-neutral-black-hex12); border-radius: var(--nk-radius-r16); overflow: hidden; background: linear-gradient(179.28deg, var(--nk-palette-mint-cream) 12.22%, var(--nk-color-bg-surface) 19.54%); }
+.giftsHeader { display: flex; align-items: center; column-gap: var(--nk-space-s8); padding: var(--nk-space-s12); background: linear-gradient(179.74deg, var(--nk-palette-mint-cream) 70.46%, var(--nk-color-bg-surface) 74.66%); }
+.giftsHeader img { width: 20px; height: 20px; display: block; }
+.giftsTitle { margin: 0; font: var(--nk-type-cart-gifts-title); font-family: 'Figtree', var(--nk-font-family); color: var(--nk-color-text-strong); }
+.giftsBody { display: flex; flex-direction: column; align-items: center; padding: var(--nk-space-s4) var(--nk-space-s12) var(--nk-space-s12); }
+.freebie { display: flex; align-items: center; column-gap: var(--nk-space-s12); width: 100%; }
+.freebieImage { position: relative; flex-shrink: 0; width: 80px; height: 109px; display: flex; align-items: center; justify-content: center; background: var(--nk-color-cart-freebie-image-bg); border-radius: var(--nk-radius-r12); }
+.freebieImage > div img { mix-blend-mode: multiply; }
+.freebieLock { position: absolute; left: calc(50% + 17px - 17px); top: calc(50% + 31.5px - 17px); }
+.freebieDetails { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; row-gap: var(--nk-space-s12); }
+.freebieTop { display: flex; flex-direction: column; row-gap: var(--nk-space-s4); }
+.freebieTitle { font: var(--nk-type-product-title); color: var(--nk-color-text-strong); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.freebiePriceRow { display: flex; align-items: flex-end; column-gap: var(--nk-space-s4); }
+.freebieFree { font: var(--nk-type-body-bold); letter-spacing: -0.14px; color: var(--nk-color-best-price-ink); }
+.freebieWas { padding-bottom: 1px; font: var(--nk-type-caption); color: var(--nk-color-text-secondary); text-decoration: line-through; }
+.freebieProgressRow { display: flex; align-items: center; column-gap: var(--nk-space-s8); }
+.freebieProgress { flex: 1; min-width: 0; display: flex; flex-direction: column; row-gap: var(--nk-space-s8); }
+.freebieLeft { font: var(--nk-type-text14-regular-lh1); line-height: 14px; letter-spacing: -0.12px; color: var(--nk-color-text-primary); }
+.freebieTrack { position: relative; display: block; height: 4px; border-radius: var(--nk-radius-r6); background: var(--nk-color-border); overflow: hidden; }
+.freebieFill { position: absolute; left: 0; top: 0; height: 4px; border-radius: var(--nk-radius-r2); background: var(--nk-color-best-price-ink); }
+/* shared 57×26 "+ Add" (Pre raman feedback all marketplaces add) */
+.addButton { display: flex; align-items: center; justify-content: center; column-gap: var(--nk-space-s2); flex-shrink: 0; width: 57px; height: 26px; box-sizing: border-box; padding: var(--nk-space-s4) var(--nk-space-s12) var(--nk-space-s4) var(--nk-space-s6); background: var(--nk-color-bg-surface); border: 1px solid var(--nk-palette-neutral-black-hex24); border-radius: var(--nk-radius-r6); font: var(--nk-type-body-semibold); letter-spacing: -0.14px; color: var(--nk-color-text-strong); cursor: pointer; }
+.addButton img { width: 16px; height: 16px; display: block; }
+
+/* Payment offers — All flows "Offers for you" 127:40114: white r16, pt 12 pb 14, gap 12; title B16/Bold px 14 */
+.offers { display: flex; flex-direction: column; row-gap: var(--nk-space-s12); margin: var(--nk-space-s8) var(--nk-space-s12) 0; padding: var(--nk-space-s12) 0 var(--nk-space-s14); border-radius: var(--nk-radius-r16); background: var(--nk-color-bg-surface); overflow: hidden; }
+.offersTitle { margin: 0; padding: 0 var(--nk-space-s14); font: var(--nk-type-section); letter-spacing: -0.15px; color: var(--nk-color-text-primary); }
+.offersRow { display: flex; flex-direction: row; column-gap: var(--nk-space-s8); padding: 0 var(--nk-space-s12); }
+.offer { flex-shrink: 0; display: flex; width: 259px; padding: 0; border: 0; background: none; cursor: pointer; text-align: start; }
+/* .coupon-content: 1px Blue-Gray/200, r16, p 8, gap 8 */
+.offerEntry { flex: 1; border-radius: var(--nk-radius-r16) !important; }
+.offerEntry > span { padding: var(--nk-space-s8); align-items: center; }
+.offerEntry > span > span { flex-grow: 1; column-gap: var(--nk-space-s8) !important; }
+/* 48px logo tile r12 (tamara / tabby tiles are the full Figma render; bank + tax refund get the Figma fill) */
+.offerTile { position: relative; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; flex-shrink: 0; border-radius: var(--nk-radius-r12); overflow: hidden; box-sizing: border-box; }
+.offerTile img { display: block; }
+.offerTile:not([data-tile]) img { width: 48px; height: 48px; }
+.offerTile[data-tile='noon'] { border: 1px solid var(--nk-color-cart-noon300); background: linear-gradient(180deg, var(--nk-color-cart-noon50), var(--nk-palette-pale-yellow-gradient)); }
+.offerTile[data-tile='plain'] { border: 1px solid var(--nk-palette-black-alpha4); background: var(--nk-color-bg-surface); }

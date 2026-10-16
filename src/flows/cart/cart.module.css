@@ -1,0 +1,24 @@
+/* NoonCartScreen/styles.ts — sections restyled to Figma Cart 2.0 (cards: margin 12 12 0, r16, white) */
+.updates { display: flex; flex-direction: row; justify-content: space-between; column-gap: var(--nk-space-s8); margin: var(--nk-space-s8) var(--nk-space-s12) 0; padding: var(--nk-space-s10) var(--nk-space-s8) var(--nk-space-s10) var(--nk-space-s12); background: var(--nk-color-cart-orange-tint); border: 1px solid var(--nk-color-cart-orange-border); border-radius: var(--nk-radius-r12); }
+.updatesInfo { flex: 1; display: flex; flex-direction: row; align-items: center; column-gap: var(--nk-space-s8); border: 0; background: none; padding: 0; cursor: pointer; text-align: start; min-width: 0; }
+.updatesIcon { width: 16px; height: 16px; flex-shrink: 0; }
+.updatesText { flex-shrink: 1; font: var(--nk-type-text13-regular-lh18); color: var(--nk-color-text-primary); }
+.updatesAction { font: var(--nk-type-caption-bold); color: var(--nk-color-cart-orange-link); text-decoration: underline; }
+.updatesDismiss { width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; border: 0; background: none; padding: 0; cursor: pointer; align-self: center; }
+.updatesDismiss img { width: 8px; height: 8px; object-fit: contain; filter: brightness(0) saturate(100%) invert(20%) sepia(14%) saturate(1200%) hue-rotate(186deg); }
+
+/* #region Empty View */
+.empty { display: flex; flex-direction: column; align-items: center; background: var(--nk-color-bg-surface); padding: var(--nk-space-s20) var(--nk-space-s15); margin-top: -10px; }
+.emptyImage { width: 150px; height: 150px; object-fit: contain; }
+.emptyText { display: flex; flex-direction: column; align-items: center; margin-top: var(--nk-space-s10); }
+.emptyHeader { font: var(--nk-type-title-small); text-align: center; color: var(--nk-color-text-legacy); }
+.emptyMessage { margin-top: 5px; font: var(--nk-type-body); text-align: center; color: var(--nk-color-text-legacy); }
+
+/* ProgressLoader */
+.loader { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; background: var(--nk-color-cart-loader-bg); }
+.loader[data-tab] { padding-bottom: calc(var(--nk-layout-tab-bar) + var(--nk-inset-bottom)); }
+.loaderTrack { width: 100%; height: 4px; overflow: hidden; background: var(--nk-color-cart-loader-bg); }
+.loaderBar { width: 70%; height: 4px; border-radius: var(--nk-radius-r4); background: linear-gradient(90deg, var(--nk-color-cart-loader-bg), var(--nk-color-cta)); }
+
+/* FeedbackView overlayLoader (screenState RELOADING while a coupon is applied / removed): absolute fill, whiteAlpha 0.6, centred Loader */
+.reloading { position: absolute; inset: 0; z-index: 30; display: flex; align-items: center; justify-content: center; background: var(--nk-palette-white-alpha60); }

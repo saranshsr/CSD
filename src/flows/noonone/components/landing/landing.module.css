@@ -1,0 +1,252 @@
+/* features/vip/screens/VIPLandingScreen/styles.ts + components/VIPModules/* — values: mapping/landing.md */
+
+/* ── screen ─────────────────────────────────────────────────────────────── */
+.container { position: absolute; inset: 0; overflow: hidden; background: var(--nk-color-bg-page); }
+.animated { position: absolute; inset: 0; display: flex; flex-direction: column; }
+.scroll { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; }
+.spacer { height: calc(var(--nk-inset-top) + var(--nk-space-s20)); }
+.bgImage {
+  position: absolute; top: 0; left: 0; right: 0; height: var(--nk-layout-vip-bg-height);
+  background: linear-gradient(180deg, var(--nk-color-vip-bg-from) 0%, var(--nk-palette-noon-one-banner-cream) 60%, var(--nk-color-bg-page) 100%);
+  pointer-events: none;
+}
+.skeleton { position: absolute; inset: 0; background: var(--nk-color-bg-page); z-index: 5; }
+.fill { width: 100%; height: 100%; }
+
+/* ── header ─────────────────────────────────────────────────────────────── */
+.headerWrapper {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 99;
+  padding: var(--nk-inset-top) var(--nk-space-s12) var(--nk-space-s12);
+}
+.headerBg { position: absolute; inset: 0; background: var(--nk-palette-white); box-shadow: 0 3.2px 6.4px var(--nk-color-vip-header-shadow); }
+.header { position: relative; width: 100%; height: var(--nk-layout-vip-header-row); display: flex; align-items: center; gap: var(--nk-space-s8); }
+.backButton {
+  width: var(--nk-layout-vip-back-size); height: var(--nk-layout-vip-back-size); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--nk-palette-white); border: 1px solid var(--nk-color-vip-back-border); border-radius: var(--nk-radius-r20);
+}
+.backIcon { display: block; width: var(--nk-layout-vip-chevron-w); height: var(--nk-layout-vip-chevron-h); margin-inline-start: calc(-1 * var(--nk-space-s2)); }
+[dir='rtl'] .backIcon { transform: rotate(180deg); }
+.headerTitle { font: var(--nk-type-vip-header-title); color: var(--nk-color-text-legacy); }
+
+/* ── module chrome (ModuleWrapper newUI: marginBottom 24; ModuleHeader: padding 0 15, marginBottom 12) ── */
+.module { margin-bottom: var(--nk-space-s24); }
+.moduleHeader { padding: 0 var(--nk-space-s15); margin-bottom: var(--nk-space-s12); }
+.moduleTitleRow { display: flex; align-items: center; margin-bottom: var(--nk-layout-vip-module-header-pull); }
+.moduleTitle { flex: 1; text-align: center; font: var(--nk-type-vip-module-header); letter-spacing: var(--nk-layout-vip-track-b); color: var(--nk-color-text-muted); }
+.moduleTitleIcon { height: var(--nk-layout-vip-module-header-icon); }
+
+/* ── VIPBenefitsModule ──────────────────────────────────────────────────── */
+.benefits { margin: 0 var(--nk-space-s16); border-radius: var(--nk-radius-r12); background: var(--nk-palette-white); }
+.benefit { position: relative; display: flex; padding: var(--nk-space-s16) var(--nk-space-s12); }
+.benefitText { flex: 1; display: flex; flex-direction: column; align-items: flex-start; }
+.benefitTitle { font: var(--nk-type-vip-benefit-title); color: var(--nk-palette-night-fall); margin-bottom: var(--nk-space-s4); }
+.benefitDesc { font: var(--nk-type-vip-benefit-desc); max-width: var(--nk-layout-vip-benefit-desc-max); color: var(--nk-color-vip-ink75); }
+.benefitIcon { width: var(--nk-layout-vip-benefit-icon); height: var(--nk-layout-vip-benefit-icon); object-fit: contain; flex-shrink: 0; }
+.mpIcons { display: flex; align-items: center; flex-shrink: 0; }
+/* master mpIcons are round 34px server badges; the kit stand-ins are wordmarks, so each sits on a white disc */
+.mpIcon { width: var(--nk-layout-vip-benefit-mp); height: var(--nk-layout-vip-benefit-mp); object-fit: contain; margin-inline-start: var(--nk-layout-vip-benefit-mp-overlap); padding: var(--nk-space-s4); border-radius: var(--nk-radius-full); background: var(--nk-color-bg-surface); border: 1px solid var(--nk-color-border); box-sizing: border-box; }
+.mpIcon:first-child { margin-inline-start: 0; }
+.benefitDash { position: absolute; bottom: 0; left: var(--nk-space-s12); width: 100%; }
+.benefitButton {
+  align-self: flex-start; margin-top: var(--nk-space-s16); padding: var(--nk-space-s8) var(--nk-space-s16);
+  min-width: var(--nk-layout-vip-benefit-button-min); border-radius: var(--nk-radius-r8); background: var(--nk-color-vip-black);
+}
+.benefitButtonText { font: var(--nk-type-vip-benefit-button); color: var(--nk-palette-white); }
+
+/* ── VIPGuideStepsModule ────────────────────────────────────────────────── */
+.steps { margin: 0 var(--nk-space-s16); padding: var(--nk-space-s16); background: var(--nk-palette-white); border-radius: var(--nk-radius-r12); display: flex; flex-direction: column; gap: var(--nk-space-s24); }
+.stepRow { display: flex; align-items: center; }
+.step {
+  width: var(--nk-layout-vip-step); height: var(--nk-layout-vip-step); flex-shrink: 0; border-radius: var(--nk-layout-vip-step-radius);
+  border: 1px solid var(--nk-color-vip-step-border); display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.stepUnit { font: var(--nk-type-vip-step-unit); color: var(--nk-color-cta); }
+.stepValue { font: var(--nk-type-vip-step-value); letter-spacing: var(--nk-layout-vip-track-h18); color: var(--nk-color-vip-black); }
+.stepDetails { flex: 1; margin-inline-start: var(--nk-space-s12); }
+.stepTitle { font: var(--nk-type-vip-b14-semibold); letter-spacing: var(--nk-layout-vip-track-b); color: var(--nk-palette-new-black); margin-bottom: var(--nk-space-s6); }
+.stepSubtitle { font: var(--nk-type-vip-b12); letter-spacing: var(--nk-layout-vip-track-b); color: var(--nk-palette-dim-text-primary); }
+
+/* ── VIPMarketplaceBenefitsCarouselModule + VIPSlider ───────────────────── */
+.mpCarousel { margin: 0 var(--nk-space-s16); padding: var(--nk-space-s20) 0 var(--nk-space-s8); background: var(--nk-palette-white); border-radius: var(--nk-radius-r12); }
+.slider { position: relative; width: 100%; overflow: hidden; touch-action: pan-y; }
+.slides { position: relative; height: var(--nk-layout-vip-mp-icon); }
+.slide { position: absolute; top: 0; left: 50%; width: var(--nk-layout-vip-mp-icon); height: var(--nk-layout-vip-mp-icon); margin-left: calc(var(--nk-layout-vip-mp-icon) / -2); display: flex; align-items: center; justify-content: center; }
+.slideIcon { width: var(--nk-layout-vip-mp-icon); height: var(--nk-layout-vip-mp-icon); object-fit: contain; }
+.labels { position: relative; margin-top: var(--nk-space-s4); height: var(--nk-layout-vip-mp-label); overflow: hidden; }
+.label {
+  position: absolute; inset: 0; height: var(--nk-layout-vip-mp-label); padding: var(--nk-space-s8) var(--nk-space-s16) 0;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+}
+.labelTitle { font: var(--nk-type-vip-b16-bold); letter-spacing: var(--nk-layout-vip-track-h18); color: var(--nk-color-vip-ink171717); }
+.labelSubtitle { font: var(--nk-type-vip-mp-subtitle); letter-spacing: var(--nk-layout-vip-track-b); color: var(--nk-palette-kit-gray24); margin-top: var(--nk-space-s4); }
+
+/* ── VIPBannerModule ────────────────────────────────────────────────────── */
+.banners { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; }
+.bannersTitle { padding: 0 var(--nk-space-s16); font: var(--nk-type-vip-b16-semibold); color: var(--nk-color-vip-ink171717); margin-bottom: var(--nk-space-s12); }
+
+/* ── VIPFamilyPlanModule + VIPPlanMembers ───────────────────────────────── */
+.family {
+  position: relative; margin: 0 var(--nk-space-s16); padding: var(--nk-space-s12); border-radius: var(--nk-radius-r16);
+  border: 1px solid var(--nk-palette-white); background: var(--nk-palette-border-primary);
+  display: flex; flex-direction: column; align-items: flex-start; gap: var(--nk-space-s12); overflow: hidden;
+}
+.familyContent { padding: 0 var(--nk-space-s4); display: flex; flex-direction: column; align-items: flex-start; gap: var(--nk-space-s8); }
+.familyMembersBox { background: var(--nk-color-bg-subtle); border-radius: var(--nk-radius-vip-r40); }
+.familyTitles { display: flex; flex-direction: column; gap: var(--nk-space-s2); }
+.familyTitle { font: var(--nk-type-vip-family-title); letter-spacing: var(--nk-layout-vip-track-h18); color: var(--nk-color-text-body); max-width: 55%; }
+.familySubtitle { font: var(--nk-type-vip-b11); letter-spacing: var(--nk-layout-vip-track-b); color: var(--nk-color-text-muted); }
+.familyTags { display: flex; gap: var(--nk-space-s12); }
+.familyTag { display: flex; align-items: center; gap: var(--nk-space-s4); padding: var(--nk-space-s4) var(--nk-space-s8); border-radius: var(--nk-radius-r6); font: var(--nk-type-vip-b12-medium); letter-spacing: var(--nk-layout-vip-track-b); }
+.familyButton {
+  height: var(--nk-layout-vip-family-button); padding: 0 var(--nk-space-s24); gap: var(--nk-space-s6);
+  border-radius: var(--nk-radius-r12); background: var(--nk-color-text-strong);
+}
+.familyButtonText { font: var(--nk-type-vip-b14-semibold); letter-spacing: var(--nk-layout-vip-track-b); color: var(--nk-palette-white); }
+.members { display: flex; align-items: center; background: var(--nk-color-bg-page); border: 1px solid var(--nk-color-bg-page); border-radius: var(--nk-radius-vip-r40); }
+.memberRing { display: flex; align-items: center; justify-content: center; overflow: hidden; border-style: solid; border-color: var(--nk-palette-white); flex-shrink: 0; }
+.memberFill { display: flex; align-items: center; justify-content: center; }
+.memberEmptyFill { background: var(--nk-color-border); }
+.memberText { color: var(--nk-palette-white); letter-spacing: -0.28px; text-align: center; }
+.plus { position: relative; width: var(--nk-space-s10); height: var(--nk-space-s10); }
+.plus::before, .plus::after { content: ''; position: absolute; left: 50%; top: 50%; border-radius: 1px; background: var(--nk-color-text-tertiary); transform: translate(-50%, -50%); }
+.plus::before { width: var(--nk-space-s10); height: 1.5px; }
+.plus::after { width: 1.5px; height: var(--nk-space-s10); }
+
+/* ── VIPExpandableTextModule (grouped) ──────────────────────────────────── */
+.faq {
+  margin: 0 var(--nk-space-s16); padding: var(--nk-space-s4); border-radius: var(--nk-radius-r16);
+  border: 4px solid var(--nk-palette-white); background: var(--nk-palette-white); display: flex; flex-direction: column; gap: var(--nk-space-s4);
+}
+.faqTitleRow { display: flex; align-items: center; gap: var(--nk-space-s12); padding: var(--nk-space-s12); }
+.faqTitle { flex: 1; font: var(--nk-type-vip-h16-bold); letter-spacing: var(--nk-layout-vip-track-h18); color: var(--nk-color-text-body); }
+.faqRows { background: var(--nk-color-bg-subtle); border-radius: var(--nk-radius-r14); overflow: hidden; }
+.faqRow { display: block; width: 100%; text-align: start; }
+.faqRowContent { padding: var(--nk-space-s16) var(--nk-space-s12); display: flex; flex-direction: column; gap: var(--nk-space-s8); }
+.faqHeaderRow { display: flex; align-items: center; justify-content: space-between; gap: var(--nk-space-s12); }
+.faqHeader { flex: 1; font: var(--nk-type-vip-b14-semibold); letter-spacing: var(--nk-layout-vip-track-b); color: var(--nk-color-text-primary); }
+.faqChevron { width: var(--nk-space-s16); height: var(--nk-space-s16); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.faqChevron img { width: var(--nk-space-s16); height: var(--nk-space-s16); }
+.faqSep { height: 1px; background: var(--nk-palette-white); }
+.faqBody { font: var(--nk-type-vip-b14); letter-spacing: var(--nk-layout-vip-track-b); color: var(--nk-color-text-primary); overflow: hidden; }
+
+/* ── payment terms ──────────────────────────────────────────────────────── */
+.terms { margin: 0 var(--nk-space-s16); padding: var(--nk-space-s15); border-radius: var(--nk-radius-r12); border: 1px solid var(--nk-color-vip-terms-border); background: var(--nk-palette-white); }
+.termsText { font: var(--nk-type-vip-terms); color: var(--nk-color-text-secondary); }
+.termsText a { color: var(--nk-color-primary); text-decoration: none; }
+
+/* ── sticky footer ──────────────────────────────────────────────────────── */
+.stickyFooter {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 10;
+  display: flex; flex-direction: column; align-items: center;
+  padding-bottom: max(var(--nk-inset-bottom), var(--nk-space-s15));
+  background: var(--nk-palette-white); border-radius: var(--nk-radius-r12) var(--nk-radius-r12) 0 0;
+  box-shadow: 0 7px 16px var(--nk-palette-black-alpha40);
+}
+.noRadius { border-radius: 0; }
+.stickyButtons { width: 100%; padding: var(--nk-space-s15) var(--nk-space-s15) 0; display: flex; flex-direction: column; align-items: center; }
+.stickyItem { width: 100%; }
+.subRow { width: 100%; display: flex; align-items: center; gap: var(--nk-space-s20); }
+.payRow { display: flex; align-items: center; justify-content: space-between; gap: var(--nk-space-s8); flex-shrink: 0; text-align: start; }
+.payCard { width: var(--nk-layout-vip-card-w); height: var(--nk-layout-vip-card-h); object-fit: contain; }
+.payHeader { display: flex; align-items: center; gap: var(--nk-space-s4); }
+.payLabel { font: var(--nk-type-vip-pay-label); color: var(--nk-color-vip-ink45); }
+.payChevron { display: flex; transform: rotate(180deg); }
+.payText { font: var(--nk-type-vip-pay-text); color: var(--nk-palette-night-fall); }
+.stickyButton {
+  flex: 1; width: 100%; height: var(--nk-layout-vip-sticky-button); margin-bottom: var(--nk-space-s8);
+  border-radius: var(--nk-radius-r12); background: var(--nk-color-vip-black);
+}
+.stickyButtonPay { height: var(--nk-layout-vip-sticky-button-pay); }
+.stickyButtonText { font: var(--nk-type-vip-sticky); color: var(--nk-palette-white); }
+.stickyButtonText s { font-weight: var(--nk-font-weight-regular); font-size: var(--nk-font-size-body-large); text-decoration: line-through; }
+.viewPlansWrap { position: relative; }
+.viewPlans { margin-top: var(--nk-space-s8); margin-bottom: var(--nk-space-s2); background: var(--nk-palette-white); }
+.viewPlansText { font: var(--nk-type-vip-view-plans); color: var(--nk-color-text-ink); }
+.viewPlansDash { position: absolute; left: 0; right: 0; bottom: 0; }
+
+/* flyout (partner callout) */
+.flyout {
+  width: 100%; min-height: var(--nk-layout-vip-flyout-min); display: flex; align-items: center; justify-content: center;
+  padding: 0 var(--nk-space-s15); background: var(--nk-color-vip-flyout-bg); border-radius: var(--nk-radius-r12) var(--nk-radius-r12) 0 0;
+}
+.flyoutText { font: var(--nk-type-vip-flyout); }
+.flyoutTextFlex { flex: 1; text-align: start; }
+.flyoutIcon { flex-shrink: 0; margin-inline-end: var(--nk-space-s8); }
+.flyoutTrailingIcon { flex-shrink: 0; margin-inline-start: var(--nk-space-s8); }
+.flyoutTrailing { font: var(--nk-type-vip-flyout); font-weight: var(--nk-font-weight-bold); text-decoration: underline; }
+
+/* reminder toast */
+.toast {
+  position: absolute; top: calc(var(--nk-inset-top) + var(--nk-space-s8)); left: var(--nk-space-s12); right: var(--nk-space-s12); z-index: 120;
+  display: flex; align-items: center; padding: var(--nk-space-s12); border-radius: var(--nk-radius-r12);
+  border: 1px solid var(--nk-color-vip-toast-border); background: var(--nk-palette-white);
+}
+.toastIcon { width: var(--nk-space-s16); height: var(--nk-space-s16); }
+.toastText { font: var(--nk-type-vip-toast); color: var(--nk-palette-secondary-text-color); margin-inline-start: var(--nk-space-s8); }
+
+/* ── VIPTransitionAnim ──────────────────────────────────────────────────── */
+.transition { position: absolute; inset: 0; z-index: 9999; pointer-events: none; }
+.transitionText { position: absolute; top: var(--nk-layout-vip-success-text-top); left: 0; width: 100%; display: flex; flex-direction: column; align-items: center; }
+.transitionTitle { font: var(--nk-type-vip-success-title); letter-spacing: var(--nk-layout-vip-track-title); color: var(--nk-palette-night-fall); }
+.transitionSubtitle { margin-top: var(--nk-space-s8); font: var(--nk-type-vip-success-subtitle); letter-spacing: var(--nk-layout-vip-track-subtitle); color: var(--nk-color-vip-ink60); }
+
+/* ── VIPMembershipOverviewModule ────────────────────────────────────────── */
+.overview { margin: 0 var(--nk-space-s16); display: flex; flex-direction: column; align-items: center; }
+.overviewAnim { margin-top: var(--nk-layout-vip-overview-anim-top); width: var(--nk-layout-device-width); max-width: 100vw; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+.overviewTitle { position: relative; text-align: center; font: var(--nk-type-vip-h28-heavy); letter-spacing: var(--nk-layout-vip-track-h); margin-top: var(--nk-layout-vip-overview-title-top); margin-bottom: var(--nk-space-s4); color: var(--nk-color-text-primary); }
+.overviewSubtitle { position: relative; margin-bottom: var(--nk-space-vip-s28); font: var(--nk-type-vip-b14); letter-spacing: var(--nk-layout-vip-track-b); color: var(--nk-color-text-secondary); text-align: center; }
+.plans { width: 100%; padding: var(--nk-space-s4); border-radius: var(--nk-radius-r12); border: 1px solid var(--nk-palette-white); overflow: hidden; background: var(--nk-palette-white); }
+.plan { display: block; width: 100%; text-align: start; background: var(--nk-palette-white); }
+.planTitleRow { display: flex; align-items: center; justify-content: space-between; padding-inline-start: var(--nk-space-s16); }
+.planTitleInner { flex: 1; padding: var(--nk-space-s4) var(--nk-space-s8) var(--nk-space-s12) 0; min-height: var(--nk-layout-vip-overview-plan-min); display: flex; flex-direction: column; justify-content: center; }
+.statusTag { display: flex; flex-wrap: wrap; align-self: flex-start; align-items: center; margin-bottom: calc(-1 * var(--nk-space-s6)); }
+.statusText { font: var(--nk-type-vip-b13-medium); letter-spacing: var(--nk-layout-vip-track-b); color: var(--nk-color-text-legacy); }
+.statusIndicator { margin-inline-start: -5px; }
+.planTitle { margin-top: -1px; font: var(--nk-type-vip-h20-bold); letter-spacing: var(--nk-layout-vip-track-h); color: var(--nk-color-text-primary); }
+.planMembersBox { flex-shrink: 0; height: var(--nk-layout-vip-overview-plan-min); display: flex; flex-direction: column; justify-content: center; padding: var(--nk-space-s8) var(--nk-space-s8) var(--nk-space-s2) 0; }
+.billingBorder { padding: 0 var(--nk-space-s16); }
+.billing { padding: 0 var(--nk-space-s16); }
+.billingRow { display: flex; align-items: center; padding: var(--nk-space-s12) 0; }
+.billingText { flex: 1; font: var(--nk-type-vip-b12-medium); letter-spacing: var(--nk-layout-vip-track-b); color: var(--nk-color-text-secondary); }
+.footer {
+  width: 100%; overflow: hidden; background: var(--nk-color-bg-subtle); border: 1px solid var(--nk-color-vip-white8);
+  border-radius: var(--nk-radius-r4) var(--nk-radius-r4) var(--nk-radius-r8) var(--nk-radius-r8);
+}
+.footerRow { display: flex; align-items: center; padding: var(--nk-space-s12); gap: var(--nk-space-s10); }
+.footerText { flex: 1; min-width: 0; margin-inline-start: var(--nk-space-s2); font: var(--nk-type-vip-b13); letter-spacing: var(--nk-layout-vip-track-b); color: var(--nk-color-text-primary); }
+.footerAction { flex-shrink: 0; height: var(--nk-layout-vip-overview-action); padding: var(--nk-space-s10) var(--nk-space-s12); border-radius: var(--nk-radius-vip-r100); background: var(--nk-color-text-strong); }
+.footerActionText { font: var(--nk-type-vip-overview-action); color: var(--nk-palette-white); }
+.switches {
+  flex-shrink: 0; margin-inline-start: auto; width: var(--nk-layout-vip-overview-switches); height: var(--nk-layout-vip-overview-switches);
+  display: flex; align-items: center; justify-content: center; border-radius: var(--nk-radius-r20);
+  background: var(--nk-palette-white); border: 1px solid var(--nk-color-bg-page);
+}
+.switches img { width: var(--nk-space-s16); height: var(--nk-space-s16); }
+.statusWrap { position: relative; display: flex; align-items: center; justify-content: center; }
+.statusLayer { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+
+/* ── VIPSavingsOverviewModule (V1, customerState new) ───────────────────── */
+.savings { position: relative; margin: 0 var(--nk-space-s16); border-radius: var(--nk-radius-r12); background: var(--nk-palette-white); overflow: hidden; }
+.dotsLeft { position: absolute; top: 0; left: 0; transform: scaleX(-1); width: 33%; }
+.dotsRight { position: absolute; top: 0; right: 0; width: 33%; }
+.savingsCentered { position: relative; width: 100%; padding: var(--nk-space-vip-s22) var(--nk-space-s12) var(--nk-space-s18); margin-bottom: var(--nk-space-s4); display: flex; flex-direction: column; align-items: center; }
+.savingsTitle { font: var(--nk-type-vip-b11-bold); letter-spacing: var(--nk-layout-vip-track-wide); color: var(--nk-color-vip-savings-grey); margin-bottom: var(--nk-space-s4); }
+.savingsAmountRow { display: flex; align-items: center; margin-bottom: var(--nk-space-s8); }
+.savingsAmount { white-space: pre; font: var(--nk-type-vip-h32-bold); letter-spacing: var(--nk-layout-vip-track-h); color: var(--nk-color-vip-black); height: var(--nk-layout-vip-savings-amount); line-height: var(--nk-layout-vip-savings-amount); }
+.savingsSubtitle { font: var(--nk-type-vip-b13); letter-spacing: var(--nk-layout-vip-track-b); color: var(--nk-color-vip-savings-grey); margin-top: var(--nk-space-s4); }
+
+/* VIPSavingsOverviewModule (V1) overview variant (customerState ≠ new): overviewContainer padding 12 / pb 8, mb 4 */
+.savingsOverview { width: 100%; padding: var(--nk-space-s12) var(--nk-space-s12) var(--nk-space-s8); margin-bottom: var(--nk-space-s4); }
+.savingsOverviewTitle { display: block; margin-bottom: var(--nk-space-s12); font: var(--nk-type-vip-b14); letter-spacing: var(--nk-layout-vip-track-b); color: var(--nk-palette-black); }
+.savingsOverviewAmountRow { display: flex; align-items: flex-end; margin-bottom: var(--nk-space-s8); }
+.savingsOverviewAmount { font: var(--nk-type-vip-h28-heavy); letter-spacing: var(--nk-layout-vip-track-h); color: var(--nk-palette-black); }
+.savingsOverviewTextBox { margin-inline-start: var(--nk-space-s4); margin-bottom: 3px; }
+.savingsOverviewText { font: var(--nk-type-vip-np-b16-medium); letter-spacing: var(--nk-layout-vip-track-h18); color: var(--nk-palette-black); }
+/* overviewSubtitleContainer: LinearGradient #DFFEF3 → white (90°, RTL 270°), padding 8 / 12, marginStart −12 (bleeds to the card edge) */
+.savingsOverviewSubtitleBox {
+  padding: var(--nk-space-s8) var(--nk-space-s12); margin-inline-start: calc(-1 * var(--nk-space-s12));
+  background: linear-gradient(90deg, var(--nk-color-vip-savings-mint) 0%, var(--nk-palette-white) 100%);
+}
+[dir='rtl'] .savingsOverviewSubtitleBox { background: linear-gradient(270deg, var(--nk-color-vip-savings-mint) 0%, var(--nk-palette-white) 100%); }
+.savingsOverviewSubtitle { font: var(--nk-type-vip-b14); letter-spacing: var(--nk-layout-vip-track-b); color: var(--nk-color-best-price-ink); }

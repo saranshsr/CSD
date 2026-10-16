@@ -1,0 +1,173 @@
+{
+  "_note": "design-usage findings per flow at the time the rules landed; flows may only go down. New flows are not listed, so they must have none. Regenerate with node scripts/design-usage.mjs --baseline only after fixing findings.",
+  "account": {
+    "raw-colour": 0,
+    "raw-font": 7,
+    "role": 6,
+    "raw-button": 3,
+    "off-scale-space": 14,
+    "raw-space": 188,
+    "off-scale-radius": 4,
+    "raw-radius": 19
+  },
+  "address": {
+    "raw-colour": 0,
+    "raw-font": 57,
+    "role": 2,
+    "raw-button": 14,
+    "off-scale-space": 26,
+    "raw-space": 168,
+    "off-scale-radius": 3,
+    "raw-radius": 9
+  },
+  "cards": {
+    "raw-colour": 0,
+    "raw-font": 3,
+    "role": 3,
+    "raw-button": 7,
+    "off-scale-space": 5,
+    "raw-space": 26,
+    "off-scale-radius": 2,
+    "raw-radius": 5
+  },
+  "cart": {
+    "raw-colour": 0,
+    "raw-font": 12,
+    "role": 6,
+    "raw-button": 36,
+    "off-scale-space": 7,
+    "raw-space": 182,
+    "off-scale-radius": 5,
+    "raw-radius": 19
+  },
+  "categories": {
+    "raw-colour": 0,
+    "raw-font": 0,
+    "role": 0,
+    "raw-button": 1,
+    "off-scale-space": 0,
+    "raw-space": 0,
+    "off-scale-radius": 0,
+    "raw-radius": 0
+  },
+  "checkout": {
+    "raw-colour": 0,
+    "raw-font": 1,
+    "role": 7,
+    "raw-button": 50,
+    "off-scale-space": 38,
+    "raw-space": 19,
+    "off-scale-radius": 9,
+    "raw-radius": 3
+  },
+  "deals": {
+    "raw-colour": 0,
+    "raw-font": 0,
+    "role": 0,
+    "raw-button": 0,
+    "off-scale-space": 0,
+    "raw-space": 16,
+    "off-scale-radius": 0,
+    "raw-radius": 2
+  },
+  "home": {
+    "raw-colour": 0,
+    "raw-font": 2,
+    "role": 0,
+    "raw-button": 3,
+    "off-scale-space": 11,
+    "raw-space": 87,
+    "off-scale-radius": 6,
+    "raw-radius": 21
+  },
+  "membership": {
+    "raw-colour": 0,
+    "raw-font": 0,
+    "role": 14,
+    "raw-button": 36,
+    "off-scale-space": 8,
+    "raw-space": 44,
+    "off-scale-radius": 12,
+    "raw-radius": 5
+  },
+  "noonone": {
+    "raw-colour": 0,
+    "raw-font": 1,
+    "role": 10,
+    "raw-button": 46,
+    "off-scale-space": 19,
+    "raw-space": 16,
+    "off-scale-radius": 11,
+    "raw-radius": 1
+  },
+  "orders": {
+    "raw-colour": 0,
+    "raw-font": 0,
+    "role": 3,
+    "raw-button": 1,
+    "off-scale-space": 5,
+    "raw-space": 32,
+    "off-scale-radius": 2,
+    "raw-radius": 5
+  },
+  "pdp": {
+    "raw-colour": 0,
+    "raw-font": 0,
+    "role": 10,
+    "raw-button": 53,
+    "off-scale-space": 4,
+    "raw-space": 2,
+    "off-scale-radius": 2,
+    "raw-radius": 0
+  },
+  "plp": {
+    "raw-colour": 0,
+    "raw-font": 0,
+    "role": 1,
+    "raw-button": 2,
+    "off-scale-space": 7,
+    "raw-space": 58,
+    "off-scale-radius": 4,
+    "raw-radius": 9
+  },
+  "returns": {
+    "raw-colour": 0,
+    "raw-font": 1,
+    "role": 5,
+    "raw-button": 1,
+    "off-scale-space": 7,
+    "raw-space": 8,
+    "off-scale-radius": 1,
+    "raw-radius": 0
+  },
+  "reviews": {
+    "raw-colour": 0,
+    "raw-font": 0,
+    "role": 0,
+    "raw-button": 0,
+    "off-scale-space": 3,
+    "raw-space": 0,
+    "off-scale-radius": 0,
+    "raw-radius": 0
+  },
+  "search": {
+    "raw-colour": 0,
+    "raw-font": 0,
+    "role": 0,
+    "raw-button": 1,
+    "off-scale-space": 0,
+    "raw-space": 12,
+    "off-scale-radius": 0,
+    "raw-radius": 1
+  },
+  "wishlist": {
+    "raw-colour": 0,
+    "raw-font": 0,
+    "role": 0,
+    "raw-button": 0,
+    "off-scale-space": 3,
+    "raw-space": 14,
+    "off-scale-radius": 0,
+    "raw-radius": 3
+  }
+}

@@ -1,0 +1,111 @@
+/* Wishlist V2 (bappzaar NoonWishlistV2*): values resolved in MAPPING.md. */
+
+/* ── NoonWishlistV2Header: row gap 12, px 12, py 8 ── */
+.header { padding-top: var(--nk-inset-top); background: var(--nk-color-bg-surface); }
+.headerRow { display: flex; align-items: center; gap: var(--nk-space-s12); padding: var(--nk-space-s8) var(--nk-space-s12); }
+/* back: 40 circle, 1px lightGreyColor, icon 20 black */
+.backButton { display: flex !important; align-items: center; justify-content: center; flex-shrink: 0; width: 40px; height: 40px; border: 1px solid var(--nk-color-border) !important; border-radius: var(--nk-radius-full); }
+[dir='rtl'] .backButton > * { transform: scaleX(-1); }
+.titleSlot { position: relative; flex: 1; height: 22px; }
+.title { position: absolute; inset: 0; font: var(--nk-type-section); color: var(--nk-color-text-primary); white-space: nowrap; }
+/* Create: azureBlue, r full, h 40, px 12, gap 2; icon 12 + margin 4; 14/600 lh 18, −0.1 */
+.createPill { display: flex !important; align-items: center; justify-content: center; gap: 2px; height: 40px; padding: 7px var(--nk-space-s12) !important; border-radius: var(--nk-radius-full); background: var(--nk-color-primary-bright) !important; color: var(--nk-color-text-inverse) !important; font: var(--nk-type-body-semibold); letter-spacing: -0.1px; }
+.createIcon { margin: var(--nk-space-s4); }
+
+/* ── list header: mt 16, mb 12 ── */
+.listHeader { margin: var(--nk-space-s16) 0 var(--nk-space-s12); }
+.sectionTitle { padding: 0 var(--nk-space-s12); font: var(--nk-type-section); color: var(--nk-color-text-primary); }
+
+/* ── NoonWishlistV2CollectionTitleList: gap 12, px 12, mb 32 ── */
+.collections { gap: var(--nk-space-s12); padding: 0 var(--nk-space-s12); margin-bottom: var(--nk-space-s32); }
+
+/* ── NoonWishlistV2CollectionTitle: 126 × 152, secondaryBackground, 1px antiFlashWhite, r12, p 12 / top 16, gap 8, centered ── */
+.tile { position: relative; display: flex !important; flex-direction: column; align-items: center; justify-content: center; gap: var(--nk-space-s8); flex-shrink: 0; width: 126px; height: 152px; padding: var(--nk-space-s16) var(--nk-space-s12) var(--nk-space-s12) !important; background: var(--nk-color-bg-subtle) !important; border: 1px solid var(--nk-palette-anti-flash-white) !important; border-radius: var(--nk-radius-r12); }
+/* rectangle: 28 × 6, lightGrey, bottom radii 6 */
+.tileTab { position: absolute; top: 0; left: 50%; width: 28px; height: 6px; margin-left: -14px; background: var(--nk-color-border-strong); border-radius: 0 0 6px 6px; }
+/* NoonWishlistV2CollectionImageBackground: box 1.45 × card width, shadow 0 0 12 black 0.1 */
+.stack { position: relative; flex-shrink: 0; direction: ltr; filter: drop-shadow(0 0 6px var(--nk-palette-black-alpha10)); }
+/* card: 2px white, antiFlashWhite, shadow 0 0 10 black 0.06 */
+.stackCard { position: absolute; top: 0; display: flex; overflow: hidden; border: 2px solid var(--nk-palette-white); background: var(--nk-palette-anti-flash-white); box-shadow: 0 0 10px var(--nk-palette-black-alpha6); }
+.stackCard img { width: 100%; height: 100%; object-fit: cover; }
+.stackLeft { left: 0; opacity: 0.95; z-index: 1; transform: rotate(-8deg) scale(0.88) translate(-4px, -1px); }
+.stackRight { right: 0; opacity: 0.95; z-index: 1; transform: rotate(8deg) scale(0.88) translate(4px, -1px); }
+.stackCenter { left: 50%; z-index: 2; box-shadow: none; }
+.tileText { display: flex; flex-direction: column; align-items: center; gap: 2px; max-width: 100%; }
+.tileName { max-width: 100%; font: var(--nk-type-body-bold); color: var(--nk-color-text-strong); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tileCount { font: var(--nk-type-caption); color: var(--nk-color-text-tertiary); white-space: nowrap; }
+
+/* ── NoonWishlistV2NoCollectionWidget: dashed lightGrey r24, h 280, mx 12, mb 32 ── */
+.noCollection { position: relative; display: flex; height: 280px; margin: 0 var(--nk-space-s12) var(--nk-space-s32); background: var(--nk-color-bg-subtle); border: 1px dashed var(--nk-color-border-strong); border-radius: var(--nk-radius-r24); overflow: hidden; }
+.noCollectionBg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: var(--nk-radius-r24); pointer-events: none; }
+.noCollectionClose { position: absolute !important; top: var(--nk-space-s12); right: var(--nk-space-s12); z-index: 1; display: flex !important; padding: 6px !important; background: var(--nk-palette-anti-flash-white) !important; border-radius: var(--nk-radius-r8); }
+[dir='rtl'] .noCollectionClose { right: auto; left: var(--nk-space-s12); }
+.noCollectionContent { position: relative; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--nk-space-s20); padding: var(--nk-space-s20); overflow: hidden; }
+.noCollectionArt { display: block; max-width: 100%; }
+.noCollectionText { display: flex; flex-direction: column; align-items: center; width: 250px; text-align: center; }
+.noCollectionTitle { font: var(--nk-type-body-large); color: var(--nk-color-text-primary); }
+/* CTA: row gap 6, padding 14 / px 24; 16/600 primaryBlue */
+.noCollectionCta { display: flex !important; align-items: center; justify-content: center; gap: 6px; padding: 14px var(--nk-space-s24) !important; color: var(--nk-color-primary) !important; font: var(--nk-type-text16-semibold-lh20); }
+
+/* ── grid: productCardRow gap 12, px 12; product box mb 12; list paddingBottom 24 + inset (+ pill + 24) ── */
+.grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: var(--nk-space-s12); padding: 0 var(--nk-space-s12) var(--nk-space-s24); }
+.grid[data-pill] { padding-bottom: calc(68px + var(--nk-space-s24) + var(--nk-space-s24)); } /* pill = 42 image + 2 × 12 + 2 × 1 border */
+.cell { display: flex; flex-direction: column; min-width: 0; margin-bottom: var(--nk-space-s12); }
+
+/* NoonProductBoxCollectionButton: whiteAlpha 0.5 circle, mt 8 mr 8; icon 16 + margin 4, scale 1.2 */
+.collectionButton { display: flex !important; align-items: center; justify-content: center; margin: var(--nk-space-s8) var(--nk-space-s8) 0 0; background: var(--nk-palette-white-alpha50) !important; border-radius: var(--nk-radius-full); }
+[dir='rtl'] .collectionButton { margin: var(--nk-space-s8) 0 0 var(--nk-space-s8); }
+.collectionIcon { width: 16px; height: 16px; margin: var(--nk-space-s4); transform: scale(1.2); object-fit: contain; }
+
+/* ── NoonProductBoxWishlistAddToCart (V2) ── */
+.atcWrap { flex: 1; min-width: 0; display: flex; }
+/* atcButtonV2: borderGray, r8, h 38, px 8 py 4, gap 4; 14/600 primaryBlue */
+.atc { flex: 1; min-width: 0; display: flex !important; align-items: center; justify-content: center; gap: var(--nk-space-s4); height: 38px; padding: var(--nk-space-s4) var(--nk-space-s8) !important; border-radius: var(--nk-radius-r8); background: var(--nk-color-bg-info) !important; color: var(--nk-color-primary) !important; font: var(--nk-type-text14-semibold-lh1); white-space: nowrap; }
+/* viewOptionsButtonV2: borderGray bg + 1px border, r8, py 10 px 8; 14/600 primaryBlue */
+.viewOptions { flex: 1; min-width: 0; display: flex !important; align-items: center; justify-content: center; padding: 10px var(--nk-space-s8) !important; border: 1px solid var(--nk-color-bg-info) !important; border-radius: var(--nk-radius-r8); background: var(--nk-color-bg-info) !important; color: var(--nk-color-primary) !important; font: var(--nk-type-body-semibold); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* atcWishlistQuantityWrapper: borderGray, 1.2px paleAzure, r8, h 36, px 12 py 6, space-between */
+.stepper { flex: 1; min-width: 0; display: flex; align-items: center; justify-content: space-between; height: 36px; padding: 6px var(--nk-space-s12); border: 1.2px solid var(--nk-color-border-info); border-radius: var(--nk-radius-r8); background: var(--nk-color-bg-info); } /* token-lint-ignore — 1.2px border from styles.ts */
+.stepperButton { display: flex !important; align-items: center; justify-content: center; margin: -10px !important; padding: 10px !important; } /* hitSlop 10 */
+.stepperButton:disabled { opacity: 0.5; }
+.qty { display: flex; font: var(--nk-type-wishlist-text18-medium-lh1); color: var(--nk-color-primary); }
+
+/* NoonProductBoxOptionButton (V2): 1px antiFlashWhite, r8, padding 10; share icon 16 blueGray900 */
+.shareButton { flex-shrink: 0; display: flex !important; align-items: center; justify-content: center; padding: 10px !important; border: 1px solid var(--nk-palette-anti-flash-white) !important; border-radius: var(--nk-radius-r8); }
+
+/* ── NoonWishlistV2FloatingCartButton: centered, bottom 24 + inset ── */
+.stage { position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.viewCartWrap { position: absolute; left: 0; right: 0; bottom: calc(var(--nk-inset-bottom) + var(--nk-space-s24)); z-index: 40; display: flex; justify-content: center; pointer-events: none; }
+/* azureBlue, 1px whiteAlpha 0.24, r16, px 16 py 12, gap 10 */
+.viewCart { pointer-events: auto; display: flex !important; align-items: center; gap: 10px; padding: var(--nk-space-s12) var(--nk-space-s16) !important; border: 1px solid var(--nk-palette-white-alpha24) !important; border-radius: var(--nk-radius-r16); background: var(--nk-color-primary-bright) !important; }
+.viewCartImage { flex-shrink: 0; display: flex; width: 32px; height: 42px; overflow: hidden; border-radius: 6px; background: var(--nk-palette-white); }
+.viewCartText { display: flex; flex-direction: column; gap: 2px; color: var(--nk-color-text-inverse); text-align: start; }
+.viewCartTitle { font: var(--nk-type-text16-bold-lh20); }
+.viewCartCount { font: var(--nk-type-caption); }
+
+/* ── NoonWishlistV2Empty: header absolute on top, Lottie W × W / 0.75 centered, text at 55 % of it ── */
+.emptyBody { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.emptyArt { position: relative; flex-shrink: 0; width: 100%; aspect-ratio: 3 / 4; }
+.emptyArt > canvas, .emptyArt > div { width: 100% !important; height: 100% !important; }
+.emptyText { position: absolute; top: 55%; left: 50%; width: 400px; margin-left: -200px; z-index: 2; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.emptyTitle { font: var(--nk-type-title-large); color: var(--nk-color-text-strong); }
+.emptySubtitle { max-width: 240px; margin-top: 10px; font: var(--nk-type-wishlist-text15-regular-lh21); color: var(--nk-color-text-muted); }
+/* CTA: mt 40; primaryBlue r12 padding 16 / px 24 gap 8; icon 16 rotated 45°; 16/600 white */
+.emptyCta { margin-top: 40px; display: flex !important; align-items: center; justify-content: center; gap: var(--nk-space-s8); padding: var(--nk-space-s16) var(--nk-space-s24) !important; border-radius: var(--nk-radius-r12); background: var(--nk-color-primary) !important; color: var(--nk-color-text-inverse) !important; font: var(--nk-type-text16-semibold-lh20); }
+.emptyCtaIcon { transform: rotate(45deg); }
+
+/* ── NoonWishlistV2ScreenSkeleton ── */
+.srOnly { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.skHeader { display: flex; align-items: center; gap: var(--nk-space-s12); padding: var(--nk-space-s8) var(--nk-space-s12); }
+.skCollections { display: flex; gap: var(--nk-space-s12); margin: var(--nk-space-s16) 0 var(--nk-space-s32); padding: 0 var(--nk-space-s12); overflow: hidden; }
+.skTitle { display: flex; margin-bottom: var(--nk-space-s12); padding: 0 var(--nk-space-s12); }
+.skGrid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--nk-space-s12); padding: 0 var(--nk-space-s12); container-type: inline-size; }
+
+/* ── NoonWishlistV2CollectionOptionScreen: antiFlashWhite r24 p 8; sections gap 8 ── */
+.optionsCard { display: flex; flex-direction: column; gap: var(--nk-space-s8); padding: var(--nk-space-s8); background: var(--nk-palette-anti-flash-white); border-radius: var(--nk-radius-r24); overflow: hidden; }
+/* section: white r16, px 12 py 16, gap 24; title 16/600 blueGray900 */
+.optionsSection { display: flex; flex-direction: column; gap: var(--nk-space-s24); padding: var(--nk-space-s16) var(--nk-space-s12); background: var(--nk-palette-white); border-radius: var(--nk-radius-r16); }
+.optionsSectionTitle { font: var(--nk-type-text16-semibold-lh20); color: var(--nk-color-text-primary); }
+/* item: row space-between; icon 20 + gap 12 + 16/400; arrow 20 */
+.optionsItem { display: flex !important; align-items: center; justify-content: space-between; width: 100%; font: var(--nk-type-body-large); text-align: start; }
+.optionsLeading { flex: 1; min-width: 0; display: flex; align-items: center; gap: var(--nk-space-s12); }
+[dir='rtl'] .optionsArrow { transform: scaleX(-1); }

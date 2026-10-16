@@ -1,0 +1,93 @@
+/* NoonSalesCouponTray* (bappzaar master) — values resolved in ./MAPPING.md */
+
+/* ── offer card (NoonSalesCouponTrayOffer/styles.ts) */
+.offer { background: var(--nk-color-bg-surface); border-radius: var(--nk-radius-r16); overflow: hidden; }
+.offerFirst { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+.offerMiddle { border-radius: 0; }
+.offerLast { border-top-left-radius: 0; border-top-right-radius: 0; }
+
+.expiry { display: flex; align-items: center; gap: var(--nk-space-s4); margin: var(--nk-space-s2); padding: 10px var(--nk-space-s12) var(--nk-space-s8); border-radius: var(--nk-radius-r16) var(--nk-radius-r16) 0 0; background: linear-gradient(90deg, var(--nk-palette-secondary-background-color), var(--nk-color-bg-surface)); }
+:global([dir='rtl']) .expiry { background: linear-gradient(-90deg, var(--nk-palette-secondary-background-color), var(--nk-color-bg-surface)); }
+.expiryText { font: var(--nk-type-text12-medium-lh16); color: var(--nk-palette-blue-gray700); }
+.expiryTimer { font: var(--nk-type-text12-bold-lh16); color: var(--nk-palette-sunset-orange); font-variant-numeric: tabular-nums; }
+
+.offerHeader { display: flex; align-items: center; justify-content: space-between; gap: var(--nk-space-s12); padding: var(--nk-space-s16); }
+.offerHeaderContent { flex: 1; display: flex; align-items: center; gap: 10px; min-width: 0; }
+.offerIcon { flex-shrink: 0; display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: var(--nk-radius-r8); }
+.offerHeaderText { flex: 1; display: flex; flex-direction: column; gap: var(--nk-space-s2); min-width: 0; }
+.offerTitle { font: var(--nk-type-text16-bold-lh20); color: var(--nk-palette-blue-gray900); }
+.offerTitleLocked { font: var(--nk-type-text16-bold-lh20); color: var(--nk-palette-slate-gray); }
+.offerSubtitleRow { display: flex; flex-wrap: wrap; align-items: center; gap: var(--nk-space-s4); }
+.subtitle_unlocked { font: var(--nk-type-text12-medium-lh16); color: var(--nk-palette-slate-gray); }
+.subtitle_locked { font: var(--nk-type-text12-medium-lh16); color: var(--nk-palette-bluish-grey); }
+.subtitle_auto { font: var(--nk-type-text12-medium-lh16); color: var(--nk-palette-primary-blue); }
+.oneCallout { display: inline-flex; align-items: center; gap: var(--nk-space-s2); padding: 0 var(--nk-space-s8) 0 var(--nk-space-s2); border-radius: var(--nk-radius-r8) 0 0 var(--nk-radius-r8); }
+.oneCallout img { object-fit: contain; }
+.oneCalloutText { font: var(--nk-type-text12-semibold-lh14); color: var(--nk-palette-deep-green); }
+.offerButton { flex-shrink: 0; display: flex; align-items: center; justify-content: center; min-width: 64px; min-height: 36px; padding: var(--nk-space-s2) var(--nk-space-s4); border: 1px solid; border-radius: var(--nk-radius-r8); background: none; font: var(--nk-type-text12-bold-lh16); cursor: pointer; }
+.offerButton:disabled { cursor: default; }
+.offerButton:not(:disabled):active { opacity: 0.2; } /* TouchableOpacity activeOpacity */
+
+/* NoonSalesCouponTrayOfferSeparator: dashed #F2F3F7 (5 on / 6 off), notches outside the best-price card */
+.separator { position: relative; z-index: 2; height: 1px; }
+.separatorLine { display: block; height: 1px; margin: 0 var(--nk-space-s8); background: repeating-linear-gradient(90deg, var(--nk-palette-anti-flash-white) 0 5px, transparent 5px 11px); }
+.separator:not([data-best-price])::before,
+.separator:not([data-best-price])::after { content: ''; position: absolute; top: -8px; width: 16px; height: 16px; border-radius: var(--nk-radius-r8); background: var(--nk-palette-anti-flash-white); }
+.separator::before { left: -8px; }
+.separator::after { right: -8px; }
+
+.offerBody { padding-bottom: var(--nk-space-s12); }
+.offerContent { position: relative; box-sizing: border-box; padding: var(--nk-space-s12) var(--nk-space-s12) 0 var(--nk-space-s12); overflow: hidden; transition-property: height; transition-timing-function: cubic-bezier(0.33, 1, 0.68, 1); }
+.offerText { display: block; font: var(--nk-type-text13-regular-lh18); color: var(--nk-palette-slate-gray); }
+.offerTextWithChevron { padding-inline-end: 32px; } /* chevron 20 + gap 12 */
+.chevron { position: absolute; top: var(--nk-space-s12); inset-inline-end: var(--nk-space-s12); display: flex; align-items: center; justify-content: center; width: 20px; height: 20px; padding: 0; border: 0; border-radius: var(--nk-radius-r10); background: var(--nk-palette-anti-flash-white); cursor: pointer; }
+.tnc { position: absolute; bottom: 0; inset-inline-start: var(--nk-space-s12); display: flex; align-items: center; height: 16px; } /* tncButton: bottom 0, left 12, height 16 */
+.tncButton { display: inline-flex; width: auto; font: var(--nk-type-text11-regular-lh14); color: var(--nk-palette-blue-gray900); }
+.tncButton:disabled { color: var(--nk-color-tray-blue-gray400); }
+
+.dottedAction { display: inline-flex; width: auto; flex-shrink: 0; font: var(--nk-type-text12-semibold-lh16); color: var(--nk-palette-blue-gray900); }
+.dottedAction:disabled { color: var(--nk-color-tray-blue-gray400); }
+
+.joinBanner { display: flex; align-items: center; justify-content: space-between; gap: var(--nk-space-s12); padding: 10px var(--nk-space-s12); background: var(--nk-color-tray-orange50); }
+.joinBannerText { flex-shrink: 1; font: var(--nk-type-text12-semibold-lh16); color: var(--nk-palette-sunset-orange); }
+.joinBannerAction { flex-shrink: 0; display: flex; align-items: center; }
+
+/* ── unlock criteria (NoonSalesCouponTrayOfferUnlockCriteria) */
+.criteria { padding: 10px var(--nk-space-s12); background: var(--nk-color-tray-orange50); }
+.criteria[data-type='units'] { background: var(--nk-palette-secondary-background-color); }
+.criteriaRow { display: flex; align-items: center; justify-content: space-between; gap: var(--nk-space-s12); }
+.criteriaPrompt { flex-shrink: 1; }
+.criteriaBar { height: 4px; margin-top: var(--nk-space-s8); border-radius: var(--nk-radius-r4); background: var(--nk-palette-light-grey-color); overflow: hidden; }
+.criteriaBarFill { display: block; height: 4px; border-radius: var(--nk-radius-r4); background: var(--nk-palette-sunset-orange); }
+.units { display: flex; flex-wrap: wrap; align-items: center; gap: var(--nk-space-s4) var(--nk-space-s8); margin-top: 10px; }
+.unit { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: var(--nk-space-s2); width: 36px; height: 22px; border: 1px solid var(--nk-palette-light-grey-color); border-radius: var(--nk-radius-full); background: linear-gradient(180deg, var(--nk-color-bg-surface), var(--nk-palette-light-grey-color)); box-shadow: 0 -1px 0 0 var(--nk-color-tray-cloud-gray); } /* token-lint-ignore — top shadow strip of the chip */
+.unit[data-added] { border-color: var(--nk-color-tray-green200); background: linear-gradient(180deg, var(--nk-color-bg-surface), var(--nk-palette-noon-success-subtle)); box-shadow: 0 -1px 0 0 var(--nk-color-tray-seafoam); } /* token-lint-ignore — top shadow strip of the chip */
+.unitNumber { font: var(--nk-type-text12-bold-lh16); color: var(--nk-palette-slate-gray); }
+.unit[data-added] .unitNumber { color: var(--nk-palette-deep-green); }
+
+/* ── tiers progress bar (NoonSalesCouponTrayOfferTiersProgressBar) */
+.tiers { padding: 10px var(--nk-space-s12); background: var(--nk-color-tray-orange50); }
+.tiers[data-unlocked] { background: var(--nk-color-tray-bright-teal); }
+.tiersTrackWrap { position: relative; display: flex; align-items: center; min-height: 24px; margin-top: var(--nk-space-s12); }
+.tiersTrack { width: 100%; height: 4px; border-radius: var(--nk-radius-r2); background: var(--nk-palette-light-grey-color); overflow: hidden; }
+.tiersFill { display: block; height: 4px; border-radius: var(--nk-radius-r2); background: var(--nk-palette-sunset-orange); }
+.tiers[data-unlocked] .tiersFill { background: var(--nk-palette-deep-green); }
+.tierSlots { position: absolute; inset: 0; display: flex; pointer-events: none; }
+.tierSlot { position: relative; flex: 1; min-width: 0; display: flex; align-items: center; justify-content: flex-end; }
+.tierUnlocked, .tierLocked { position: relative; max-width: 100%; padding: var(--nk-space-s2) var(--nk-space-s8); border-radius: var(--nk-radius-full); font: var(--nk-type-text12-semibold-lh16); text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tierUnlocked { background: var(--nk-palette-deep-green); color: var(--nk-color-bg-surface); }
+.tierLocked { overflow: visible; border: 1px solid var(--nk-palette-light-grey-color); background: linear-gradient(180deg, var(--nk-color-bg-surface), var(--nk-palette-light-grey-color)); box-shadow: 0 -1px 0 0 var(--nk-color-tray-cloud-gray); color: var(--nk-palette-slate-gray); } /* token-lint-ignore — top shadow strip of the chip */
+.tierGap { position: absolute; top: 50%; left: -9px; width: 8px; height: 4px; margin-top: -2px; background: var(--nk-palette-light-grey-color); border-radius: 0 0 0 0; } /* the grey track stub before a locked tier (Svg 8×4) */
+
+/* ── best price (NoonSalesCouponTrayBestPriceSection) */
+.bestPrice { position: relative; margin-bottom: var(--nk-space-s16); padding: var(--nk-space-s4); border-radius: 18px; background: var(--nk-palette-deep-green); overflow: hidden; } /* token-lint-ignore — master radius 18 */
+.bestPriceDots { position: absolute; top: 0; left: 0; width: 550px; height: 170px; object-fit: cover; pointer-events: none; }
+.bestPriceHeader { position: relative; display: flex; flex-direction: column; align-items: center; margin-bottom: var(--nk-space-s2); }
+.bestPriceSavings { margin-top: var(--nk-space-s6); font: var(--nk-type-text20-bold-lh24); color: var(--nk-color-bg-surface); }
+.bestPriceOffers { position: relative; border-radius: var(--nk-radius-r16); background: var(--nk-color-bg-surface); }
+.bestPriceSeparator { position: relative; display: flex; align-items: center; justify-content: center; background: var(--nk-color-bg-surface); }
+.bestPriceSeparatorLine { position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: var(--nk-color-tray-best-price-bg); }
+.bestPriceSeparatorIcon { position: relative; display: flex; align-items: center; justify-content: center; width: 16px; height: 16px; border: 1px solid var(--nk-color-tray-best-price-border); border-radius: var(--nk-radius-r8); background: var(--nk-color-tray-best-price-bg); }
+
+/* noonDotted underline: an SVG width="100%" in a shrink-to-fit button would fall back to 300px; size it from the label */
+.dottedAction :global(svg), .tncButton :global(svg) { width: 0; min-width: 100%; }

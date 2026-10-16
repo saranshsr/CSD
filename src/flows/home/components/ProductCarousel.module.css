@@ -1,0 +1,2 @@
+/* NoonOptimizedProductCarousel: box marginRight 8, firstProduct marginLeft 15, lastProduct marginRight 15 */
+.rail { display: flex; align-items: stretch; gap: var(--nk-space-s8); padding: 0 var(--nk-space-s15); }

@@ -1,0 +1,23 @@
+/* ReviewSheet — repo in-screen bottom overlays (NewReview ProgressSheet / EditReviewSheet, ReviewDraft EditSheet). */
+.layer { position: absolute; inset: 0; z-index: 30; display: flex; flex-direction: column; justify-content: flex-end; }
+.scrim { position: absolute; inset: 0; background: var(--nk-color-reviews-scrim); }
+.scrim[data-tone='ink'] { background: var(--nk-palette-primary-alpha45); }
+.sheet { position: relative; display: flex; flex-direction: column; }
+.panel { background: var(--nk-color-bg-surface); border-radius: var(--nk-radius-r24) var(--nk-radius-r24) 0 0; padding: 28px var(--nk-space-s24) calc(var(--nk-inset-bottom) + var(--nk-space-s12)); display: flex; flex-direction: column; align-items: center; }
+.badge { width: var(--nk-space-s56); height: var(--nk-space-s56); border-radius: var(--nk-radius-full); background: var(--nk-color-reviews-warning); color: var(--nk-color-text-inverse); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.title { margin-top: var(--nk-space-s16); font: var(--nk-type-title-small); color: var(--nk-color-text-primary); text-align: center; }
+.body { margin-top: var(--nk-space-s8); max-width: 290px; font: var(--nk-type-text14-regular-lh20); color: var(--nk-color-text-secondary); text-align: center; }
+.buttons { display: flex; gap: var(--nk-space-s12); width: 100%; margin-top: var(--nk-space-s24); }
+.buttons > * { flex: 1; }
+.sheetBtn { border-radius: var(--nk-radius-reviews-r14); font: var(--nk-type-reviews-text15-bold-lh20); }
+
+/* EditReviewSheet */
+.dock { background: var(--nk-color-bg-surface); border-radius: var(--nk-radius-r16) var(--nk-radius-r16) 0 0; box-shadow: var(--nk-shadow-reviews-sheet); display: flex; flex-direction: column; }
+.grabber { display: flex; justify-content: center; padding: var(--nk-space-s8) 0 var(--nk-space-s4); }
+.grabber > span { width: var(--nk-space-s40); height: var(--nk-space-s4); border-radius: var(--nk-radius-r2); background: var(--nk-color-border-strong); }
+.floatGrabber { display: flex; justify-content: center; padding: var(--nk-space-s10) 0; }
+.floatGrabber > span { width: var(--nk-space-s36); height: 5px; border-radius: var(--nk-radius-full); background: var(--nk-color-border-strong); }
+.floatCard { margin: 0 var(--nk-space-s12); background: var(--nk-color-bg-surface); border-radius: var(--nk-radius-r16); box-shadow: var(--nk-shadow-reviews-float); display: flex; flex-direction: column; gap: var(--nk-space-s12); padding: var(--nk-space-s12); overflow: hidden; }
+.dockField { padding: var(--nk-space-s12) var(--nk-space-s12) 0; }
+.dockSave { padding: var(--nk-space-s12); }
+.kbGap { margin-top: var(--nk-space-s8); }

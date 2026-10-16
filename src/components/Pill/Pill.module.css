@@ -1,0 +1,40 @@
+/* Values: `pill` token group → var(--nk-pill-*) (src/foundations/tokens.ts). */
+.pill {
+  display: inline-flex; align-items: center; gap: var(--nk-pill-gap); flex-shrink: 0; white-space: nowrap;
+  background: var(--nk-pill-bg); border: var(--nk-pill-border-width) solid var(--nk-pill-border);
+  color: var(--nk-pill-fg);
+  transition: border-color var(--nk-pill-transition-duration) cubic-bezier(.4,0,.2,1), color var(--nk-pill-transition-duration) cubic-bezier(.4,0,.2,1), background-color var(--nk-pill-transition-duration);
+}
+.nav { height: var(--nk-pill-nav-height); padding: 0 var(--nk-pill-nav-padding-x); border-radius: var(--nk-pill-nav-radius); font: var(--nk-pill-nav-font); }
+.nav[data-selected] { border-color: var(--nk-pill-nav-selected-border); color: var(--nk-pill-nav-selected-fg); font-weight: var(--nk-pill-selected-weight); }
+.tag { padding: var(--nk-pill-tag-padding-y) var(--nk-pill-tag-padding-x); border-radius: var(--nk-pill-tag-radius); font: var(--nk-pill-tag-font); color: var(--nk-pill-tag-fg); }
+.tag[data-selected] { border-color: var(--nk-pill-tag-selected-border); font-weight: var(--nk-pill-selected-weight); }
+.filter { padding: var(--nk-pill-filter-padding); border-radius: var(--nk-pill-filter-radius); border-width: var(--nk-pill-filter-border-width); font: var(--nk-pill-filter-font); color: var(--nk-pill-filter-fg); }
+.filter[data-selected] { border-color: var(--nk-pill-filter-selected-border); background: var(--nk-pill-filter-selected-bg); font-weight: var(--nk-pill-selected-weight); }
+.sm.nav { height: var(--nk-pill-nav-height-sm); }
+.lg.nav { height: var(--nk-pill-nav-height-lg); padding: 0 var(--nk-pill-nav-lg-padding-x); font-size: var(--nk-pill-nav-font-size-lg); }
+.count { display: inline-flex; align-items: center; justify-content: center; width: var(--nk-pill-count-size); height: var(--nk-pill-count-size); border-radius: 50%; background: var(--nk-pill-count-bg); color: var(--nk-pill-count-fg); font: var(--nk-pill-count-font); }
+
+/* fieldChip — Field DS M-FilterChip (FilterChip/FilterChip.tsx): 36h, r8, 1px border, A14 SemiBold, 16px icons.
+   Colour morph: easeInOut over --nk-field-chip-duration (320ms, set inline from fieldMotion.duration.xl). */
+.fieldChip {
+  display: inline-flex; align-items: stretch; flex-shrink: 0; white-space: nowrap; overflow: hidden;
+  height: 36px; box-sizing: border-box; /* token-lint-ignore — Field FilterChip HEIGHT */
+  border: 1px solid var(--nk-field-border-subtle); border-radius: var(--nk-radius-r8);
+  background: var(--nk-field-surface-primary); color: var(--nk-field-text-primary); font: var(--nk-type-field-a14-semibold);
+  transition: border-color var(--nk-field-chip-duration, .32s) cubic-bezier(.6, 0, .4, 1), background-color var(--nk-field-chip-duration, .32s) cubic-bezier(.6, 0, .4, 1), color var(--nk-field-chip-duration, .32s) cubic-bezier(.6, 0, .4, 1);
+}
+.fieldChip[data-selected] { border-color: var(--nk-field-border-extrabold); }
+.fieldChip[data-disabled] { background: var(--nk-field-surface-secondary); color: var(--nk-field-text-muted); }
+.fieldBody {
+  display: inline-flex; align-items: center; padding: var(--nk-space-s8) var(--nk-space-s10);
+  color: inherit; font: inherit;
+}
+.fieldBody:active:not(:disabled), .fieldClear:active:not(:disabled) { background: var(--nk-field-surface-secondary); }
+.fieldBody:disabled { cursor: default; }
+.fieldLead { margin-inline-end: var(--nk-space-s4); }
+.fieldTrail { margin-inline-start: var(--nk-space-s4); }
+.fieldCount { display: inline-block; overflow: hidden; }
+.fieldClearZone { display: inline-flex; align-items: center; overflow: hidden; }
+.fieldDivider { flex-shrink: 0; width: 1px; height: 14px; margin-inline: var(--nk-space-s2); border-radius: var(--nk-radius-r2); background: var(--nk-field-border-subtle); }
+.fieldClear { display: inline-flex; align-items: center; justify-content: center; align-self: stretch; padding-inline: var(--nk-space-s8); color: inherit; }

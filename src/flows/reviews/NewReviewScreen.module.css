@@ -1,0 +1,9 @@
+/* NewReviewScreen — repo src/screens/NewReviewScreen.tsx page scroll (Figma 7629:275417). */
+.scroll { display: flex; flex-direction: column; gap: var(--nk-space-s16); min-height: 100%; }
+/* room for the expanded morphing header (status bar + nav 56 + product row) */
+.spacer { height: calc(var(--nk-inset-top) + 128px); flex-shrink: 0; }
+.gutter { margin-inline: var(--nk-space-s12); }
+/* "Craft my review" / Edit review scroll the draft to 12px under the docked nav */
+.draft { scroll-margin-top: calc(var(--nk-inset-top) + var(--nk-layout-header) + var(--nk-space-s12)); }
+/* editors' stage: from the status-bar inset to the footer's top edge (--nr-footer-h, synced from the footer) */
+.stage { position: absolute; top: var(--nk-inset-top); left: 0; right: 0; bottom: var(--nr-footer-h, 0px); pointer-events: none !important; }

@@ -1,0 +1,113 @@
+/* features/vip/screens/VIPOffersOverlayScreen/styles.ts */
+
+/* contentContainerStyle overlay: transparent; feedbackView marginHorizontal 6, r18, overflow hidden */
+.sheet { background: transparent; margin-inline: var(--nk-space-s6); }
+.portal { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
+.popupLayer { position: absolute; inset: 0; pointer-events: auto; }
+
+.container {
+  padding: 18px var(--nk-space-s12) 0;
+  background: var(--nk-color-bg-subtle);
+  border-radius: var(--nk-radius-vip-sheet);
+  overflow: hidden;
+}
+.emptyBottom { height: var(--nk-space-s4); }
+
+/* header */
+.header { position: relative; display: flex; width: 100%; margin-bottom: var(--nk-space-s20); align-items: center; justify-content: center; }
+.backButton {
+  position: absolute; left: 0;
+  width: var(--nk-layout-vip-of-back30); height: var(--nk-layout-vip-of-back30);
+  border-radius: var(--nk-radius-r20); background: var(--nk-color-bg-surface);
+  display: flex; align-items: center; justify-content: center; padding: 0; border: 0;
+}
+.backIcon { display: flex; margin-inline-start: calc(-1 * var(--nk-space-s2)); }
+.headerTitle { font: var(--nk-type-vip-of16-semibold); color: var(--nk-color-text-strong); }
+
+/* SegmentedControlTabSwitcher */
+.tabSwitcher { width: 100%; display: flex; justify-content: center; margin-bottom: var(--nk-space-s16); }
+.tabs { display: flex; align-self: center; background: var(--nk-color-bg-page); border-radius: var(--nk-radius-r32); padding: var(--nk-space-s4); min-height: 42px; }
+.tab { position: relative; width: calc(var(--nk-layout-device-width) / 2 - 24px); border: 0; background: none; border-radius: var(--nk-radius-r32); padding: 0; display: flex; align-items: center; justify-content: center; }
+.activeTab { position: absolute; inset: 0; background: var(--nk-color-bg-surface); border-radius: var(--nk-radius-r32); }
+.tabText { position: relative; padding-inline: var(--nk-space-s8); font: var(--nk-type-vip-of14-medium); color: var(--nk-color-price-old); }
+.activeTabText { position: relative; padding-inline: var(--nk-space-s8); font: var(--nk-type-vip-of14-semibold); color: var(--nk-color-vip-black); }
+
+/* code input */
+.inputBox {
+  position: relative;
+  display: flex; flex-direction: row; align-items: center; justify-content: space-between;
+  height: 56px;
+  border: 1px solid var(--nk-color-bg-page);
+  border-radius: var(--nk-radius-r12);
+  padding-inline: var(--nk-space-s12);
+  background: var(--nk-color-bg-surface);
+}
+/* inputLabelContainer: absolute (Yoga ignores the padding), translateX 12 → 2 */
+.inputLabel { position: absolute; left: 0; z-index: 1; pointer-events: none; font: var(--nk-type-vip-of14-regular); color: var(--nk-color-text-secondary); white-space: nowrap; }
+.codeInput {
+  flex: 1; height: 100%; min-width: 0;
+  border: 0; outline: none; background: transparent;
+  color: var(--nk-color-text-ink); font: var(--nk-type-vip-of14-semibold);
+  padding: var(--nk-space-s16) 0 0;
+}
+.clear { border: 0; background: none; padding: 0; font: var(--nk-type-vip-of12-medium); color: var(--nk-color-text-ink); }
+
+.redeemBox { overflow: hidden; }
+.redeem {
+  width: 100%; height: 56px;
+  background: var(--nk-color-bg-inverse);
+  border-radius: var(--nk-radius-r12);
+  margin-top: var(--nk-space-s12);
+  margin-bottom: var(--nk-layout-vip-sheet-float);
+}
+.redeemDisabled { background: var(--nk-color-border); }
+.redeemText { color: var(--nk-palette-white); font: var(--nk-type-vip-of16-semibold); }
+.redeemTextDisabled { color: var(--nk-color-text-tertiary); font: var(--nk-type-vip-of16-semibold); }
+
+.availableOffers { display: block; color: var(--nk-color-text-muted); font: var(--nk-type-vip-of14-semibold); margin-top: var(--nk-space-s12); padding-inline-start: var(--nk-space-s4); }
+.list { margin-top: var(--nk-space-s12); overflow-y: auto; }
+.listContent { display: flex; flex-direction: column; gap: var(--nk-space-s12); padding-bottom: var(--nk-space-s48); }
+
+/* Voucher */
+.voucher { background: var(--nk-color-bg-surface); border-radius: var(--nk-radius-r12); overflow: hidden; flex-shrink: 0; }
+.voucherInfo { display: flex; flex-direction: row; gap: var(--nk-space-s8); padding: var(--nk-space-s12); }
+.voucherImageBox {
+  width: 32px; height: 32px; flex-shrink: 0;
+  border-radius: var(--nk-radius-r8); border: 1px solid var(--nk-color-bg-subtle); background: var(--nk-palette-blue-gray50);
+  display: flex; align-items: center; justify-content: center;
+}
+.voucherImage { width: 22px; height: 22px; object-fit: contain; }
+.voucherText { display: flex; flex-direction: column; gap: var(--nk-space-s8); flex: 1; min-width: 0; }
+.voucherTitle { color: var(--nk-color-vip-of-ink); font: var(--nk-type-vip-of16-semibold); }
+.voucherDescription { color: var(--nk-color-brand-blue); font: var(--nk-type-vip-of13-medium); }
+.voucherCodeRow { display: flex; flex-direction: row; align-items: center; gap: var(--nk-space-s8); }
+.voucherCodeChip {
+  display: flex; align-items: center; justify-content: center; align-self: flex-start;
+  padding: var(--nk-space-s4) var(--nk-space-s8);
+  background: var(--nk-palette-blue-gray50);
+  border-radius: var(--nk-radius-r6);
+  border: 1px dashed var(--nk-color-bg-page);
+}
+.voucherCode { color: var(--nk-color-text-body); font: var(--nk-type-vip-of13-semibold); }
+.voucherDetailsLink { border: 0; background: none; padding: 0; color: var(--nk-color-text-secondary); font: var(--nk-type-vip-of13-regular); text-decoration: underline dotted; }
+.voucherDetails { display: flex; flex-direction: column; padding: 0 var(--nk-space-s12) var(--nk-space-s12); gap: var(--nk-space-s8); }
+.voucherDetailRow { display: flex; flex-direction: row; gap: var(--nk-space-s8); }
+.voucherDetailPoint { width: 32px; text-align: center; flex-shrink: 0; }
+.voucherDetailText { color: var(--nk-color-text-secondary); font: var(--nk-type-vip-of13-regular); flex: 1; }
+.wave { background: var(--nk-color-bg-surface); }
+.voucherButtonBox { width: 100%; background: var(--nk-color-vip-of-voucher-bg); padding-bottom: var(--nk-space-s4); }
+.voucherButtonBoxApplied { background: var(--nk-color-vip-of-voucher-applied); }
+.voucherButton { width: 100%; height: var(--nk-layout-vip-of-voucher-btn-h); background: var(--nk-color-vip-of-voucher-bg); gap: var(--nk-space-s4); }
+.voucherButtonApplied { background: var(--nk-color-vip-of-voucher-applied); }
+.voucherButtonText { color: var(--nk-color-vip-of-voucher-blue); font: var(--nk-type-vip-of15-semibold); }
+.voucherButtonTextApplied { color: var(--nk-color-best-price-ink); font: var(--nk-type-vip-of16-semibold); }
+
+/* success popup (VIPGenericOverlayScreen isPopup, popupContainerStyle: 80% width, r12, white) */
+.popupCard { width: 80%; border-radius: var(--nk-radius-r12); background: var(--nk-color-bg-surface); }
+.popupContent { display: flex; flex-direction: column; gap: var(--nk-space-s8); align-items: center; justify-content: center; padding-block: var(--nk-space-s16); }
+.popupTitle { text-align: center; font: var(--nk-type-vip-of14-medium); color: var(--nk-color-text-secondary); }
+/* popupBodyTextStyle: 16 / 700 / lh 20, #0E0E0E, centred */
+.popupBody { font: var(--nk-type-text16-bold-lh20); color: var(--nk-color-text-ink); text-align: center; }
+.separator { width: 100%; height: 1px; background: var(--nk-color-bg-subtle); margin-bottom: var(--nk-space-s4); }
+.popupButton { background: var(--nk-color-bg-surface); padding: 0; }
+.popupButtonText { color: var(--nk-color-brand-blue); font: var(--nk-type-vip-of14-semibold); }

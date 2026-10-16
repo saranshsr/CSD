@@ -1,0 +1,23 @@
+/* src/components/Overlay (styles.ts defaultStyles) — still used by VIPAddCard / VIPAddCvv / VIPMobilePay overlays */
+.root { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding-top: var(--nk-layout-vip-sheet-top); z-index: 1; }
+.scrim { position: absolute; inset: 0; background: var(--nk-color-vip-scrim); }
+.empty { position: absolute; inset: 0; }
+/* container: borderRadius 5, white; bounceMargin 0 → paddingBottom 0 */
+.sheet { position: relative; display: flex; flex-direction: column; max-height: 100%; background: var(--nk-color-bg-surface); border-radius: var(--nk-radius-r4); will-change: transform; }
+.children { display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+/* closeButton: 37 white circle, top −18, right 30, close-overlay icon */
+.close {
+  position: absolute;
+  top: var(--nk-layout-vip-legacy-close-top);
+  inset-inline-end: var(--nk-layout-vip-legacy-close-end);
+  z-index: 3;
+  width: var(--nk-layout-vip-legacy-close);
+  height: var(--nk-layout-vip-legacy-close);
+  border-radius: var(--nk-radius-r20);
+  background: var(--nk-color-bg-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.closeIcon { width: 15px; height: 15px; }

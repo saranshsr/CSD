@@ -1,0 +1,42 @@
+/* Storefront PDP header — Figma 2ldJbjmQq4RkhnrNFCfXQB · 3499:75879 */
+.header {
+  position: relative;
+  padding-top: var(--nk-inset-top);
+  background: linear-gradient(to bottom, var(--nk-color-bg-surface) 40%, var(--nk-palette-white-alpha0));
+  transition: box-shadow 200ms;
+}
+.header[data-solid] { box-shadow: 0 1px 0 var(--nk-palette-border-color); }
+/* solid state: white fades in over the gradient */
+.solidBg { position: absolute; inset: 0; background: var(--nk-color-bg-surface); pointer-events: none; }
+
+/* header stack 3499:75881: 56h, padding 8 12, gap 8 */
+.stack {
+  position: relative;
+  height: var(--nk-layout-pdp-sfa-header-stack);
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s8);
+  padding: var(--nk-space-s8) var(--nk-space-s12);
+}
+.end { flex: 1 1 0; min-width: 0; display: flex; align-items: center; justify-content: flex-end; gap: var(--nk-space-s8); }
+
+/* Icon Button: 40, white 90%, 1px blue-gray/200, full radius, 20px glyph */
+.iconBtn {
+  flex-shrink: 0;
+  width: var(--nk-layout-pdp-sfa-icon-button);
+  height: var(--nk-layout-pdp-sfa-icon-button);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid var(--nk-color-border-subtle);
+  border-radius: var(--nk-radius-full);
+  background: var(--nk-palette-white-alpha90);
+  cursor: pointer;
+}
+.glyph { display: flex; }
+
+/* NoonExpandableSearch: flex 1, aligned to the end, so the button grows from the wishlist side towards the back button */
+.searchWrap { flex: 1 1 0; min-width: 0; display: flex; justify-content: flex-end; }
+.search { justify-content: flex-start; gap: var(--nk-space-s8); padding: 0 var(--nk-space-s12) 0 9px; overflow: hidden; white-space: nowrap; }
+.searchText { font: var(--nk-type-pdp-text14-semibold); color: var(--nk-color-text-primary); }

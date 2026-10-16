@@ -1,0 +1,78 @@
+/* features/vip/screens/VIPBundleV2Screen/styles.ts — themed by the server `style` (Yango Play demo values in tokens.ts) */
+.container { position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; background: var(--nk-color-vip-of-yango-bg); overflow: hidden; }
+.statusBar { position: absolute; top: 0; left: 0; right: 0; height: var(--nk-inset-top); z-index: 999; background: var(--nk-color-vip-of-bundle-status); pointer-events: none; }
+.backButton {
+  position: absolute; top: calc(var(--nk-inset-top) + var(--nk-space-s12)); left: var(--nk-space-s10); z-index: 999;
+  width: 40px; height: 40px; border-radius: var(--nk-radius-r20);
+  background: var(--nk-color-vip-of-yango-card); border: 1px solid var(--nk-color-vip-of-yango-border);
+  display: flex; align-items: center; justify-content: center; padding: 0;
+}
+.backIcon { display: flex; margin-inline-start: calc(-1 * var(--nk-space-s2)); }
+.list { flex: 1; min-height: 0; width: 100%; overflow-y: auto; }
+.listContent { padding-bottom: var(--nk-space-s15); min-height: 100%; }
+
+.headerContainer { display: flex; flex-direction: column; align-items: center; padding-top: var(--nk-layout-vip-of-header-pad-top); padding-bottom: var(--nk-space-s32); }
+/* headerLogo: height 22 (server image) — Yango Play wordmark stand-in */
+.headerLogo { display: flex; align-items: center; gap: var(--nk-space-s4); height: 22px; }
+.logoMark { font: var(--nk-type-vip-of20-bold); color: var(--nk-color-vip-of-yango-brand); }
+.logoPlay { font: var(--nk-type-vip-of20-bold); color: var(--nk-palette-white); }
+/* headerTitle 40 / bold, ls −0.8, maxWidth 80%, gradient (173°, stops 0 / 0.7) masked into the text */
+.headerTitle {
+  font: var(--nk-type-vip-of40-bold); letter-spacing: var(--nk-layout-vip-of-track-bundle);
+  text-align: center; margin-top: var(--nk-space-s12); max-width: 80%;
+  background: linear-gradient(173deg, var(--nk-color-vip-of-yango-grad-from) 0%, var(--nk-color-vip-of-yango-grad-to) 70%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+.benefitsSection { display: flex; flex-direction: column; align-items: center; }
+.benefitsTitleRow { display: flex; flex-direction: row; align-items: center; justify-content: center; margin-bottom: var(--nk-space-s16); gap: var(--nk-space-s8); }
+/* benefitsTitleLine image 97×4 (server) */
+.titleLine { width: var(--nk-layout-vip-of-title-line-w); height: 4px; border-radius: var(--nk-radius-r2); background: linear-gradient(90deg, transparent, var(--nk-color-vip-of-bundle-highlight)); }
+.titleLineFlipped { transform: scaleX(-1); }
+.benefitsTitle { font: var(--nk-type-vip-of18-medium); color: var(--nk-palette-white); }
+.benefitsTitle :global(b) { font-weight: var(--nk-font-weight-extrabold) !important; }
+.benefitsTitle :global(highlight) { color: var(--nk-color-vip-of-bundle-highlight); }
+.benefits { display: flex; flex-direction: row; flex-wrap: wrap; gap: var(--nk-space-s12); margin-bottom: 18px; padding-inline: var(--nk-space-s12); }
+.benefit {
+  width: calc((100% - var(--nk-space-s12)) / 2);
+  display: flex; flex-direction: column; gap: var(--nk-space-s16);
+  border-radius: var(--nk-radius-r16); padding: var(--nk-space-s12); border: 1px solid var(--nk-color-vip-of-yango-border);
+  background: var(--nk-color-vip-of-yango-card); min-height: var(--nk-layout-vip-of-benefit-min-h);
+}
+.benefitIconBox {
+  width: 40px; height: 40px; padding: var(--nk-space-s4); border-radius: var(--nk-radius-r20);
+  border: 1px solid var(--nk-color-vip-of-yango-border); background: var(--nk-color-vip-of-yango-card);
+  display: flex; align-items: center; justify-content: center;
+}
+/* getBenefitTextStyle: 18 / 600 / 24, benefitGradientColors masked + highlightColor on top */
+.benefitText {
+  font: var(--nk-type-vip-of18-semibold-lh24);
+  background: linear-gradient(180deg, var(--nk-color-vip-of-yango-grad-from), var(--nk-color-vip-of-yango-grad-to));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.benefitText :global(highlight) { -webkit-text-fill-color: var(--nk-color-vip-of-bundle-highlight); color: var(--nk-color-vip-of-bundle-highlight); }
+
+.plansCard { margin: 0 var(--nk-space-s12) 18px; border-radius: var(--nk-radius-r12); border: 1px solid var(--nk-color-vip-of-yango-border); background: var(--nk-color-vip-of-yango-card); overflow: hidden; }
+.planContainer { padding: var(--nk-space-s15) var(--nk-space-s12); }
+.plansHeader { display: flex; flex-direction: row; gap: var(--nk-space-s8); padding-bottom: var(--nk-space-s4); align-items: center; justify-content: space-between; }
+.plansHeaderText { font: var(--nk-type-vip-of16-bold); color: var(--nk-palette-white); }
+.trialPill { display: flex; align-items: center; justify-content: center; padding-inline: var(--nk-space-s12); height: 26px; border-radius: 13px; background: var(--nk-color-best-price-ink); }
+.trialPillText { font: var(--nk-type-vip-of13-medium); letter-spacing: var(--nk-layout-vip-of-track-pill); color: var(--nk-palette-white); }
+.planButton { display: flex; justify-content: center; align-items: center; padding-top: var(--nk-space-s4); }
+.planRow { width: 100%; display: flex; flex-direction: row; justify-content: space-between; align-items: center; margin-top: var(--nk-space-s20); }
+.planInfo { flex: 1; display: flex; flex-direction: column; gap: var(--nk-space-s2); justify-content: center; margin-inline-end: var(--nk-space-s15); }
+.planTitle { font: var(--nk-type-vip-of17-bold); margin-bottom: var(--nk-space-s2); color: var(--nk-palette-white); }
+/* getDescriptionTextStyle: accent 16 */
+.planDescription { font: var(--nk-type-vip-of16-regular); color: var(--nk-color-vip-of-bundle-current); }
+.price { display: flex; align-items: flex-end; }
+/* getPriceTextStyle: p accent lh19, right; b 18 bold textColor */
+.priceText { text-align: right; color: var(--nk-color-vip-of-bundle-current); font: var(--nk-type-vip-of14-regular-lh19); }
+.priceText :global(span) { font-size: var(--nk-font-size-title-small); color: var(--nk-palette-white); }
+
+.buttonContainer {
+  width: 100%; padding: var(--nk-space-s14) var(--nk-space-s16) var(--nk-inset-bottom);
+  background: var(--nk-color-vip-of-bundle-bar);
+  border-radius: var(--nk-radius-r12) var(--nk-radius-r12) 0 0;
+}
+.button { height: 60px; border-radius: var(--nk-radius-r12); border: 1px solid transparent; background: var(--nk-palette-white); }
+.buttonText { color: var(--nk-color-vip-black); font: var(--nk-type-vip-of18-bold); }

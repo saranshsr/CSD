@@ -1,0 +1,375 @@
+/* Figma "🚧 Checkout 2.0" Shipment 14288:183975 … 183978 — values in FIGMA-MAPPING.md */
+.shipment {
+  margin-top: var(--nk-space-s12);
+  display: flex;
+  flex-direction: column;
+  gap: 9px; /* Figma gap 9 (no token) */
+  border-radius: var(--nk-radius-r16);
+  overflow: hidden;
+  background: var(--nk-color-bg-surface);
+}
+.shipment:first-child {
+  margin-top: 0;
+}
+
+/* Shipment header: pt 8, pb 2, px 12, gap 8 */
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s8);
+  padding: var(--nk-space-s8) var(--nk-space-s12) var(--nk-space-s2);
+}
+.title {
+  font: var(--nk-type-chk-fig-text13-extrabold-lh20);
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+  color: var(--nk-color-text-body); /* Blue-Gray/800 */
+  white-space: nowrap;
+}
+/* Item Count: Blue-Gray/100, px 7, r32 — Label4/Medium Blue-Gray/600 */
+.countPill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 7px; /* Figma 7 (no token) */
+  border-radius: var(--nk-radius-r32);
+  background: var(--nk-color-bg-subtle);
+  font: var(--nk-type-text12-medium-lh14);
+  letter-spacing: -0.12px;
+  color: var(--nk-color-text-secondary);
+  white-space: nowrap;
+}
+
+/* Shipment items: px 6 (gap 8 between items when scrolling) */
+.items {
+  display: flex;
+  flex-direction: column;
+  padding: 0 var(--nk-space-s6);
+}
+.items[data-multiple] {
+  flex-direction: row;
+  gap: var(--nk-space-s8);
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+}
+/* Item: p 6, gap 8, r10, white */
+.item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--nk-space-s8);
+  padding: var(--nk-space-s6);
+  border-radius: var(--nk-radius-r10);
+  background: var(--nk-color-bg-surface);
+  min-width: 0;
+}
+.item[data-multiple] {
+  flex: 0 0 211px; /* Figma item width in the scroller */
+  scroll-snap-align: start;
+}
+/* Image 52×70: Blue-Gray/200, r8, p4, clip; the 64×88.6 product art is centred and cropped */
+.image {
+  position: relative;
+  flex-shrink: 0;
+  width: 52px;
+  height: 70px;
+}
+.imageInner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--nk-space-s4);
+  border-radius: var(--nk-radius-r8);
+  overflow: hidden;
+  background: var(--nk-palette-blue-gray200);
+}
+/* Add Button (qty badge): 20×20, white, 0.5px Blue-Gray/400, r4, shadow alpha$/light/100, right/bottom 4 */
+.qty {
+  position: absolute;
+  right: var(--nk-space-s4);
+  bottom: var(--nk-space-s4);
+  width: 20px;
+  height: 20px;
+  padding: var(--nk-space-s2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1px; /* Gap/1 */
+  border: 0.5px solid var(--nk-color-border-strong);
+  border-radius: var(--nk-radius-r4);
+  background: var(--nk-color-bg-surface);
+  box-shadow: var(--nk-shadow-chk-fig-qty-badge);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.qtyX {
+  padding-top: var(--nk-space-s2);
+  font: var(--nk-type-chk-fig-text8-regular-lh1p1);
+  letter-spacing: 0.6154px;
+  text-transform: uppercase;
+  color: var(--nk-color-text-body);
+}
+.qtyValue {
+  font: var(--nk-type-chk-fig-text10-semibold-lh1p1);
+  letter-spacing: -0.0862px;
+  color: var(--nk-color-text-body);
+}
+/* text column: py 4, gap 4 */
+.itemContent {
+  flex: 1;
+  min-width: 0;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--nk-space-s4);
+  padding: var(--nk-space-s4) 0;
+}
+/* Primary/Body3/Regular 12/16 Blue-Gray/1000 */
+.itemTitle {
+  width: 100%;
+  font: var(--nk-type-caption);
+  color: var(--nk-color-text-strong);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+/* price details: gap 4, items end */
+.priceRow {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--nk-space-s4);
+}
+/* Primary/Label3/Bold 14/18 (-0.14) Blue-Gray/1000 */
+.price {
+  font: var(--nk-type-body-bold);
+  letter-spacing: -0.14px;
+  color: var(--nk-color-text-strong);
+  white-space: nowrap;
+}
+.discounted {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--nk-space-s4);
+  padding-bottom: 1px; /* Gap/1 */
+}
+/* old price 12/16 Regular Blue-Gray/600, struck */
+.was {
+  font: var(--nk-type-caption);
+  color: var(--nk-color-text-secondary);
+  text-decoration: line-through;
+  white-space: nowrap;
+}
+/* Primary/Label5/Medium 11/12 (-0.12) Emerald/800 */
+.off {
+  padding-top: 1px;
+  padding-bottom: 1px;
+  font: var(--nk-type-chk-fig-text11-medium-lh12);
+  letter-spacing: -0.12px;
+  color: var(--nk-palette-emerald-green);
+  white-space: nowrap;
+}
+/* Extended warranties checkout: gradient −88.7°, px 8, py 4, r4 — Label5/Medium Blue-Gray/1000 */
+.warrantyChip {
+  width: 100%;
+  margin-top: var(--nk-space-s0);
+  padding: var(--nk-space-s4) var(--nk-space-s8);
+  border-radius: var(--nk-radius-r4);
+  background: linear-gradient(-88.709deg, var(--nk-color-bg-surface) 17.492%, var(--nk-color-chk-fig-warranty-end) 99.871%);
+  font: var(--nk-type-chk-fig-text11-medium-lh12);
+  letter-spacing: -0.12px;
+  color: var(--nk-color-text-strong);
+}
+/* Combo item tag: #EAF4FE, px 8, py 2, r4 — Primary/Tiny/Medium 10/12 */
+.comboChip {
+  padding: var(--nk-space-s2) var(--nk-space-s8);
+  border-radius: var(--nk-radius-r4);
+  background: var(--nk-palette-light-sky-blue);
+  font: var(--nk-type-text10-medium-lh12);
+  color: var(--nk-color-text-strong);
+  white-space: nowrap;
+}
+/* warranty (discount) row: h16, gap 4 — Label5/Regular Blue-Gray/600 */
+.discountRow {
+  height: 16px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s4);
+}
+.discountRow img {
+  flex-shrink: 0;
+  display: block;
+}
+.discountText {
+  flex: 1;
+  font: var(--nk-type-chk-fig-text11-regular-lh12);
+  letter-spacing: -0.12px;
+  color: var(--nk-color-text-secondary);
+}
+
+/* Shipment footers */
+.footers {
+  display: flex;
+  flex-direction: column;
+}
+/* "Multiple" / single footer: white, h36, clip; the wave tab sits behind */
+.fulfilmentWrap {
+  position: relative;
+  height: 36px;
+  overflow: hidden;
+  background: var(--nk-color-bg-surface);
+}
+.wave {
+  position: absolute;
+  display: block;
+  max-width: none;
+  pointer-events: none;
+}
+/* fulfilment type: h36, pl 14, pr 12, py 10, gap 8 */
+.fulfilment {
+  position: relative;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s8);
+  padding: var(--nk-space-s10) var(--nk-space-s12) var(--nk-space-s10) var(--nk-space-s14);
+}
+.fulfilmentTexts {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+}
+.fulfilmentText {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--nk-space-s4);
+  max-width: 100%;
+  white-space: nowrap;
+}
+/* "Get it" Primary/Body2/Regular 14/18 #212121 */
+.getIt {
+  font: var(--nk-type-body);
+  color: var(--nk-color-text-product);
+}
+/* Primary/Label3/Bold 14/18 (-0.14) black */
+.promiseLabel {
+  font: var(--nk-type-body-bold);
+  letter-spacing: -0.14px;
+  color: var(--nk-palette-black);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pillSupermall {
+  position: relative;
+  flex-shrink: 0;
+  width: 63px;
+  height: 20px;
+  border-radius: 4.185px; /* Figma pill radius (geometry) */
+  overflow: hidden;
+  background: var(--nk-palette-rocket-blue-sapphire);
+}
+.supermallA,
+.supermallB {
+  position: absolute;
+  display: block;
+  max-width: none;
+}
+/* Group insets 36.81% / 7.69% and 21.79% / 57.59% of 63×20 */
+.supermallA {
+  left: 4.845px;
+  top: 7.362px;
+}
+.supermallB {
+  left: 36.282px;
+  top: 4.358px;
+}
+/* express: 63×20 box, items end, pr 2 */
+.pillExpressBox {
+  flex-shrink: 0;
+  width: 63px;
+  height: 20px;
+  padding-right: var(--nk-space-s2);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.pillExpressBox img {
+  display: block;
+}
+
+/* Need Today Container: gradient Blue-Gray/100 → #F2F3F7@0, px 12, py 12, bottom radius 20 */
+.needToday {
+  padding: var(--nk-space-s12);
+  border-bottom-left-radius: var(--nk-radius-r20);
+  border-bottom-right-radius: var(--nk-radius-r20);
+  background: linear-gradient(180deg, var(--nk-color-bg-subtle) 0%, var(--nk-color-chk-fig-need-today-end) 100%);
+}
+.needTodayRow {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--nk-space-s8);
+  padding: 0 0 0 var(--nk-space-s2);
+  border: 0;
+  background: none;
+  text-align: start;
+  cursor: pointer;
+}
+/* Primary/Body2/Regular Blue-Gray/700 */
+.needTodayText {
+  flex: 1;
+  font: var(--nk-type-body);
+  color: var(--nk-color-text-muted);
+}
+.needTodayChevron {
+  flex-shrink: 0;
+  display: block;
+}
+/* expanded lane list (not drawn in the frame — built from the same Body2 / Label3 styles) */
+.lanes {
+  display: flex;
+  flex-direction: column;
+  padding-top: var(--nk-space-s8);
+}
+.lane {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s8);
+  padding: var(--nk-space-s8) 0 var(--nk-space-s8) var(--nk-space-s2);
+  border: 0;
+  border-top: 1px dashed var(--nk-color-border-strong);
+  background: none;
+  text-align: start;
+  cursor: pointer;
+}
+.lane:first-child {
+  border-top: 0;
+}
+.lane:disabled {
+  cursor: default;
+}
+.laneRadio {
+  flex-shrink: 0;
+  display: block;
+}
+.laneText {
+  flex: 1;
+  min-width: 0;
+}
+.laneInfo {
+  display: flex;
+  cursor: pointer;
+}
+.lanePrice {
+  font: var(--nk-type-body-bold);
+  letter-spacing: -0.14px;
+  color: var(--nk-color-text-strong);
+}
+.laneFree {
+  font: var(--nk-type-body-bold);
+  letter-spacing: -0.14px;
+  color: var(--nk-palette-emerald-green);
+}

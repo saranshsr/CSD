@@ -1,0 +1,2521 @@
+{
+  "generatedBy": ".claude/resources/scripts/build.mjs",
+  "totals": {
+    "flows": 18,
+    "screens": 156,
+    "routes": 156,
+    "largestFlow": 24,
+    "byCoverage": {
+      "spec": 11,
+      "brief": 6,
+      "none": 1
+    },
+    "byLabel": {
+      "reference-backed": 154,
+      "kit-backed": 2,
+      "inferred": 0
+    },
+    "byTruth": {
+      "mixed": 6,
+      "bappzaar": 135,
+      "reference": 5,
+      "figma": 10
+    },
+    "truthExplicit": 19,
+    "truthInferred": 137,
+    "verified": 6,
+    "unverified": 150
+  },
+  "labelMapping": {
+    "reference-backed": "truth bappzaar / figma / mixed / reference, explicit or inferred from a recognisable source (bappzaar master path, Figma <fileKey> · <node>, or reference: / link)",
+    "kit-backed": "source starts with `kit:`, `composed` or `stand-in`: built from kit parts with no external reference for this screen",
+    "inferred": "no source, or a source that names no recognisable reference (screenTruth falls back to bappzaar without evidence)"
+  },
+  "flows": [
+    {
+      "id": "home",
+      "title": "Home",
+      "group": "Discovery",
+      "initial": "home/home",
+      "screenCount": 2,
+      "coverage": "spec",
+      "docs": {
+        "mapping": [
+          "src/flows/home/FIGMA-MAPPING.md"
+        ],
+        "brief": ".claude/resources/flows/home.md",
+        "skills": [
+          ".claude/skills/home-page/SKILL.md"
+        ],
+        "specs": [
+          ".claude/skills/home-page/spec.md"
+        ],
+        "blueprint": "Home page"
+      },
+      "states": {
+        "documented": [
+          "loading",
+          "empty"
+        ],
+        "registered": {},
+        "missing": [
+          "loading",
+          "empty"
+        ],
+        "heuristic": true
+      },
+      "screens": [
+        {
+          "route": "home/home",
+          "title": "Home",
+          "presentation": "screen",
+          "urls": [
+            "/homepage",
+            "/home"
+          ],
+          "truth": "mixed",
+          "truthExplicit": true,
+          "label": "reference-backed",
+          "verified": "2026-10-12",
+          "source": "bappzaar master ba159e20: NoonHomeScreen → NoonHomeToggleContent → Module/ModuleRenderer (live app home CMS payload order); header Figma iRE9RwO94eMAyW3j3XKNXW · 1337:5102 except the ExperienceSwitcher (useExperienceSwitcher radius 20 → 12), NoonAddressSelector + wishlist button and NoonSearchBarButton artwork, which are bappzaar 1:1; hero creatives Af34gfmhQ1D0wstXUEHSIF · 89:34398"
+        },
+        {
+          "route": "home/classic",
+          "title": "Home (classic)",
+          "presentation": "screen",
+          "urls": [
+            "/home-classic"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonHomeScreen, components/NoonHomeToggle*"
+        }
+      ]
+    },
+    {
+      "id": "search",
+      "title": "Search",
+      "group": "Discovery",
+      "initial": "search/search",
+      "screenCount": 2,
+      "coverage": "spec",
+      "docs": {
+        "mapping": [],
+        "brief": ".claude/resources/flows/search.md",
+        "skills": [
+          ".claude/skills/search/SKILL.md"
+        ],
+        "specs": [
+          ".claude/skills/search/spec.md"
+        ],
+        "blueprint": "Search"
+      },
+      "states": {
+        "documented": [
+          "loading",
+          "empty"
+        ],
+        "registered": {},
+        "missing": [
+          "loading",
+          "empty"
+        ],
+        "heuristic": true
+      },
+      "screens": [
+        {
+          "route": "search/search",
+          "title": "Search",
+          "presentation": "screen",
+          "urls": [
+            "/search"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": true,
+          "label": "reference-backed",
+          "verified": "2026-10-12",
+          "source": "marketplaces/noon/screens/NoonSearchScreen, components/NoonSearchSuggestionRow, NoonRecentlySearchedModule; motion: github.com/saswata2002/Brand-Widget-PLP (app.js \"Search suggestions — ProtoPie handoff motion\")"
+        },
+        {
+          "route": "search/suggestions",
+          "title": "Suggestions",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "reference",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonSearchScreen, components/NoonSearchSuggestionRow, NoonRecentlySearchedModule; motion: github.com/saswata2002/Brand-Widget-PLP (app.js \"Search suggestions — ProtoPie handoff motion\")"
+        }
+      ]
+    },
+    {
+      "id": "categories",
+      "title": "Categories",
+      "group": "Discovery",
+      "initial": "categories/categories",
+      "screenCount": 4,
+      "coverage": "brief",
+      "docs": {
+        "mapping": [
+          "src/flows/categories/MAPPING.md"
+        ],
+        "brief": ".claude/resources/flows/categories.md",
+        "skills": [],
+        "specs": [],
+        "blueprint": null
+      },
+      "states": {
+        "documented": [
+          "loading",
+          "error"
+        ],
+        "registered": {
+          "loading": [
+            "categories/loading"
+          ],
+          "error": [
+            "categories/error"
+          ]
+        },
+        "missing": [],
+        "heuristic": true
+      },
+      "screens": [
+        {
+          "route": "categories/categories",
+          "title": "Categories",
+          "presentation": "screen",
+          "urls": [
+            "/categories",
+            "/all-categories"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonCategoriesScreen → src/screens/DynamicLoaderScreen (unstructured \"/categories\") → src/components/StaticPage, src/components/Module/AdBannerModuleV2 + BannerModule, src/components/Module/CollapsibleBannerModule (+ MainBanner, SubBanner), ModuleWrapper/ModuleHeader"
+        },
+        {
+          "route": "categories/expanded",
+          "title": "Category opened",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonCategoriesScreen → src/screens/DynamicLoaderScreen (unstructured \"/categories\") → src/components/StaticPage, src/components/Module/AdBannerModuleV2 + BannerModule, src/components/Module/CollapsibleBannerModule (+ MainBanner, SubBanner), ModuleWrapper/ModuleHeader"
+        },
+        {
+          "route": "categories/loading",
+          "title": "Loading",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "src/screens/DynamicLoaderScreen (FeedbackView renderLoader) → src/components/ProgressLoader"
+        },
+        {
+          "route": "categories/error",
+          "title": "Error",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "src/components/FeedbackView → src/components/EmptyView → marketplaces/noon/components/NoonEmptyView"
+        }
+      ]
+    },
+    {
+      "id": "deals",
+      "title": "Deals",
+      "group": "Discovery",
+      "initial": "deals/deals",
+      "screenCount": 1,
+      "coverage": "brief",
+      "docs": {
+        "mapping": [],
+        "brief": ".claude/resources/flows/other-flows.md#deals",
+        "skills": [],
+        "specs": [],
+        "blueprint": "Deals / offers / campaign page"
+      },
+      "states": {
+        "documented": [],
+        "registered": {},
+        "missing": [],
+        "heuristic": true
+      },
+      "screens": [
+        {
+          "route": "deals/deals",
+          "title": "Deals",
+          "presentation": "screen",
+          "urls": [
+            "/deals"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/NoonApp.ts (getTabScreens, getDynamicTabInfo), screens/NoonDynamicTabScreen"
+        }
+      ]
+    },
+    {
+      "id": "plp",
+      "title": "Product listing (PLP)",
+      "group": "Shopping",
+      "initial": "plp/listing",
+      "screenCount": 3,
+      "coverage": "spec",
+      "docs": {
+        "mapping": [
+          "src/flows/plp/MAPPING.md"
+        ],
+        "brief": ".claude/resources/flows/plp.md",
+        "skills": [
+          ".claude/skills/search/SKILL.md"
+        ],
+        "specs": [
+          ".claude/skills/search/spec.md"
+        ],
+        "blueprint": "PLP / category listing"
+      },
+      "states": {
+        "documented": [
+          "loading",
+          "empty"
+        ],
+        "registered": {},
+        "missing": [
+          "loading",
+          "empty"
+        ],
+        "heuristic": true
+      },
+      "screens": [
+        {
+          "route": "plp/listing",
+          "title": "Listing",
+          "presentation": "screen",
+          "urls": [
+            "/plp",
+            "/listing"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": true,
+          "label": "reference-backed",
+          "verified": "2026-10-12",
+          "source": "src/screens/ListingScreen, marketplaces/noon/components/NoonCatalogList (renderHeader, renderFulfillmentTabs), NoonFulfillmentTabs, NoonCatalogListHeader, NoonCatalogListNavPill (+ NoonFilterPillAnimation), NoonProductBoxVertical (isPLP), constants/NoonPLPLoadingMotion.ts; hand-off motion github.com/saswata2002/Brand-Widget-PLP"
+        },
+        {
+          "route": "plp/filters",
+          "title": "Filters",
+          "presentation": "sheet",
+          "urls": [
+            "/filters"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": true,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonFiltersScreenV2, components/NoonFiltersV2 (FilterHeader, FilterContainer, FilterFulfillmentCard, FilterNavPill, FilterCard, FilterSortSection, FilterRangeSlider); live app reference 2026-10-14 (visual/refs/plp-filters.png)"
+        },
+        {
+          "route": "plp/sort",
+          "title": "Sort",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/components/NoonFiltersV2/FilterSortSection"
+        }
+      ]
+    },
+    {
+      "id": "pdp",
+      "title": "Product page (PDP)",
+      "group": "Shopping",
+      "initial": "pdp/detail",
+      "screenCount": 4,
+      "coverage": "spec",
+      "docs": {
+        "mapping": [
+          "src/flows/pdp/FIGMA-MAPPING.md",
+          "src/flows/pdp/MAPPING.md"
+        ],
+        "brief": ".claude/resources/flows/pdp.md",
+        "skills": [
+          ".claude/skills/pdp/SKILL.md"
+        ],
+        "specs": [
+          ".claude/skills/pdp/spec.md"
+        ],
+        "blueprint": "PDP"
+      },
+      "states": {
+        "documented": [
+          "loading",
+          "empty",
+          "success"
+        ],
+        "registered": {
+          "success": [
+            "pdp/added"
+          ]
+        },
+        "missing": [
+          "loading",
+          "empty"
+        ],
+        "heuristic": true
+      },
+      "screens": [
+        {
+          "route": "pdp/detail",
+          "title": "Product detail",
+          "presentation": "screen",
+          "urls": [
+            "/pdp",
+            "/product"
+          ],
+          "truth": "mixed",
+          "truthExplicit": true,
+          "label": "reference-backed",
+          "verified": "2026-10-12",
+          "source": "Figma Af34gfmhQ1D0wstXUEHSIF · 64:5571 (All flows \"New PDP\"; earlier Storefront 2ldJbjmQq4RkhnrNFCfXQB · 3499:75115; see FIGMA-MAPPING.md) for the look, over marketplaces/noon/components/NoonProductDetails/NoonProductDetails.tsx for behaviour (+ NoonGallery, NoonProductInfo, NoonFrequentlyBoughtTogether, NoonAiProductReviewsSummary, NoonCategoryBestSeller(Tag), NoonBuyingOption, NoonEstimatedDeliveryPdp, NoonPaymentsForYou, NoonSizeVariantSelection, NoonOptionsSelection, NoonPdpReinforcement, NoonProductOverview, NoonShippingInfo, NoonSeller, NoonOffers, NoonCustomerReviews, NoonRecommendations, NoonAddToCartQuantity, NoonExpandableSearch, NoonPDPHeaderRightContent, NoonFreebie, NoonAvailableBundlesTag, NoonAiOverviewSummary)"
+        },
+        {
+          "route": "pdp/deliveryVariants",
+          "title": "Delivery information variants",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "figma",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "Figma xPr9Ln37JGSBGvNtrsyD0y · 3583:109620 (PDP Redesign, Delivery information component set)"
+        },
+        {
+          "route": "pdp/variants",
+          "title": "Variants",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonVariantsOverlayScreen (+ NoonProductSizeVariantSelection, NoonProductCartSelectionItem, NoonOfferAddToCartQuantity)"
+        },
+        {
+          "route": "pdp/added",
+          "title": "Added to cart",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonQuickCartScreen"
+        }
+      ]
+    },
+    {
+      "id": "cart",
+      "title": "Cart",
+      "group": "Shopping",
+      "initial": "cart/cart",
+      "screenCount": 9,
+      "coverage": "spec",
+      "docs": {
+        "mapping": [
+          "src/flows/cart/FIGMA-MAPPING.md",
+          "src/flows/cart/components/couponTray/MAPPING.md"
+        ],
+        "brief": ".claude/resources/flows/cart.md",
+        "skills": [
+          ".claude/skills/cart/SKILL.md"
+        ],
+        "specs": [
+          ".claude/skills/cart/spec.md"
+        ],
+        "blueprint": "Cart"
+      },
+      "states": {
+        "documented": [
+          "loading",
+          "empty",
+          "error",
+          "success"
+        ],
+        "registered": {
+          "loading": [
+            "cart/loading"
+          ],
+          "empty": [
+            "cart/empty"
+          ]
+        },
+        "missing": [
+          "error",
+          "success"
+        ],
+        "heuristic": true
+      },
+      "screens": [
+        {
+          "route": "cart/cart",
+          "title": "Cart",
+          "presentation": "screen",
+          "urls": [
+            "/cart"
+          ],
+          "truth": "mixed",
+          "truthExplicit": true,
+          "label": "reference-backed",
+          "verified": "2026-10-13",
+          "source": "marketplaces/noon/screens/NoonCartScreen; visuals Figma Af34gfmhQ1D0wstXUEHSIF · 127:39687 (All flows \"Cart\": supermall / Global / express / market groups, carousels, coupon, cobrand cards, payment offers, sticky footer 127:40209 — see FIGMA-MAPPING.md)"
+        },
+        {
+          "route": "cart/empty",
+          "title": "Cart (empty)",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonCartScreen (renderEmptyCart)"
+        },
+        {
+          "route": "cart/loading",
+          "title": "Cart (loading)",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonCartScreen (FeedbackView LOADING)"
+        },
+        {
+          "route": "cart/variants",
+          "title": "Change variant",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonCartVariantsOverlayScreen (+ NoonProductCartOptionsSelection chips)"
+        },
+        {
+          "route": "cart/customize",
+          "title": "Customize item",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonCartCustomizeOverlayScreen"
+        },
+        {
+          "route": "cart/couponTray",
+          "title": "Coupon tray",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": true,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonSalesCouponTrayOverlayScreen (+ NoonSalesCouponTrayOffer, NoonSalesCouponTrayBestPriceSection, …UnlockCriteria, …TiersProgressBar, …AnimatedItem); see components/couponTray/MAPPING.md"
+        },
+        {
+          "route": "cart/discount",
+          "title": "Discount details",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonCartDiscountDetailsOverlayScreen"
+        },
+        {
+          "route": "cart/bundles",
+          "title": "Bundle details",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonCartVirtualBundlesOverlayScreen"
+        },
+        {
+          "route": "cart/updates",
+          "title": "Cart updates",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonCartUpdatesOverlayScreen"
+        }
+      ]
+    },
+    {
+      "id": "checkout",
+      "title": "Checkout",
+      "group": "Shopping",
+      "initial": "checkout/checkout",
+      "screenCount": 22,
+      "coverage": "spec",
+      "docs": {
+        "mapping": [
+          "src/flows/checkout/FIGMA-MAPPING.md",
+          "src/flows/checkout/MAPPING.md"
+        ],
+        "brief": ".claude/resources/flows/checkout.md",
+        "skills": [
+          ".claude/skills/checkout/SKILL.md"
+        ],
+        "specs": [
+          ".claude/skills/checkout/spec.md"
+        ],
+        "blueprint": "Checkout"
+      },
+      "states": {
+        "documented": [
+          "loading",
+          "empty",
+          "error",
+          "success"
+        ],
+        "registered": {
+          "loading": [
+            "checkout/placing"
+          ],
+          "error": [
+            "checkout/payment-failure",
+            "checkout/payment-failure-help"
+          ],
+          "success": [
+            "checkout/confirmation"
+          ]
+        },
+        "missing": [
+          "empty"
+        ],
+        "heuristic": true
+      },
+      "screens": [
+        {
+          "route": "checkout/checkout",
+          "title": "Checkout",
+          "presentation": "screen",
+          "urls": [
+            "/checkout"
+          ],
+          "truth": "mixed",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "Figma Af34gfmhQ1D0wstXUEHSIF · 127:44077 (All flows Checkout); Figma zURu7GI7sq77fjdXKrouvo · 14288:183972 (Checkout 2.0, FIGMA_SECTIONS); marketplaces/noon/components/NoonCheckoutBurnSection, NoonCheckoutDonation, NoonCheckoutNoonOneSection; marketplaces/noon/screens/NoonCheckoutScreen/{NoonCheckoutScreen,styles}.ts(x), marketplaces/noon/components/NoonSalesAnimatedHeader, NoonCartAddressSelectorV2, NoonAddressSelector, NoonCheckoutShipment, NoonDynamicInvoice, NoonCheckoutSlideButton, src/components/FeedbackView (reloader)"
+        },
+        {
+          "route": "checkout/promise-info",
+          "title": "Delivery lane info",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "src/screens/LearnMoreScreen"
+        },
+        {
+          "route": "checkout/cards-select",
+          "title": "Select card",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonCheckoutCardsSelectScreen"
+        },
+        {
+          "route": "checkout/add-card",
+          "title": "Add card",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonCheckoutAddPaymentCardScreen/{NoonCheckoutAddPaymentCardScreen,styles,validate}.ts(x) (payment_v3 off path of PaymentNavigation.goToCardAdditionScreen)"
+        },
+        {
+          "route": "checkout/special-emis",
+          "title": "Special EMIs",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonCheckoutSpecialEMIsOverlayScreen"
+        },
+        {
+          "route": "checkout/emi-plans",
+          "title": "Installment plans",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonSalesEMIPlansOverlayScreen"
+        },
+        {
+          "route": "checkout/alternate-phone",
+          "title": "Receiver details",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonCheckoutAlternatePhoneScreen (+ SavedContact), marketplaces/noon/screens/NoonCheckoutScreen/ReceiverDetails"
+        },
+        {
+          "route": "checkout/alternate-phone-contacts",
+          "title": "Contacts",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonCheckoutAlternatePhoneContactsScreen"
+        },
+        {
+          "route": "checkout/learn-more",
+          "title": "Delivery instructions",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonCheckoutLearnMoreScreen, marketplaces/noon/screens/NoonCheckoutScreen/DeliveryInstruction"
+        },
+        {
+          "route": "checkout/burn-providers",
+          "title": "Points & vouchers",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonCheckoutBurnProvidersListOverlayScreen, marketplaces/noon/components/NoonCheckoutBurnSection"
+        },
+        {
+          "route": "checkout/provider-burn",
+          "title": "Redeem points",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonProviderBurnOverlayScreen, marketplaces/noon/components/NoonCheckoutProvider/{Header,FormTitle,FormFields,DialCodeSelector}, NoonCheckoutProviderCrescent"
+        },
+        {
+          "route": "checkout/provider-burn-otp",
+          "title": "Verify OTP",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonProviderBurnOtpOverlayScreen, marketplaces/noon/components/NoonCheckoutProvider/{AmountEntry,AmountTicket,AvailableBalance,VerifyOtp,InfoEditButton,OtpLoading}"
+        },
+        {
+          "route": "checkout/donation-learn-more",
+          "title": "Donation info",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/components/NoonCheckoutDonationLearnMoreOverlay/{NoonCheckoutDonationLearnMoreOverlay,styles}.ts(x)"
+        },
+        {
+          "route": "checkout/earn",
+          "title": "Earn points",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonCheckoutEarnOverlayScreen, marketplaces/noon/components/NoonCheckoutEarnCallout"
+        },
+        {
+          "route": "checkout/provider-earn",
+          "title": "Earn points (provider)",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonProviderEarnOverlayScreen"
+        },
+        {
+          "route": "checkout/provider-earn-help",
+          "title": "How it works",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonProviderEarnHelpOverlayScreen"
+        },
+        {
+          "route": "checkout/installation",
+          "title": "Installation slots",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonCheckoutInstallationOverlayScreen"
+        },
+        {
+          "route": "checkout/placing",
+          "title": "Placing order",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/components/NoonPostOrderLoader, marketplaces/noon/hooks/useNoonPostOrderMessage"
+        },
+        {
+          "route": "checkout/confirmation",
+          "title": "Order confirmation",
+          "presentation": "screen",
+          "urls": [
+            "/order-confirmation"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": "2026-10-14",
+          "source": "marketplaces/noon/screens/NoonOrderConfirmationV3Screen, marketplaces/noon/components/NoonShipmentV2, NoonOrderConfirmationAddress, NoonNotificationsBanner"
+        },
+        {
+          "route": "checkout/track-steps",
+          "title": "How to track",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonOrderConfirmationTrackStepsScreen"
+        },
+        {
+          "route": "checkout/payment-failure",
+          "title": "Payment failed",
+          "presentation": "modal",
+          "urls": [
+            "/payment-failure"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonCheckoutPaymentFailureScreen"
+        },
+        {
+          "route": "checkout/payment-failure-help",
+          "title": "Need help",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonCheckoutPaymentFailureNeedHelpOverlayScreen"
+        }
+      ]
+    },
+    {
+      "id": "orders",
+      "title": "Orders",
+      "group": "Post-order",
+      "initial": "orders/list",
+      "screenCount": 4,
+      "coverage": "spec",
+      "docs": {
+        "mapping": [
+          "src/flows/orders/MAPPING.md"
+        ],
+        "brief": ".claude/resources/flows/orders.md",
+        "skills": [
+          ".claude/skills/orders/SKILL.md"
+        ],
+        "specs": [
+          ".claude/skills/orders/spec.md"
+        ],
+        "blueprint": "Orders & tracking"
+      },
+      "states": {
+        "documented": [
+          "loading",
+          "empty",
+          "error",
+          "success"
+        ],
+        "registered": {},
+        "missing": [
+          "loading",
+          "empty",
+          "error",
+          "success"
+        ],
+        "heuristic": true
+      },
+      "screens": [
+        {
+          "route": "orders/list",
+          "title": "My orders",
+          "presentation": "screen",
+          "urls": [
+            "/orders"
+          ],
+          "truth": "reference",
+          "truthExplicit": true,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "reference: pds-noon-as.vercel.app/one-flows?screen=orderlisting (My Orders); bappzaar features/o2d/screens/O2DOrdersV2Screen"
+        },
+        {
+          "route": "orders/tracking",
+          "title": "Order tracking",
+          "presentation": "screen",
+          "urls": [
+            "/order-tracking"
+          ],
+          "truth": "mixed",
+          "truthExplicit": true,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "reference: pds-noon-as.vercel.app/one-flows (My Orders → Arriving today, tabs V1–V4); bappzaar features/o2d/screens/O2DOrderTrackingScreen"
+        },
+        {
+          "route": "orders/updates",
+          "title": "All updates",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/o2d/components/NoonOrderDeliveryProgressOverlay (see_all_actions / view_shipment_history)"
+        },
+        {
+          "route": "orders/cancel",
+          "title": "Cancel items",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/o2d/screens/O2DOrderCancelItemsScreen"
+        }
+      ]
+    },
+    {
+      "id": "returns",
+      "title": "Returns",
+      "group": "Post-order",
+      "initial": "returns/history",
+      "screenCount": 5,
+      "coverage": "spec",
+      "docs": {
+        "mapping": [
+          "src/flows/returns/MAPPING.md"
+        ],
+        "brief": ".claude/resources/flows/other-flows.md#returns",
+        "skills": [
+          ".claude/skills/returns/SKILL.md"
+        ],
+        "specs": [
+          ".claude/skills/returns/spec.md"
+        ],
+        "blueprint": "Returns"
+      },
+      "states": {
+        "documented": [
+          "loading",
+          "empty",
+          "error",
+          "success"
+        ],
+        "registered": {},
+        "missing": [
+          "loading",
+          "empty",
+          "error",
+          "success"
+        ],
+        "heuristic": true
+      },
+      "screens": [
+        {
+          "route": "returns/history",
+          "title": "Returns history",
+          "presentation": "screen",
+          "urls": [
+            "/returns-history"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/afs/returns/legacy/screens/AFSReturnsHistoryListScreen"
+        },
+        {
+          "route": "returns/returnable",
+          "title": "Your recent purchases",
+          "presentation": "screen",
+          "urls": [
+            "/returnable-items"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/afs/returns/legacy/screens/AFSReturnsReturnableListScreen"
+        },
+        {
+          "route": "returns/submit",
+          "title": "Return an item",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/afs/returns/screens/AFSReturnsReturnSubmissionScreen"
+        },
+        {
+          "route": "returns/summary",
+          "title": "Return request summary",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/afs/returns/screens/AFSReturnsRequestSummaryScreen"
+        },
+        {
+          "route": "returns/details",
+          "title": "Return details",
+          "presentation": "screen",
+          "urls": [
+            "/returns"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/afs/returns/screens/AFSReturnsDetailsScreen"
+        }
+      ]
+    },
+    {
+      "id": "reviews",
+      "title": "Ratings & reviews",
+      "group": "Post-order",
+      "initial": "reviews/rate",
+      "screenCount": 9,
+      "coverage": "spec",
+      "docs": {
+        "mapping": [
+          "src/flows/reviews/MAPPING.md"
+        ],
+        "brief": ".claude/resources/flows/reviews.md",
+        "skills": [
+          ".claude/skills/reviews/SKILL.md"
+        ],
+        "specs": [
+          ".claude/skills/reviews/spec.md"
+        ],
+        "blueprint": null
+      },
+      "states": {
+        "documented": [
+          "loading",
+          "empty",
+          "error",
+          "success"
+        ],
+        "registered": {
+          "loading": [
+            "reviews/aiLoader"
+          ],
+          "success": [
+            "reviews/submitted"
+          ]
+        },
+        "missing": [
+          "empty",
+          "error"
+        ],
+        "heuristic": true
+      },
+      "screens": [
+        {
+          "route": "reviews/rate",
+          "title": "Rate & pick",
+          "presentation": "screen",
+          "urls": [
+            "/reviews",
+            "/rate-review"
+          ],
+          "truth": "figma",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "Figma KzR8dy12uT8CtgBRHHY6Qx · 6042:140824; repo vbirla789/R-R-2.0-with-checkbox src/screens/ManualReviewScreen.tsx"
+        },
+        {
+          "route": "reviews/aiLoader",
+          "title": "AI writing",
+          "presentation": "screen",
+          "urls": [
+            "/review-ai-loader"
+          ],
+          "truth": "figma",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "Figma KzR8dy12uT8CtgBRHHY6Qx · 6305:167731; repo vbirla789/R-R-2.0-with-checkbox src/screens/AILoaderScreen.tsx"
+        },
+        {
+          "route": "reviews/draft",
+          "title": "Review draft",
+          "presentation": "screen",
+          "urls": [
+            "/review-draft"
+          ],
+          "truth": "figma",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "Figma KzR8dy12uT8CtgBRHHY6Qx · 7116:43925; repo vbirla789/R-R-2.0-with-checkbox src/screens/ReviewDraftScreen.tsx"
+        },
+        {
+          "route": "reviews/draftB",
+          "title": "Review draft (B)",
+          "presentation": "screen",
+          "urls": [
+            "/review-draft-b"
+          ],
+          "truth": "figma",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "Figma KzR8dy12uT8CtgBRHHY6Qx · 7159:44106; repo vbirla789/R-R-2.0-with-checkbox src/screens/ReviewDraftScreenB.tsx"
+        },
+        {
+          "route": "reviews/new",
+          "title": "Write a review",
+          "presentation": "screen",
+          "urls": [
+            "/new-review"
+          ],
+          "truth": "figma",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "Figma KzR8dy12uT8CtgBRHHY6Qx · 7629:275417; repo vbirla789/R-R-2.0-with-checkbox src/screens/NewReviewScreen.tsx"
+        },
+        {
+          "route": "reviews/pastOrders",
+          "title": "Rate your past orders",
+          "presentation": "screen",
+          "urls": [
+            "/rate-past-orders"
+          ],
+          "truth": "figma",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "Figma KzR8dy12uT8CtgBRHHY6Qx · 9129:106814; repo vbirla789/R-R-2.0-with-checkbox src/screens/RatePastOrdersScreen.tsx"
+        },
+        {
+          "route": "reviews/submitted",
+          "title": "Review submitted",
+          "presentation": "screen",
+          "urls": [
+            "/review-submitted"
+          ],
+          "truth": "figma",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "Figma KzR8dy12uT8CtgBRHHY6Qx · 6042:141658; repo vbirla789/R-R-2.0-with-checkbox src/screens/SubmittedScreen.tsx"
+        },
+        {
+          "route": "reviews/deck",
+          "title": "Rate past orders (deck)",
+          "presentation": "screen",
+          "urls": [
+            "/rate-orders-deck"
+          ],
+          "truth": "figma",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "Figma KzR8dy12uT8CtgBRHHY6Qx · 8842:127140; repo vbirla789/R-R-2.0-with-checkbox src/screens/PastOrderRatingScreen.tsx"
+        },
+        {
+          "route": "reviews/slider",
+          "title": "Rate past orders (slider)",
+          "presentation": "screen",
+          "urls": [
+            "/rate-orders-slider"
+          ],
+          "truth": "figma",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "Figma KzR8dy12uT8CtgBRHHY6Qx · 8810:123358; repo vbirla789/R-R-2.0-with-checkbox src/screens/PastOrderRatingScreenB.tsx"
+        }
+      ]
+    },
+    {
+      "id": "account",
+      "title": "Account",
+      "group": "Profile",
+      "initial": "account/account",
+      "screenCount": 17,
+      "coverage": "spec",
+      "docs": {
+        "mapping": [
+          "src/flows/account/MAPPING.md"
+        ],
+        "brief": ".claude/resources/flows/account.md",
+        "skills": [
+          ".claude/skills/account/SKILL.md"
+        ],
+        "specs": [
+          ".claude/skills/account/spec.md"
+        ],
+        "blueprint": "Account / profile"
+      },
+      "states": {
+        "documented": [
+          "loading",
+          "empty",
+          "error",
+          "success"
+        ],
+        "registered": {},
+        "missing": [
+          "loading",
+          "empty",
+          "error",
+          "success"
+        ],
+        "heuristic": true
+      },
+      "screens": [
+        {
+          "route": "account/account",
+          "title": "Account",
+          "presentation": "screen",
+          "urls": [
+            "/account"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "bappzaar master ba159e20381: marketplaces/noon/screens/NoonAccountScreen, marketplaces/noon/components/NoonAccount/NoonAccountSignedInState, marketplaces/noon/components/NoonAccount/NoonAccountProfileHeader, marketplaces/noon/components/NoonAccount/NoonAccountCircularProgressEdit, marketplaces/noon/components/NoonAccount/NoonAccountNoonOne/*, marketplaces/noon/components/NoonAccount/NoonAccountActionCard/* (NoonAccountMyOrdersActionCard, NoonAccountMyWishlistActionCard), marketplaces/noon/components/NoonAccount/NoonAccountSections/*, marketplaces/noon/components/NoonAccount/NoonAccountFooter — see MAPPING.md"
+        },
+        {
+          "route": "account/signedOut",
+          "title": "Signed out",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/components/NoonAccount/NoonAccountSignedOutState"
+        },
+        {
+          "route": "account/editProfile",
+          "title": "Edit profile",
+          "presentation": "screen",
+          "urls": [
+            "/edit-profile"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonAccountScreen/NoonAccountEditProfileScreen, marketplaces/noon/components/NoonAccount/NoonAccountEditProfile/*"
+        },
+        {
+          "route": "account/birthday",
+          "title": "Birthday picker",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "src/screens/DatePickerScreen + marketplaces/noon/components/NoonAccount/NoonAccountEditProfile/NoonAccountBirthdayPickerContent"
+        },
+        {
+          "route": "account/nationality",
+          "title": "Nationality list",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "kit-backed",
+          "verified": null,
+          "source": "stand-in for noon.PersonalizedExperienceNationalityListingScreen"
+        },
+        {
+          "route": "account/security",
+          "title": "Account security",
+          "presentation": "sheet",
+          "urls": [
+            "/account-security"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/components/NoonAccount/NoonAccountInnerScreenContent/NoonAccountSecuritySettings (+ Loader) in noon.NoonAccountBottomSheetScreen (AddressV2FloatingOverlay)"
+        },
+        {
+          "route": "account/manageDevices",
+          "title": "Manage devices",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonAccountScreen/NoonAccountSecuritySettingsManageAllDevicesScreen, marketplaces/noon/components/NoonAccount/NoonAccountInnerScreenContent/NoonAccountSecuritySettings/{NoonSecurityScreenHeader,NoonSecurityManageDevicesSection}"
+        },
+        {
+          "route": "account/changePassword",
+          "title": "Change password",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/auth/login/screens/PasswordEditScreen (noon.PasswordEditScreen)"
+        },
+        {
+          "route": "account/deletion",
+          "title": "Account deletion",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonAccountDeletionScreen"
+        },
+        {
+          "route": "account/deletionReason",
+          "title": "Deletion reason",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "kit-backed",
+          "verified": null,
+          "source": "stand-in for noon.ListingOverlayScreen"
+        },
+        {
+          "route": "account/notifications",
+          "title": "Notifications",
+          "presentation": "sheet",
+          "urls": [
+            "/notifications"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/components/NoonAccount/NoonAccountInnerScreenContent/NoonAccountNotificationsSettings in noon.NoonAccountBottomSheetScreen (AddressV2FloatingOverlay)"
+        },
+        {
+          "route": "account/preferences",
+          "title": "Preferences",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/components/NoonAccount/NoonAccountInnerScreenContent/NoonAccountPreferences (+ NoonAccountClearCacheConfirmation) in noon.NoonAccountBottomSheetScreen (AddressV2FloatingOverlay)"
+        },
+        {
+          "route": "account/policies",
+          "title": "Policies",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/components/NoonAccount/NoonAccountInnerScreenContent/NoonAccountPolicies in noon.NoonAccountBottomSheetScreen (AddressV2FloatingOverlay)"
+        },
+        {
+          "route": "account/country",
+          "title": "Country selector",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/components/NoonAccount/NoonAccountInnerScreenContent/NoonAccountCountrySelector in noon.NoonAccountBottomSheetScreen (AddressV2FloatingOverlay)"
+        },
+        {
+          "route": "account/changeCountry",
+          "title": "Change country",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonAccountScreen/NoonAccountChangeCountryAnimationScreen"
+        },
+        {
+          "route": "account/changeLanguage",
+          "title": "Change language",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonAccountScreen/NoonAccountChangeLanguageAnimationScreen"
+        },
+        {
+          "route": "account/signOut",
+          "title": "Sign out",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/components/NoonAccount/NoonAccountInnerScreenContent/NoonAccountSignOutConfirmation in noon.NoonAccountBottomSheetScreen (AddressV2FloatingOverlay)"
+        }
+      ]
+    },
+    {
+      "id": "address",
+      "title": "Addresses",
+      "group": "Profile",
+      "initial": "address/select",
+      "screenCount": 11,
+      "coverage": "brief",
+      "docs": {
+        "mapping": [],
+        "brief": ".claude/resources/flows/other-flows.md#address",
+        "skills": [],
+        "specs": [],
+        "blueprint": "Address / cards management"
+      },
+      "states": {
+        "documented": [],
+        "registered": {
+          "success": [
+            "address/success",
+            "address/toast"
+          ]
+        },
+        "missing": [],
+        "heuristic": true
+      },
+      "screens": [
+        {
+          "route": "address/select",
+          "title": "Address Book",
+          "presentation": "modal",
+          "urls": [
+            "/addresses"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "src/screens/AddressV2/SelectScreen/{SelectScreen,Wrapper,styles}.ts(x), components/AddressV2/Select/**, components/AddressV2/Buttons/{AddAddress,LocationNudge}, components/AddressV2/Search/Input, components/TabSwitcher, components/MapV2/MapScreenHeader"
+        },
+        {
+          "route": "address/selectSheet",
+          "title": "Address Book (bottom sheet)",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "src/screens/AddressV2/SelectScreen/{SelectScreen,Wrapper,styles}.ts(x) (isBottomSheet), components/AddressV2/AddressFloatingOverlay (withSlideAnimation), marketplaces/noon/components/NoonAddressSelector (changeAddress)"
+        },
+        {
+          "route": "address/map",
+          "title": "Map pin (add)",
+          "presentation": "modal",
+          "urls": [
+            "/add-address"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "src/screens/AddressV2/LatLngMapScreen/LatLngMapScreen.tsx, components/MapV2/{Map,MapCover,MapPinTooltip,MapSearchButton,MapScreenUnServiceableView,MapKMLPolygons}, MapV2/MapFooter/LatLng/*, components/AddressV2/{AddressFloatingOverlay,Buttons/CurrentLocation,Buttons/AddressOverlayButton,LatLng/Location*}"
+        },
+        {
+          "route": "address/create",
+          "title": "Address details (create)",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "src/screens/AddressV2/LatLngCreateScreen/LatLngCreateScreen.tsx, components/AddressV2/LatLng/Form/**, components/AddressV2/Form/{DetailsContainer,Header,Footer,Input,TagSection,PropertyDetailsSection,CustomerSection}, components/AddressV2/AddressPhoneInput"
+        },
+        {
+          "route": "address/update",
+          "title": "Address details (edit)",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "src/screens/AddressV2/LatLngUpdateV2Screen/LatLngUpdateV2Screen.tsx (UI shared with LatLngCreateScreen)"
+        },
+        {
+          "route": "address/success",
+          "title": "Address saved",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "src/screens/AddressV2/LatLngCreateSuccessScreen/{LatLngCreateSuccessScreen,styles}.ts(x)"
+        },
+        {
+          "route": "address/controls",
+          "title": "Address controls",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "src/screens/AddressV2/AddressControlsScreen/*, components/AddressV2/Screens/AddressControls/{Buttons/ActionControls,DeleteAddress}"
+        },
+        {
+          "route": "address/search",
+          "title": "Search location",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "src/screens/AddressV2/SearchScreen/{SearchScreen,styles}.ts(x), components/AddressV2/Search/Result/**, components/AddressV2/Buttons/{CurrentLocation,LocateOnMap}"
+        },
+        {
+          "route": "address/locationAccess",
+          "title": "Location access",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "src/screens/AddressV2/LocationAccessScreen/{LocationAccessScreen,styles}.ts(x)"
+        },
+        {
+          "route": "address/locationOff",
+          "title": "Address Book (location off)",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "src/screens/AddressV2/SelectScreen/SelectScreen.tsx (locationPermission PERMISSION_DENIED), components/AddressV2/Buttons/LocationNudge"
+        },
+        {
+          "route": "address/toast",
+          "title": "Address toast",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "src/screens/AddressV2/AddressToastScreen/{AddressToastScreen,styles}.ts(x), utils/Address/Utils.addressV2ShowToast"
+        }
+      ]
+    },
+    {
+      "id": "cards",
+      "title": "Manage cards",
+      "group": "Profile",
+      "initial": "cards/cards",
+      "screenCount": 8,
+      "coverage": "brief",
+      "docs": {
+        "mapping": [],
+        "brief": ".claude/resources/flows/other-flows.md#cards",
+        "skills": [],
+        "specs": [],
+        "blueprint": "Address / cards management"
+      },
+      "states": {
+        "documented": [
+          "empty",
+          "success"
+        ],
+        "registered": {
+          "empty": [
+            "cards/empty"
+          ],
+          "success": [
+            "cards/success"
+          ]
+        },
+        "missing": [],
+        "heuristic": true
+      },
+      "screens": [
+        {
+          "route": "cards/cards",
+          "title": "Saved cards",
+          "presentation": "screen",
+          "urls": [
+            "/cards"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/payment/screens/PaymentCardsV2Screen (+ components/PaymentScrollableHeader, PaymentAnimatedListCard, PaymentCard, PaymentCardShimmer, PaymentCardsSectionTitle, screens/PaymentCardActionsScreen, hooks/usePaymentEditActions)"
+        },
+        {
+          "route": "cards/actions",
+          "title": "Card actions",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/payment/screens/PaymentCardActionsScreen, components/PaymentCardActionButton"
+        },
+        {
+          "route": "cards/delete",
+          "title": "Delete confirmation",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/payment/components/PaymentActionConfirmation (via hooks/usePaymentEditActions DELETE_CARD)"
+        },
+        {
+          "route": "cards/empty",
+          "title": "No saved cards",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/payment/components/PaymentEmptyCardsScreen"
+        },
+        {
+          "route": "cards/many",
+          "title": "Many cards (sections)",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/payment/screens/PaymentCardsV2Screen (sections memo: > 5 cards)"
+        },
+        {
+          "route": "cards/add",
+          "title": "Add card",
+          "presentation": "screen",
+          "urls": [
+            "/add-card"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/payment/screens/PaymentCardManualAdditionScreen (+ components/PaymentCardAdditionOptions, PaymentCardAdditionOption, PaymentScanOptions, PaymentCardFormV2, PaymentTextInputV2, PaymentSwitchV2, PaymentCardTypeLogo, PaymentCardBrands, PaymentButtonV2)"
+        },
+        {
+          "route": "cards/form",
+          "title": "Add card — form",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/payment/components/PaymentCardFormV2 (isFormInitiallyVisible: no scan support / skipFullScreenScanOptions)"
+        },
+        {
+          "route": "cards/success",
+          "title": "Card saved",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/payment/screens/PaymentCardAdditionSuccessScreen (lottie save_card/v4/en/reveal)"
+        }
+      ]
+    },
+    {
+      "id": "noonone",
+      "title": "noon One",
+      "group": "Profile",
+      "initial": "noonone/landing",
+      "screenCount": 22,
+      "coverage": "spec",
+      "docs": {
+        "mapping": [
+          "src/flows/noonone/MAPPING.md"
+        ],
+        "brief": ".claude/resources/flows/other-flows.md#noonone",
+        "skills": [
+          ".claude/skills/noon-one/SKILL.md"
+        ],
+        "specs": [
+          ".claude/skills/noon-one/spec.md"
+        ],
+        "blueprint": null
+      },
+      "states": {
+        "documented": [
+          "loading",
+          "empty",
+          "error",
+          "success"
+        ],
+        "registered": {
+          "error": [
+            "noonone/acceptInviteError"
+          ],
+          "success": [
+            "noonone/success",
+            "noonone/ocOne"
+          ]
+        },
+        "missing": [
+          "loading",
+          "empty"
+        ],
+        "heuristic": true
+      },
+      "screens": [
+        {
+          "route": "noonone/landing",
+          "title": "noon One",
+          "presentation": "screen",
+          "urls": [
+            "/noon-one",
+            "/noonvip"
+          ],
+          "truth": "mixed",
+          "truthExplicit": true,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "Figma Af34gfmhQ1D0wstXUEHSIF · 24:2604 (non-member) · features/vip/components/VIPModules/{VIPMembershipOverviewModule (showDefault), VIPOfferPlanModule, VIPSavingsOverviewModule (V1 overview), VIPBenefitsModule, VIPMarketplaceBenefitsCarouselModule + VIPSlider, VIPVideoCarouselModule, VIPBannerCarouselModule, VIPExpandableTextModule (grouped)}, VIPModuleRenderer, VIPOffersOverlayScreen (coupon), VIPSubscriptionButtonV2 · member view: features/vip/screens/VIPLandingScreen (+ features/vip/components/VIPModules/{VIPBannerModule, VIPMarketplaceBenefitsCarouselModule, VIPBenefitsModule, VIPFamilyPlanModule, VIPGuideStepsModule, VIPExpandableTextModule, VIPMembershipOverviewModule, VIPSavingsOverviewModule}, VIPSubscriptionButtonV2, VIPButton, VIPDashedBorder, VIPSlider, VIPPlanMembers, VIPStatusIndicator, VIPSkeletonLoader, VIPTransitionAnim)"
+        },
+        {
+          "route": "noonone/success",
+          "title": "Subscribed (success animation)",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/components/VIPTransitionAnim (VIPLandingScreen VIPEventEmitter.onVipMembershipChanged → showSuccessAnimation), features/vip/components/VIPModules/VIPMembershipOverviewModule, VIPSavingsOverviewModule"
+        },
+        {
+          "route": "noonone/plans",
+          "title": "Choose your plan",
+          "presentation": "screen",
+          "urls": [
+            "/noon-one-all-plans",
+            "/vip-plans"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPQuickPlanSelectV3Screen (+ Plan/Plan.tsx, Plan/BundlePlan.tsx), components/VIPSubscriptionButtonV2, src/components/SegmentedControlTabSwitcher"
+        },
+        {
+          "route": "noonone/planDetails",
+          "title": "Plan details (trial guide)",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/utils/VIPPopupUtil.showPlanDetailDialog → screens/VIPGenericOverlayScreen + components/VIPPopups/VIPPlanDetailsPopup (REGULAR · FAMILY_PLAN); variant planSelect = screens/VIPInfoOverlayScreen via VIPUtil.showInfoOverlay"
+        },
+        {
+          "route": "noonone/trialGuide",
+          "title": "Trial guide",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPTrialGuideOverlayScreen (opened by VIPPaymentV2Screen/VIPTrialGuideButton)"
+        },
+        {
+          "route": "noonone/planOption",
+          "title": "Plan options",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPPlanOptionOverlayScreen (VIPUtil.showPlanOptionOverlay)"
+        },
+        {
+          "route": "noonone/familyPlans",
+          "title": "Family plans",
+          "presentation": "screen",
+          "urls": [
+            "/noon-one-sharing"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPFamilyPlansScreen (+ components/VIPPlanMembers, VIPBenefitsModule hideModuleWrapper, VIPExpandableTextModule grouped, VIPScrollEnterView)"
+        },
+        {
+          "route": "noonone/payment",
+          "title": "Payment",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPPaymentV2Screen (+ VIPPaymentCardSelect, VIPPaymentMobileSelect, VIPTrialGuideButton), components/VIPSubscriptionButtonV2, hooks/useVIPPaymentData"
+        },
+        {
+          "route": "noonone/addCard",
+          "title": "Add card",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPAddCardOverlayScreen (src/components/Overlay, FormikTextInput, FormikCheckbox, FormikSubmitButton → PrimaryButton)"
+        },
+        {
+          "route": "noonone/addCvv",
+          "title": "Add CVV",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPAddCvvOverlayScreen (src/components/Overlay)"
+        },
+        {
+          "route": "noonone/mobilePay",
+          "title": "Pay with mobile",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPMobilePayOverlayScreen (src/components/Overlay, PhoneInput, SegmentedTextInput), services/VIPBokuService"
+        },
+        {
+          "route": "noonone/info",
+          "title": "Info popup",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPInfoOverlayScreen (VIPUtil.showInfoOverlay / showWarningPopup, VIPSubscriptionButtonV2.showWarningPopup)"
+        },
+        {
+          "route": "noonone/generic",
+          "title": "Generic overlay",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPGenericOverlayScreen + components/VIPPopups/VIPInfoPopup, VIPUpdatePopup (utils/VIPPopupUtil)"
+        },
+        {
+          "route": "noonone/offers",
+          "title": "noon One offers",
+          "presentation": "modal",
+          "urls": [
+            "/noon-one-vouchers",
+            "/noon-one-bank-offers",
+            "/noon-one-input-referrals",
+            "/noon-one-referrals-input"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPOffersOverlayScreen (VIPUtil.showReferralsInputOverlay; components/VIPWave, VIPButton, VIPGenericOverlayScreen success popup)"
+        },
+        {
+          "route": "noonone/partnerOffer",
+          "title": "Partner offer",
+          "presentation": "screen",
+          "urls": [
+            "/noon-one-partner-offer",
+            "/noon-one-stc"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPOffersV2Screen (+ components/VIPModules/VIPPartnerOfferPlanModule, VIPSubscriptionButtonV2)"
+        },
+        {
+          "route": "noonone/confirmOffer",
+          "title": "Confirm offer plan",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPConfirmOfferPlanScreen"
+        },
+        {
+          "route": "noonone/confirmVoucher",
+          "title": "Confirm voucher plan",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPConfirmVoucherPlanScreen"
+        },
+        {
+          "route": "noonone/bundle",
+          "title": "Bundle (Yango Play)",
+          "presentation": "modal",
+          "urls": [
+            "/noon-one-bundle"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPBundleV2Screen (live: VIPUtil.showBundleScreen always V2; /noon-one-bundle uses V1 VIPBundleScreen for non-yango codes — not ported)"
+        },
+        {
+          "route": "noonone/acceptInvite",
+          "title": "Accept plan invite",
+          "presentation": "modal",
+          "urls": [
+            "/noon-one-share-invite"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPAcceptPlanInviteOverlayScreen (+ VIPAcceptInviteOverlaySkeleton, components/VIPMemberInitialHexagon, VIPModules/VIPBenefitsModule hideModuleWrapper)"
+        },
+        {
+          "route": "noonone/acceptInviteError",
+          "title": "Accept invite error",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPAcceptInviteErrorOverlayScreen"
+        },
+        {
+          "route": "noonone/cartOverlay",
+          "title": "Cart overlay",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPCartOverlayScreen (opened by marketplaces/noon/screens/NoonCartScreen showVipPush / showOnePush; chrome src/components/Overlay)"
+        },
+        {
+          "route": "noonone/ocOne",
+          "title": "OC One overlay",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/OCOneOverlayScreen (opened by marketplaces/noon/screens/NoonOrderConfirmationScreenV3 openOneSubscriptionOverlay)"
+        }
+      ]
+    },
+    {
+      "id": "membership",
+      "title": "noon One membership",
+      "group": "Profile",
+      "initial": "membership/manage",
+      "screenCount": 24,
+      "coverage": "brief",
+      "docs": {
+        "mapping": [
+          "src/flows/membership/MAPPING.md",
+          "src/flows/membership/perks/MAPPING.md"
+        ],
+        "brief": ".claude/resources/flows/other-flows.md#membership",
+        "skills": [],
+        "specs": [],
+        "blueprint": "Membership / subscription"
+      },
+      "states": {
+        "documented": [],
+        "registered": {},
+        "missing": [],
+        "heuristic": true
+      },
+      "screens": [
+        {
+          "route": "membership/manage",
+          "title": "Manage membership",
+          "presentation": "screen",
+          "urls": [
+            "/manage-membership",
+            "/noon-one-manage-membership"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPManageMembershipV3Screen"
+        },
+        {
+          "route": "membership/upgrade",
+          "title": "Change plan",
+          "presentation": "screen",
+          "urls": [
+            "/noon-one-upgrade",
+            "/upgrade-plan"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPUpgradePlanV2Screen"
+        },
+        {
+          "route": "membership/reviewPlan",
+          "title": "Review and confirm",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPCancelMembershipV2Screen/VIPReviewCancelUpgradeScreen (via VIPUpgradePlanV2Screen showReviewOverlay)"
+        },
+        {
+          "route": "membership/switchPlan",
+          "title": "Switch plan",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPSwitchPlanOverlayScreen"
+        },
+        {
+          "route": "membership/info",
+          "title": "Info overlay",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPInfoOverlayScreen"
+        },
+        {
+          "route": "membership/changePlan",
+          "title": "Choose your plan",
+          "presentation": "screen",
+          "urls": [
+            "/change-plan"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPChangePlanScreen"
+        },
+        {
+          "route": "membership/invoice",
+          "title": "View invoice",
+          "presentation": "screen",
+          "urls": [
+            "/invoices",
+            "/invoice"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPInvoiceScreen"
+        },
+        {
+          "route": "membership/cancel",
+          "title": "Cancel membership",
+          "presentation": "screen",
+          "urls": [
+            "/cancel-membership"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPCancelMembershipV2Screen (BenefitsScreen, DiscountOfferScreen, SurveyScreen)"
+        },
+        {
+          "route": "membership/cancelSheet",
+          "title": "Cancel – overlay page",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPCancelMembershipV2Screen (ReminderScreen, VIPReviewCancelUpgradeScreen)"
+        },
+        {
+          "route": "membership/unusedSeats",
+          "title": "Unused seats",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPUnusedSeatsOverlayScreen"
+        },
+        {
+          "route": "membership/planOptions",
+          "title": "Switch plan instead",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPPlanOptionOverlayScreen"
+        },
+        {
+          "route": "membership/groupSavings",
+          "title": "Family group savings",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPCancelGroupSavingsOverlayScreen"
+        },
+        {
+          "route": "membership/loseAccess",
+          "title": "Lose access warning",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPLoseAccessWarningOverlayScreen"
+        },
+        {
+          "route": "membership/leaveFamilyOverlay",
+          "title": "Leave family plan – confirm",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPLeaveFamilyPlanOverlayScreen"
+        },
+        {
+          "route": "membership/confirmOffer",
+          "title": "Confirm retention offer",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPConfirmOfferPlanScreen"
+        },
+        {
+          "route": "membership/familyPlans",
+          "title": "Family plans",
+          "presentation": "screen",
+          "urls": [
+            "/family-plan",
+            "/family-plans"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPFamilyPlansScreen"
+        },
+        {
+          "route": "membership/familyReview",
+          "title": "Family plan review",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/components/VIPPopups/VIPPlanDetailsPopup (VIPFamilyPlanDetailsPopup)"
+        },
+        {
+          "route": "membership/shareInvite",
+          "title": "Share plan invite",
+          "presentation": "screen",
+          "urls": [
+            "/share-invite"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPSharePlanInviteScreen"
+        },
+        {
+          "route": "membership/removeMember",
+          "title": "Remove family member",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPRemoveFamilyMemberOverlayScreen"
+        },
+        {
+          "route": "membership/leaveFamily",
+          "title": "Leave family plan",
+          "presentation": "screen",
+          "urls": [
+            "/leave-family"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPLeaveFamilyPlanScreen"
+        },
+        {
+          "route": "membership/referrals",
+          "title": "Refer & Earn",
+          "presentation": "screen",
+          "urls": [
+            "/referrals",
+            "/noon-one-referrals"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPReferralsScreen"
+        },
+        {
+          "route": "membership/referralsInput",
+          "title": "Referral code",
+          "presentation": "modal",
+          "urls": [
+            "/referral-code"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPReferralsInputOverlayScreen"
+        },
+        {
+          "route": "membership/partner",
+          "title": "Partner offer",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPPartnerOverlayScreen"
+        },
+        {
+          "route": "membership/yangoCredits",
+          "title": "Yango Play credits T&C",
+          "presentation": "modal",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": false,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "features/vip/screens/VIPYangoCreditsOverlayScreen"
+        }
+      ]
+    },
+    {
+      "id": "wishlist",
+      "title": "Wishlist",
+      "group": "Profile",
+      "initial": "wishlist/wishlist",
+      "screenCount": 5,
+      "coverage": "brief",
+      "docs": {
+        "mapping": [
+          "src/flows/wishlist/MAPPING.md"
+        ],
+        "brief": ".claude/resources/flows/other-flows.md#wishlist",
+        "skills": [],
+        "specs": [],
+        "blueprint": "Wishlist"
+      },
+      "states": {
+        "documented": [
+          "loading",
+          "empty",
+          "error"
+        ],
+        "registered": {
+          "loading": [
+            "wishlist/loading"
+          ],
+          "empty": [
+            "wishlist/empty"
+          ]
+        },
+        "missing": [
+          "error"
+        ],
+        "heuristic": true
+      },
+      "screens": [
+        {
+          "route": "wishlist/wishlist",
+          "title": "Wishlist",
+          "presentation": "screen",
+          "urls": [
+            "/wishlist"
+          ],
+          "truth": "bappzaar",
+          "truthExplicit": true,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonWishlistV2Screen, components/NoonWishlistV2{Header,CollectionTitle,CollectionTitleList,CollectionImageBackground,FloatingCartButton}, NoonProductBox/NoonProductBoxVertical (isWishlist), NoonProductBoxWishlistAddToCart, NoonProductBoxCollectionButton, NoonProductBoxOptionButton"
+        },
+        {
+          "route": "wishlist/no-collections",
+          "title": "Wishlist (no collections)",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": true,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/components/NoonWishlistV2NoCollectionWidget"
+        },
+        {
+          "route": "wishlist/empty",
+          "title": "Empty wishlist",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": true,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/components/NoonWishlistV2Empty, screens/NoonWishlistV2Screen (isEmpty)"
+        },
+        {
+          "route": "wishlist/loading",
+          "title": "Wishlist (loading)",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": true,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/components/NoonWishlistV2ScreenSkeleton"
+        },
+        {
+          "route": "wishlist/options",
+          "title": "Item options",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": true,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "marketplaces/noon/screens/NoonWishlistV2CollectionOptionScreen"
+        }
+      ]
+    },
+    {
+      "id": "fieldds",
+      "title": "Field Design System",
+      "group": "Design system",
+      "initial": "fieldds/gallery",
+      "screenCount": 4,
+      "coverage": "none",
+      "docs": {
+        "mapping": [],
+        "brief": null,
+        "skills": [],
+        "specs": [],
+        "blueprint": null
+      },
+      "states": {
+        "documented": [],
+        "registered": {},
+        "missing": [],
+        "heuristic": true
+      },
+      "screens": [
+        {
+          "route": "fieldds/gallery",
+          "title": "Field components",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "reference",
+          "truthExplicit": true,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "reference: github.com/ayaneshu/field-design-system packages/components/src (Button, IconButton, PageHeader, Checkbox, Radio, Toggle, Switch, FilterChip, InfoBanner, RatingInput, SearchBar, InputText, InputTextarea, ListItem, Accordion, Divider, ActionBar, Toast)"
+        },
+        {
+          "route": "fieldds/sheet",
+          "title": "Bottom sheet + action bar",
+          "presentation": "sheet",
+          "urls": [],
+          "truth": "reference",
+          "truthExplicit": true,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "reference: github.com/ayaneshu/field-design-system packages/components/src/BottomSheet, ActionBar"
+        },
+        {
+          "route": "fieldds/tabs",
+          "title": "Bottom navigation",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "reference",
+          "truthExplicit": true,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "reference: github.com/ayaneshu/field-design-system packages/components/src/BottomNav"
+        },
+        {
+          "route": "fieldds/glass",
+          "title": "Liquid Glass",
+          "presentation": "screen",
+          "urls": [],
+          "truth": "bappzaar",
+          "truthExplicit": true,
+          "label": "reference-backed",
+          "verified": null,
+          "source": "bappzaar origin/noon/ios/liquid-upgrade: marketplaces/noon/NoonApp.ts (getTab iOS 26), src/utils/BottomTabs/ScrollVisibilityProvider.ts, marketplaces/noon/components/NoonNativeStickyBar (embedded), ios/noon/NoonStickyBar/NoonStickyBarComponentView.mm"
+        }
+      ]
+    }
+  ]
+}

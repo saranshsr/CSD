@@ -1,0 +1,98 @@
+.buttons {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: var(--nk-space-s12);
+}
+.button {
+  flex: 1;
+  border-radius: var(--nk-radius-r12);
+  border: 1px solid transparent !important;
+  flex-direction: row;
+}
+.buttonText {
+  font: var(--nk-type-mb-b16-semibold);
+  letter-spacing: var(--nk-space-mb-ls15);
+}
+.buttonIcon {
+  display: block;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+
+.reminder {
+  width: 100%;
+  background: var(--nk-color-bg-surface);
+  border-radius: var(--nk-radius-r12);
+  padding: var(--nk-space-s12);
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s4);
+  box-sizing: border-box;
+}
+.reminderHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s4);
+}
+.reminderTitle {
+  font: var(--nk-type-mb-b13-bold);
+  color: var(--nk-palette-danger-red);
+}
+
+/* VIPPlanMembers container: row, surfaceTertiary bg + border, r40 */
+.members {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: 40px;
+}
+.ring {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 50%;
+  border-style: solid;
+  border-color: var(--nk-color-bg-surface);
+  box-sizing: border-box;
+  background: var(--nk-color-bg-surface);
+}
+.fill {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--nk-color-text-inverse);
+  font-weight: var(--nk-font-weight-bold);
+  line-height: 24px;
+  letter-spacing: var(--nk-space-mb-cls28);
+}
+.plus {
+  position: relative;
+  width: 10px;
+  height: 10px;
+}
+.plus::before,
+.plus::after {
+  content: '';
+  position: absolute;
+  background: var(--nk-color-text-tertiary);
+  border-radius: 1px;
+}
+.plus::before {
+  left: 0;
+  top: 4.25px;
+  width: 10px;
+  height: 1.5px;
+}
+.plus::after {
+  top: 0;
+  left: 4.25px;
+  width: 1.5px;
+  height: 10px;
+}

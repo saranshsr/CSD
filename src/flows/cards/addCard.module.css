@@ -1,0 +1,19 @@
+/* screens/PaymentCardManualAdditionScreen/styles.ts (390 × 844 device) */
+.root { position: relative; height: 100%; overflow: hidden; background: var(--nk-color-bg-page); }
+.header { position: absolute; top: 0; left: 0; right: 0; z-index: 2; }
+.headerContent { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.headerTitle { font: var(--nk-type-text16-bold-lh20); color: var(--nk-color-text-strong); }
+.scanOptions { display: flex; gap: var(--nk-space-s8); }
+.cardContainer { position: absolute; top: calc(var(--nk-inset-top) + 68px - 40px); left: 0; width: 100%; overflow: hidden; pointer-events: none; }
+.cardSkin { display: block; width: 100%; aspect-ratio: 335 / 217; object-fit: contain; transform: scale(1.1); transform-origin: center top; user-select: none; }
+.scroll { position: absolute; inset: 0; box-sizing: border-box; padding-top: calc(var(--nk-inset-top) + 68px); }
+.optionsContainer { position: relative; height: 100%; }
+.options { position: absolute; left: var(--nk-space-s12); right: var(--nk-space-s12); }
+.scanOptionsCard { padding-bottom: var(--nk-space-s4); }
+.divider { height: 1px; margin: 0 var(--nk-space-s12) 0 64px; background-image: repeating-linear-gradient(90deg, var(--nk-color-cards-dashed-border) 0 5px, transparent 5px 11px); }
+.manualSection { position: absolute; top: 0; left: var(--nk-space-s12); right: var(--nk-space-s12); overflow: hidden; background: var(--nk-color-bg-surface); transform-origin: center top; }
+.formContainer { position: absolute; top: 0; left: 0; right: 0; }
+.formScaleReset { transform: scaleX(0.942); }
+.manualButton { display: block; width: 100%; padding: 0; border: 0; background: none; text-align: left; cursor: pointer; }
+.manualEntryContent { height: 112px; box-sizing: border-box; padding: var(--nk-space-s8) var(--nk-space-s12) 0; }
+.message { position: absolute; left: var(--nk-space-s12); right: var(--nk-space-s12); display: flex; justify-content: center; }

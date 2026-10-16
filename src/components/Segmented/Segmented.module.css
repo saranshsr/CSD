@@ -1,0 +1,58 @@
+/* variant="field" (Field M-Switch) */
+.track {
+  position: relative;
+  display: flex;
+  padding: var(--nk-space-s4);
+  border-radius: var(--nk-radius-full);
+  background: var(--nk-field-surface-secondary);
+  user-select: none;
+  -webkit-user-select: none;
+}
+.disabled {
+  opacity: 0.5;
+}
+/* thumb layer = the content box; flipped in RTL so the % translate runs right → left */
+.thumbLayer {
+  position: absolute;
+  inset: var(--nk-space-s4);
+  pointer-events: none;
+}
+[dir='rtl'] .thumbLayer {
+  transform: scaleX(-1);
+}
+.thumb {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  display: block;
+  border-radius: var(--nk-radius-full);
+  background: var(--nk-field-surface-primary);
+  box-shadow: var(--nk-field-shadow-sm);
+}
+.option {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0 var(--nk-space-s10);
+  border: 0;
+  border-radius: var(--nk-radius-full);
+  background: none;
+  cursor: pointer;
+  letter-spacing: var(--nk-field-tracking-b);
+  white-space: nowrap;
+  transition: opacity 0.1s ease-out;
+}
+.option:active:not(:disabled) {
+  opacity: 0.85;
+}
+.option:disabled {
+  cursor: default;
+}
+.label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

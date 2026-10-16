@@ -1,0 +1,84 @@
+/* Figma "All flows" Checkout · address card 127:44080 */
+.card {
+  width: 100%;
+  margin-top: var(--nk-space-s12);
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s10);
+  padding: var(--nk-space-s12) var(--nk-space-s16) var(--nk-space-s10) var(--nk-space-s12);
+  border: 0;
+  border-radius: var(--nk-radius-r16);
+  background: var(--nk-color-bg-surface);
+  text-align: start;
+  cursor: pointer;
+}
+/* column gap 4 */
+.info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s4);
+}
+.labelRow {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s6);
+}
+/* Address type 20×20, glyph at inset 13.54% / 9.37% */
+.typeIcon {
+  position: relative;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+}
+.homeIcon {
+  position: absolute;
+  left: 1.875px;
+  top: 2.708px;
+  display: block;
+}
+.kitIcon {
+  position: absolute;
+  inset: 0;
+  background: var(--nk-color-text-primary);
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+}
+/* H16/Bold 16/20 (-0.15) colour/text-n-icon/primary #1D2539 */
+.label {
+  flex: 1;
+  min-width: 0;
+  font: var(--nk-type-text16-bold-lh20);
+  letter-spacing: -0.15px;
+  color: var(--nk-color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.lineRow {
+  display: flex;
+  padding: 0 var(--nk-space-s2);
+}
+/* B13/Medium 13/20 (-0.1) colour/text-n-icon/tertiary #666D85, one line */
+.line {
+  flex: 1;
+  min-width: 0;
+  font: var(--nk-type-chk-af-text13-medium-lh20);
+  letter-spacing: -0.1px;
+  color: var(--nk-color-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.chevron {
+  flex-shrink: 0;
+  display: block;
+}
+[dir='rtl'] .chevron {
+  transform: scaleX(-1);
+}

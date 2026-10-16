@@ -1,0 +1,141 @@
+/* Figma "🚧 Checkout 2.0" Header 14288:184316 (+ NoonSalesAnimatedHeader scroll behaviour) */
+.container {
+  position: relative;
+  z-index: 2; /* Z_INDEX_LEVEL.HEADER_ACTIVE */
+  /* ios StatusBar → Nav Header gap 16; Nav Header pb 10 */
+  padding-top: calc(var(--nk-inset-top) + var(--nk-space-s16));
+  padding-bottom: var(--nk-space-s10);
+}
+.cornerOverlay {
+  position: absolute;
+  bottom: -12px;
+  left: 0;
+  right: 0;
+  height: 24px;
+  z-index: -1;
+}
+.gradient {
+  position: absolute;
+  bottom: -22px;
+  width: 100%;
+  height: 24px;
+  z-index: -2;
+  /* GRADIENT_COLORS ['#00000019', '#00000000'], locations [0.2, 1] */
+  background: linear-gradient(180deg, var(--nk-palette-black-alpha9p8) 20%, var(--nk-palette-black-alpha0) 100%);
+  pointer-events: none;
+}
+/* header stack: px 12, py 4, space-between */
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--nk-space-s4) var(--nk-space-s12);
+}
+/* Left Panel → Icon Button: white, 1.139px Blue-Gray/200, r48, padding 9.111 around the 22.778 icon */
+.back {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1.139px solid var(--nk-palette-blue-gray200); /* token-lint: geometry */
+  border-radius: var(--nk-radius-r48);
+  background: var(--nk-color-bg-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+[dir='rtl'] .backIcon {
+  transform: scaleX(-1);
+}
+.backIcon {
+  display: block;
+}
+/* 223 × 41 centred column, gap 2 */
+.address {
+  width: 223px;
+  min-width: 0;
+  height: 41px;
+  padding: 0;
+  border: 0;
+  background: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--nk-space-s2);
+  cursor: pointer;
+}
+.labelRow {
+  height: 22px;
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s4);
+  max-width: 100%;
+}
+/* Address type 20×20 — glyph at inset 13.54% / 9.37% */
+.typeIcon {
+  position: relative;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+}
+.homeIcon {
+  position: absolute;
+  left: 1.875px;
+  top: 2.708px;
+  display: block;
+}
+.kitIcon {
+  position: absolute;
+  inset: 0;
+  background: var(--nk-color-text-primary);
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+}
+/* Figtree Bold 16/21.1, -0.3016, Blue-Gray/900, text-shadow 0 8.043 16.086 rgba(0,0,0,.07) */
+.label {
+  font: var(--nk-type-chk-fig-text16-bold-lh21);
+  letter-spacing: -0.3016px;
+  color: var(--nk-color-text-primary);
+  text-shadow: var(--nk-shadow-chk-fig-header-label);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.chevron {
+  flex-shrink: 0;
+  display: block;
+}
+/* 13/18.097 Regular, -0.3016, Blue-Gray/700, one line */
+.line {
+  width: 100%;
+  font: var(--nk-type-text13-regular-lh18);
+  letter-spacing: -0.3016px;
+  color: var(--nk-color-text-muted);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Pill button 40×40 (empty in the design) */
+.rightSlot {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+}
+/* Figma "All flows" Header 127:44454: "Checkout" Figtree Bold 16/21.1 (-0.3016) Blue-Gray/900 + text-shadow, centred */
+.title {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+  font: var(--nk-type-chk-fig-text16-bold-lh21);
+  letter-spacing: -0.3016px;
+  color: var(--nk-color-text-primary);
+  text-shadow: var(--nk-shadow-chk-fig-header-label);
+  white-space: nowrap;
+}

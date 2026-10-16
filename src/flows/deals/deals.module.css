@@ -1,0 +1,11 @@
+.header { padding: calc(var(--nk-inset-top) + 4px) 12px 8px; background: var(--nk-color-bg-surface); border-bottom: 1px solid var(--nk-color-border-subtle); }
+.feed { display: flex; flex-direction: column; gap: 20px; padding-top: 12px; }
+.strips { gap: 12px; padding: 0 16px; scroll-snap-type: x mandatory; }
+.strip { display: block !important; flex: 0 0 auto; width: 100%; border-radius: 12px; overflow: hidden; scroll-snap-align: center; }
+.heroes { gap: 15px; padding: 0 16px; scroll-snap-type: x mandatory; }
+.hero { display: block !important; flex: 0 0 auto; border-radius: 16px; overflow: hidden; scroll-snap-align: center; }
+.strip img, .hero img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.module { display: flex; flex-direction: column; gap: 12px; }
+.moduleHeader { display: flex; align-items: center; justify-content: space-between; padding: 0 16px; }
+.viewAll { display: flex !important; align-items: center; gap: 2px; font: var(--nk-type-text14-bold-lh1); color: var(--nk-color-primary); }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 12px; }

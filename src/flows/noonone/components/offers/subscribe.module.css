@@ -1,0 +1,14 @@
+/* VIPSubscriptionButtonV2/styles.ts */
+.container { width: 100%; display: flex; flex-direction: row; align-items: center; gap: var(--nk-space-s20); }
+.paymentRow { display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: var(--nk-space-s8); background: none; padding: 0; text-align: start; }
+.paymentCol { display: flex; flex-direction: column; }
+.paymentHeader { display: flex; flex-direction: row; align-items: center; gap: var(--nk-space-s4); }
+.paymentLabel { font: var(--nk-type-vip-of13-medium); color: var(--nk-color-vip-of-pay-label); }
+.chevron { transform: rotate(180deg); }
+.paymentText { font: var(--nk-type-vip-of15-medium); color: var(--nk-palette-night-fall); white-space: nowrap; }
+.cardType { width: 44px; height: 40px; object-fit: contain; }
+.button { flex: 1; height: 48px; border-radius: var(--nk-radius-r12); background: var(--nk-color-vip-black); }
+.buttonDisabled { background: var(--nk-palette-noon-grey2); }
+/* buttonTextStyle.p: white bold 14; s: 400 line-through */
+.text { color: var(--nk-palette-white); font: var(--nk-type-vip-of14-bold); }
+.text :global(s) { font-weight: var(--nk-font-weight-regular); text-decoration: line-through; font-size: 0.85em; }

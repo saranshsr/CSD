@@ -1,0 +1,3 @@
+/* DraftScreen — repo ReviewDraftScreen scroll content (Figma 7116:43931): 16px top / bottom, 12px gutters, 16px between cards. */
+.content { display: flex; flex-direction: column; gap: var(--nk-space-s16); padding: var(--nk-space-s16) var(--nk-space-s12) 0; }
+.reviewCard { position: relative; }

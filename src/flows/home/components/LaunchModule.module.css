@@ -1,0 +1,66 @@
+/* NEW LAUNCHES — Figma 1337:6582 (inset card 351×420, r20). */
+.module {
+  position: relative;
+  margin: 0 var(--nk-space-s12);
+  height: 420px;
+  border-radius: var(--nk-radius-r20);
+  background: var(--nk-color-home-launch-bg);
+  overflow: hidden;
+}
+
+.title {
+  position: absolute;
+  top: 19px;
+  inset-inline-start: 16px;
+  margin: 0;
+  font: var(--nk-type-home-text20-medium-lh20);
+  letter-spacing: -0.5px;
+  color: var(--nk-color-text-inverse);
+  white-space: nowrap;
+}
+.accent { color: var(--nk-color-home-launch-accent); }
+.sub {
+  position: absolute;
+  top: 45px;
+  inset-inline-start: 16px;
+  margin: 0;
+  font: var(--nk-type-home-text16-light-lh16);
+  color: var(--nk-color-home-launch-sub);
+  white-space: nowrap;
+}
+
+.rail {
+  position: absolute;
+  top: 77px;
+  inset-inline: 0;
+  gap: var(--nk-space-s14);
+  padding: 0 var(--nk-space-s14);
+  align-items: flex-start;
+}
+
+.card {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s8);
+  width: 213px;
+  height: 327px;
+  padding: var(--nk-space-s12);
+  border: 1px solid var(--nk-palette-bright-grey-color);
+  border-radius: var(--nk-radius-r12);
+  background: var(--nk-color-bg-surface);
+}
+.cardBody { display: flex; flex-direction: column; align-items: flex-start; text-align: start; }
+.image { display: block; width: 187px; height: 187px; object-fit: cover; }
+.copy { display: flex; flex-direction: column; gap: var(--nk-space-s4); width: 189px; }
+.cardTitle { letter-spacing: -0.2px; }
+
+/* Figma "Buttons": 189×48, r10, black, Figtree Medium 15/20 — Button dark with the Figma metrics */
+.cta {
+  width: 189px;
+  height: 48px;
+  min-height: 48px;
+  border-radius: var(--nk-radius-r10);
+  background: var(--nk-palette-black);
+  font: var(--nk-type-body-medium);
+}

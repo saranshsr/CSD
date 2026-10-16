@@ -1,0 +1,79 @@
+/* Storefront "Delivery information" — Figma 2ldJbjmQq4RkhnrNFCfXQB · 3499:75275 */
+.header { display: flex; align-items: flex-start; justify-content: space-between; padding: 0 var(--nk-space-s2); min-height: var(--nk-layout-pdp-icon20); }
+.title { font: var(--nk-type-pdp-sfb-section-title); color: var(--nk-color-text-strong); }
+.member { display: flex; align-items: center; gap: var(--nk-space-s4); font: var(--nk-type-text12-regular-lh18); color: var(--nk-color-text-secondary); white-space: nowrap; }
+
+.stack { display: flex; flex-direction: column; gap: var(--nk-space-s8); }
+
+/* Express box: white, 1px blue-gray/200, r12, pt 12, gap 12 */
+.express { display: flex; flex-direction: column; gap: var(--nk-space-s12); padding-top: var(--nk-space-s12); border: 1px solid var(--nk-color-border-subtle); border-radius: var(--nk-radius-r12); background: var(--nk-color-bg-surface); overflow: hidden; }
+.expressBody { display: flex; flex-direction: column; gap: var(--nk-space-s10); padding: 0 var(--nk-space-s12); }
+.expressRow { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--nk-space-s4); }
+.estimate { flex: 1 1 auto; }
+.expressLogo { width: var(--nk-layout-pdp-sfb-express-w); height: var(--nk-layout-pdp-icon20); }
+.estimate { font: var(--nk-type-pdp-sfb-text14-lh17); color: var(--nk-color-text-primary); }
+.estimate b { font-weight: var(--nk-font-weight-semibold); }
+.countdown { font: var(--nk-type-text12-regular-lh18); color: var(--nk-color-text-secondary); }
+.countdown b { font-weight: var(--nk-font-weight-semibold); color: var(--nk-color-text-primary); }
+/* no faster options: the box keeps a 12 bottom padding */
+.express[data-no-foot] { padding-bottom: var(--nk-space-s12); }
+
+/* "Faster Delivery Options": grey foot of the express box (1px blue-gray/200, rounded bottom 12, pt 12, gap 12; New PDP 64:5590) */
+.foot { background: var(--nk-color-bg-subtle); border-top: 1px solid var(--nk-color-border-subtle); border-radius: 0 0 var(--nk-radius-r12) var(--nk-radius-r12); }
+.foot .accHead { padding: var(--nk-space-s12) var(--nk-space-s12) 0; }
+.footBody { display: flex; flex-direction: column; gap: var(--nk-space-s8); padding-top: var(--nk-space-s12); }
+/* lanes: px 12, gap 10: rule, then 20-high rows */
+.lanes { display: flex; flex-direction: column; gap: var(--nk-space-s10); padding: 0 var(--nk-space-s12); }
+.lanesRule { height: 0; border-top: 1px solid var(--nk-color-border-subtle); }
+.lane { display: flex; align-items: center; justify-content: space-between; gap: var(--nk-space-s8); height: 20px; }
+.lane[role='button'] { cursor: pointer; }
+/* "Get it" 14 regular #0E0E0E + day 14/600 #1D2539 + note 13 light ink 80% */
+.laneText { font: var(--nk-type-pdp-sfb-text14-lh17); letter-spacing: -0.112px; color: var(--nk-palette-neutral-black); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.laneText b { font-weight: var(--nk-font-weight-semibold); color: var(--nk-color-text-primary); }
+.laneNote { font: var(--nk-type-pdp-npb-text13-light-lh16); color: var(--nk-color-pdp-npb-slot-note); }
+/* "+ ₳ 14.00" 12/600/18 #101628 −0.12 (currency glyph regular) */
+.lanePrice { flex-shrink: 0; font: var(--nk-type-pdp-npb-text12-semibold-lh18); letter-spacing: -0.12px; color: var(--nk-color-text-strong); white-space: nowrap; }
+.laneCurrency { font-weight: var(--nk-font-weight-regular); }
+/* Alerts: white, pt 10 pb 12 px 12, gap 4, rounded bottom 10; info 16 + 13/500/14 slate grey */
+.callout { display: flex; align-items: center; gap: var(--nk-space-s4); padding: var(--nk-space-s10) var(--nk-space-s12) var(--nk-space-s12); border-radius: 0 0 var(--nk-radius-r10) var(--nk-radius-r10); background: var(--nk-color-bg-surface); }
+.calloutText { padding: var(--nk-space-s2) 0; font: var(--nk-type-pdp-sfb-text13-medium-lh14); letter-spacing: -0.12px; color: var(--nk-color-text-secondary); }
+/* "Other Delivery Options": blue-gray/100 r12 box */
+.box { background: var(--nk-color-bg-subtle); border-radius: var(--nk-radius-r12); }
+
+.accHead { width: 100%; display: flex; align-items: flex-start; gap: var(--nk-space-s4); padding: var(--nk-space-s12); border: 0; background: none; margin: 0; cursor: pointer; text-align: start; color: inherit; }
+.accTitle { flex: 1 1 0; min-width: 0; padding-top: var(--nk-space-s2); min-height: var(--nk-layout-pdp-icon20); font: var(--nk-type-pdp-sfb-text14-semibold-lh17); color: var(--nk-color-text-muted); }
+.accChevron { display: flex; flex-shrink: 0; }
+.accBody { padding: 0 var(--nk-space-s12) var(--nk-space-s12); }
+
+.rows { display: flex; flex-direction: column; }
+.row { width: 100%; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--nk-space-s8); padding: var(--nk-space-s12) 0; border-top: 1px solid var(--nk-color-border-subtle); text-align: start; }
+.row:first-child { border-top: 0; padding-top: 0; }
+.rowText { flex: 1 1 auto; min-width: 0; display: flex; flex-wrap: wrap; align-items: center; gap: var(--nk-space-s6); }
+.rowRocket { width: var(--nk-layout-pdp-rocket-w); height: var(--nk-layout-pdp-icon20); }
+.rowHtml { font: var(--nk-type-pdp-sfb-text14-lh17); color: var(--nk-color-text-primary); }
+.rowPrice { display: flex; align-items: center; gap: var(--nk-space-s4); margin-inline-start: auto; flex-shrink: 0; font: var(--nk-type-body-semibold); color: var(--nk-color-text-primary); }
+
+/* ── Delivery information variants (PDP Redesign xPr9Ln37JGSBGvNtrsyD0y · 3583:109620) ── */
+/* noon One cross-sell banner "Get it today for free with one" (8238:299781): blue-gray/900, 44h, r12 */
+.banner { position: relative; display: flex !important; align-items: center; gap: var(--nk-space-s8); width: 100%; height: 44px; padding: 0 var(--nk-space-s12) !important; border-radius: var(--nk-radius-r12); background: var(--nk-color-text-primary) !important; overflow: hidden; text-align: start; }
+.bannerText { font: var(--nk-type-pdp-sfb-text14-semibold-lh17); color: var(--nk-color-bg-subtle); white-space: nowrap; }
+.bannerChevron { display: flex; margin-inline-start: auto; }
+/* 28 × 73 light streak rotated 25.68° at (19.6, −17.1), 50% opacity, drop shadow 0 4 4 */
+.streak { position: absolute; left: 34px; top: -14px; width: 28px; height: 73px; background: var(--nk-color-pdp-sfb-streak); opacity: 0.5; transform: rotate(25.68deg); box-shadow: 0 4px 4px var(--nk-color-pdp-sfb-streak-shadow); pointer-events: none; }
+
+/* compact variants (market / express only / Global): blue-gray/100 r12 box, py12, one row: pill + "Get by …" · countdown chip */
+.compact { display: flex; flex-direction: column; gap: var(--nk-space-s12); padding-top: var(--nk-space-s12); border-radius: var(--nk-radius-r12); background: var(--nk-color-bg-subtle); overflow: hidden; }
+.compact[data-bordered] { border: 1px solid var(--nk-color-border-subtle); }
+.compact:not([data-strip]) { padding-bottom: var(--nk-space-s12); }
+.compactRow { display: flex; align-items: center; justify-content: space-between; gap: var(--nk-space-s8); padding: 0 var(--nk-space-s12); }
+.compactLead { display: flex; align-items: center; gap: var(--nk-space-s4); min-width: 0; }
+.getBy { font: var(--nk-type-pdp-sfb-text14-lh17); color: var(--nk-color-text-primary); white-space: nowrap; }
+.getBy b { font-weight: var(--nk-font-weight-semibold); }
+/* "Order in 21 hrs": orange/50 bg, orange/900 12/600, r4, px3 */
+.chip { flex-shrink: 0; padding: 0 3px; border-radius: var(--nk-radius-r4); background: var(--nk-palette-light-brown-shade); font: var(--nk-type-pdp-sfb-text12-semibold-lh20); color: var(--nk-palette-dark-orange); white-space: nowrap; }
+/* Global "Free Shipping over …" strip (3583:110256): gradient, px12 py8, faint world map at 20% */
+.strip { position: relative; display: flex !important; align-items: center; justify-content: space-between; width: 100%; padding: var(--nk-space-s8) var(--nk-space-s12) !important; background: var(--nk-color-pdp-sfb-global-strip) !important; overflow: hidden; text-align: start; }
+.stripText { position: relative; display: flex; align-items: center; height: 24px; font: var(--nk-type-pdp-sfb-text13-medium-lh14); color: var(--nk-color-text-muted); }
+.stripMap { position: absolute; left: 55.82%; top: -5.71%; width: 47.6%; height: 208.45%; object-fit: fill; opacity: 0.2; pointer-events: none; }
+.stripChevron { position: relative; display: flex; }
+.chipEnd { margin-inline-start: auto; }

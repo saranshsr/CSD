@@ -1,0 +1,232 @@
+/* AddressV2FormDetailsContainer */
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex-shrink: 1;
+  max-height: inherit;
+}
+.scroll {
+  flex-shrink: 1;
+  min-height: 0;
+}
+.content {
+  padding: 0 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* AddressV2FormHeader */
+.header {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 48px;
+  z-index: 2;
+  flex-shrink: 0;
+}
+.title {
+  color: var(--nk-color-text-strong);
+  font-size: 15px;
+  line-height: 18px;
+  font-weight: 700;
+  margin: 0 32px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.backWrapper {
+  position: absolute;
+  width: 50px;
+  left: 14px;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  border: 0;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+}
+.back {
+  width: 24px;
+  height: 24px;
+  background: var(--nk-color-bg-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50px;
+}
+
+/* AddressV2LatLngForm sections */
+.section {
+  background: var(--nk-color-bg-surface);
+  padding: 12px;
+  border-radius: var(--nk-radius-r12);
+}
+
+/* TagSection */
+.tags {
+  display: flex;
+  flex-direction: row;
+}
+.tag {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 38px;
+  min-width: 82px;
+  padding: 0 10px;
+  border: 1px solid var(--nk-color-addr-tag-border);
+  background: transparent;
+  border-radius: 10px;
+  margin-inline-end: 8px;
+  cursor: pointer;
+  font: inherit;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+.tag:last-child {
+  margin-inline-end: 0;
+}
+.tag:active {
+  opacity: 0.7;
+}
+.tag[data-selected='true'] {
+  border-color: var(--nk-color-text-primary);
+  background: var(--nk-color-text-primary);
+}
+.tagText {
+  font-size: 13px;
+  line-height: 16px;
+  color: var(--nk-color-text-body);
+  font-weight: 500;
+}
+.tag[data-selected='true'] .tagText {
+  color: var(--nk-color-text-inverse);
+  font-weight: 600;
+}
+
+/* AddressV2FormInput */
+.inputWrap {
+  position: relative;
+}
+.input {
+  display: block;
+  width: 100%;
+  font: inherit;
+  font-size: 15px;
+  line-height: 18px;
+  background: var(--nk-color-addr-input-bg);
+  border: 1px solid var(--nk-color-addr-input-border);
+  color: var(--nk-color-text-strong);
+  padding: 25px 12px 9px;
+  font-weight: 600;
+  border-radius: 14px;
+  outline: none;
+  caret-color: var(--nk-color-text-strong);
+}
+.input[data-error='true'] {
+  border-color: var(--nk-color-addr-input-error);
+}
+.labelContainer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  z-index: 2;
+  border-radius: 14px;
+  padding: 0 12px;
+}
+.labelText {
+  color: var(--nk-color-text-secondary);
+  line-height: 17px;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+.renderBefore {
+  position: absolute;
+  top: 25px;
+  bottom: 9px;
+  left: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.errorMessage {
+  color: var(--nk-color-danger);
+  font-size: 11px;
+  line-height: 14px;
+  margin: 4px 12px 0;
+}
+.dialCode {
+  font-size: 14px;
+  line-height: 18px;
+  color: var(--nk-palette-black);
+  font-weight: 600;
+}
+
+/* CustomerSection */
+.mainTitle {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+  color: var(--nk-color-text-primary);
+  margin-bottom: 8px;
+  margin-left: 2px;
+}
+.nameRow {
+  display: flex;
+  flex-direction: row;
+}
+.nameInput {
+  flex: 1;
+  min-width: 0;
+}
+.collapsed {
+  width: 100%;
+  border: 0;
+  background: none;
+  padding: 2px 4px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: start;
+  font: inherit;
+  cursor: pointer;
+}
+.collapsed:active {
+  opacity: 0.2;
+}
+.collapsedTexts {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.collapsedTitle {
+  color: var(--nk-color-text-muted);
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 500;
+}
+.collapsedSub {
+  color: var(--nk-color-text-strong);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+/* AddressV2FormFooter */
+.footer {
+  padding: 12px;
+  width: 100%;
+  flex-shrink: 0;
+}

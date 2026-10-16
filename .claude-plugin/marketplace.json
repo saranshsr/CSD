@@ -1,0 +1,25 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "noon-flow-kit",
+  "owner": {
+    "name": "Arnab Debnath"
+  },
+  "metadata": {
+    "description": "noon Flow Kit plugins: noon app design knowledge for Claude Code.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "noon-ui",
+      "source": "./plugins/noon-ui",
+      "description": "noon app design knowledge for building and restyling noon screens and flows with the noon Flow Kit: design tokens, components, motion, Origin Design System parts, flow specs and the brain map, plus screen skills for home, search, PDP, cart, checkout, orders, returns, reviews, account and noon One.",
+      "version": "0.1.0",
+      "category": "design",
+      "keywords": [
+        "noon",
+        "design-system",
+        "ui"
+      ]
+    }
+  ]
+}

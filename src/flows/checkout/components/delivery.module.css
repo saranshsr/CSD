@@ -1,0 +1,190 @@
+/* Delivery area — Figma "🚧 Checkout 2.0" Delivery Instructions 14288:184005 + Receiver Details 14288:184025
+   (.item / .itemHeader / .itemTitle are the legacy NoonCheckoutScreen ItemContainer, kept for DeliveryPrimitives) */
+
+/* section card: white r16, p12, gap 12 */
+.section {
+  margin-top: var(--nk-space-s12);
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s12);
+  padding: var(--nk-space-s12);
+  border-radius: var(--nk-radius-r16);
+  overflow: hidden;
+  background: var(--nk-color-bg-surface);
+}
+/* Section header: gap 8 */
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s8);
+}
+/* h4 Bold 16/24 (-0.2) Blue-Gray/900 */
+.sectionTitle {
+  font: var(--nk-type-chk-fig-text16-bold-lh24);
+  letter-spacing: -0.2px;
+  color: var(--nk-color-text-primary);
+  white-space: nowrap;
+}
+.infoBtn {
+  display: flex;
+  border: 0;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+}
+.infoBtn img {
+  display: block;
+}
+
+/* Delivery Instructions Content: row, gap 8, equal cards */
+.options {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--nk-space-s8);
+}
+/* Instruction: p12 (the 1px stroke is drawn inside → border + p11), gap 16, r16, Blue-Gray/100 */
+.option {
+  flex: 1 0 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--nk-space-s16);
+  padding: 11px; /* 12 − 1px inside stroke */
+  border: 1px solid transparent;
+  border-radius: var(--nk-radius-r16);
+  background: var(--nk-color-bg-subtle);
+  text-align: start;
+  overflow: hidden;
+  cursor: pointer;
+  transition: background-color 150ms, border-color 150ms, transform 120ms;
+}
+.option:active {
+  transform: scale(0.98);
+}
+/* selected: Blue/50 + 1px Accent/200 */
+.optionActive {
+  border-color: var(--nk-palette-light-blue);
+  background: var(--nk-palette-alice-blue);
+}
+.optionDisabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.optionTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.optionTop img {
+  display: block;
+}
+/* 20×20 icon slot; the Figma glyph keeps its own size (mask-size auto) and is tinted by state */
+.optionIcon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  mask-size: auto;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-size: auto;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+}
+/* Primary/Label-3 Medium 13/16 (-0.26) Blue-Gray/800 · selected 🚧 text/👀 primary */
+.optionText {
+  font: var(--nk-type-text13-medium-lh16);
+  letter-spacing: -0.26px;
+  color: var(--nk-color-text-body);
+}
+.optionActive .optionText {
+  color: var(--nk-color-chk-fig-text-primary-alpha);
+}
+
+/* Receiver Info Container: space-between */
+.receiver {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  column-gap: var(--nk-space-s8);
+}
+.receiverLeft {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  align-items: center;
+  gap: var(--nk-space-s8);
+  height: 40px;
+}
+/* Receiver Avatar 32×32 Blue-Gray/100 r8 */
+.callIcon {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--nk-radius-r8);
+  background: var(--nk-color-bg-subtle);
+}
+.callIcon img {
+  display: block;
+}
+.receiverText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s4);
+  min-width: 0;
+  white-space: nowrap;
+}
+/* Primary/Label-2/Semi Bold 15/18 (-0.26) Blue-Gray/800 */
+.receiverName {
+  font: var(--nk-type-chk-fig-text15-semibold-lh18);
+  letter-spacing: -0.26px;
+  color: var(--nk-color-text-body);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Primary/Label-4/Medium 12/14 (-0.12) Blue-Gray/600 */
+.receiverPhone {
+  font: var(--nk-type-text12-medium-lh14);
+  letter-spacing: -0.12px;
+  color: var(--nk-color-text-secondary);
+}
+/* "Change receiver" Primary/Label-3/Semi Bold 13/16 (-0.26) Accent/700 */
+.changeReceiver {
+  flex-shrink: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: var(--nk-type-text13-semibold-lh16);
+  letter-spacing: -0.26px;
+  color: var(--nk-color-brand-blue);
+  white-space: nowrap;
+  cursor: pointer;
+}
+.changeReceiver:disabled {
+  color: var(--nk-color-text-disabled);
+  cursor: default;
+}
+
+/* legacy ItemContainer (DeliveryPrimitives) */
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s12);
+  padding: var(--nk-space-s12);
+  background: var(--nk-color-bg-surface);
+  box-shadow: 0 1px 2px var(--nk-palette-black-alpha1);
+}
+.itemHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  align-self: flex-start;
+  gap: var(--nk-space-s8);
+}
+.itemTitle {
+  font: var(--nk-type-text16-bold-lh20);
+  color: var(--nk-color-text-primary);
+}

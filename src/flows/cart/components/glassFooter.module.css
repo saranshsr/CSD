@@ -1,0 +1,37 @@
+/* Cart-tab sticky footer on Liquid Glass (CartGlassFooter). The bar is footer.module.css .stickyBar[data-tab] (floating,
+   docked above the glass tab bar, follows it on scroll); this file is the card and the savings ⇄ summary choreography. */
+.bar { position: relative; }
+
+/* the card: shared glass, r16; white while the summary is open. Not clipped, so the savings tab can sit on its top edge. */
+.card {
+  composes: glass from '../../../components/Glass/Glass.module.css';
+  position: relative; z-index: 5; display: flex; flex-direction: column;
+  border-radius: var(--nk-radius-r16);
+  transition: background-color 0.25s ease;
+}
+.card[data-open] { background: var(--nk-color-bg-surface); }
+/* closed: the card keeps its r16 corner under the savings tab; the gap between the tab's straight bottom edge and the
+   corner's curve is filled in the tab's green (bappzaar footerSavingsPatch), so the white corner reads against the tab */
+.fillet {
+  position: absolute; left: 0; top: 0; z-index: 2; width: var(--nk-radius-r16); height: var(--nk-radius-r16); pointer-events: none;
+  background: radial-gradient(circle at 100% 100%, transparent calc(var(--nk-radius-r16) - 0.5px), var(--nk-color-cart-savings-wave) var(--nk-radius-r16));
+}
+[dir='rtl'] .fillet { left: auto; right: 0; transform: scaleX(-1); }
+
+/* the order summary above the panel: its own top radius (the card's), clipped while its height animates */
+.summary { overflow: hidden; border-radius: var(--nk-radius-r16) var(--nk-radius-r16) 0 0; }
+.summaryInner { padding-top: var(--nk-space-s16); }
+
+/* one green surface: the savings tab (239 × 32 above the card's top-left) ⇄ the full-width "You're saving" panel */
+.green { position: relative; flex-shrink: 0; overflow: hidden; }
+.wave { position: absolute; left: 0; top: 0; display: block; pointer-events: none; }
+.fill { position: absolute; inset: 0; background: var(--nk-color-cart-emerald100); }
+/* NoonDynamicInvoiceWave: white scallops along the top edge, where the summary meets the panel */
+.scallops { position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: radial-gradient(circle at 3.9375px 4px, transparent 3.3px, var(--nk-color-bg-surface) 3.6px) 0 0 / 7.875px 4px repeat-x; }
+.tabLabel { position: absolute; left: var(--nk-space-s12); top: var(--nk-space-s4); display: flex; align-items: center; gap: var(--nk-space-s8); padding: var(--nk-space-s2) var(--nk-space-s4); white-space: nowrap; }
+.panelLabel { position: absolute; left: var(--nk-space-s15); right: var(--nk-space-s15); top: 0; bottom: 0; display: flex; align-items: center; white-space: nowrap; }
+[dir='rtl'] .wave { left: auto; right: 0; transform: scaleX(-1); }
+[dir='rtl'] .tabLabel { left: auto; right: var(--nk-space-s12); }
+
+/* Total / Checkout row: the card's 10 / 10 padding lives here (the green sits flush above it) */
+.content { box-sizing: content-box; padding-top: var(--nk-space-s10); padding-bottom: var(--nk-space-s10); }

@@ -1,0 +1,4 @@
+/* PastOrdersTitle — repo PastOrderRatingScreen(B) title block: pt 16, px 16, gap 6. */
+.title { display: flex; flex-direction: column; align-items: center; gap: var(--nk-space-s6); padding: var(--nk-space-s16) var(--nk-space-s16) 0; flex-shrink: 0; text-align: center; }
+.heading { font: var(--nk-type-title-small); color: var(--nk-color-text-primary); }
+.sub { font: var(--nk-type-text14-regular-lh20); color: var(--nk-color-text-secondary); }

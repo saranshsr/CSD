@@ -1,0 +1,12 @@
+/* src/components/Overlay (styles.ts) — the pre-OverlayBottomSheet chrome VIPCartOverlayScreen / OCOneOverlayScreen use */
+.root { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding-top: var(--nk-layout-vip-sheet-top); z-index: 1; }
+.scrim { position: absolute; inset: 0; background: var(--nk-color-vip-scrim); }
+.empty { position: absolute; inset: 0; }
+.sheet { position: relative; display: flex; flex-direction: column; background: var(--nk-color-bg-surface); border-radius: var(--nk-radius-vip-legacy-sheet); max-height: 100%; will-change: transform; }
+.children { display: flex; flex-direction: column; min-height: 0; overflow: hidden; border-radius: inherit; }
+.close {
+  position: absolute; top: var(--nk-layout-vip-close-top); inset-inline-end: var(--nk-layout-vip-close-end); z-index: 3;
+  width: var(--nk-layout-vip-close-size); height: var(--nk-layout-vip-close-size); border-radius: var(--nk-radius-r20);
+  background: var(--nk-color-bg-surface); display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.close img { width: var(--nk-layout-vip-close-icon); height: var(--nk-layout-vip-close-icon); }

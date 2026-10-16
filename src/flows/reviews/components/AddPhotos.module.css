@@ -1,0 +1,12 @@
+/* AddPhotos — repo AddPhotosCard (ReviewDraftScreen, ReviewDraftScreenB, NewReviewScreen, RatePastOrdersScreen)
+   + the Submitted photo thumbnails. */
+.card { display: flex; flex-direction: column; gap: var(--nk-space-s12); padding: var(--nk-space-s16); border-radius: var(--nk-radius-r16); background: var(--nk-color-bg-surface); }
+.title { font: var(--nk-type-reviews-text16-bold-lh24); color: var(--nk-color-text-primary); }
+.tiles { display: flex; gap: var(--nk-space-s12); }
+.tile { flex: 1; height: 84px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--nk-space-s8); border: 1px solid var(--nk-color-border); border-radius: var(--nk-radius-r12); background: var(--nk-color-bg-surface); font: var(--nk-type-reviews-text14-medium-lh20); color: var(--nk-color-text-muted); }
+.tile[data-disabled] { opacity: 0.45; }
+.hint { display: flex; align-items: center; gap: var(--nk-space-s4); font: var(--nk-type-text12-regular-lh18); color: var(--nk-color-text-tertiary); }
+.thumbs { display: flex; gap: var(--nk-space-s8); flex-wrap: wrap; }
+.thumb { position: relative; flex-shrink: 0; border-radius: var(--nk-radius-r10); overflow: hidden; background: var(--nk-color-bg-page); }
+.thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.remove { position: absolute; top: var(--nk-space-s4); right: var(--nk-space-s4); width: var(--nk-space-s20); height: var(--nk-space-s20); border-radius: var(--nk-radius-full); display: inline-flex; align-items: center; justify-content: center; background: var(--nk-palette-white-alpha80); }

@@ -1,0 +1,54 @@
+.track {
+  position: relative;
+  display: block;
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  appearance: none;
+}
+[dir='rtl'] .track {
+  transform: scaleX(-1);
+}
+.knob {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+}
+
+/* variant="field" (Field M-Toggle): the track scales on press, so the RTL flip lives on an inner layer */
+.fieldTrack {
+  position: relative;
+  display: block;
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  appearance: none;
+}
+.fieldTrack:disabled {
+  cursor: default;
+}
+.fieldTrack::before {
+  /* Field hitSlop 8 */
+  content: '';
+  position: absolute;
+  inset: calc(var(--nk-space-s8) * -1);
+}
+.fieldFlip {
+  position: absolute;
+  inset: 0;
+  display: block;
+  border-radius: inherit;
+}
+[dir='rtl'] .fieldFlip {
+  transform: scaleX(-1);
+}
+.fieldOn {
+  position: absolute;
+  inset: 0;
+  display: block;
+  border-radius: inherit;
+}

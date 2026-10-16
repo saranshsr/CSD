@@ -1,0 +1,72 @@
+/* NoonCart HtmlView stylesheets, ported from the master styles.ts files. Render with
+   <HtmlText base className={html.<sheet>}>: `base` adds HtmlView's baseStyle (src/components/HtmlText).
+   item: NoonCartItem htmlStylesheet · itemCallout: calloutsHtmlStylesheet · spec: specificationStylesheet ·
+   progress: NoonCartGroupProgressBar progressBarMessageStyles · groupCallout: NoonCartGroup calloutHtmlStylesheet ·
+   screenCallout: NoonCartScreenCallouts textStyleSheet · footerNudge: NoonCartScreen footerNudgeMessageStyleSheet */
+.item { color: var(--nk-color-text-strong); }
+.item :global(highlight) { font-weight: 600; color: var(--nk-color-cart-emerald); }
+
+.itemCallout { color: var(--nk-color-text-body); }
+.itemCallout :global(highlight) { font-weight: 600; color: var(--nk-color-cart-emerald); }
+.itemCallout :global(steel) { color: var(--nk-color-text-tertiary); }
+
+.spec { color: var(--nk-color-text-secondary); }
+.notes { font: var(--nk-type-text12-regular-lh14); letter-spacing: -0.12px; color: var(--nk-color-text-secondary); }
+.notes :global(steel) { color: var(--nk-color-text-secondary); }
+.notes :global(b) { font-weight: 600; }
+
+.progress { font: var(--nk-type-text13-medium-lh16); letter-spacing: -0.26px; color: var(--nk-color-text-strong); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.progress :global(highlight) { font-weight: 600; color: var(--nk-color-text-strong); }
+/* Stacks row text: Body3/Regular 12/16 Blue-Gray/800 */
+.groupCallout { font: var(--nk-type-caption); color: var(--nk-color-text-body); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.groupCallout :global(highlight) { font-weight: 600; color: var(--nk-color-text-body); }
+/* ETA pill: 13/18 regular Blue-Gray/900, bold Blue-Gray/1000 */
+.eta { font: var(--nk-type-text13-regular-lh18); color: var(--nk-color-text-primary); white-space: nowrap; }
+.eta :global(highlight), .eta :global(b) { font-weight: 700; color: var(--nk-color-text-strong); }
+/* ETA second line: Label4 12/14 Blue-Gray/800, emphasis SemiBold */
+.etaExpiry { font: var(--nk-type-text12-regular-lh14); letter-spacing: -0.12px; color: var(--nk-color-text-body); white-space: nowrap; }
+.etaExpiry :global(steel) { color: var(--nk-color-text-body); }
+.etaExpiry :global(b), .etaExpiry :global(highlight) { font-weight: 600; }
+/* express "Order within" nudge (All flows 89:44435): SemiBold Red/700 */
+.etaExpiry :global(red) { font-weight: 600; color: var(--nk-color-danger); }
+/* USPs Urgency text: Label4/Medium 12/14 Blue-Gray/700 */
+.urgency { font: var(--nk-type-text12-medium-lh14); letter-spacing: -0.12px; color: var(--nk-color-text-muted); }
+.urgency :global(highlight), .urgency :global(b) { font-weight: 600; }
+/* Extended warranty row: 12/16.8 500 Blue-Gray/800 */
+.ew { font: var(--nk-type-cart-ew-text); color: var(--nk-color-text-body); }
+.ew :global(b), .ew :global(highlight) { font-weight: 600; color: var(--nk-color-text-body); }
+.foupon { font: var(--nk-type-caption); color: var(--nk-color-text-body); }
+.foupon :global(highlight) { font-weight: 600; color: var(--nk-palette-emerald-green700); }
+
+.screenCallout { font-size: 12px; font-weight: 600; color: var(--nk-color-text-primary); }
+.screenCallout :global(highlight) { font-weight: 600; color: var(--nk-color-primary); }
+/* All flows Payment offers 127:40133: SemiBold 12/16 −0.1 #1D2539 (<b> SemiBold, <highlight> "Learn more" #0F61FF) */
+.paymentOffer { font: var(--nk-type-caption-bold); letter-spacing: -0.1px; color: var(--nk-color-text-primary); }
+.paymentOffer :global(b) { font-weight: 600; }
+.paymentOfferRegular { font: var(--nk-type-caption); letter-spacing: -0.1px; color: var(--nk-color-text-primary); }
+.paymentOfferRegular :global(b), .paymentOfferRegular :global(highlight) { font-weight: 600; }
+.paymentOfferRegular :global(highlight) { color: var(--nk-color-primary); }
+.paymentOffer :global(highlight) { font-weight: 600; color: var(--nk-color-primary); }
+
+.footerNudge { color: var(--nk-color-text-ink); }
+.footerNudge :global(steel) { font-weight: 500; color: var(--nk-color-text-secondary); }
+
+.couponSuccess, .couponError, .couponWarning { font-size: 12px; letter-spacing: -0.12px; }
+.couponSuccess { color: var(--nk-color-cart-emerald); }
+.couponError { color: var(--nk-color-cart-coupon-error); }
+.couponWarning { color: var(--nk-color-cart-coupon-warning); }
+.bestPrice { font-size: 14px; font-weight: 500; color: var(--nk-color-text-ink); }
+.bestPrice :global(highlight) { font-weight: 700; color: var(--nk-color-cart-emerald800); }
+
+.invoiceTitle { color: var(--nk-color-text-primary); }
+.invoiceTitle :global(highlight), .invoiceText :global(highlight), .invoiceAmount :global(highlight) { color: var(--nk-color-cart-emerald); font-weight: 700; }
+.invoiceTitle :global(steel), .invoiceAmount :global(steel) { color: var(--nk-color-cart-text-tertiary); }
+.invoiceText { font-size: 15px; color: var(--nk-color-cart-slate600); }
+.invoiceText :global(h4) { color: var(--nk-color-text-strong); font-size: 18px; }
+.invoiceText :global(steel) { color: var(--nk-color-cart-slate600); }
+.invoiceAmount { font-size: 15px; font-weight: 500; color: var(--nk-color-text-strong); }
+.invoiceSubtitle { font-size: 11px; color: var(--nk-color-cart-slate600); }
+.invoiceSubtitle :global(highlight) { color: var(--nk-color-cart-emerald); }
+/* footer savings label: Label3 14/18 Emerald/700, amount SemiBold */
+.savings { font: var(--nk-type-body); letter-spacing: -0.14px; color: var(--nk-palette-emerald-green700); }
+.savings :global(b) { font-weight: 600; }

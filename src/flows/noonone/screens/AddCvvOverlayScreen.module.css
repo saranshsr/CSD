@@ -1,0 +1,20 @@
+/* features/vip/screens/VIPAddCvvOverlayScreen/styles.ts */
+/* overlay: r16, white */
+.overlay { border-radius: var(--nk-radius-r16); background: var(--nk-color-bg-surface); }
+/* container: centred, marginTop 24, padding 15 15 overlayBottomSpacing */
+.container { display: flex; flex-direction: column; align-items: center; margin-top: var(--nk-space-s24); padding: var(--nk-space-s15) var(--nk-space-s15) calc(var(--nk-inset-bottom) + var(--nk-layout-vip-sheet-float)); background: var(--nk-color-bg-surface); border-radius: var(--nk-radius-r16); }
+.icon { width: var(--nk-layout-vip-pay-hero-icon); height: var(--nk-layout-vip-pay-hero-icon); object-fit: contain; }
+/* header 24 bold */
+.header { font: var(--nk-type-vip-pay24-bold); color: var(--nk-color-text-legacy); }
+.row { display: flex; flex-direction: row; align-items: center; gap: var(--nk-space-s4); }
+/* subtitle: semibold, 14 */
+.subtitle { font: var(--nk-type-vip-pay14-semibold); color: var(--nk-color-text-legacy); }
+.cardIcon { height: 20px; width: 32px; object-fit: contain; }
+/* input: full width, 48, r4, 1px $borderColor, padding 0 16, mt 24 mb 4 */
+.input { width: 100%; height: 48px; border-radius: var(--nk-radius-r4); border: 1px solid var(--nk-palette-border-color); background: var(--nk-color-bg-surface); padding-inline: var(--nk-space-s16); margin: var(--nk-space-s24) 0 var(--nk-space-s4); font: var(--nk-type-vip-pay-base); color: var(--nk-color-text-legacy); outline: none; }
+.inputError { border-color: var(--nk-palette-red-color); }
+/* errorText 12 red, mb 24 */
+.error { width: 100%; min-height: 16px; font: var(--nk-type-vip-pay12); color: var(--nk-palette-red-color); margin-bottom: var(--nk-space-s24); }
+/* button: full, 48, r8, black; disabled opacity .2; text 16 bold white uppercase */
+.button { width: 100%; height: 48px; border-radius: var(--nk-radius-r8); background: var(--nk-color-vip-black); color: var(--nk-color-text-inverse); font: var(--nk-type-vip-pay16-bold); text-transform: uppercase; }
+.button:disabled { opacity: var(--nk-layout-vip-disabled-opacity); }

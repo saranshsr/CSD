@@ -1,0 +1,52 @@
+/* features/vip/components/VIPOverlayBottomSheet + src/components/OverlayBottomSheet (styles.ts) */
+.root {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-top: var(--nk-layout-vip-sheet-top);
+  z-index: 1;
+}
+.popupRoot { justify-content: center; padding-top: 0; }
+.floatingRoot { padding-inline: var(--nk-layout-vip-floating-inset); padding-bottom: calc(var(--nk-inset-bottom) + var(--nk-layout-vip-sheet-float)); }
+.scrim { position: absolute; inset: 0; background: var(--nk-color-vip-scrim); }
+.empty { position: absolute; inset: 0; }
+.sheet {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100% - var(--nk-inset-bottom) - var(--nk-layout-vip-sheet-float));
+  background: var(--nk-color-bg-surface);
+  /* VIPOverlayBottomSheet: r18 on all corners, floated 12 + safe-area above the bottom edge */
+  border-radius: var(--nk-radius-vip-sheet);
+  margin-bottom: calc(var(--nk-inset-bottom) + var(--nk-layout-vip-sheet-float));
+  will-change: transform;
+}
+.popup { margin: 0 var(--nk-layout-vip-popup-inset); border-radius: var(--nk-radius-r10); }
+.floating { margin-bottom: 0; border-radius: var(--nk-radius-r16); }
+.children {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: inherit;
+}
+.handleZone {
+  position: absolute;
+  top: var(--nk-layout-vip-handle-top);
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  cursor: grab;
+  touch-action: none;
+  padding-block: var(--nk-space-s6);
+  margin-top: calc(-1 * var(--nk-space-s6));
+}
+.handle {
+  width: var(--nk-layout-vip-handle-w);
+  height: var(--nk-layout-vip-handle-h);
+  border-radius: var(--nk-radius-r2);
+  background: var(--nk-color-vip-handle);
+}

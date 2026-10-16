@@ -1,0 +1,5 @@
+.root { position: absolute; inset: 0; z-index: 2; display: flex; align-items: center; justify-content: center; }
+.scrim { position: absolute; inset: 0; background: var(--nk-color-vip-scrim); }
+.card { position: relative; background: var(--nk-color-bg-surface); }
+.handleZone { position: absolute; top: var(--nk-layout-vip-handle-top); left: 0; right: 0; display: flex; justify-content: center; }
+.handle { width: var(--nk-layout-vip-handle-w); height: var(--nk-layout-vip-handle-h); border-radius: var(--nk-radius-r2); background: var(--nk-color-vip-handle); }

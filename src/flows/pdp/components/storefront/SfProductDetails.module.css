@@ -1,0 +1,67 @@
+/* New PDP "Product Overview" — Figma Af34gfmhQ1D0wstXUEHSIF · 84:8031 (was Storefront "Product Details" 3499:75478) */
+.card.card { padding: var(--nk-space-s16) var(--nk-space-s12); }
+.title {
+  padding: 0 var(--nk-space-s2);
+  font: var(--nk-type-pdp-sfc-section-title);
+  letter-spacing: -0.28px;
+  font-feature-settings: 'case' 1;
+  color: var(--nk-color-text-strong);
+}
+.list { display: flex; flex-direction: column; gap: var(--nk-space-s8); }
+.panel { border-radius: var(--nk-radius-r12); background: var(--nk-color-bg-subtle); overflow: hidden; }
+.head {
+  border: 0; background: none; padding: 0; margin: 0; cursor: pointer; font: inherit; color: inherit; text-align: inherit; /* inline reset: a cross-file composes loads later and would wipe this rule's padding */
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s10);
+  width: 100%;
+  height: var(--nk-layout-pdp-sfc-row-h);
+  padding: var(--nk-space-s12);
+  text-align: start;
+}
+.headTitle {
+  flex: 1;
+  min-width: 0;
+  font: var(--nk-type-body-semibold);
+  letter-spacing: -0.14px;
+  font-feature-settings: 'case' 1;
+  color: var(--nk-palette-dark-navy-alpha92);
+}
+.chevron { display: flex; flex-shrink: 0; }
+.body { display: flex; flex-direction: column; gap: var(--nk-space-s8); padding: 0 var(--nk-space-s12) var(--nk-space-s12); }
+.text { flex: 1; font: var(--nk-type-body); color: var(--nk-color-text-strong); }
+.bullet { display: flex; }
+.dot { margin: var(--nk-space-s8) var(--nk-space-s4); flex-shrink: 0; }
+.spec { display: flex; gap: var(--nk-space-s16); padding: var(--nk-space-s4) 0; }
+.specName { width: 30%; flex-shrink: 0; font: var(--nk-type-text13-regular-lh16); color: var(--nk-color-text-muted); }
+.specValue { flex: 1; font: var(--nk-type-text13-regular-lh16); color: var(--nk-color-text-strong); }
+
+.head:active { opacity: var(--nk-layout-pdp-press-opacity); }
+
+/* "Summarised by AI" — 84:8035: r12, py 12, gap 8; 1px rgba(251,243,254,0) border keeps the 327 box */
+.ai { display: flex; flex-direction: column; gap: var(--nk-space-s8); padding: var(--nk-space-s12) 0; border-radius: var(--nk-radius-r12); background: var(--nk-color-pdp-npc-ai-bg); overflow: hidden; }
+.aiTitle {
+  align-self: flex-start;
+  max-width: calc(100% - 2 * var(--nk-space-s12));
+  margin: 0 var(--nk-space-s12);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font: var(--nk-type-body-bold);
+  letter-spacing: -0.14px;
+  font-feature-settings: 'case' 1;
+  color: transparent;
+  /* the title gradient + a 20px white shimmer band, both clipped to the glyphs (NoonAiOverviewTitle MaskedView) */
+  background: var(--nk-color-pdp-npc-ai-shimmer) -20px 0 / 20px 100% no-repeat, var(--nk-color-pdp-npc-ai-title);
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: aiShimmer 2s ease-in-out infinite;
+}
+/* band from −20 to width + 20 (with a 20px band, calc(100% + 40px) puts its left edge at width + 20) */
+@keyframes aiShimmer { to { background-position: calc(100% + 40px) 0, 0 0; } }
+@media (prefers-reduced-motion: reduce) { .aiTitle { animation: none; } }
+.aiItems { display: flex; flex-direction: column; gap: var(--nk-space-s10); }
+.aiItem { display: flex; align-items: flex-start; gap: var(--nk-space-s6); padding: 0 var(--nk-space-s12); }
+.aiStar { flex-shrink: 0; width: 16px; height: 20px; }
+.aiText { flex: 1; min-width: 0; margin: 0; font: var(--nk-type-text14-regular-lh20); letter-spacing: -0.1px; color: var(--nk-color-text-muted); }
+.aiItemTitle { font-weight: var(--nk-font-weight-semibold); color: var(--nk-color-text-primary); }

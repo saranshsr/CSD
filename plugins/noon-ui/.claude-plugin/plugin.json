@@ -1,0 +1,22 @@
+{
+  "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
+  "name": "noon-ui",
+  "version": "0.1.0",
+  "description": "noon app design knowledge for building and restyling noon screens and flows with the noon Flow Kit: design tokens, components, motion, Origin Design System parts, flow specs and the brain map, plus screen skills for home, search, PDP, cart, checkout, orders, returns, reviews, account and noon One.",
+  "author": {
+    "name": "Arnab Debnath"
+  },
+  "homepage": "https://github.com/arnabdebnath07/noon-app-skill",
+  "repository": "https://github.com/arnabdebnath07/noon-app-skill",
+  "license": "UNLICENSED",
+  "keywords": [
+    "noon",
+    "design-system",
+    "ui",
+    "prototype",
+    "skills"
+  ],
+  "skills": [
+    "./skills/"
+  ]
+}

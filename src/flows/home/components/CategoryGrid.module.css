@@ -1,0 +1,20 @@
+/* Shop by category — Figma 1337:5151 › Cat Grid. Title gap 6 + pt12 → 18 under the title (Module adds 8). */
+.scroller { padding: var(--nk-space-s10) var(--nk-space-s16) var(--nk-space-s8); }
+.rows { display: flex; flex-direction: column; row-gap: var(--nk-space-s16); }
+.row { display: flex; column-gap: var(--nk-space-s16); }
+
+.tile { position: relative; flex-shrink: 0; width: 92px; height: 128px; padding: 0; border: 0; background: none; cursor: pointer; }
+.bg { position: absolute; left: 0; top: 0; width: 92px; height: 92px; display: block; }
+.layer { position: absolute; display: block; object-fit: cover; pointer-events: none; }
+.layer[data-fit='coverBottom'] { object-position: bottom; }
+/* Figma drop-shadow stacks on the cut-outs (alpha follows the artwork) */
+.layer[data-shadow='a'] { filter: drop-shadow(-2.2px 11px 4.4px var(--nk-palette-black-alpha2)) drop-shadow(-1.1px 6.6px 4.4px var(--nk-palette-black-alpha6)) drop-shadow(0 3.3px 3.3px var(--nk-palette-black-alpha10)) drop-shadow(0 1.1px 1.1px var(--nk-palette-black-alpha12)); }
+.layer[data-shadow='b'] { filter: drop-shadow(-22px 0 8.8px var(--nk-palette-black-alpha3)) drop-shadow(-12px 0 7.7px var(--nk-palette-black-alpha10)) drop-shadow(-5.5px 0 5.5px var(--nk-palette-black-alpha18)) drop-shadow(-1.1px 0 3.3px var(--nk-palette-black-alpha18)); }
+
+.label { position: absolute; left: 0; top: 96px; width: 92px; font: var(--nk-type-home-text13-semibold-lh14); color: var(--nk-palette-new-black); text-align: center; white-space: pre-line; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+/* "SALE" ribbon — 45.9×14.4 at x22.76 (top-centre), folds 4.9×6 */
+.sale { position: absolute; left: 22.76px; top: 0; width: 45.9px; height: 14.45px; pointer-events: none; }
+.foldLeft { position: absolute; left: 0; top: 0; width: 4.9px; height: 6.05px; }
+.foldRight { position: absolute; left: 41.19px; top: 0; width: 4.71px; height: 5.95px; transform: scaleX(-1); }
+.saleBody { position: absolute; left: 50%; top: 0; transform: translateX(calc(-50% + 0.29px)); padding: 2.5px var(--nk-space-s4) var(--nk-space-s2); border-radius: 0 0 5px 5px; background: linear-gradient(127.68deg, var(--nk-color-home-sale-from) 2.38%, var(--nk-color-home-sale-to) 90.81%); color: var(--nk-color-text-inverse); font: var(--nk-type-home-text11-bold-lh13); text-align: center; white-space: nowrap; }

@@ -1,0 +1,54 @@
+.ring {
+  display: inline-block;
+  flex-shrink: 0;
+  border-style: solid;
+  border-radius: 50%;
+  animation: nk-spinner-turn 0.8s linear infinite;
+}
+@keyframes nk-spinner-turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* RN ActivityIndicator (iOS): 8 petals fading in sequence */
+.ios {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.ios i {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 9%;
+  height: 28%;
+  margin-left: -4.5%;
+  border-radius: var(--nk-radius-full);
+  background: currentColor;
+  transform-origin: 50% 178%;
+  animation: nk-spinner-petal 0.8s linear infinite;
+  opacity: 0.25;
+}
+@keyframes nk-spinner-petal {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.25;
+  }
+}
+
+/* reduced motion: no rotation; the indicator pulses its opacity instead */
+.ring.reduced,
+.ios.reduced {
+  animation: nk-reduced-pulse 0.9s ease-in-out infinite alternate;
+}
+@keyframes nk-reduced-pulse {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.45;
+  }
+}

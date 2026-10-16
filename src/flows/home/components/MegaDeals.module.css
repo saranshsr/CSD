@@ -1,0 +1,19 @@
+/* NoonMegaDealsModule — values in MegaDeals.tsx's doc comment; colours are CMS (tokens.feed.ts). */
+.module { overflow: hidden; }
+.module h2 { flex: 0 1 auto !important; max-width: 132.6px; color: var(--nk-color-home-bz-mega-ink); } /* W · 0.34 */
+.timer { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 138px; height: 35px; color: var(--nk-color-home-bz-mega-timer); pointer-events: none; }
+.tab { position: absolute; inset: 0; }
+.timerRow { position: absolute; left: 50%; top: 0; transform: translateX(-50%); display: flex; align-items: center; justify-content: space-between; width: 90px; padding: var(--nk-space-s8) 0; font: var(--nk-type-home-bz-mega-timer); color: var(--nk-color-text-inverse); white-space: nowrap; }
+.grid { display: flex; gap: var(--nk-space-s12); padding: 0 var(--nk-space-s12); margin-top: 0; }
+.column { display: flex; flex-direction: column; gap: var(--nk-space-s12); }
+.slot { display: flex !important; flex-direction: column; padding: var(--nk-space-s6) !important; margin-bottom: var(--nk-space-s16); border-radius: var(--nk-radius-r10); background: var(--nk-color-bg-surface); text-align: start; }
+.column .slot:not(:last-child) { margin-bottom: 0; }
+.image { position: relative; display: block; width: 100%; border-radius: var(--nk-radius-r8); overflow: hidden; }
+.tag { position: absolute; left: 0; top: 0; padding: var(--nk-space-s4) var(--nk-space-s8); border-end-end-radius: var(--nk-radius-r12); background: var(--nk-color-home-bz-mega-tag); color: var(--nk-color-text-inverse); font: var(--nk-type-text12-semibold-lh14); white-space: nowrap; }
+.quick { position: absolute; right: 5px; bottom: 5px; }
+.details { display: flex; flex-direction: column; gap: var(--nk-space-s4); padding: var(--nk-space-s6) var(--nk-space-s2) var(--nk-space-s4); }
+.title { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font: var(--nk-type-home-bz-mega-was); color: var(--nk-palette-black); }
+.offer { display: flex; align-items: baseline; gap: var(--nk-space-s4); white-space: nowrap; }
+.offer b { font: var(--nk-type-home-bz-mega-price); color: var(--nk-palette-black); }
+.offer s { font: var(--nk-type-home-bz-mega-was); color: var(--nk-color-home-bz-mega-was); }
+.offer em { font: var(--nk-type-home-bz-mega-was); font-style: normal; color: var(--nk-color-home-bz-mega-off); }

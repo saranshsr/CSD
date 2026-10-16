@@ -1,0 +1,74 @@
+/* features/vip/components/ManageFamilyMembersSection/styles.ts */
+.container {
+  margin: var(--nk-space-s16) var(--nk-space-s16) 0;
+  padding: 0 var(--nk-space-s12);
+  border-radius: var(--nk-radius-r16);
+  background: var(--nk-color-mb-family-card);
+  overflow: hidden;
+}
+.header {
+  padding: var(--nk-space-s16) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s2);
+}
+.title {
+  color: var(--nk-color-text-primary);
+  font: var(--nk-type-mb-b16-bold);
+  letter-spacing: var(--nk-space-mb-ls15);
+}
+.subtitle,
+.memberSubtitle {
+  color: var(--nk-color-text-secondary);
+  font: var(--nk-type-text12-regular-lh18);
+  letter-spacing: var(--nk-space-mb-ls10);
+}
+.memberRow,
+.addRow {
+  display: flex;
+  align-items: center;
+  padding: var(--nk-space-s12) 0;
+}
+.addRow {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  text-align: start;
+  cursor: pointer;
+}
+.memberContent {
+  flex: 1;
+  min-width: 0;
+  margin-inline-start: var(--nk-space-s12);
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s2);
+}
+.memberName {
+  color: var(--nk-color-text-primary);
+  font: var(--nk-type-mb-b14-medium);
+  letter-spacing: var(--nk-space-mb-ls10);
+}
+/* removeButton: padding 4/6, r4 · removeButtonText: error #D92626, B12 semibold */
+.remove {
+  padding: var(--nk-space-s4) var(--nk-space-s6);
+  border: 0;
+  border-radius: var(--nk-radius-r4);
+  background: transparent;
+  color: var(--nk-palette-danger-red);
+  font: var(--nk-type-mb-b12-semibold);
+  letter-spacing: var(--nk-space-mb-ls10);
+  cursor: pointer;
+}
+/* addAvatar: 40, r20, surfaceGrey */
+.addAvatar {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: var(--nk-radius-r20);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--nk-color-bg-subtle);
+}

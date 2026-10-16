@@ -1,0 +1,13 @@
+/* MockKeyboard — repo src/components/Keyboard.tsx (Figma 6042:140810). iOS system colours = flow tokens. */
+.kb { flex-shrink: 0; background: var(--nk-color-reviews-kb-bed); padding: var(--nk-space-s10) 0 var(--nk-space-s4); min-height: 290px; padding-bottom: calc(var(--nk-inset-bottom) + var(--nk-space-s4)); user-select: none; }
+.row { display: flex; align-items: center; gap: var(--nk-space-s6); margin-bottom: var(--nk-space-s10); padding: 0 var(--nk-space-s6); }
+.row[data-row='2'] { padding: 0 22px; }
+.row[data-row='4'] { margin-bottom: 0; }
+.key { flex: 1; height: 42px; border-radius: var(--nk-radius-r6); background: var(--nk-color-reviews-kb-key); box-shadow: var(--nk-shadow-reviews-kb-key); display: flex; align-items: center; justify-content: center; font: var(--nk-type-reviews-kb-key); color: var(--nk-color-reviews-kb-glyph); cursor: default; }
+.key[data-live] { cursor: pointer; }
+.key[data-live]:active { background: var(--nk-color-reviews-kb-bed); }
+.wide { flex: 0 0 42px; color: var(--nk-color-reviews-kb-icon); }
+.mode { flex: 0 0 88px; font: var(--nk-type-reviews-kb-label); }
+.return { flex: 0 0 88px; background: var(--nk-color-reviews-kb-return); color: var(--nk-color-text-inverse); }
+.aux { display: flex; justify-content: space-between; align-items: center; padding: var(--nk-space-s10) 30px var(--nk-space-s4); color: var(--nk-color-reviews-kb-aux); }
+.dock { flex-shrink: 0; overflow: hidden; }

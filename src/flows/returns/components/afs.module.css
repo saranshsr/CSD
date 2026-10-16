@@ -1,0 +1,104 @@
+/* AFS shared chrome — features/afs/common/components/* (values: MAPPING.md §1–2) */
+
+.svg { display: block; flex-shrink: 0; }
+[dir='rtl'] .flipRtl { transform: scaleX(-1); }
+
+/* AFSButton */
+.btn {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0 var(--nk-space-s12) !important;
+  border: 1px solid transparent !important;
+  border-radius: var(--nk-radius-r12);
+}
+.btn_sm { min-height: 44px; }
+.btn_md { min-height: 48px; }
+.btn_lg { min-height: 52px; }
+.btn_primary { background: var(--nk-color-primary-bright) !important; border-color: var(--nk-color-primary-bright) !important; color: var(--nk-color-text-inverse); }
+.btn_outline { background: var(--nk-color-bg-surface) !important; border-color: var(--nk-color-border) !important; color: var(--nk-palette-dark-navy); }
+.btn_danger { background: var(--nk-color-danger) !important; border-color: var(--nk-color-danger) !important; color: var(--nk-color-text-inverse); }
+.btn_inverted { background: var(--nk-color-text-strong) !important; border-color: var(--nk-color-text-strong) !important; color: var(--nk-color-text-inverse); }
+.btnDisabled { background: var(--nk-color-bg-disabled) !important; border-color: transparent !important; color: var(--nk-color-text-disabled) !important; cursor: default; }
+.btnContent { display: flex; align-self: stretch; flex: 1; align-items: center; justify-content: center; gap: var(--nk-space-s8); min-width: 0; }
+.btnText { flex-shrink: 1; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.btnText_sm { font: var(--nk-type-returns-text15-semibold); }
+.btnText_md { font: var(--nk-type-returns-text16-semibold); }
+.btnText_lg { font: var(--nk-type-returns-text18-semibold); }
+
+/* AFSBackHeader */
+.backHeader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  padding: calc(var(--nk-inset-top) + var(--nk-space-s8)) var(--nk-space-s12) var(--nk-space-s8);
+  pointer-events: none;
+}
+.backHeaderBlur {
+  position: absolute;
+  inset: 0 0 -16px;
+  background: var(--nk-color-returns-header-blur);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  mask-image: linear-gradient(to bottom, var(--nk-palette-black) 40%, var(--nk-palette-black-alpha0) 100%);
+  -webkit-mask-image: linear-gradient(to bottom, var(--nk-palette-black) 40%, var(--nk-palette-black-alpha0) 100%);
+}
+.backHeaderSolid { position: absolute; inset: 0; background: var(--nk-color-bg-subtle); }
+.backHeaderContent { position: relative; z-index: 2; display: flex; align-items: center; gap: var(--nk-space-s12); }
+.backHeaderContent > * { pointer-events: auto; }
+.backButton {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  background: var(--nk-color-bg-surface) !important;
+  border: 1px solid var(--nk-color-border-subtle) !important;
+  border-radius: 50%;
+}
+.backHeaderTitle { flex: 1; min-width: 0; font: var(--nk-type-returns-text18-bold); color: var(--nk-color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* OverlayBottomSheet + AFSOverlay */
+.overlayLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-top: var(--nk-space-returns-overlay-top);
+}
+.overlayScrim { position: absolute; inset: 0; background: var(--nk-color-returns-overlay-scrim); }
+.overlayMargin {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  max-height: 100%;
+  padding: var(--nk-space-s12) var(--nk-space-s12) var(--nk-inset-bottom);
+  touch-action: none;
+}
+.overlayMarginLegacy { padding-bottom: calc(var(--nk-inset-bottom) + var(--nk-space-s4)); }
+.overlayHandle {
+  position: absolute;
+  top: -6px; /* handle top: −18 from the card (card starts at 12) */
+  left: 50%;
+  width: 36px;
+  height: 4px;
+  margin-left: -18px;
+  border-radius: var(--nk-radius-r2);
+  background: var(--nk-color-returns-overlay-handle);
+}
+.overlayCard {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-radius: var(--nk-radius-r16);
+  background: var(--nk-color-bg-subtle);
+  overflow: hidden;
+}
+.overlayContent { min-height: 0; padding: var(--nk-space-s16) var(--nk-space-s12) var(--nk-space-s12); touch-action: pan-y; }

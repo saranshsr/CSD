@@ -1,0 +1,8 @@
+/* PastOrderCard — repo PastOrderRatingScreen OrderCard (shared by the deck and the slider). */
+.card { display: flex; flex-direction: column; gap: var(--nk-space-s12); padding: var(--nk-space-s8) var(--nk-space-s8) var(--nk-space-s12); border-radius: var(--nk-radius-r16); background: var(--nk-color-bg-surface); box-shadow: var(--nk-shadow-reviews-deck-card); }
+.media { border-radius: var(--nk-radius-r8); background: var(--nk-color-bg-subtle); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.media img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.info { display: flex; flex-direction: column; align-items: center; gap: var(--nk-space-s8); padding: 0 var(--nk-space-s8); }
+.name { display: block; width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font: var(--nk-type-reviews-text14-medium-lh20); color: var(--nk-color-text-muted); }
+.more { overflow: hidden; flex-shrink: 0; }
+.moreBtn { width: 100%; height: 28px; display: flex; align-items: center; justify-content: center; gap: var(--nk-space-s4); padding: var(--nk-space-s4) var(--nk-space-s8); border-radius: var(--nk-radius-r6); background: transparent; font: var(--nk-type-text14-semibold-lh20); color: var(--nk-color-primary); white-space: nowrap; }

@@ -1,0 +1,140 @@
+/* features/vip/screens/VIPPaymentV2Screen/styles.ts (+ VIPPaymentCardSelect, VIPPaymentMobileSelect, VIPTrialGuideButton, VIPSubscriptionButtonV2) */
+
+/* headerWrapper: absolute, padding 12, paddingTop statusBar + 12; bg animates transparent → white over 30px of scroll */
+.headerWrapper { padding: var(--nk-space-s12); padding-top: calc(var(--nk-inset-top) + var(--nk-space-s12)); }
+.header { position: relative; display: flex; flex-direction: row; align-items: center; justify-content: center; height: var(--nk-layout-vip-pay-header-h); }
+/* headerTitleText 16 bold lh24, marginLeft 15, capitalize, black */
+.headerTitle { font: var(--nk-type-vip-pay-header-title); margin-left: var(--nk-space-s15); text-align: center; color: var(--nk-color-vip-black); }
+/* backButton: absolute left 0, 39 × 39, white, r20, 1px #E3E3E3 */
+.backButton {
+  position: absolute;
+  inset-inline-start: 0;
+  z-index: 999;
+  width: var(--nk-layout-vip-back-button);
+  height: var(--nk-layout-vip-back-button);
+  border-radius: var(--nk-radius-r20);
+  border: 1px solid var(--nk-color-vip-back-border);
+  background: var(--nk-color-bg-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.backIcon { width: 9px; height: 18px; margin-inline-start: calc(-1 * var(--nk-space-s2)); }
+:global([dir='rtl']) .backIcon { transform: rotate(180deg); }
+
+/* methodWrapper: marginVertical 15, gap 12 */
+.methods { display: flex; flex-direction: column; gap: var(--nk-space-s12); margin-block: var(--nk-space-s15); }
+/* cardMethodWrapper / applePayWrapper: white, 1px #262A331A, r12; methodSelected #DEE7FE */
+.method { background: var(--nk-color-bg-surface); border: 1px solid var(--nk-color-vip-pay-method-border); border-radius: var(--nk-radius-r12); overflow: hidden; }
+.applePay { min-height: 40px; }
+.methodSelected { border-color: var(--nk-color-vip-pay-method-selected); }
+/* cardTextWrapper: padding 8/15, borderBottom 1px #3866DF33; cardHeader 600 14 #262A33 */
+.methodHeader { display: flex; align-items: center; justify-content: space-between; padding: var(--nk-space-s8) var(--nk-space-s15); border-bottom: 1px solid var(--nk-color-vip-pay-card-header-border); }
+.methodHeaderText { font: var(--nk-type-vip-pay14-semibold); color: var(--nk-palette-new-black); }
+/* methodButton: row, space-between, padding 15/15 */
+.methodButton { display: flex; flex-direction: row; align-items: center; justify-content: space-between; width: 100%; padding: var(--nk-space-s15); text-align: start; }
+.leftWrapper { flex: 1; display: flex; flex-direction: row; align-items: center; }
+.radio { width: 18px; height: 18px; flex-shrink: 0; }
+/* methodButtonText 14 #262A33 marginLeft 8 */
+.methodButtonText { font: var(--nk-type-vip-pay14); color: var(--nk-palette-new-black); margin-inline-start: var(--nk-space-s8); }
+.applePayLogo { width: 33px; height: 22px; }
+
+/* VIPPaymentCardSelect */
+.list { max-height: var(--nk-layout-vip-pay-list-max); overflow-y: auto; padding-top: var(--nk-space-s8); }
+.row { display: flex; flex-direction: row; align-items: center; }
+/* button: padding 0 12 8, minHeight 45 */
+.cardButton { display: flex; flex-direction: row; align-items: center; width: 100%; min-height: var(--nk-layout-vip-pay-row-min); padding: 0 var(--nk-space-s12) var(--nk-space-s8); text-align: start; }
+.cardButton:disabled { cursor: default; }
+.radioInRow { width: 18px; height: 18px; margin-inline-end: var(--nk-space-s8); flex-shrink: 0; }
+.flex { flex: 1; min-width: 0; }
+/* cardType width 30 marginEnd 4 (intrinsic 1x height) */
+.cardType { width: var(--nk-layout-vip-pay-brand-w); height: 24px; object-fit: contain; margin-inline-end: var(--nk-space-s4); flex-shrink: 0; }
+.dimImage { opacity: var(--nk-layout-vip-dim-opacity); }
+/* dots: 24 bold lh26, letterSpacing −3, #262A33CC */
+.dots { font: var(--nk-type-vip-pay-dots); letter-spacing: var(--nk-layout-vip-dots-tracking); color: var(--nk-color-vip-pay-ink80); }
+/* cardNumberText 600 14, marginHorizontal 2 */
+.cardNumber { font: var(--nk-type-vip-pay14-semibold); margin-inline: var(--nk-space-s2); color: var(--nk-color-vip-pay-ink80); }
+.disabledText { color: var(--nk-palette-medium-gray); }
+.message { font: var(--nk-type-vip-pay12); color: var(--nk-color-price-old); }
+/* cvvInput: 1px $grayColor, r7, 48 × 26, bold 12, centred */
+.cvvInput {
+  width: var(--nk-layout-vip-pay-cvv-w);
+  height: var(--nk-layout-vip-pay-cvv-h);
+  border: 1px solid var(--nk-palette-gray-color);
+  border-radius: var(--nk-radius-vip-r7);
+  background: var(--nk-color-bg-surface);
+  font: var(--nk-type-vip-pay12-bold);
+  text-align: center;
+  padding: 0;
+  outline: none;
+  color: var(--nk-color-text-legacy);
+}
+.cvvInput::placeholder { font: var(--nk-type-vip-pay12-bold); color: var(--nk-palette-gray-color); }
+/* VIPDashedBorder strokeWidth 4, strokeSpacing 7, height 1, #262A331A in a 12px-padded row */
+.dashed { padding-inline: var(--nk-space-s12); }
+.dashedLine {
+  height: 1px;
+  border-radius: 0.5px;
+  background: repeating-linear-gradient(to right, var(--nk-color-vip-pay-method-border) 0 4px, transparent 4px 7px);
+}
+:global([dir='rtl']) .dashedLine { background: repeating-linear-gradient(to left, var(--nk-color-vip-pay-method-border) 0 4px, transparent 4px 7px); }
+/* newCardButton: height 52, paddingHorizontal 15 */
+.addRow { display: flex; flex-direction: row; align-items: center; width: 100%; height: var(--nk-layout-vip-pay-row); padding-inline: var(--nk-space-s15); text-align: start; }
+.addIcon { width: 18px; height: 18px; margin-inline-end: var(--nk-space-s8); object-fit: contain; }
+.addText { flex: 1; font: var(--nk-type-vip-pay14); color: var(--nk-palette-new-black); }
+/* VIPIcons.cardVisa/Mastercard/Amex (src theme, 41 × 26) at width 30 */
+.addBrand { width: var(--nk-layout-vip-pay-brand-w); height: 26px; object-fit: contain; margin-inline-end: var(--nk-space-s4); }
+
+/* VIPPaymentMobileSelect */
+.mobileRow { display: flex; flex-direction: row; align-items: center; width: 100%; height: var(--nk-layout-vip-pay-row); padding-inline: var(--nk-space-s15); text-align: start; }
+.carrier { width: var(--nk-layout-vip-pay-carrier-w); height: var(--nk-layout-vip-pay-carrier-h); object-fit: contain; margin-inline-end: var(--nk-space-s4); }
+/* newPhoneButtonBorder: 1px dashed $borderColor */
+.mobileBorder { width: 100%; border-top: 1px dashed var(--nk-palette-border-color); }
+
+/* VIPTrialGuideButton: #EFF7FF, r8, padding 12, margin 0 12 8, marginTop −4 */
+.trialGuide {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--nk-space-s8);
+  background: var(--nk-palette-alice-blue);
+  border-radius: var(--nk-radius-r8);
+  padding: var(--nk-space-s12);
+  margin: calc(-1 * var(--nk-space-s4)) var(--nk-space-s12) var(--nk-space-s8);
+  width: calc(100% - 2 * var(--nk-space-s12));
+  text-align: start;
+}
+.trialGuideLast { margin-bottom: var(--nk-space-s4); }
+.trialGuideText { font: var(--nk-type-vip-pay12); color: var(--nk-color-vip-pay-ink92); }
+.trialGuideIcon { width: 5px; height: 10px; transform: rotateY(180deg); flex-shrink: 0; }
+:global([dir='rtl']) .trialGuideIcon { transform: none; }
+
+/* stickyFooter > subscriptionButtonContainer: white, r16 top, padding 15, shadow2, paddingBottom stickyBottomPadding */
+.footer {
+  background: var(--nk-color-bg-surface);
+  border-radius: var(--nk-radius-r16) var(--nk-radius-r16) 0 0;
+  padding: var(--nk-space-s15);
+  padding-bottom: var(--nk-inset-bottom);
+  box-shadow: 0 3.2px 3.2px var(--nk-palette-dark-gray-color-alpha10);
+}
+/* VIPSubscriptionButtonV2 button + stickyButton: height 56, r12, black, marginBottom 8 */
+.cta { width: 100%; height: var(--nk-layout-vip-pay-cta); border-radius: var(--nk-radius-r12); background: var(--nk-palette-black); margin-bottom: var(--nk-space-s8); color: var(--nk-color-text-inverse); }
+.cta:disabled { background: var(--nk-palette-noon-grey2); }
+/* buttonTextStyle.p + stickyButtonText: white bold 18; <s> 16 regular line-through */
+.ctaText { font: var(--nk-type-vip-pay18-bold); color: var(--nk-color-text-inverse); }
+.ctaText :global(s) { font-size: var(--nk-font-size-body-large); font-weight: var(--nk-font-weight-regular); text-decoration: line-through; }
+.footerNote { padding-top: var(--nk-space-s8); text-align: center; font: var(--nk-type-vip-pay-base); color: var(--nk-color-price-old); }
+/* appliedReferralCodeContainer: height 30, mt 8, #DFF1DA, r8; code 14 noonGrey2 marginEnd 8 */
+.referral { display: flex; flex-direction: row; align-items: center; justify-content: center; height: 30px; margin-top: var(--nk-space-s8); background: var(--nk-color-vip-pay-referral-bg); border-radius: var(--nk-radius-r8); }
+.referralCode { font: var(--nk-type-vip-pay14); color: var(--nk-palette-noon-grey2); margin-inline-end: var(--nk-space-s8); }
+.referralIcon { width: 16px; height: 16px; }
+
+/* screen root (FeedbackView container) */
+.root { position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; }
+
+/* FeedbackView LOADING: Loader centred */
+.loading { position: absolute; inset: 0; z-index: 40; background: var(--nk-color-vip-pay-page); }
+
+/* plain <button> rows: UA reset (border / background / font) */
+.cardButton, .addRow, .mobileRow, .methodButton { border: 0; background: transparent; font: inherit; color: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; }

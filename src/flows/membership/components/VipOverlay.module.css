@@ -1,0 +1,69 @@
+/* OverlayBottomSheet + VIPOverlayBottomSheet chrome (see VipOverlay.tsx) */
+.root {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-top: var(--nk-space-mb-sheet-top);
+  overflow: hidden;
+}
+.root[data-variant='popup'] {
+  justify-content: center;
+  padding-top: 0;
+}
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  background: var(--nk-color-mb-backdrop);
+}
+
+/* OverlayBottomSheet styles.container + VIPOverlayBottomSheet styles.sheet */
+.sheet {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-height: calc(100% - var(--nk-space-mb-overlay-float) - var(--nk-inset-bottom));
+  background: var(--nk-color-bg-surface);
+  border-radius: var(--nk-radius-mb-sheet);
+  margin-bottom: calc(var(--nk-space-mb-overlay-float) + var(--nk-inset-bottom));
+  touch-action: none;
+}
+.root[data-variant='popup'] .sheet {
+  margin: 0 var(--nk-space-s20);
+  border-radius: var(--nk-radius-mb-popup);
+}
+
+.children {
+  overflow: hidden;
+  border-radius: var(--nk-radius-mb-sheet);
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.root[data-variant='popup'] .children {
+  border-radius: var(--nk-radius-mb-popup);
+}
+
+/* handleContainer: absolute, top -18, centred · handle 36×4 r2 #B7B7B7 */
+.handleZone {
+  position: absolute;
+  top: var(--nk-space-mb-handle-top);
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+.handle {
+  pointer-events: auto;
+  width: 36px;
+  height: 4px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--nk-radius-r2);
+  background: var(--nk-color-mb-handle);
+  cursor: grab;
+}

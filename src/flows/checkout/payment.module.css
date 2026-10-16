@@ -1,0 +1,122 @@
+/* Payment sheets: NoonCheckoutCardsSelectScreen, NoonCheckoutAddPaymentCardScreen, NoonCheckoutSpecialEMIsOverlayScreen styles.ts */
+.sheet { display: flex; flex-direction: column; min-height: 0; max-height: 100%; }
+.scroll { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+
+/* ── cards select ───────────────────────────── */
+.cardsTitleWrapper {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--nk-space-s12) var(--nk-space-s16) var(--nk-space-s12); /* paddingTop 24 — the kit grabber zone takes 12 of it */
+  background: var(--nk-color-bg-surface);
+  border-bottom: 1px solid var(--nk-palette-bright-grey-color);
+}
+.cardsTitle { font: var(--nk-type-title-small); color: var(--nk-color-text-ink); }
+/* NoonButton variant="secondary" with addNewCardButton overrides */
+.addNewSecondary {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s2);
+  padding: var(--nk-space-s4) var(--nk-space-s8);
+  border: 0;
+  border-radius: var(--nk-radius-r8);
+  background: var(--nk-palette-alice-blue);
+  cursor: pointer;
+}
+.plus20 { width: 20px; height: 20px; object-fit: contain; }
+.addNewSecondaryText { font: var(--nk-type-body-semibold); color: var(--nk-color-link); text-align: start; }
+.cardsContainer { display: flex; flex-direction: column; gap: var(--nk-space-s4); padding: var(--nk-space-s16) var(--nk-space-s12) var(--nk-space-s40); }
+.selectCard {
+  display: block;
+  width: 100%;
+  text-align: start;
+  border: 0; /* card: no border until selected (cardSelected borderWidth 1) */
+  border-radius: var(--nk-radius-r12);
+  overflow: hidden;
+  padding: var(--nk-space-s10) var(--nk-space-s12);
+  background: var(--nk-color-bg-subtle);
+  cursor: pointer;
+}
+.selectCardSelected { border: 1px solid var(--nk-color-link); background: var(--nk-palette-alice-blue); }
+
+/* ── add card ───────────────────────────────── */
+.addTitleWrapper { flex-shrink: 0; padding: var(--nk-space-s12) var(--nk-space-s12) var(--nk-space-s12); background: var(--nk-color-bg-surface); border-bottom: 1px solid var(--nk-palette-border-primary); }
+.addTitle { font: var(--nk-type-text16-bold-lh20); color: var(--nk-color-text-ink); }
+.acceptedCards { margin: var(--nk-space-s12); display: flex; flex-wrap: wrap; justify-content: center; align-items: center; row-gap: var(--nk-space-s2); column-gap: var(--nk-space-s8); }
+.acceptedCard { width: 26px; height: 26px; object-fit: contain; }
+.form { padding: 0 var(--nk-space-s12); }
+.row { display: flex; }
+.rowItem { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.rowSpacer { width: var(--nk-space-s16); flex-shrink: 0; }
+.inputLabel { font: var(--nk-type-product-title); color: var(--nk-color-text-ink); margin-bottom: var(--nk-space-s4); }
+.optional { font: var(--nk-type-body); color: var(--nk-palette-lighter-spanish-gray-color); }
+.required { color: var(--nk-palette-red-color); }
+.input {
+  height: 48px;
+  padding: var(--nk-space-s12) var(--nk-space-s10) var(--nk-space-s12) var(--nk-space-s14);
+  border: 1px solid var(--nk-palette-bright-grey-color);
+  border-radius: var(--nk-radius-r12);
+  background: var(--nk-color-bg-surface);
+  font: var(--nk-type-body);
+  color: var(--nk-color-text-legacy);
+  outline: none;
+  transition: border-color 150ms, box-shadow 150ms;
+}
+.input::placeholder { color: var(--nk-color-chk-input-placeholder); }
+.input:focus { border-color: var(--nk-color-link); }
+.inputError,
+.inputError:focus { border-color: var(--nk-palette-deep-red-color); box-shadow: 0 0 2px var(--nk-palette-red100); }
+.errorContainer { min-height: 28px; margin: var(--nk-space-s2) 0; padding-left: var(--nk-space-s4); }
+.emptyErrorContainer { height: 0; }
+.errorInfo { display: flex; align-items: center; gap: var(--nk-space-s4); padding-top: var(--nk-space-s4); }
+.errorText { flex: 1; font: var(--nk-type-text12-medium-lh14); color: var(--nk-palette-deep-red-color); }
+.hint { font: var(--nk-type-text12-medium-lh16); color: var(--nk-palette-lighter-spanish-gray-color); margin-top: var(--nk-space-s4); min-height: 28px; }
+.rememberCard { padding: var(--nk-space-s12); }
+.checkbox { display: flex; flex-direction: column; gap: var(--nk-space-s6); }
+.checkboxContainer { display: flex; align-items: center; border: 0; background: none; padding: 0; cursor: pointer; text-align: start; }
+.checkboxLabel { margin-left: var(--nk-space-s8); font: var(--nk-type-caption-bold); color: var(--nk-color-text-legacy); }
+.checkboxSubtext { font: var(--nk-type-caption); color: var(--nk-color-price-old); padding-right: var(--nk-space-s20); }
+.buttonWrapper {
+  flex-shrink: 0;
+  padding: var(--nk-space-s12) var(--nk-space-s12) var(--nk-space-s4);
+  background: var(--nk-color-bg-surface);
+  box-shadow: 0 -4px 12px var(--nk-palette-black-alpha8); /* NoonStyles.shadow3 (softened, faces up) */
+}
+/* FormikSubmitButton → PrimaryButton: #3866DF, height 50, 14/700 white; disabled $grayColor */
+.submit {
+  width: 100%;
+  height: 50px;
+  border: 0;
+  border-radius: var(--nk-radius-r12);
+  overflow: hidden;
+  background: var(--nk-color-cta);
+  color: var(--nk-color-text-inverse);
+  font: var(--nk-type-body-bold);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.submitDisabled { background: var(--nk-palette-gray-color); cursor: default; }
+
+/* ── special EMIs ───────────────────────────── */
+.emiHeader { flex-shrink: 0; padding: var(--nk-space-s12) var(--nk-space-s16) var(--nk-space-s16); border-bottom: 1px solid var(--nk-palette-bright-grey-color); }
+.emiContent { display: flex; flex-direction: column; gap: var(--nk-space-s12); padding: var(--nk-space-s8) var(--nk-space-s12) var(--nk-space-s12); }
+.emiDescription { padding: var(--nk-space-s10) var(--nk-space-s4); }
+.emiCards { display: flex; flex-direction: column; gap: var(--nk-space-s4); }
+.emiCard {
+  border-radius: var(--nk-radius-r12);
+  overflow: hidden;
+  padding: var(--nk-space-s10) var(--nk-space-s12);
+  background: var(--nk-color-bg-subtle);
+  border: 1px solid var(--nk-color-bg-subtle);
+  cursor: pointer;
+  transition: background-color 200ms, border-color 200ms;
+}
+.emiCardSelected { background: var(--nk-palette-alice-blue); border-color: var(--nk-color-link); cursor: default; }
+.terms { display: flex; flex-direction: column; gap: var(--nk-space-s4); padding: var(--nk-space-s36) 0 var(--nk-space-s16); }
+.term { display: flex; gap: var(--nk-space-s4); }
+.infoCircle { width: 12px; height: 12px; margin-top: var(--nk-space-s2); flex-shrink: 0; }
+.termText { flex-shrink: 1; font: var(--nk-type-caption); color: var(--nk-palette-secondary-text-color); }
+.emiFooter { flex-shrink: 0; padding: var(--nk-space-s12); background: var(--nk-color-bg-surface); }

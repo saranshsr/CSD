@@ -1,0 +1,64 @@
+/* features/vip/screens/VIPConfirmVoucherPlanScreen/styles.ts */
+.sheet { background: transparent; margin-inline: var(--nk-space-s6); }
+.container {
+  display: flex; flex-direction: column; gap: var(--nk-space-s12);
+  padding-block: var(--nk-space-s16);
+  background: var(--nk-color-bg-subtle);
+  border-radius: var(--nk-radius-vip-sheet);
+  overflow: hidden;
+}
+.content { display: flex; flex-direction: column; gap: var(--nk-space-s12); padding-inline: var(--nk-space-s16); }
+.headerRow { position: relative; display: flex; width: 100%; align-items: center; justify-content: center; }
+.backButton {
+  position: absolute; left: 0;
+  width: var(--nk-layout-vip-of-back30); height: var(--nk-layout-vip-of-back30);
+  border-radius: var(--nk-radius-r20); background: var(--nk-color-bg-surface);
+  border: 0; padding: 0; display: flex; align-items: center; justify-content: center;
+}
+.backIcon { display: flex; margin-inline-start: calc(-1 * var(--nk-space-s2)); }
+.header { color: var(--nk-color-text-strong); font: var(--nk-type-vip-of17-bold); text-align: center; }
+
+.planCard {
+  position: relative; z-index: 1;
+  background: var(--nk-color-bg-surface);
+  border-radius: var(--nk-radius-r12);
+  padding: var(--nk-space-s8) var(--nk-space-s12);
+  border: 1px solid var(--nk-palette-alice-blue);
+}
+.planHeader { display: flex; flex-direction: row; align-items: center; padding-top: var(--nk-space-s4); padding-bottom: var(--nk-space-s12); }
+.planTitle { font: var(--nk-type-vip-of13-bold); color: var(--nk-color-text-muted); text-transform: uppercase; letter-spacing: var(--nk-layout-vip-of-track-caps); }
+.planContent { position: relative; display: flex; flex-direction: row; align-items: center; gap: var(--nk-space-s12); padding-block: var(--nk-space-s12); padding-inline-end: var(--nk-space-s4); }
+.dashed { position: absolute; top: 0; left: 0; }
+.planImageBox { width: 50px; height: 50px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: 25px; background: var(--nk-color-bg-subtle); }
+.planImage { width: 30px; height: 17px; object-fit: contain; }
+.planDetails { flex: 1; display: flex; flex-direction: column; gap: var(--nk-space-s4); }
+.priceRow { display: flex; flex-direction: row; align-items: center; gap: var(--nk-space-s8); }
+.monthlyPrice { flex-shrink: 1; font: var(--nk-type-vip-of18-bold); color: var(--nk-color-text-body); }
+.savings { border-radius: var(--nk-radius-r6); padding: var(--nk-space-s4); background: var(--nk-palette-alice-blue); }
+.savingsText { font: var(--nk-type-vip-of12-bold); color: var(--nk-color-brand-blue); }
+/* descriptionTextStyle: #666D85 13 / 500 / 19 */
+.description { color: var(--nk-color-text-secondary); font: var(--nk-type-vip-of13-medium-lh19); }
+
+.appliedStrip {
+  position: relative; z-index: 0;
+  display: flex; flex-direction: row; justify-content: center; align-items: center; gap: var(--nk-space-s4);
+  background: var(--nk-palette-alice-blue);
+  padding-top: var(--nk-space-s10); padding-bottom: var(--nk-space-s8);
+  border-radius: var(--nk-radius-r12);
+  margin-top: var(--nk-layout-vip-of-applied-overlap);
+}
+.appliedText { font: var(--nk-type-vip-of14-semibold); color: var(--nk-color-brand-blue); text-transform: uppercase; }
+
+.terms { padding-inline: var(--nk-space-s12); }
+/* paymentTermsTextStyle: 13 / lh 23, #666D85 */
+.termsText { font: var(--nk-type-vip-of13-regular-lh23); color: var(--nk-color-text-secondary); }
+.termsText :global(a) { color: inherit; }
+
+.buttonContainer {
+  width: 100%;
+  border-top: 1px solid var(--nk-color-vip-of-divider);
+  display: flex; align-items: center; justify-content: center;
+  padding: var(--nk-space-s12) var(--nk-space-s24) var(--nk-layout-vip-sheet-float);
+}
+.button { height: 48px; border-radius: var(--nk-radius-r14); border: 1px solid var(--nk-color-vip-black); }
+.buttonText { font: var(--nk-type-vip-of18-semibold); }

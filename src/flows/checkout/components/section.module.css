@@ -1,0 +1,7 @@
+/* NoonCheckoutScreen styles.section — every checkout section card: borderRadius 16, marginTop 12, overflow hidden (white bg comes from the section) */
+.section {
+  margin-top: var(--nk-space-s12);
+  border-radius: var(--nk-radius-r16);
+  overflow: hidden;
+  background: var(--nk-color-bg-surface);
+}

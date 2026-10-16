@@ -1,0 +1,153 @@
+/* VIPManageMembershipV3Screen/styles.ts */
+
+/* headerWrapper: absolute, zIndex 99, padding 12, paddingTop statusBar · headerBg white + shadow2, opacity = scrollY [0,1] */
+.headerWrapper {
+  position: relative;
+  width: 100%;
+  z-index: 99;
+  padding: var(--nk-inset-top) var(--nk-space-s12) var(--nk-space-s12);
+  pointer-events: none;
+}
+.headerBg {
+  position: absolute;
+  inset: 0;
+  background: var(--nk-color-bg-surface);
+  box-shadow: var(--nk-shadow-mb-shadow2);
+}
+.header {
+  position: relative;
+  width: 100%;
+  height: var(--nk-space-mb-header-row);
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s12);
+  pointer-events: auto;
+}
+/* headerTitle: textPrimary, h16 bold */
+.headerTitle {
+  color: var(--nk-color-text-primary);
+  font: var(--nk-type-text16-bold-lh20);
+  letter-spacing: var(--nk-space-mb-ls15);
+}
+
+/* topSection: marginHorizontal 16 · plansContainer: white, r16, overflow hidden */
+.topSection {
+  margin: 0 var(--nk-space-s16);
+}
+.plansContainer {
+  background: var(--nk-color-bg-surface);
+  border-radius: var(--nk-radius-r16);
+  overflow: hidden;
+}
+
+/* paymentButtonsContainer: margin 16 16 0, r16, overflow hidden, white */
+.paymentButtonsContainer {
+  margin: var(--nk-space-s16) var(--nk-space-s16) 0;
+  border-radius: var(--nk-radius-r16);
+  overflow: hidden;
+  background: var(--nk-color-bg-surface);
+}
+
+/* buttonsContainer: paddingHorizontal 4, paddingBottom 4, white */
+.buttonsContainer {
+  padding: 0 var(--nk-space-s4) var(--nk-space-s4);
+  background: var(--nk-color-bg-surface);
+}
+/* stackedButtonsInner: surfaceGrey, radius 6 6 12 12, overflow hidden */
+.stackedButtonsInner {
+  background: var(--nk-color-bg-subtle);
+  border-radius: var(--nk-radius-r6) var(--nk-radius-r6) var(--nk-radius-r12) var(--nk-radius-r12);
+  overflow: hidden;
+}
+/* button: row, space-between, padding 12/16, surfaceGrey · buttonSingle: radius 6 6 12 12 */
+.button {
+  width: 100%;
+  justify-content: space-between;
+  padding: var(--nk-space-s12) var(--nk-space-s16);
+  background: var(--nk-color-bg-subtle);
+}
+.button[data-single] {
+  border-radius: var(--nk-radius-r6) var(--nk-radius-r6) var(--nk-radius-r12) var(--nk-radius-r12);
+}
+/* buttonText: B13 medium, textPrimary */
+.buttonText {
+  color: var(--nk-color-text-primary);
+  font: var(--nk-type-text13-medium-lh18);
+  letter-spacing: var(--nk-space-mb-ls10);
+}
+.buttonSeparatorDashed {
+  margin: 0 var(--nk-space-s12);
+}
+
+/* paymentInfoContainer: row, padding 16/12, white, gap 12 */
+.paymentInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s12);
+  padding: var(--nk-space-s16) var(--nk-space-s12);
+  background: var(--nk-color-bg-surface);
+}
+.paymentInfoColumn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s2);
+}
+/* paymentInfoText: textTertiary #666D85, B12 regular */
+.paymentInfoText {
+  color: var(--nk-color-text-secondary);
+  font: var(--nk-type-text12-regular-lh18);
+  letter-spacing: var(--nk-space-mb-ls10);
+}
+/* paymentMethodImage: 40×40, r8, contain */
+.paymentMethodImage {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--nk-radius-r8);
+  object-fit: contain;
+}
+/* paymentMethodNumber: textPrimary, B16 bold */
+.paymentMethodNumber {
+  color: var(--nk-color-text-primary);
+  font: var(--nk-type-mb-b16-bold);
+  letter-spacing: var(--nk-space-mb-ls15);
+}
+
+/* cancelButtonContainer: white, r16, margin 16 16 0, padding 12 12 12 20, row, gap 12 */
+.cancelButton {
+  width: calc(100% - 2 * var(--nk-space-s16));
+  margin: var(--nk-space-s16) var(--nk-space-s16) 0;
+  padding: var(--nk-space-s12) var(--nk-space-s12) var(--nk-space-s12) var(--nk-space-s20);
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s12);
+  border: 0;
+  border-radius: var(--nk-radius-r16);
+  background: var(--nk-color-bg-surface);
+  text-align: start;
+  cursor: pointer;
+}
+[dir='rtl'] .cancelButton {
+  padding: var(--nk-space-s12) var(--nk-space-s20) var(--nk-space-s12) var(--nk-space-s12);
+}
+.cancelContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+/* cancelButtonText: B14 bold, textPrimary */
+.cancelText {
+  color: var(--nk-color-text-primary);
+  font: var(--nk-type-text14-bold-lh20);
+  letter-spacing: var(--nk-space-mb-ls10);
+}
+/* cancelButtonSubtitle: marginTop 2, B12 regular, textTertiary */
+.cancelSubtitle {
+  margin-top: var(--nk-space-s2);
+  color: var(--nk-color-text-secondary);
+  font: var(--nk-type-text12-regular-lh18);
+  letter-spacing: var(--nk-space-mb-ls10);
+}
+.cancelChevron {
+  margin-inline-end: var(--nk-space-s8);
+}

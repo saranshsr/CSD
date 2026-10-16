@@ -1,0 +1,11 @@
+/* Values: `needHelp` token group → var(--nk-need-help-*) (src/foundations/tokens.ts). */
+.dock { position: absolute; right: var(--nk-need-help-inset); bottom: calc(var(--nk-inset-bottom) + var(--nk-need-help-inset)); display: flex; justify-content: flex-end; }
+.dock[data-tabbar] { bottom: calc(var(--nk-layout-tab-bar) + var(--nk-inset-bottom) + var(--nk-need-help-inset)); }
+.btn {
+  display: flex !important; align-items: center; gap: var(--nk-need-help-gap); overflow: hidden; white-space: nowrap;
+  height: var(--nk-need-help-size); min-width: var(--nk-need-help-size); padding: 0 var(--nk-need-help-padding) !important;
+  border: var(--nk-need-help-border-width) solid var(--nk-need-help-border) !important; border-radius: var(--nk-need-help-radius);
+  background: var(--nk-need-help-bg) !important; box-shadow: var(--nk-need-help-shadow);
+}
+.icon { display: flex; flex: none; }
+.label { font: var(--nk-need-help-font); letter-spacing: var(--nk-need-help-tracking); color: var(--nk-need-help-fg); font-feature-settings: 'case' 1; }

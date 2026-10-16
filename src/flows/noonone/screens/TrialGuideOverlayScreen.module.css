@@ -1,0 +1,18 @@
+/* features/vip/screens/VIPTrialGuideOverlayScreen/styles.ts — legacy src/components/Overlay (edge-to-edge sheet,
+   no float gap, hideCloseButton, bounceMargin 0) */
+.sheet { margin-bottom: 0; border-radius: var(--nk-radius-r16) var(--nk-radius-r16) 0 0; background: var(--nk-color-vip-plans-bg); }
+.container { width: 100%; display: flex; flex-direction: column; align-items: center; background: var(--nk-color-vip-plans-bg); border-radius: var(--nk-radius-r16) var(--nk-radius-r16) 0 0; overflow: hidden; }
+.header { width: 100%; box-sizing: border-box; background: var(--nk-color-bg-surface); padding: var(--nk-space-s24) var(--nk-space-s24) var(--nk-space-s12); margin-bottom: var(--nk-space-s12); }
+.title { font: var(--nk-type-vip-h16-semibold); line-height: normal; color: var(--nk-color-text-ink); }
+.guide { box-sizing: border-box; width: calc(100% - 2 * var(--nk-space-s16)); background: var(--nk-color-bg-surface); padding: var(--nk-space-s20) var(--nk-space-s12); margin: 0 var(--nk-space-s12) var(--nk-space-s12); border-radius: var(--nk-radius-r12); }
+.row { display: flex; flex-direction: row; align-items: center; }
+.time { width: var(--nk-layout-vip-guide-time); height: var(--nk-layout-vip-guide-time); flex-shrink: 0; box-sizing: border-box; border: 1px solid var(--nk-color-vip-guide-border); border-radius: var(--nk-radius-r6); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.timeTitle { font: var(--nk-type-vip-guide-time-title); color: var(--nk-color-badge); }
+.timeValue { font: var(--nk-type-vip-guide-time-value); color: var(--nk-palette-catalog-tag-gradient-end); }
+.details { flex: 1; margin-inline-start: var(--nk-space-s12); display: flex; flex-direction: column; }
+.rowTitle { font: var(--nk-type-vip14-semibold); margin-bottom: var(--nk-space-s6); color: var(--nk-palette-new-black); }
+.rowSubtitle { font: var(--nk-type-vip12-regular); color: var(--nk-palette-dim-text-primary); }
+.line { height: var(--nk-layout-vip-guide-line-h); width: 0; border-inline-start: 2px dashed var(--nk-color-vip-guide-line); margin-inline-start: 21px; }
+.buttonContainer { padding-bottom: calc(var(--nk-inset-bottom) + var(--nk-layout-vip-sheet-float)); width: 100%; display: flex; justify-content: center; }
+.button { width: calc(100% - 2 * var(--nk-space-s12)); height: var(--nk-layout-vip-sticky-button-pay); border-radius: var(--nk-radius-r12); background: var(--nk-color-vip-black); display: flex; align-items: center; justify-content: center; }
+.buttonText { font: var(--nk-type-vip14-bold); color: var(--nk-palette-white); text-align: center; }

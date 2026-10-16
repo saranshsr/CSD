@@ -1,0 +1,184 @@
+/* ── NoonCheckoutPaymentFailureScreen/styles.ts ── */
+.failureContainer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* UIManager.contentTopOffset('header') = status bar + iOS top bar 44 */
+  padding-top: calc(var(--nk-inset-top) + 44px);
+  background: var(--nk-color-bg-surface);
+}
+.failureScroll {
+  flex: 1;
+  min-height: 0;
+  align-self: stretch;
+  overflow-y: auto;
+  padding: 0 var(--nk-space-s32) var(--nk-space-s32);
+  display: flex;
+  flex-direction: column;
+}
+.contentWrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.failureImg {
+  width: 300px;
+  height: 200px;
+  object-fit: contain;
+}
+.failureTitle {
+  margin: var(--nk-space-s15) 0 7px;
+  font: var(--nk-type-title-small);
+  color: var(--nk-palette-black);
+  text-align: center;
+}
+.messageContainer {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  margin-top: var(--nk-space-s15);
+  padding: var(--nk-space-s15) 7px;
+  border-radius: var(--nk-radius-r12);
+}
+.errorMessageContainer {
+  background: var(--nk-color-chk-failure-error-bg);
+}
+.infoMessageContainer {
+  background: var(--nk-palette-border-primary); /* borderPrimary / lightGrayColor */
+}
+.messageIcon {
+  flex-shrink: 0;
+  margin-right: 7px;
+}
+/* baseTextStyle + color #000, 14 */
+.messageText {
+  flex: 1;
+  font: var(--nk-type-body);
+  color: var(--nk-palette-black);
+  text-align: start;
+}
+.infoMessageText {
+  line-height: 21px;
+}
+.ctaContainer {
+  width: 100%;
+  padding: var(--nk-space-s15) var(--nk-space-s32) var(--nk-inset-bottom);
+}
+.needHelpWrapper {
+  display: flex;
+  margin-top: var(--nk-space-s15);
+  align-items: center;
+  justify-content: center;
+}
+.needHelpText {
+  font: var(--nk-type-text13-regular-lh18);
+  color: var(--nk-color-text-legacy);
+  white-space: pre;
+}
+/* <Button variant="noonDotted" dottedColor=newAccentColor> + needHelpButtonText (13, newAccentColor; weight 600 from NoonButton) */
+.needHelpButton {
+  font: var(--nk-type-text13-semibold-lh18);
+  color: var(--nk-color-link);
+}
+/* shared Button noonDotted: its line is <svg width="100%"> (300px intrinsic) — take it out of flow so the button hugs the label (see MAPPING.md shared follow-ups) */
+.needHelpButton > span { position: relative; padding-bottom: 3px; }
+.needHelpButton > span > svg { position: absolute; left: 0; bottom: 0; width: 100%; margin-top: 0; }
+
+/* ── NoonCheckoutPaymentFailureNeedHelpOverlayScreen/styles.ts ── */
+.helpOverlay {
+  position: relative;
+  padding: var(--nk-space-s15) var(--nk-space-s24) 0;
+}
+.helpContainer {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 28px; /* SafeArea.getBottom() + 28 (sheet already adds the bottom inset) */
+}
+.helpTitle {
+  font: var(--nk-type-chk-text24-bold-lh33);
+  color: var(--nk-color-text-legacy);
+}
+.helpDescription {
+  margin: var(--nk-space-s8) 0 0;
+  font: var(--nk-type-body-large);
+  color: var(--nk-color-text-legacy);
+}
+.contactInfo {
+  margin-top: var(--nk-space-s16);
+  display: flex;
+  justify-content: space-between;
+}
+.contactInfoTitle {
+  font: var(--nk-type-title-small);
+  color: var(--nk-color-text-legacy);
+}
+.contactInfoValueWrapper {
+  display: flex;
+  align-items: center;
+  column-gap: var(--nk-space-s6);
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.contactInfoValueText {
+  font: var(--nk-type-section);
+  color: var(--nk-color-chk-help-value);
+}
+.copyIcon {
+  width: 12px;
+  height: 12px;
+  background: var(--nk-palette-accent-color); /* accentColor #3866DF */
+  mask-size: contain;
+  -webkit-mask-size: contain;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+}
+.helpToast {
+  position: absolute;
+  left: var(--nk-space-s24);
+  right: var(--nk-space-s24);
+  bottom: var(--nk-space-s15);
+  padding: var(--nk-space-s12) var(--nk-space-s16);
+  border-radius: var(--nk-radius-r8);
+  background: var(--nk-color-bg-inverse);
+  font: var(--nk-type-body-semibold);
+  color: var(--nk-color-text-inverse);
+  text-align: center;
+}
+
+/* ── NoonOrderConfirmationTrackStepsScreen/styles.ts ── */
+.trackContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: var(--nk-space-s32) var(--nk-space-s16) var(--nk-space-s15);
+  background: var(--nk-color-bg-surface);
+}
+.trackTitle {
+  margin-bottom: var(--nk-space-s16);
+  font: var(--nk-type-text19-bold-lh24);
+  color: var(--nk-color-text-legacy);
+}
+.trackImage {
+  width: 355.67px;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  align-self: center;
+}
+.trackButton {
+  align-self: stretch;
+  margin-top: var(--nk-space-s16);
+  padding: 17px;
+  border: 0;
+  border-radius: var(--nk-radius-r8);
+  background: var(--nk-color-cta); /* $accentColor */
+  font: var(--nk-type-body-bold);
+  color: var(--nk-color-text-inverse);
+  cursor: pointer;
+}

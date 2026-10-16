@@ -1,0 +1,40 @@
+/* DraftCard — repo NewReviewScreen DraftCard (+ CraftingLines), ReviewDraftScreen ReviewCard body,
+   ReviewDraftScreenB ReviewCardB. */
+.card { display: flex; flex-direction: column; gap: var(--nk-space-s16); background: var(--nk-color-bg-surface); border-radius: var(--nk-radius-r16); padding: var(--nk-space-s16) var(--nk-space-s16) var(--nk-space-s12); }
+.card[data-look='review'] { padding: var(--nk-space-s20) var(--nk-space-s16) var(--nk-space-s16); gap: 0; border-radius: 0 0 var(--nk-radius-r16) var(--nk-radius-r16); }
+.card[data-look='field'] { padding: var(--nk-space-s12) var(--nk-space-s12) var(--nk-space-s16); }
+.body { position: relative; }
+.card[data-look='inline'] .body { min-height: 76px; }
+.text { white-space: pre-wrap; word-break: break-word; color: var(--nk-color-text-primary); margin: 0; }
+.card[data-look='inline'] .text { font: var(--nk-type-reviews-text15-regular-lh22); cursor: pointer; }
+.card[data-look='review'] .text { font: var(--nk-type-reviews-text14-medium-lh20); }
+.more { font: var(--nk-type-reviews-text14-medium-lh20); color: var(--nk-color-brand-blue); text-decoration: underline; white-space: nowrap; cursor: pointer; }
+.meta { display: flex; flex-direction: column; gap: var(--nk-space-s16); overflow: hidden; }
+.who { display: flex; flex-direction: column; padding-inline-start: var(--nk-space-s2); }
+.whoLabel { font: var(--nk-type-text12-regular-lh18); color: var(--nk-color-text-tertiary); }
+.card[data-look='field'] .whoLabel { font: var(--nk-type-text12-medium-lh18); }
+.whoName { font: var(--nk-type-reviews-text14-medium-lh20); color: var(--nk-color-text-primary); }
+.plainName { font: var(--nk-type-text13-medium-lh18); color: var(--nk-color-text-secondary); }
+.reviewTop { display: flex; flex-direction: column; gap: var(--nk-space-s12); }
+.reviewDivider { margin: var(--nk-space-s16) 0; }
+.actions { display: flex; gap: var(--nk-space-s12); }
+.card[data-look='review'] .actions { gap: var(--nk-space-s8); }
+.fieldFoot { display: flex; align-items: center; gap: var(--nk-space-s16); }
+.fieldFoot .who { flex: 1; min-width: 0; padding-inline-start: var(--nk-space-s4); }
+
+/* action buttons: 'button' = NewReview ActionButton (40h r10, 13/16 SemiBold); 'pill' = ReviewDraft RoundButton / NamePill (36h full, 12/16 SemiBold) */
+.action { display: inline-flex; align-items: center; justify-content: center; gap: var(--nk-space-s6); background: var(--nk-color-bg-surface); border: 1px solid var(--nk-color-border); color: var(--nk-color-text-primary); white-space: nowrap; }
+.action[data-kind='button'] { flex: 1; height: var(--nk-space-s40); border-radius: var(--nk-radius-r10); font: var(--nk-type-text13-semibold-lh16); }
+.action[data-kind='pill'] { height: var(--nk-space-s36); padding: 0 var(--nk-space-s12); gap: var(--nk-space-s4); border-radius: var(--nk-radius-full); font: var(--nk-type-caption-bold); }
+.actions .action[data-kind='pill'] { flex: 1; min-width: 0; }
+.action[data-disabled] { opacity: 0.45; cursor: default; }
+.icon { display: inline-flex; flex-shrink: 0; }
+
+/* crafting shimmer */
+.crafting { display: flex; flex-direction: column; gap: var(--nk-space-s16); }
+.craftHead { display: flex; align-items: center; gap: var(--nk-space-s8); }
+.craftLabel { font: var(--nk-type-text15-semibold-lh20); background: var(--nk-color-reviews-ai-label); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.lines { display: flex; flex-direction: column; gap: var(--nk-space-s12); }
+.line { position: relative; height: var(--nk-space-s10); border-radius: var(--nk-radius-r6); overflow: hidden; background: var(--nk-color-reviews-craft-line); }
+.sweep { position: absolute; inset: 0; background: var(--nk-color-reviews-craft-sweep); }
+.card[data-look='field'] .text { font: var(--nk-type-reviews-text14-medium-lh20); }

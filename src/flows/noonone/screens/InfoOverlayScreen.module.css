@@ -1,0 +1,39 @@
+/* features/vip/screens/VIPInfoOverlayScreen/styles.ts + components/VIPPopups (VIPInfoPopup, VIPUpdatePopup) for VIPGenericOverlayScreen */
+/* container (sheet): white, r16, padding 32 15 12, marginHorizontal 12 */
+.container { background: var(--nk-color-bg-surface); border-radius: var(--nk-radius-r16); overflow: hidden; padding: var(--nk-space-s32) var(--nk-space-s15) var(--nk-space-s12); margin-inline: var(--nk-space-s12); }
+/* popupContainer: white, r24, padding 32 (15+8) 12, centred, marginHorizontal 12, marginBottom overlayBottomSpacing */
+.popupContainer { display: flex; flex-direction: column; align-items: center; background: var(--nk-color-bg-surface); border-radius: var(--nk-radius-r24); overflow: hidden; padding: var(--nk-space-s32) calc(var(--nk-space-s15) + var(--nk-space-s8)) var(--nk-space-s12); margin: 0 var(--nk-space-s12) calc(var(--nk-inset-bottom) + var(--nk-layout-vip-sheet-float)); }
+/* headerIcon: height 139, width 100%, mb 15 */
+.headerIcon { width: 100%; height: var(--nk-layout-vip-info-icon-h); object-fit: contain; margin-bottom: var(--nk-space-s15); }
+/* title: 25 bold, pb 8, black (warningTitle: 22, centred) */
+.title { display: block; font: var(--nk-type-vip-pay25-bold); padding-bottom: var(--nk-space-s8); color: var(--nk-color-vip-black); }
+.titleWarning { font: var(--nk-type-vip-pay22-bold); text-align: center; }
+.bodyContainer { width: 100%; }
+/* defaultBodyStyle / warningBodyStyle p: 16, centred (HtmlView base colour #404553) */
+.body { display: block; font: var(--nk-type-vip-pay16); text-align: center; color: var(--nk-color-text-legacy); }
+.listRow { display: flex; flex-direction: row; margin-bottom: var(--nk-space-s8); font: var(--nk-type-vip-pay-base); color: var(--nk-color-text-legacy); }
+.listText { flex: 1; }
+/* buttonContainer pt 16; button 48, black, r8, mb 8, full; hollow: 1px black border, transparent; text 14 bold white (hollow black) */
+.buttons { display: flex; flex-direction: column; align-items: center; width: 100%; padding-top: var(--nk-space-s16); }
+.button { width: 100%; height: 48px; background: var(--nk-color-vip-black); border-radius: var(--nk-radius-r8); margin-bottom: var(--nk-space-s8); font: var(--nk-type-vip-pay14-bold); color: var(--nk-color-text-inverse); border: 1px solid transparent; }
+.hollow { border-color: var(--nk-color-vip-black); background: transparent; color: var(--nk-color-vip-black); }
+/* reminder: white, r12, padding 16, mb 12; title 14/600 #F43333; description mt 4, 13, #475067 */
+.reminder { background: var(--nk-color-bg-surface); border-radius: var(--nk-radius-r12); padding: var(--nk-space-s16); margin-bottom: var(--nk-space-s12); }
+.reminderTitle { font: var(--nk-type-vip-pay14-semibold); color: var(--nk-palette-deep-red-color); }
+.reminderDesc { margin-top: var(--nk-space-s4); font: var(--nk-type-vip-pay13); color: var(--nk-color-text-muted); }
+
+/* VIPThemeManager.styles.defaultPopup(): marginHorizontal 12, marginBottom overlayBottomSpacing, r14, paddingBottom 12 */
+.defaultPopup { margin: 0 var(--nk-space-s12) calc(var(--nk-inset-bottom) + var(--nk-layout-vip-sheet-float)); border-radius: var(--nk-radius-r14); padding-bottom: var(--nk-space-s12); }
+/* VIPInfoPopup */
+.popupTitle { display: block; font: var(--nk-type-vip-pay25-bold); padding-bottom: var(--nk-space-s8); color: var(--nk-color-vip-black); }
+.popupBody { width: 100%; padding-inline: var(--nk-space-s15); }
+.popupButtons { display: flex; flex-direction: column; align-items: center; width: 100%; padding: var(--nk-space-s16) var(--nk-space-s16) var(--nk-space-s8); }
+/* popupButton: 48, r12, mb 8, 1px border, full; text 14 bold */
+.popupButton { width: 100%; height: 48px; border-radius: var(--nk-radius-r12); margin-bottom: var(--nk-space-s8); border: 1px solid var(--nk-color-vip-black); background: var(--nk-color-vip-black); color: var(--nk-color-text-inverse); font: var(--nk-type-vip-pay14-bold); }
+/* VIPUpdatePopup: centred, padding 15 15 0; icon 80; title 24/700 black mb 16; subtitle 16 black mb 24; button 56 black r8, 20 bold white */
+.update { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: var(--nk-space-s15) var(--nk-space-s15) 0; }
+.updateIcon { width: var(--nk-layout-vip-update-icon); height: var(--nk-layout-vip-update-icon); }
+.updateTitle { font: var(--nk-type-vip-pay24-bold); color: var(--nk-color-vip-black); margin-bottom: var(--nk-space-s16); text-align: center; }
+.updateSubtitle { font: var(--nk-type-vip-pay16); color: var(--nk-color-vip-black); margin-bottom: var(--nk-space-s24); text-align: center; }
+.updateButton { width: 100%; height: var(--nk-layout-vip-pay-cta); background: var(--nk-color-vip-black); border-radius: var(--nk-radius-r8); }
+.updateButtonText { font: var(--nk-type-vip-pay20-bold); color: var(--nk-color-text-inverse); }

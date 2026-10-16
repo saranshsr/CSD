@@ -1,0 +1,15 @@
+/* NewReview MorphingHeader — repo NewReviewScreen MorphingHeader (Figma 8194-101662). Absolute so the overlay-header
+   slot has no hit area of its own; only the strip, the X and the product block take taps. */
+.host { position: absolute; top: 0; left: 0; right: 0; height: calc(var(--nk-inset-top) + 128px); pointer-events: none; }
+.strip { position: absolute; top: 0; left: 0; right: 0; height: calc(var(--nk-inset-top) + var(--nk-layout-header)); background: var(--nk-color-border); pointer-events: auto; }
+.stage { position: absolute; top: var(--nk-inset-top); left: 0; right: 0; bottom: 0; }
+.hairline { position: absolute; top: var(--nk-layout-header); left: 0; right: 0; height: 1px; background: var(--nk-color-border); }
+.leadWrap { position: absolute; top: var(--nk-space-s8); left: var(--nk-space-s12); z-index: 2; pointer-events: auto; }
+.lead { width: var(--nk-icon-button-size); height: var(--nk-icon-button-size); border-radius: var(--nk-icon-button-radius); background: var(--nk-icon-button-outline-bg); border: var(--nk-icon-button-border-width) solid var(--nk-icon-button-outline-border); display: inline-flex; align-items: center; justify-content: center; }
+.leadIcon { display: inline-flex; }
+.product { position: absolute; display: flex; align-items: center; z-index: 2; pointer-events: auto; }
+.product[data-editing] { pointer-events: none; }
+.image { flex-shrink: 0; overflow: hidden; background: var(--nk-color-bg-surface); border: 1px solid var(--nk-color-border); }
+.image img { width: 100%; height: 100%; display: block; object-fit: cover; }
+.info { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.name { display: block; font: var(--nk-type-reviews-text16-semibold-lh24); color: var(--nk-color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }

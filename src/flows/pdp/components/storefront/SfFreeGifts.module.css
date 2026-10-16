@@ -1,0 +1,25 @@
+/* New PDP "Free gifts for you" — Figma Af34gfmhQ1D0wstXUEHSIF · 64:5591 (bappzaar NoonFreebie) */
+/* card: white r16, pt 16 pb 12, gap 12; inset 12, 12 below the previous card */
+.card { display: flex; flex-direction: column; gap: var(--nk-space-s12); margin: 0 var(--nk-space-s12) var(--nk-space-s12); padding: var(--nk-space-s16) 0 var(--nk-space-s12); border-radius: var(--nk-radius-r16); background: var(--nk-color-bg-surface); overflow: hidden; }
+/* Section header: px 12, 16/700/20 rgba(2,6,12,.92) −0.26 */
+.title { margin: 0; padding: 0 var(--nk-space-s12); font: var(--nk-type-text16-bold-lh20); letter-spacing: -0.26px; color: var(--nk-palette-dark-navy-alpha92); }
+
+/* rail: px 12, gap 8, scrolls */
+.rail { display: flex; gap: var(--nk-space-s8); padding: 0 var(--nk-space-s12); overflow-x: auto; scrollbar-width: none; scroll-padding-inline: var(--nk-space-s12); }
+.rail::-webkit-scrollbar { display: none; }
+
+/* Horizontal Card: white, 1px blue-gray/300, r12, p 8, gap 12 (one card fills the row; several are 284 wide) */
+.item { flex: 1 0 100%; min-width: 0; display: flex; align-items: center; gap: var(--nk-space-s12); padding: var(--nk-space-s8); border: 1px solid var(--nk-color-border); border-radius: var(--nk-radius-r12); background: var(--nk-color-bg-surface); text-align: start; overflow: hidden; }
+.item[data-several] { flex: 0 0 var(--nk-layout-pdp-npb-gift-card-w); }
+
+/* Image Container 56 × 55: 1px blue-gray/100, r8, white + 3% cobalt; image inset −0.5 4.33 9 4.33 (contain) */
+.media { position: relative; flex-shrink: 0; width: var(--nk-layout-pdp-npb-gift-image-w); height: var(--nk-layout-pdp-npb-gift-image-h); border: 1px solid var(--nk-color-bg-subtle); border-radius: var(--nk-radius-r8); background: linear-gradient(var(--nk-color-pdp-npb-media-tint), var(--nk-color-pdp-npb-media-tint)), var(--nk-color-bg-surface); overflow: hidden; }
+.image { position: absolute; top: -0.5px; right: 4.33px; bottom: 9px; left: 4.33px; width: calc(100% - 8.66px); height: calc(100% - 8.5px); object-fit: contain; pointer-events: none; }
+/* "Free" ribbon: sapphire, bottom radius 6, pb 2 px 5, 13/16 bold white −0.26, drop shadow 0 4 5 */
+.ribbon { position: absolute; left: -1px; right: -1px; top: calc(var(--nk-layout-pdp-npb-gift-ribbon-top) - 1px); display: flex; align-items: center; justify-content: center; padding: 0 5px var(--nk-space-s2); border-radius: 0 0 var(--nk-radius-r6) var(--nk-radius-r6); background: var(--nk-palette-sapphire); font: var(--nk-type-pdp-npb-text13-bold-lh16); letter-spacing: -0.26px; color: var(--nk-color-text-inverse); filter: drop-shadow(0 4px 5px var(--nk-color-pdp-npb-ribbon-shadow)); }
+
+/* text: gap 4 */
+.text { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: var(--nk-space-s4); }
+.name { font: var(--nk-type-pdp-npb-text15-semibold-lh18); letter-spacing: -0.26px; color: var(--nk-palette-dark-text-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sub { font: var(--nk-type-text12-medium-lh14); letter-spacing: -0.12px; color: var(--nk-palette-dark-grey); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.link { display: flex; align-items: center; gap: var(--nk-space-s2); font: var(--nk-type-text13-semibold-lh18); letter-spacing: -0.14px; color: var(--nk-color-brand-blue); white-space: nowrap; }

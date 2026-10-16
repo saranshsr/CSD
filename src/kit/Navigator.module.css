@@ -1,0 +1,185 @@
+.root {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--nk-color-bg-page);
+  isolation: isolate;
+}
+
+.screen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--nk-color-bg-page);
+  overflow: hidden;
+  will-change: transform;
+  box-shadow: -12px 0 32px var(--nk-palette-black-alpha8);
+}
+
+.screenBody {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.sheetLayer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  background: var(--nk-color-scrim);
+}
+
+.sheet {
+  position: relative;
+  max-height: 88%;
+  display: flex;
+  flex-direction: column;
+  background: var(--nk-color-bg-surface);
+  border-radius: var(--nk-radius-r24) var(--nk-radius-r24) 0 0;
+  padding-bottom: var(--nk-inset-bottom);
+  overflow: hidden;
+}
+
+.grabberZone {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0 4px;
+  cursor: grab;
+  touch-action: none;
+  flex-shrink: 0;
+}
+
+.grabber {
+  width: 36px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--nk-color-border-strong);
+}
+
+/* Origin M-BottomSheet (default sheet layout) — Figma wFRKiKskxZ4vjIHbDVvngJ · 3207:15 */
+.originScrim {
+  position: absolute;
+  inset: 0;
+  background: var(--nk-sheet-scrim);
+}
+
+.originColumn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100% - var(--nk-inset-top, 0px));
+  padding: 0 var(--nk-sheet-inset) max(var(--nk-inset-bottom), var(--nk-sheet-bottom-gap));
+}
+
+.originGrabberZone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--nk-sheet-grabber-zone);
+  flex-shrink: 0;
+  cursor: grab;
+  touch-action: none;
+}
+
+.originGrabber {
+  width: var(--nk-sheet-grabber-width);
+  height: var(--nk-sheet-grabber-height);
+  border-radius: var(--nk-sheet-grabber-radius);
+  background: var(--nk-sheet-grabber);
+}
+
+.originSheet {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  max-height: var(--nk-sheet-max-height);
+  background: var(--nk-sheet-bg);
+  border-radius: var(--nk-sheet-radius);
+  box-shadow: var(--nk-sheet-shadow);
+  overflow: hidden;
+}
+
+/* bappzaar OverlayBottomSheet isFloating (src/components/OverlayBottomSheet/{styles.ts,OverlayBottomSheet.tsx}) */
+.floatingScrim {
+  position: absolute;
+  inset: 0;
+  background: var(--nk-sheet-floating-scrim);
+}
+
+.floatingColumn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100% - var(--nk-sheet-floating-top-gap));
+  padding: 0 var(--nk-sheet-floating-inset) max(var(--nk-inset-bottom), var(--nk-sheet-floating-bottom-gap));
+}
+
+.floatingSheet {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--nk-color-bg-surface);
+  border-radius: var(--nk-sheet-floating-radius);
+}
+
+.floatingChildren {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+  border-radius: var(--nk-sheet-floating-radius);
+}
+
+.floatingHandleZone {
+  position: absolute;
+  top: calc(-1 * var(--nk-sheet-floating-handle-offset));
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  /* larger hit area than the 4px bar, centred on it */
+  padding: 8px 0;
+  margin-top: -8px;
+  cursor: grab;
+  touch-action: none;
+  z-index: 1;
+}
+
+.floatingHandle {
+  width: 36px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--nk-sheet-floating-handle);
+}
+
+.toastLayer {
+  position: absolute;
+  left: var(--nk-snackbar-inset);
+  right: var(--nk-snackbar-inset);
+  bottom: calc(var(--nk-inset-bottom) + 72px);
+  z-index: 900;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.toastSlot {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+}

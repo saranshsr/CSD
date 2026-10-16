@@ -1,0 +1,21 @@
+/* SubmittedScreen — repo SubmittedScreen: full-page Lottie backdrop, review card rising over it. */
+.lottie { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.column { position: relative; z-index: 2; flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.headerSpacer { flex-shrink: 0; height: calc(var(--nk-inset-top) + var(--nk-layout-header)); }
+.reveal { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.scroll { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; padding: 0 var(--nk-space-s16) calc(var(--nk-inset-bottom) + var(--nk-space-s16)); }
+.hero { opacity: 0; display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--nk-space-s12); padding: var(--nk-space-s48) 0 var(--nk-space-s64); }
+.hero[data-visible] { opacity: 1; }
+.badge { width: 56px; height: 56px; border-radius: var(--nk-radius-full); background: var(--nk-color-bg-surface); display: flex; align-items: center; justify-content: center; }
+.heroText { display: flex; flex-direction: column; align-items: center; gap: var(--nk-space-s4); }
+.heroTitle { font: var(--nk-type-reviews-text20-extrabold-lh24); color: var(--nk-color-text-primary); }
+.heroBody { font: var(--nk-type-body); color: var(--nk-color-text-secondary); }
+.card { display: flex; flex-direction: column; gap: var(--nk-space-s12); padding: var(--nk-space-s14) var(--nk-space-s16); border-radius: var(--nk-radius-r20); background: var(--nk-color-reviews-glass); }
+.text { margin: 0; cursor: pointer; font: var(--nk-type-text14-regular-lh20); color: var(--nk-color-text-primary); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; }
+.text[data-expanded] { -webkit-line-clamp: unset; }
+.more { font: var(--nk-type-reviews-text14-medium-lh20); color: var(--nk-color-text-secondary); }
+.text .more { font: inherit; white-space: pre; }
+.showMore { cursor: pointer; margin-top: calc(var(--nk-space-s4) * -1); }
+.attribution { display: flex; gap: var(--nk-space-s4); align-items: baseline; }
+.writtenBy { font: var(--nk-type-text12-regular-lh18); color: var(--nk-color-text-tertiary); }
+.name { font: var(--nk-type-text12-medium-lh18); color: var(--nk-color-text-primary); }

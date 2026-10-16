@@ -1,0 +1,9 @@
+/* marketplaces/noon/components/NoonVIPPreference/styles.ts */
+.container { position: relative; display: flex; flex-direction: row; align-items: center; width: 100%; background: var(--nk-color-text-primary); border-radius: var(--nk-radius-r12); padding: var(--nk-space-s12); overflow: hidden; text-align: start; }
+.message { flex: 1; min-width: 0; }
+.row { display: flex; flex-direction: row; align-items: center; gap: var(--nk-space-s8); }
+.text { display: flex; flex-direction: row; font: var(--nk-type-body-semibold); color: var(--nk-color-bg-subtle); }
+.with { margin-inline-start: var(--nk-space-s4); }
+.noonOne { width: var(--nk-layout-pdp-noon-one-w); height: var(--nk-layout-pdp-noon-one-h); object-fit: contain; }
+.arrow { width: var(--nk-space-s20); height: var(--nk-space-s20); }
+[dir='rtl'] .arrow { transform: scaleX(-1); }

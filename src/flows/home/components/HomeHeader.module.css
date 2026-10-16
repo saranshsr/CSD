@@ -1,0 +1,48 @@
+/* Homepage Revamp 2025 header (Figma 1337:6688). Figma y is measured from the frame top incl. a 43pt status bar;
+   the kit status bar is var(--nk-inset-top), so the decor layer is shifted by (inset-top − 43). */
+.header {
+  position: relative; overflow: hidden; isolation: isolate;
+  border-radius: 0 0 var(--nk-radius-r12) var(--nk-radius-r12);
+  background: var(--nk-color-home-header-gradient);
+  padding-bottom: 18px; /* search bottom +18; padding-top follows switcherMetrics (set in TSX, as ClassicHomeScreen) */
+}
+
+/* 1337:6689 artwork layer: 375×266 at y −1 */
+.decor { position: absolute; z-index: -1; left: 0; right: 0; top: calc(var(--nk-inset-top) - 44px); height: 266px; pointer-events: none; }
+.decor img { display: block; max-width: none; width: 100%; height: 100%; }
+
+/* 1337:6690 cyan glow: blurred vector, rotated 48.74° and skewed 7.49° inside a size container */
+.glowBox { position: absolute; inset: -87.86% -38.66% -36.7% -1.07%; display: flex; align-items: center; justify-content: center; container-type: size; }
+.glowShape { flex: none; position: relative; width: hypot(37.7868cqw, 37.7868cqh); height: hypot(-62.2132cqw, 62.2132cqh); transform: rotate(48.74deg) skewX(7.49deg); }
+.glowPad { position: absolute; inset: -58.4% -96.15%; }
+
+/* 1337:6691 white swoosh (441×158.933 at −18/−11, svg padded by its blur) */
+.swoosh { position: absolute; left: -18px; top: -11px; width: 441px; height: 158.933px; }
+.swoosh img { position: absolute; inset: -27.68% -9.98% -29.69% -11.47%; width: auto; height: auto; }
+
+/* 1337:6716 star dots: 353×132 at 11/12 of the frame (= 13 inside the decor layer) */
+.decor .stars { position: absolute; left: 11px; top: 13px; width: 353px; height: 132px; }
+
+/* 1337:6715 white radial fade along the bottom: 416×184 at −10, bottom −18 */
+.fade { position: absolute; z-index: -1; left: -10px; right: -10px; bottom: -18px; height: 184px; background: var(--nk-color-home-header-fade); pointer-events: none; }
+
+.content { position: relative; }
+
+/* address row: bappzaar NoonHomeToggle addressSelectorWrapper (row, gap 40, padding 0 16 12) → NoonAddressSelector + the
+   40 × 40 wishlist button (shown when signed in). Label 18 bold #1D2539 with the 20 delivery-home icon and the 16 chevron
+   (top 1), gap 4; address line 16 / 22 #343D54 in a 28-high box, paddingStart 4. */
+.addressRow { display: flex; align-items: center; gap: 40px; padding: 0 var(--nk-space-s16) var(--nk-space-s12); }
+.address { display: flex !important; flex: 1; flex-direction: column; align-items: flex-start; min-width: 0; color: var(--nk-color-text-primary); }
+.addressLine1 { display: flex; align-items: center; gap: var(--nk-space-s4); }
+.addressIcon { width: 20px; height: 20px; flex-shrink: 0; }
+.addressLabel { font: var(--nk-type-title-small); color: var(--nk-color-text-primary); white-space: nowrap; }
+.chevron { position: relative; top: 1px; width: 16px; height: 16px; flex-shrink: 0; }
+.addressLine2 {
+  display: flex; align-items: center; height: 28px; max-width: 100%; padding-inline-start: var(--nk-space-s4); font: var(--nk-type-body-large); color: var(--nk-color-text-body);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: start;
+}
+.addressLine2 > span { overflow: hidden; text-overflow: ellipsis; }
+.wishlistButton { display: flex !important; align-items: center; justify-content: center; flex-shrink: 0; }
+
+/* search 1337:6727 at x15 y194, 343×48 (stretches on the 390 device) */
+.searchRow { padding: 0 16px 0 15px; } /* the address row's 12 bottom padding is the gap */

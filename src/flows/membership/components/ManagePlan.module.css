@@ -1,0 +1,108 @@
+/* VIPManageMembershipV3Screen/Plan/styles.ts */
+.wrapper {
+  background: var(--nk-color-bg-surface);
+}
+
+/* activeTagRow: paddingHorizontal 12 · activeTag: h24, padding 4/12, successTag, radius 0 0 12 12 */
+.activeTagRow {
+  padding: 0 var(--nk-space-s12);
+  display: flex;
+  align-items: flex-start;
+}
+.activeTag {
+  height: 24px;
+  padding: var(--nk-space-s4) var(--nk-space-s12);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 0 0 var(--nk-radius-r12) var(--nk-radius-r12);
+  background: var(--nk-color-best-price-ink);
+  color: var(--nk-color-text-inverse);
+  font: var(--nk-type-mb-b12-semibold);
+  letter-spacing: var(--nk-space-mb-ls10);
+}
+.activeTag[data-upcoming] {
+  background: var(--nk-color-bg-subtle);
+  color: var(--nk-color-text-primary);
+}
+
+/* headerMessageContainer: h52, padding 0 16, LinearGradient #F0FFF9 → white @ 90°, gap 4, top -4 */
+.headerMessage {
+  position: relative;
+  top: -4px;
+  height: 52px;
+  padding: 0 var(--nk-space-s16);
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s4);
+  background: linear-gradient(90deg, var(--nk-color-mb-plan-header-from), var(--nk-palette-white));
+}
+.headerMessageIcon {
+  margin-top: var(--nk-space-s2);
+  flex-shrink: 0;
+}
+
+/* titleContainer: padding 12 · planTitle: B16 bold, textPrimary */
+.titleContainer {
+  padding: var(--nk-space-s12);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.planTitle {
+  flex: 1;
+  color: var(--nk-color-text-primary);
+  font: var(--nk-type-mb-b16-bold);
+  letter-spacing: var(--nk-space-mb-ls15);
+}
+
+/* titleDivider / dashedSeparatorCompact: marginHorizontal 12 */
+.inset {
+  margin: 0 var(--nk-space-s12);
+}
+
+/* benefitsContainer: paddingVertical 8 · benefitContainer: row, padding 8/12, gap 10 */
+.benefits {
+  padding: var(--nk-space-s8) 0;
+}
+.benefit {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s10);
+  padding: var(--nk-space-s8) var(--nk-space-s12);
+}
+.benefitText {
+  flex: 1;
+}
+
+/* billingInfoContainer: padding 12 */
+.billingInfo {
+  padding: var(--nk-space-s12);
+  display: flex;
+  align-items: center;
+}
+
+/* VIPSubscriptionButtonV2 container (row, gap 20) + Plan styles.button: margin 12, black, r10, h45; text white 16 bold */
+.ctaRow {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s20);
+  padding: var(--nk-space-s12);
+}
+.cta {
+  flex: 1;
+  height: 45px;
+  border-radius: var(--nk-radius-r10);
+  background: var(--nk-palette-black);
+  color: var(--nk-color-text-inverse);
+  font: var(--nk-type-text16-bold-lh20);
+}
+.cta[data-variant='green'] {
+  background: var(--nk-color-best-price-ink);
+}
+.cta[data-variant='outline'] {
+  background: transparent;
+  border: 1px solid var(--nk-color-border);
+  color: var(--nk-palette-black);
+}

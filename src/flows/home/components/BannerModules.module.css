@@ -1,0 +1,25 @@
+/* bappzaar BannerModule (grid / carousel / scroller) + EasyBannerScrollerModule. Geometry in the components' doc comments
+   and tokens.feed.ts; BannerContent media radius 20. */
+.fill { display: block; width: 100%; height: 100%; object-fit: cover; }
+.cropped { position: absolute; max-width: none; }
+
+/* grid (adBannerModule / bannerModule), numPerRow 1: paddingHorizontal staticPagePadding 15 */
+.grid { padding: 0 var(--nk-space-s15); }
+.gridBanner { position: relative; display: block !important; width: 100%; border-radius: var(--nk-radius-r20); overflow: hidden; }
+
+/* snapped carousel (NoonSlider): fixed viewport, track translated; leading inset = slideSpacing */
+.slider { position: relative; width: 100%; overflow: hidden; touch-action: pan-y; }
+.sliderTrack { display: flex; width: max-content; cursor: grab; }
+.slide { flex: none; }
+.slideMedia { position: relative; display: block !important; width: 100%; border-radius: var(--nk-radius-r20); overflow: hidden; }
+.slideMedia[data-flat] { border-radius: 0; }
+
+/* default carousel / scroller / easy scroller tiles */
+.freeRail { display: flex; align-items: flex-start; padding: 0 var(--nk-space-s15); }
+.column { display: flex; flex: none; flex-direction: column; }
+.tile { position: relative; display: block !important; flex: none; border-radius: var(--nk-radius-r20); overflow: hidden; }
+.mediaHeader { position: relative; display: block !important; width: calc(100% - 2 * var(--nk-space-s15)); margin: 0 var(--nk-space-s15) var(--nk-space-s12); }
+
+.easyRail { display: flex; align-items: flex-start; padding-inline-start: var(--nk-space-s15); }
+.easyCopy { display: flex; flex: none; flex-direction: column; }
+.easyRow { display: flex; flex: none; }

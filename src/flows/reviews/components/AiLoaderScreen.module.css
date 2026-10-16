@@ -1,0 +1,10 @@
+/* AiLoaderScreen — repo AILoaderScreen: bloom behind, back button + centred label / Stop over it. */
+.bloom { position: absolute; top: 0; background: var(--nk-color-reviews-bloom); pointer-events: none; will-change: transform; }
+.layer { position: relative; z-index: 1; flex-shrink: 0; }
+.center { position: relative; z-index: 1; flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--nk-space-s24); padding-bottom: var(--nk-inset-bottom); }
+.label { display: flex; align-items: center; gap: var(--nk-space-s8); height: 20px; }
+.icon { display: flex; flex-shrink: 0; }
+.textSlot { position: relative; height: 20px; }
+.text { display: block; white-space: nowrap; font: var(--nk-type-body-medium); color: var(--nk-color-reviews-ai-ink); }
+.text[data-done] { color: var(--nk-color-text-primary); }
+.stop { padding: var(--nk-space-s14) 28px; border-radius: var(--nk-radius-full); background: var(--nk-color-bg-surface); font: var(--nk-type-text15-semibold-lh20); color: var(--nk-palette-danger-red); } /* token-lint-ignore — repo Stop pill 28px inline padding */

@@ -1,0 +1,10 @@
+/* ReviewHeader — repo PageHeader / MorphingHeader nav row: 56h, 12px inline, 40px white circle (1px borderSubtle). */
+.header { padding-top: var(--nk-inset-top); background: transparent; position: relative; }
+.row { position: relative; height: var(--nk-layout-header); display: flex; align-items: center; padding: 0 var(--nk-space-s12); gap: var(--nk-space-s8); }
+.lead { position: relative; z-index: 1; width: var(--nk-icon-button-size); height: var(--nk-icon-button-size); border-radius: var(--nk-icon-button-radius); background: var(--nk-icon-button-outline-bg); border: var(--nk-icon-button-border-width) solid var(--nk-icon-button-outline-border); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.center { position: absolute; inset: 0 var(--nk-space-s56); display: flex; align-items: center; justify-content: center; pointer-events: none; }
+.center > * { pointer-events: auto; }
+.title { font: var(--nk-type-reviews-text16-bold-lh24); color: var(--nk-color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.title[data-weight='semibold'] { font: var(--nk-type-text16-semibold-lh22); }
+.right { margin-inline-start: auto; position: relative; z-index: 1; display: flex; align-items: center; gap: var(--nk-space-s8); }
+.bordered { border-bottom: 1px solid var(--nk-color-border); }

@@ -1,0 +1,23 @@
+/* NoonCartInactiveGroup / NoonCartInactiveItem / NoonCartInactiveItemButtons styles.ts; secondaryGroupContainer marginTop 12, marginHorizontal 12, r16 */
+.container { margin: var(--nk-space-s8) var(--nk-space-s12) 0; border: 1px solid var(--nk-color-cart-new-border); border-radius: 16px; overflow: hidden; }
+.header { display: flex; flex-direction: row; padding: 12px; gap: 4px; justify-content: space-between; align-items: center; }
+.headerContent { display: flex; flex-direction: row; align-items: center; gap: 8px; flex: 1; min-width: 0; }
+.headerIcon { width: 20px; height: 20px; }
+.headerTitle { font: var(--nk-type-section); flex-shrink: 1; }
+.chevron { display: flex; border: 0; background: none; padding: 0; cursor: pointer; }
+.itemsWrapper { background: var(--nk-color-bg-surface); }
+.items { display: flex; flex-direction: column; padding: 4px 12px 12px; } /* gap 20 between item / separator / item */
+.separator { height: 2px; margin: 20px 0; background-image: linear-gradient(to right, var(--nk-color-cart-bright-grey) 5px, transparent 5px); background-size: 9px 2px; background-repeat: repeat-x; }
+.collapsed { display: flex; flex-direction: row; padding: 12px; gap: 12px; overflow-x: auto; border: 0; background: none; width: 100%; cursor: pointer; }
+.item { display: flex; flex-direction: row; align-items: center; gap: 12px; cursor: pointer; }
+.details { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+.topSection { display: flex; flex-direction: row; gap: 12px; justify-content: space-between; }
+.info { flex-shrink: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.reason { font: var(--nk-type-caption); }
+.reason :global(red) { font-size: 12px; color: var(--nk-color-danger); }
+.deleteButton { flex-shrink: 0; align-self: flex-start; display: flex; align-items: center; justify-content: center; padding: 6px; border-radius: 6px; border: 1px solid var(--nk-color-border); background: var(--nk-color-bg-surface); cursor: pointer; min-width: 28px; min-height: 28px; }
+.buttons { display: flex; flex-direction: row; align-items: center; gap: 8px; }
+.button { flex: 1; display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 2px; min-height: 32px; padding: 2px 6px; border-radius: 6px; font: var(--nk-type-caption-bold); cursor: pointer; border: 1px solid transparent; }
+.secondary { background: var(--nk-color-bg-surface); border-color: var(--nk-color-border); color: var(--nk-color-text-strong); }
+.primary { background: var(--nk-color-text-ink); color: var(--nk-color-text-inverse); }
+.buttonIcon { width: 16px; height: 16px; object-fit: contain; }

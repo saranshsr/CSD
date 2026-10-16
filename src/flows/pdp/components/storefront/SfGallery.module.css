@@ -1,0 +1,68 @@
+/* Storefront PDP gallery — Figma 2ldJbjmQq4RkhnrNFCfXQB · 3499:75117 / 3499:75118 */
+/* starts 40 below the frame top: kit status-bar inset − 7 (Figma status bar is 47) */
+/* pin: the list children after it paint above (pdp.module.css .list > *), the gallery stays underneath */
+.pin { position: relative; z-index: 0; }
+/* transparent like bappzaar `section`: the page grey shows around the shrinking gallery (no white band) */
+.section { position: sticky; top: 0; padding-top: calc(var(--nk-inset-top) + var(--nk-layout-pdp-sfa-gallery-inset)); }
+/* no overflow clip: at 1.1 (pull) and below 1 the scaled gallery is drawn as is, like the app */
+.frame { position: relative; }
+.gallery { position: relative; width: 100%; overflow: hidden; background: var(--nk-color-bg-surface); touch-action: pan-y; transform-origin: center; will-change: transform; backface-visibility: hidden; }
+.fade { position: absolute; left: 0; right: 0; bottom: 0; height: var(--nk-layout-pdp-gallery-fade); background: linear-gradient(var(--nk-palette-secondary-background-color-transparent), var(--nk-color-bg-page)); pointer-events: none; z-index: 1; }
+.track { display: flex; height: 100%; cursor: grab; }
+.track:active { cursor: grabbing; }
+.slide { position: relative; flex-shrink: 0; height: 100%; }
+
+/* Carousel Indicator 3499:75119: centred, 20 from the bottom */
+.indicator { position: absolute; left: 0; right: 0; bottom: var(--nk-layout-pdp-sfa-dots-bottom); display: flex; justify-content: center; pointer-events: none; z-index: 1; }
+.dotsViewport { overflow: hidden; pointer-events: auto; }
+.dotsRow { display: flex; align-items: center; }
+.dotBox { flex-shrink: 0; height: var(--nk-layout-pdp-sfa-dot); display: flex; align-items: center; justify-content: center; border: 0; padding: 0; background: none; cursor: pointer; }
+.dot { display: block; width: var(--nk-layout-pdp-sfa-dot); height: var(--nk-layout-pdp-sfa-dot); border-radius: var(--nk-radius-full); background: var(--nk-palette-black-alpha10); transition-property: width, background-color; transition-timing-function: ease-out; }
+.dot[data-active] { width: var(--nk-layout-pdp-sfa-dot-active); background: var(--nk-palette-black); }
+
+/* footer row 3499:75127: px 12, items bottom-aligned, space-between */
+.footer { position: absolute; left: 0; right: 0; bottom: var(--nk-layout-pdp-sfa-footer-bottom); display: flex; align-items: flex-end; justify-content: space-between; padding: 0 var(--nk-space-s12); pointer-events: none; z-index: 2; }
+.footer > * { pointer-events: auto; }
+
+/* catalog tag New PDP 64:5584 (= 3499:75128): 24h, r8, 1px #4C4C4C, #666 (54%) → black (113%) */
+.tag {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: var(--nk-layout-pdp-sfa-tag-height);
+  padding: 0 var(--nk-space-s8);
+  border: 1px solid var(--nk-palette-black-cow);
+  border-radius: var(--nk-radius-r8);
+  background: linear-gradient(90deg, var(--nk-palette-catalog-tag-gradient-start) 53.82%, var(--nk-palette-catalog-tag-gradient-end) 112.51%);
+}
+/* New PDP 64:181: 14/500 (normal line height), −0.25, gold gradient fill #FEF6D6 → #FDCA2B → #FEF6D6 */
+.tagText {
+  font: var(--nk-type-pdp-npa-text14-medium-lh17);
+  letter-spacing: -0.25px;
+  white-space: nowrap;
+  background: var(--nk-color-pdp-npa-pick-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Pill Button 3499:75129: 40, white, 1.1px navy 15%, full radius, 22px rotate glyph */
+.spin {
+  width: var(--nk-layout-pdp-sfa-icon-button);
+  height: var(--nk-layout-pdp-sfa-icon-button);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid var(--nk-color-pdp-sfa-border-navy15);
+  border-radius: var(--nk-radius-full);
+  background: var(--nk-color-bg-surface);
+  cursor: pointer;
+}
+
+/* sparkles 64:177–180: absolute, inset by % of the tag box */
+.sparkle { position: absolute; pointer-events: none; }
+.sparkle[data-n='1'] { top: 22.62%; right: 8.92%; bottom: 58.71%; left: 85.71%; }
+.sparkle[data-n='2'] { top: 39.17%; right: 92.16%; bottom: 41.37%; left: 2.25%; }
+.sparkle[data-n='3'] { top: 69.22%; right: 89.62%; bottom: 17.86%; left: 6.66%; }
+.sparkle[data-n='4'] { top: 14.06%; right: 6.81%; bottom: 77.14%; left: 90.66%; }

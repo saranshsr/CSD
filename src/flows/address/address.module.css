@@ -1,0 +1,284 @@
+/* ── SelectScreen ── */
+.selectTop {
+  padding-top: var(--nk-inset-top);
+  background: var(--nk-color-addr-page);
+}
+.tabSwitcherContainer {
+  margin: 12px 11px 0;
+}
+.slider {
+  display: flex;
+  flex-direction: row;
+  width: 780px;
+  height: 100%;
+}
+.tabContent {
+  width: 390px;
+  height: calc(100% - 12px);
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.pane {
+  flex: 1;
+  min-height: 0;
+}
+.paneInner {
+  padding-bottom: calc(var(--nk-inset-bottom) + 12px);
+}
+.paneInnerSheet {
+  padding-bottom: 15px; /* getMainContentStyle(isBottomSheet): paddingBottom 15 */
+}
+/* AddressV2FloatingOverlay expandedContent (isBottomSheet): tabs + panes, scrolling inside the 85% card */
+.sheetBody {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: calc((844px - var(--nk-inset-top) - var(--nk-inset-bottom)) * 0.85 - 2px);
+  overflow: hidden;
+}
+.sheetBody .slider {
+  flex: 1;
+  min-height: 0;
+  height: auto;
+}
+.listContent {
+  padding: 0 11px;
+}
+.collectionHeader {
+  padding: 0 11px;
+}
+
+/* ── LatLngCreateSuccessScreen ── */
+.success {
+  position: absolute;
+  inset: 0;
+  background: var(--nk-color-addr-success-bg);
+  overflow: hidden;
+}
+.successLottie {
+  position: absolute;
+  inset: 0;
+}
+.successText {
+  position: absolute;
+  top: 55%;
+  left: 0;
+  right: 0;
+  padding: 20px var(--nk-space-s15) 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.successTitle {
+  font-size: 20px;
+  line-height: 26px;
+  color: var(--nk-color-text-strong);
+  text-align: center;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+.successAddress {
+  color: var(--nk-color-text-muted);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  text-align: center;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── AddressControlsScreen (inside the kit sheet) ── */
+.controls {
+  padding: var(--nk-space-s16);
+  padding-bottom: calc(var(--nk-inset-bottom) + 4px);
+}
+.actionItem {
+  width: 100%;
+  border: 0;
+  background: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font: inherit;
+  min-height: 24px;
+}
+.actionItem:active:not(:disabled) {
+  opacity: 0.2;
+}
+.actionItem:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+.buttonView {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 82px;
+}
+.actionText {
+  margin-inline-start: 12px;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 600;
+  color: var(--nk-color-addr-control-text);
+  text-align: left;
+  white-space: nowrap;
+}
+.actionDivider {
+  padding: 12px 0;
+}
+
+/* DeleteAddress */
+.deleteModal {
+  background: var(--nk-color-bg-surface);
+  border-radius: var(--nk-radius-r16);
+  padding: 12px;
+  padding-bottom: calc(var(--nk-inset-bottom) + 4px);
+}
+.deleteTitle {
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 700;
+  text-align: left;
+  color: var(--nk-color-addr-nickname);
+  margin-bottom: 8px;
+}
+.deleteBox {
+  background: var(--nk-color-addr-delete-box);
+  border-radius: var(--nk-radius-r12);
+  border: 1px solid var(--nk-color-border-subtle);
+  padding: 8px;
+  margin-bottom: 16px;
+}
+.deleteArea {
+  display: block;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 600;
+  color: var(--nk-color-text-primary);
+  margin-bottom: 6px;
+}
+.deleteLine {
+  display: block;
+  font-size: 14px;
+  line-height: 18px;
+  color: var(--nk-color-text-muted);
+}
+.deleteButtons {
+  display: flex;
+  justify-content: space-between;
+}
+.deleteButton {
+  padding: 14px;
+  border-radius: var(--nk-radius-r12);
+  width: 48%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--nk-color-addr-hairline);
+  font: inherit;
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.deleteButton:active {
+  opacity: 0.2;
+}
+.cancelButton {
+  background: var(--nk-color-addr-page);
+  color: var(--nk-color-addr-nickname);
+}
+.confirmButton {
+  background: var(--nk-color-danger);
+  color: var(--nk-color-text-inverse);
+}
+
+/* ── LocationAccessScreen (inside the kit sheet) ── */
+.access {
+  padding-bottom: var(--nk-inset-bottom);
+}
+.accessMain {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 12px;
+}
+.accessTitle {
+  font-size: 20px;
+  line-height: 26px;
+  font-weight: 700;
+  margin-top: 12px;
+  color: var(--nk-color-text-legacy);
+}
+.accessSubtitle {
+  color: var(--nk-color-text-muted);
+  font-size: 14px;
+  line-height: 19px;
+  margin-top: 8px;
+  text-align: center;
+  padding: 0 var(--nk-space-s16);
+}
+.accessFooter {
+  margin: 20px var(--nk-space-s15) 0;
+  padding-bottom: 12px;
+}
+.accessPrimary,
+.accessSecondary {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--nk-radius-r12);
+  font-size: 16px;
+  line-height: 20px;
+  cursor: pointer;
+  padding: 0 var(--nk-space-s15);
+}
+.accessPrimary {
+  background: var(--nk-color-cta);
+  color: var(--nk-color-text-inverse);
+  font-weight: 700;
+}
+.accessSecondary {
+  background: var(--nk-color-bg-surface);
+  border: 1px solid var(--nk-color-addr-light-grayish);
+  margin-top: 10px;
+  color: var(--nk-color-addr-primary-text);
+  font-weight: 500;
+}
+
+/* ── SearchScreen ── */
+.search {
+  position: absolute;
+  inset: 0;
+  background: var(--nk-color-addr-form-header);
+  padding-top: calc(var(--nk-inset-top) + 12px);
+  display: flex;
+  flex-direction: column;
+}
+.searchScroll {
+  flex: 1;
+  min-height: 0;
+  margin: 0 12px;
+}
+.searchScrollContent {
+  padding-bottom: calc(var(--nk-inset-bottom) + 12px + var(--nk-inset-bottom));
+}
+.locateMe {
+  margin: 10px 12px 12px;
+}
+.searchResultsTitle {
+  margin: 2px 0 8px 4px;
+}
+.locateOnMap {
+  margin: 12px 0;
+}

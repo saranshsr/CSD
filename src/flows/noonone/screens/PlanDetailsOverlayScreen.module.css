@@ -1,0 +1,89 @@
+/* VIPPopupUtil.showPlanDetailDialog → VIPGenericOverlayScreen + components/VIPPopups/VIPPlanDetailsPopup (styles.ts);
+   plan-select review = VIPInfoOverlayScreen (styles.ts) with VIPQuickPlanSelectV3Screen review styles. */
+
+/* VIPLandingScreen styles.paymentBottomSheet / VIPFamilyPlansScreen paymentBottomSheet: mx12, r20 top / r16, pb12 */
+.paymentSheet { margin-inline: var(--nk-space-s12); border-radius: var(--nk-radius-r20) var(--nk-radius-r20) var(--nk-radius-r16) var(--nk-radius-r16); padding-bottom: var(--nk-layout-vip-sheet-float); }
+.paymentSheetGrey { background: var(--nk-color-bg-subtle); }
+/* VIPInfoOverlayScreen overlay: transparent sheet, container mx12 r16 */
+.transparentSheet { background: transparent; }
+
+/* VIPLandingScreen styles.reviewContainer (childrenContainerStyle) */
+.review { position: relative; display: flex; flex-direction: column; align-items: stretch; gap: var(--nk-space-s8); background: var(--nk-color-bg-surface); padding: var(--nk-space-s16) var(--nk-space-s16) 0; border-top-left-radius: 0; border-top-right-radius: 0; }
+
+.headerIcon { width: 74px; height: 40px; object-fit: contain; }
+.headerContainer { display: flex; flex-direction: column; gap: var(--nk-space-s8); align-items: flex-start; margin-bottom: var(--nk-space-s8); }
+.popupTitle { font: var(--nk-type-vip-popup-title); letter-spacing: var(--nk-layout-vip-tracking-details); color: var(--nk-color-text-strong); }
+.subTitle { width: 100%; font: var(--nk-type-vip14-regular); letter-spacing: var(--nk-layout-vip-tracking-sub); color: var(--nk-color-text-primary); }
+.subTitle :global(highlight) { color: var(--nk-color-best-price-ink); }
+
+.planContent {
+  background: var(--nk-color-bg-surface);
+  border-radius: var(--nk-radius-r16);
+  border: 1px solid var(--nk-color-bg-subtle);
+  padding: var(--nk-space-s12) 0 var(--nk-space-s16);
+  width: 100%;
+  margin-top: calc(-1 * var(--nk-space-s8));
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.titleContainer { display: flex; flex-direction: row; gap: var(--nk-space-s8); align-items: center; justify-content: space-between; padding: var(--nk-space-s2) var(--nk-space-s16) 0; }
+.planTitle { flex: 1; font: var(--nk-type-vip-h18-bold); letter-spacing: -0.15px; color: var(--nk-color-text-primary); }
+.trialWrap { border: 1px solid var(--nk-color-vip-mint-border); border-inline-end-width: 0; border-start-start-radius: var(--nk-radius-r24); border-end-start-radius: var(--nk-radius-r24); margin-inline-end: calc(-1 * var(--nk-space-s12)); max-width: 170px; overflow: hidden; }
+.trialTag { padding: var(--nk-space-s4) var(--nk-space-s12); background: linear-gradient(90deg, var(--nk-palette-white), var(--nk-color-vip-mint)); }
+.trialText { font: var(--nk-type-vip12-semibold); text-align: center; color: var(--nk-color-text-ink); }
+.trialText :global(highlight), .trialText :global(bold) { color: var(--nk-color-best-price-ink); font-weight: var(--nk-font-weight-semibold); }
+.priceContainer { padding: var(--nk-space-s2) var(--nk-space-s12) var(--nk-space-s8); }
+.monthlyPrice { font: var(--nk-type-vip14-semibold); color: var(--nk-color-vip-ink92); }
+.benefitsContainer { padding: 0 var(--nk-space-s12); }
+.benefitsInner { padding-top: var(--nk-space-s12); display: flex; flex-direction: column; gap: var(--nk-space-s8); }
+.benefitItem { display: flex; flex-direction: row; gap: var(--nk-space-s8); }
+.benefitIcon { margin-top: var(--nk-space-s4); }
+.benefitText { flex: 1; font: var(--nk-type-vip-body14); color: var(--nk-color-text-ink); }
+
+/* bodyTextStyle 14/20 textSecondary */
+.body { font: var(--nk-type-vip-body14); color: var(--nk-color-text-muted); }
+
+.reminder { background: var(--nk-color-bg-surface); border-radius: var(--nk-radius-r12); padding: var(--nk-space-s12); width: 100%; box-sizing: border-box; }
+.reminderHeader { display: flex; flex-direction: row; align-items: center; gap: var(--nk-space-s8); }
+.reminderIcon { width: 18px; height: 18px; object-fit: contain; }
+.reminderTitle { font: var(--nk-type-vip-reminder-title); color: var(--nk-palette-deep-red-color); }
+.reminderBody { margin-top: var(--nk-space-s4); font: var(--nk-type-vip-reminder-body); color: var(--nk-color-text-secondary); }
+.separator { height: 1px; background: var(--nk-color-border); width: 100%; margin-top: var(--nk-space-s4); }
+.buttonContainer { width: 100%; }
+.button { height: var(--nk-layout-vip-details-button); border-radius: var(--nk-radius-r12); background: var(--nk-color-text-strong); }
+.buttonPay { height: var(--nk-layout-vip-sticky-button-pay); }
+.buttonText { font: var(--nk-type-vip-h16-semibold); letter-spacing: var(--nk-layout-vip-tracking-b16); }
+.buttonTextPay { font-size: var(--nk-font-size-title-small); }
+
+/* ── plan-select review (VIPInfoOverlayScreen container + VIPQuickPlanSelectV3Screen reviewContainer) ── */
+.info { position: relative; display: flex; flex-direction: column; margin: 0 var(--nk-space-s12); border-radius: var(--nk-radius-r16); overflow: hidden; background: var(--nk-color-bg-subtle); padding: var(--nk-space-s12); }
+.infoTitle { font: var(--nk-type-vip18-title); color: var(--nk-color-text-strong); text-align: center; padding-bottom: var(--nk-space-s8); }
+.infoBody { width: 100%; box-sizing: border-box; padding: var(--nk-space-s16); background: var(--nk-color-bg-surface); border-radius: var(--nk-radius-r12); margin: var(--nk-space-s8) 0 var(--nk-space-s12); }
+.infoBodyText { font: var(--nk-type-vip-body14); color: var(--nk-color-text-muted); }
+.infoReminder { background: var(--nk-color-bg-surface); border-radius: var(--nk-radius-r12); padding: var(--nk-space-s16); margin-bottom: var(--nk-space-s12); }
+.infoReminderTitle { font: var(--nk-type-vip14-semibold); color: var(--nk-palette-deep-red-color); }
+.infoReminderBody { margin-top: var(--nk-space-s4); font: var(--nk-type-vip13-regular); color: var(--nk-color-text-muted); }
+.infoSubWrap { position: relative; width: 100%; padding-top: var(--nk-space-s12); }
+.infoSubBorder { position: absolute; top: 0; left: calc(-1 * var(--nk-space-s16)); right: calc(-1 * var(--nk-space-s16)); height: 1px; background: var(--nk-color-vip-dash15); }
+
+/* ── VIPFamilyPlanDetailsPopup ── */
+.familyContent { display: flex; flex-direction: column; padding: 22px var(--nk-space-s12) 0; gap: var(--nk-space-s12); background: var(--nk-color-bg-subtle); }
+.familyHeader { display: flex; flex-direction: column; gap: var(--nk-space-s10); padding: 0 var(--nk-space-s24); margin-top: var(--nk-space-s12); align-items: center; text-align: center; }
+.familyTitle { font: var(--nk-type-vip-h18-bold); letter-spacing: -0.15px; color: var(--nk-color-success); text-align: center; }
+.familySub { font: var(--nk-type-vip-b14-regular); color: var(--nk-color-text-tertiary); text-align: center; }
+.familySub :global(highlight) { color: var(--nk-color-success); font-weight: var(--nk-font-weight-medium); }
+.familyCard { background: var(--nk-palette-blue-gray50); border-radius: var(--nk-radius-r16); border: 1px solid var(--nk-palette-white); width: 100%; box-sizing: border-box; }
+.familyCardTitleRow { display: flex; flex-direction: row; align-items: center; justify-content: space-between; padding: var(--nk-space-s12); }
+.familyCardTitle { font: var(--nk-type-vip-h16-bold); color: var(--nk-color-text-ink); }
+.membersBox { padding: var(--nk-space-s4); border-radius: 40px; background: var(--nk-color-bg-subtle); }
+.invoice { padding: 0 var(--nk-space-s16) var(--nk-space-s16); display: flex; flex-direction: column; gap: var(--nk-space-s16); }
+.invoiceInner { display: flex; flex-direction: column; gap: var(--nk-space-s16); }
+.invoiceItem { display: flex; flex-direction: row; justify-content: space-between; align-items: flex-start; }
+.invoiceText { flex: 1; display: flex; flex-direction: column; gap: var(--nk-space-s2); padding-inline-end: var(--nk-space-s12); }
+.invoiceTitle { font: var(--nk-type-vip-b13-semibold); color: var(--nk-color-text-muted); }
+.invoiceSub { font: var(--nk-type-vip-b13-regular); color: var(--nk-color-text-tertiary); }
+.invoiceValue { font: var(--nk-type-vip-b13-semibold); color: var(--nk-color-text-primary); }
+.invoiceValue :global(highlight) { color: var(--nk-color-success); font-weight: var(--nk-font-weight-bold); }
+.familyNote { background: var(--nk-palette-white); border-radius: var(--nk-radius-r12); padding: 14px; font: var(--nk-type-vip-b12-regular); color: var(--nk-color-text-body); }
+.familySeparator { height: 1px; background: var(--nk-color-border); width: 100%; }
+.familyButtonContainer { width: 100%; padding-top: var(--nk-space-s12); }

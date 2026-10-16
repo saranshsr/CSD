@@ -1,0 +1,204 @@
+/* Figma "🚧 Checkout 2.0" Credits & points 14288:184049 (inside the Cards section) */
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s12);
+}
+/* Points Vouchers Container: gap 2 */
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s2);
+}
+/* Primary/Label2/Bold 16/20 (-0.16) Sementic/Text/primary */
+.title {
+  font: var(--nk-type-text16-bold-lh20);
+  letter-spacing: -0.16px;
+  color: var(--nk-color-text-ink);
+}
+/* Primary/Label4/Medium 12/14 (-0.12) Sementic/Text/secondary-alpha */
+.subtitle {
+  font: var(--nk-type-text12-medium-lh14);
+  letter-spacing: -0.12px;
+  color: var(--nk-palette-dim-text-primary);
+}
+/* Loyalty programs: gap 8 */
+.programs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s8);
+}
+/* Vouchers row: gap 4 (scrolls when there are more providers than the frame shows) */
+.cards {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s4);
+  overflow-x: auto;
+  /* room for the NEW badge that pokes out (−3px) */
+  padding-top: 3px;
+  margin-top: -3px;
+  padding-left: 3px;
+  margin-left: -3px;
+}
+/* Redeem card (expanded): h49, Sementic/BG/secondary, 1px Sementic/Border/secondary, r8, pl2 pr8 py2, gap 8 */
+.cardExpanded {
+  flex: 0 0 calc(100% - 106px); /* frame: 327 − 2 × (49 + 4) */
+  height: 49px;
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s8);
+  padding: var(--nk-space-s2) var(--nk-space-s8) var(--nk-space-s2) var(--nk-space-s2);
+  border: 1px solid var(--nk-palette-bright-grey-color);
+  border-radius: var(--nk-radius-r8);
+  background: var(--nk-color-bg-subtle);
+  text-align: start;
+  cursor: pointer;
+  min-width: 0;
+}
+/* Redeem card (tile): h49, p2, same fill / stroke */
+.card {
+  position: relative;
+  flex: 0 0 auto;
+  height: 49px;
+  display: flex;
+  align-items: center;
+  padding: var(--nk-space-s2);
+  border: 1px solid var(--nk-palette-bright-grey-color);
+  border-radius: var(--nk-radius-r8);
+  background: var(--nk-color-bg-subtle);
+  cursor: pointer;
+}
+.card:disabled,
+.cardExpanded:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.cardBadge {
+  position: absolute;
+  left: -3px;
+  top: -3px;
+}
+/* tiles 45 × full height */
+.tileMokafaa,
+.tileQuara,
+.tileEmkan {
+  position: relative;
+  flex-shrink: 0;
+  width: 45px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.tileMokafaa {
+  border-top-left-radius: var(--nk-radius-r6);
+  border-bottom-left-radius: var(--nk-radius-r6);
+  background: var(--nk-palette-mokafaa-blue);
+}
+.tileMokafaa img {
+  display: block;
+  margin-left: -1px; /* centre at calc(50% − 0.5px) */
+}
+.tileQuara {
+  height: 45px;
+  border-radius: var(--nk-radius-r6);
+  background: linear-gradient(225deg, var(--nk-color-chk-fig-quara1) 0%, var(--nk-color-chk-fig-quara2) 35.048%, var(--nk-color-chk-fig-quara3) 69.093%, var(--nk-color-chk-fig-quara4) 100%);
+}
+/* Group 1261158555 at left 5.22, top 20.07 */
+.tileQuara img {
+  position: absolute;
+  left: 5.22px;
+  top: 20.07px;
+  display: block;
+}
+.tileEmkan {
+  height: 45px;
+  border-radius: var(--nk-radius-r6);
+  background: var(--nk-color-chk-fig-emkan-bg);
+}
+.tileEmkan img {
+  display: block;
+}
+/* Payment method info: gap 2 */
+.cardInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--nk-space-s2);
+}
+/* Primary/Label3/Semibold 14/18 (-0.14) */
+.cardTitle {
+  font: var(--nk-type-body-semibold);
+  letter-spacing: -0.14px;
+  color: var(--nk-color-text-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Primary/Label4/Regular 12/14 (-0.12) Sementic/Text/secondary */
+.cardDescription {
+  height: 16px;
+  font: var(--nk-type-text12-regular-lh14);
+  line-height: 16px; /* number container h16 */
+  letter-spacing: -0.12px;
+  color: var(--nk-palette-secondary-text-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cardChevron {
+  flex-shrink: 0;
+  display: block;
+}
+
+/* NEW badge: #FA0000, px 6, r12, text 28w 12/16.6 SemiBold white centred, 40×16 texture @30% */
+.newBadge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 var(--nk-space-s6);
+  border-radius: var(--nk-radius-r12);
+  overflow: hidden;
+  background: var(--nk-palette-red-color);
+}
+.newBadgeText {
+  position: relative;
+  width: 28px;
+  height: 16px;
+  font: var(--nk-type-chk-fig-text12-semibold-lh16p6);
+  color: var(--nk-color-text-inverse);
+  text-align: center;
+}
+.newBadgeTexture {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 40px;
+  height: 16px;
+  border-radius: var(--nk-radius-r8);
+  object-fit: cover;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* Carousel Indicator: px 16, py 4, gap 6 */
+.dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--nk-space-s6);
+  padding: var(--nk-space-s4) var(--nk-space-s16);
+}
+.dot {
+  width: 5px;
+  height: 5px;
+  border-radius: var(--nk-radius-r16);
+  background: var(--nk-palette-neutral-black-hex24);
+  opacity: 0.72;
+}
+.dot[data-active] {
+  background: var(--nk-palette-gray-a1000);
+}

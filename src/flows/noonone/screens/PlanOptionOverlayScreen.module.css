@@ -1,0 +1,29 @@
+/* features/vip/screens/VIPPlanOptionOverlayScreen/styles.ts */
+.sheet { background: transparent; }
+/* feedbackView: mx6, r18, overflow hidden */
+.feedback { margin: 0 var(--nk-space-s6); border-radius: var(--nk-radius-vip-sheet); overflow: hidden; }
+.container { display: flex; flex-direction: column; gap: var(--nk-space-s16); padding: var(--nk-space-s16) var(--nk-space-s16) var(--nk-layout-vip-sheet-float); background: var(--nk-color-bg-subtle); }
+.header { display: flex; flex-direction: column; gap: var(--nk-space-s4); align-items: flex-start; }
+.title { font: var(--nk-type-vip-h20-bold); letter-spacing: var(--nk-layout-vip-tracking-h); color: var(--nk-color-text-body); }
+.subTitle { width: 100%; font: var(--nk-type-vip-b13-regular); letter-spacing: var(--nk-layout-vip-tracking-b14); color: var(--nk-color-text-secondary); }
+.plans { display: flex; flex-direction: column; gap: var(--nk-space-s8); width: 100%; }
+.card { display: block; width: 100%; box-sizing: border-box; text-align: start; border-radius: var(--nk-radius-r12); border: 1px solid var(--nk-color-border); background: var(--nk-color-bg-surface); padding: var(--nk-space-s12); }
+.cardSelected { border-color: var(--nk-color-success); }
+.cardContent { display: flex; flex-direction: row; align-items: center; gap: var(--nk-space-s12); }
+.cardText { flex: 1; display: flex; flex-direction: column; gap: var(--nk-space-s4); }
+.planTitle { font: var(--nk-type-vip-b16-semibold); font-weight: var(--nk-font-weight-medium); letter-spacing: var(--nk-layout-vip-tracking-b16); color: var(--nk-color-text-body); }
+.planTitleSelected { font-weight: var(--nk-font-weight-bold); }
+.metaRow { display: flex; flex-direction: row; align-items: center; flex-wrap: wrap; gap: var(--nk-space-s4); }
+.meta { font: var(--nk-type-vip-b12-medium); letter-spacing: var(--nk-layout-vip-tracking-b14); color: var(--nk-color-text-secondary); }
+.savings { position: relative; border-radius: var(--nk-radius-r6); padding: var(--nk-space-s4) var(--nk-space-s8); background: var(--nk-color-vip-success-surface); margin-inline-start: var(--nk-space-s4); overflow: hidden; }
+.savingsText { font: var(--nk-type-vip-b12-semibold); color: var(--nk-color-success); }
+.tagGradient { border-radius: var(--nk-radius-r6); padding: 1px; overflow: hidden; background: linear-gradient(90deg, var(--nk-color-vip-tag-green), var(--nk-color-vip-tag-green)); }
+.tagContent { position: relative; display: flex; flex-direction: row; align-items: center; gap: var(--nk-space-s4); border-radius: 5px; padding: var(--nk-space-s4) var(--nk-space-s8); overflow: hidden; background: var(--nk-palette-kit-green97); }
+.tagText { font: var(--nk-type-vip-b12-regular); color: var(--nk-color-success); }
+.selection { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.selection img { display: block; }
+.buttons { width: 100%; display: flex; flex-direction: row; gap: var(--nk-space-s12); margin-top: var(--nk-space-s12); }
+.button { flex: 1; height: 52px; border-radius: var(--nk-radius-r12); border: 1px solid transparent; gap: var(--nk-space-s8); }
+.buttonFull { flex: none; width: 100%; }
+.buttonPrimary { background: var(--nk-color-text-strong); }
+.buttonText { font: var(--nk-type-vip-b16-semibold); letter-spacing: var(--nk-layout-vip-tracking-b16); color: var(--nk-palette-white); }

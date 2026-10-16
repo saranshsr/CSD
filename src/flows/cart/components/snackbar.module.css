@@ -1,0 +1,10 @@
+/* NoonSnackBar/styles.ts */
+.overlay { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1000; pointer-events: none; overflow: hidden; height: 200px; display: flex; flex-direction: column; justify-content: flex-end; }
+.wrapper { position: relative; width: 100%; padding-bottom: var(--nk-inset-bottom); pointer-events: auto; }
+.gradient { position: absolute; inset: 0; opacity: 0.2; background: linear-gradient(180deg, var(--nk-palette-primary-blue-alpha0), var(--nk-palette-primary-blue-alpha60)); pointer-events: none; }
+.container { position: relative; display: flex; flex-direction: row; width: calc(100% - 24px); margin: 12px; padding: 12px; background: var(--nk-color-bg-surface); border: 1px solid var(--nk-color-cart-new-border); border-radius: 16px; cursor: pointer; text-align: start; box-sizing: border-box; }
+.imageContainer { display: flex; align-items: center; justify-content: center; padding: 4px; border-radius: 8px; background: var(--nk-color-bg-page); }
+.imageInner { border-radius: 6px; overflow: hidden; display: flex; }
+.textContainer { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 4px; margin: 0 8px 0 12px; }
+.title { font: var(--nk-type-body-large); color: var(--nk-color-text-primary); white-space: nowrap; }
+.title b { font-weight: 600; }

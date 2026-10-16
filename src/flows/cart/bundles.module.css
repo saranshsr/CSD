@@ -1,0 +1,24 @@
+/* NoonCartVirtualBundlesOverlayScreen/styles.ts (+ OverlayBottomSheet container r20) */
+.gradient { padding-bottom: var(--nk-space-s15); display: flex; flex-direction: column; min-height: 0; }
+.headerContainer { padding-top: 8px; flex-shrink: 1; } /* master 24 — kit grabber zone already adds 16 */
+.header { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 0 16px 16px; }
+.headerIcon { width: 26px; height: 26px; font-size: 22px; line-height: 26px; text-align: center; flex-shrink: 0; }
+.separator { height: 1px; background: var(--nk-palette-kit-blue82-alpha30); margin: 0 var(--nk-space-s15); }
+.list { max-height: 400px; overflow-y: auto; }
+.item { display: flex; align-items: center; gap: 15px; padding: 16px; border-bottom: 1px solid var(--nk-color-cart-noon-grey4); }
+.item:first-child { padding-top: 20px; }
+.imageBox { position: relative; width: 48px; height: 60px; border-radius: var(--nk-radius-r8); border: 1px solid var(--nk-color-border); overflow: hidden; flex-shrink: 0; }
+.qty { position: absolute; top: 0; right: 0; padding: 2px; border-radius: var(--nk-radius-r4); background: var(--nk-palette-black-silver); color: var(--nk-color-text-inverse); font: var(--nk-type-text14-semibold-lh1); }
+.itemTitle { flex: 1; min-width: 0; }
+.eta { display: flex; align-items: center; gap: 4px; margin-top: 4px; }
+.footer { display: flex; flex-direction: column; justify-content: flex-end; gap: 16px; padding: 16px 0 24px; }
+.footerRow { display: flex; align-items: center; justify-content: space-between; padding: 0 var(--nk-space-s15); }
+.footerRowGradient { padding-top: 8px; padding-bottom: 8px; }
+
+/* htmlStyles: p lineHeight 20, steel charcoalGrey, highlight #177D43 bold */
+.html { line-height: 20px; }
+.html :global(steel) { color: var(--nk-color-text-legacy); }
+.html :global(highlight) { color: var(--nk-palette-kit-green29); font-weight: 700; }
+/* NoonOrderDeliveryText deliveryEstimateTextStyle: p 14, b semibold, highlight semibold green */
+.delivery { font-size: 14px; line-height: 18px; }
+.delivery :global(b) { font-weight: 600; }

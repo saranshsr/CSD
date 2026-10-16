@@ -1,0 +1,75 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s12);
+  padding: var(--nk-space-s12);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s12);
+  padding: var(--nk-space-s12);
+  border-radius: var(--nk-radius-r12);
+  background: var(--nk-field-surface-primary);
+}
+
+.sectionTitle {
+  font: var(--nk-type-field-b12-semibold);
+  letter-spacing: var(--nk-field-tracking-b);
+  color: var(--nk-field-text-tertiary);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--nk-space-s8);
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s8);
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s8);
+}
+
+.optionLabel {
+  font: var(--nk-type-field-b14-medium);
+  letter-spacing: var(--nk-field-tracking-b);
+  color: var(--nk-field-text-primary);
+}
+
+.list {
+  overflow: hidden;
+  border-radius: var(--nk-radius-r12);
+  border: 1px solid var(--nk-field-border-subtle);
+}
+
+.body {
+  font: var(--nk-type-field-b14-regular);
+  letter-spacing: var(--nk-field-tracking-b);
+  color: var(--nk-field-text-secondary);
+}
+
+.price {
+  display: flex;
+  flex-direction: column;
+}
+
+.tabDock {
+  position: relative;
+  height: calc(var(--nk-layout-tab-bar) + var(--nk-inset-bottom));
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--nk-space-s8);
+  padding: var(--nk-space-s12);
+}

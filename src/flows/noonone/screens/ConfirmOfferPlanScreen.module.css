@@ -1,0 +1,30 @@
+/* features/vip/screens/VIPConfirmOfferPlanScreen/styles.ts */
+.sheet { background: transparent; margin-inline: var(--nk-space-s6); }
+.container {
+  display: flex; flex-direction: column; gap: var(--nk-space-s12);
+  padding: var(--nk-space-s16) var(--nk-space-s16) var(--nk-layout-vip-sheet-float);
+  background: var(--nk-color-bg-subtle);
+  border-radius: var(--nk-radius-vip-sheet);
+  overflow: hidden;
+}
+.header { color: var(--nk-color-text-strong); font: var(--nk-type-vip-of17-bold); text-align: center; }
+/* planContainer: white r12 p12 gap8 + VIPStyles.shadow2 (grey, y 3.2, opacity .1, r 3.2) */
+.planCard {
+  display: flex; flex-direction: column; gap: var(--nk-space-s8);
+  background: var(--nk-color-bg-surface); border-radius: var(--nk-radius-r12); padding: var(--nk-space-s12);
+  box-shadow: var(--nk-shadow-raised);
+}
+.planHeader { display: flex; flex-direction: row; align-items: center; justify-content: space-between; }
+.planTitle { font: var(--nk-type-vip-of13-medium); color: var(--nk-color-text-muted); }
+.planImage { width: 30px; height: 17px; object-fit: contain; }
+.priceRow { display: flex; flex-direction: row; align-items: center; gap: var(--nk-space-s8); }
+.monthlyPrice { flex-shrink: 1; font: var(--nk-type-vip-of17-bold); color: var(--nk-color-text-muted); }
+.savings { border-radius: var(--nk-radius-r6); padding: var(--nk-space-s4); background: var(--nk-palette-kit-green97); }
+.savingsText { font: var(--nk-type-vip-of14-semibold); color: var(--nk-color-vip-of-savings-green); }
+/* descriptionTextStyle: #939393 14 */
+.description { color: var(--nk-color-vip-of-desc-grey); font: var(--nk-type-vip-of14-regular); }
+/* paymentTermsTextStyle: 13 / lh 23, noonGrey2 */
+.terms { font: var(--nk-type-vip-of13-regular-lh23); color: var(--nk-palette-noon-grey2); }
+.terms :global(a) { color: inherit; }
+.button { height: 56px; border-radius: var(--nk-radius-r12); border: 1px solid var(--nk-color-vip-black); }
+.buttonText { font: var(--nk-type-vip-of18-semibold); }

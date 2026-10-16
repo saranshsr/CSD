@@ -1,0 +1,43 @@
+/* NoonCartScreen stickyBar / footer / invoice / footerSavings — bappzaar NoonCartScreen styles.ts, 1:1 */
+.stickyBar { position: relative; z-index: 3; }
+/* liquid-upgrade: NoonNativeStickyBar placement="docked" → content sits FLOATING_BOTTOM_GAP (10) above the floating glass bar */
+.stickyBar[data-tab] { margin-bottom: calc(var(--nk-layout-tab-bar) + var(--nk-inset-bottom) + var(--nk-tab-bar-floating-gap)); transform: translateY(calc(var(--nk-tab-hide, 0) * (var(--nk-layout-tab-bar) + var(--nk-tab-bar-floating-gap)))); }
+.backdrop { position: absolute; left: 0; right: 0; bottom: 0; height: 2000px; background: var(--nk-palette-black); z-index: 0; }
+.stickyBar[data-tab] .backdrop { bottom: calc(-1 * (var(--nk-layout-tab-bar) + var(--nk-inset-bottom) + var(--nk-tab-bar-floating-gap))); left: calc(-1 * var(--nk-tab-bar-glass-inset-x)); right: calc(-1 * var(--nk-tab-bar-glass-inset-x)); }
+/* liquid-upgrade (NoonCartScreen isLiquidGlass): the sticky bar floats as wide as the glass tab bar (stickyBarLiquidGlass
+   + the tab-bar frame width), the footer a card with r16 on every corner and paddingBottom 10 (footerLiquidGlass), on the
+   shared glass; the savings tab stays on its top-left (footerSavingsContainerLiquidGlass) */
+.stickyBar[data-tab] { margin-inline: var(--nk-tab-bar-glass-inset-x); }
+/* the fade: full screen width, from fadeExtend above the card to the screen bottom */
+.stickyBar .fade { top: calc(-1 * var(--nk-tab-bar-fade-extend)); left: calc(-1 * var(--nk-tab-bar-glass-inset-x)); right: calc(-1 * var(--nk-tab-bar-glass-inset-x)); bottom: calc(-1 * (var(--nk-layout-tab-bar) + var(--nk-inset-bottom) + var(--nk-tab-bar-floating-gap))); }
+
+/* Figma "Color waves 🌊" (127:40210): a 239 × 48 #E7FBF3 wave; the footer covers its lower 16 (mb −16) */
+.savings { position: absolute; left: 0; bottom: calc(100% - 16px); width: 239px; height: 48px; z-index: 1; }
+[dir='rtl'] .savings { left: auto; right: 0; transform: scaleX(-1); }
+.savingsWave { position: absolute; inset: 0; display: block; }
+/* Savings label at ml 12 mt 4: px 4 py 2, gap 8; Label3 14/18 Emerald/700 −0.14 (amount SemiBold, "saved!" Regular, 2 apart) + 20 noon One logo */
+.savingsLabel { position: absolute; left: var(--nk-space-s12); top: var(--nk-space-s4); display: flex; align-items: center; gap: var(--nk-space-s8); padding: var(--nk-space-s2) var(--nk-space-s4); border-radius: 5px; }
+[dir='rtl'] .savingsLabel { transform: scaleX(-1); }
+.savingsText { font: var(--nk-type-body); line-height: 18px; letter-spacing: -0.14px; color: var(--nk-palette-emerald-green700); white-space: nowrap; }
+.savingsText b { font-weight: 600; }
+
+.invoiceAnchor { position: relative; height: 0; z-index: 2; }
+.invoice { position: absolute; left: 0; right: 0; bottom: 0; max-height: 400px; padding: var(--nk-space-s12) 0 var(--nk-space-s24); background: var(--nk-color-bg-surface); border-radius: var(--nk-radius-r20) var(--nk-radius-r20) 0 0; overflow: hidden; touch-action: none; }
+.invoiceScroll { max-height: 380px; overflow-y: auto; scrollbar-width: none; }
+
+/* Figma "Cart Sticky footer" (127:40220): white, r12 top, 72 high (py 10), px 12, gap 12, drop shadow 0 −4 10 black 8% */
+.footer { position: relative; z-index: 5; padding: 10px 0 calc(var(--nk-inset-bottom) + 10px); border-radius: var(--nk-radius-r12) var(--nk-radius-r12) 0 0; transition: box-shadow 0.3s; }
+.footer { background: var(--nk-color-bg-surface); box-shadow: var(--nk-shadow-cart-footer); }
+.footer[data-open] { box-shadow: none; }
+.stickyBar[data-tab] .footer { padding-bottom: 10px; }
+.footerContent { display: flex; flex-direction: row; align-items: center; column-gap: var(--nk-space-s12); height: 52px; padding: 0 var(--nk-space-s12); }
+/* Total: 131 wide, pl 4; "Total" Label4 12/14 Medium #666D85 over the price, 4 apart */
+.nudges { flex-shrink: 0; width: 131px; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; row-gap: var(--nk-space-s4); padding: 0 0 0 var(--nk-space-s4); border: 0; background: none; cursor: pointer; text-align: start; }
+/* bappzaar TouchableOpacity / Pressable: no focus ring after a tap (the UA ring showed around Total when the invoice opened) */
+.nudges:focus, .cta:focus { outline: none; }
+.totalLabel { font: var(--nk-type-text12-medium-lh14); letter-spacing: -0.12px; color: var(--nk-color-text-secondary); white-space: nowrap; }
+/* price: H4 20/24 Bold #0E0E0E −0.2, dotted underline */
+.totalPrice { max-width: 100%; overflow: hidden; text-overflow: ellipsis; font: var(--nk-type-text20-bold-lh24); letter-spacing: -0.2px; color: var(--nk-color-text-ink); white-space: nowrap; text-decoration: underline dotted; text-decoration-skip-ink: none; text-underline-position: from-font; }
+/* Button: flex 1, 52 high (min 48, max 56, min width 80), px 16 py 12, Accent/700 #0057FF, r12; Label-1 SemiBold 17/20 −0.26 white */
+.cta { flex: 1 0 0; display: flex; align-items: center; justify-content: center; min-width: 80px; height: 52px; padding: var(--nk-space-s12) var(--nk-space-s16); background: var(--nk-color-brand-blue); border-radius: var(--nk-radius-r12); border: 0; color: var(--nk-color-text-inverse); font: var(--nk-type-text17-semibold-lh20); letter-spacing: -0.26px; cursor: pointer; }
+.ctaDisabled { background: var(--nk-color-cart-qty-border); cursor: default; }

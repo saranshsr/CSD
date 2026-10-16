@@ -1,0 +1,14 @@
+/* bappzaar ModuleWrapper + ModuleHeader (noon). Numbers resolved in tokens.feed.ts. */
+.wrap { position: relative; display: block; margin: 0; }
+.header { display: flex; align-items: center; justify-content: space-between; padding: 0 var(--nk-space-s15); margin: 0 0 var(--nk-space-s12); }
+.title { flex: 1; min-width: 0; margin: 0; padding-inline-end: 5px; font: var(--nk-type-home-bz-title18); color: var(--nk-palette-new-black); text-align: start; }
+.title[data-truncate] { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.link {
+  display: inline-flex !important; align-items: center; gap: 5px; flex: none;
+  margin-inline-start: var(--nk-space-s10); padding: var(--nk-space-s4) 0 !important; border: 1px solid transparent !important; border-radius: var(--nk-radius-r4);
+  font: var(--nk-type-home-bz-link15); letter-spacing: 0.2px; color: var(--nk-color-brand-blue);
+}
+
+/* Sponsored */
+.sponsored { position: absolute; z-index: 1; padding: 0 5px; border-radius: var(--nk-radius-r6); background: var(--nk-color-bg-surface); opacity: 0.7; pointer-events: none; }
+.sponsoredText { display: block; padding: var(--nk-space-s2); font: var(--nk-type-home-bz-ad13); color: var(--nk-color-home-bz-ad-label); }

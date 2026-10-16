@@ -1,0 +1,893 @@
+/* Plans area — values from the master styles.ts named above each block (see plans/MAPPING.md). */
+.flex1 {
+  flex: 1;
+  min-width: 0;
+}
+.inset12 {
+  margin: 0 var(--nk-space-s12);
+}
+
+/* ── VIPUpgradePlanV2Screen headerWrapper / headerBg / header / headerTitle ─────────────────────── */
+.pageHeader {
+  position: relative;
+  width: 100%;
+  padding: var(--nk-space-s12);
+  padding-top: var(--nk-inset-top);
+}
+.pageHeaderBg {
+  position: absolute;
+  inset: 0;
+  background: var(--nk-color-bg-surface);
+  box-shadow: var(--nk-shadow-mb-shadow2);
+}
+.pageHeaderRow {
+  position: relative;
+  height: var(--nk-space-mb-header-row);
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s12);
+}
+.pageHeaderTitle {
+  color: var(--nk-color-text-primary);
+  font: var(--nk-type-text16-bold-lh20);
+  letter-spacing: var(--nk-space-mb-ls15);
+}
+
+/* flatlistContent: paddingTop statusBar + 60, paddingHorizontal 16 (Screen contentStyle), paddingBottom stickyBottomPadding */
+.upgradeContent {
+  padding-top: calc(var(--nk-inset-top) + var(--nk-space-s56) + var(--nk-space-s4));
+  padding-bottom: var(--nk-space-s15);
+}
+/* otherPlansContainer marginTop 24 · sectionTitle B16 bold blueGrey, marginBottom 20 · plansList gap 20 */
+.otherPlans {
+  margin-top: var(--nk-space-s24);
+  display: flex;
+  flex-direction: column;
+}
+.sectionTitle {
+  margin-bottom: var(--nk-space-s20);
+  color: var(--nk-color-text-body);
+  font: var(--nk-type-mb-b16-bold);
+  letter-spacing: var(--nk-space-mb-ls15);
+}
+.plansList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s20);
+}
+
+/* buttonContainer: paddingTop 16, paddingBottom stickyBottomPadding(8), paddingH 12, white, r16 top, shadow3 */
+.stickyFooter {
+  padding: var(--nk-space-s16) var(--nk-space-s12) calc(var(--nk-inset-bottom) + var(--nk-space-s8));
+  background: var(--nk-color-bg-surface);
+  border-radius: var(--nk-radius-r16) var(--nk-radius-r16) 0 0;
+  box-shadow: var(--nk-shadow-mb-shadow3);
+}
+/* VIPSubscriptionButtonV2 button (black) + stickyButton: 100% × 56, r12 · stickyButtonText white bold 18 */
+.stickyButton {
+  width: 100%;
+  height: 56px;
+  border-radius: var(--nk-radius-r12);
+  background: var(--nk-palette-black);
+  color: var(--nk-color-text-inverse);
+  font: var(--nk-type-text18-bold-lh22);
+}
+
+/* ── VIPManageMembershipV3Screen/Plan (isUpgradeScreen, isCurrent) ──────────────────────────────── */
+.currentWrapper {
+  background: var(--nk-color-bg-surface);
+  border-radius: var(--nk-radius-r16);
+  border: 1.5px solid var(--nk-palette-border-primary);
+  overflow: hidden;
+}
+.currentTagRow {
+  padding: 0 var(--nk-space-s16);
+  display: flex;
+  align-items: flex-start;
+}
+.currentTag {
+  height: 24px;
+  padding: var(--nk-space-s4) var(--nk-space-s12);
+  display: inline-flex;
+  align-items: center;
+  border-radius: 0 0 var(--nk-radius-r12) var(--nk-radius-r12);
+  background: var(--nk-color-best-price-ink);
+  color: var(--nk-color-text-inverse);
+  font: var(--nk-type-mb-b12-semibold);
+}
+.currentHeaderMessage {
+  position: relative;
+  top: -4px;
+  height: 52px;
+  padding: 0 var(--nk-space-s16);
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s4);
+  border-radius: var(--nk-radius-r16) var(--nk-radius-r16) 0 0;
+  background: linear-gradient(90deg, var(--nk-color-mb-plan-header-from), var(--nk-palette-white));
+}
+.currentTitleRow {
+  padding: var(--nk-space-s12);
+  display: flex;
+  align-items: center;
+}
+.currentTitle {
+  flex: 1;
+  color: var(--nk-color-text-primary);
+  font: var(--nk-type-mb-b16-bold);
+  letter-spacing: var(--nk-space-mb-ls15);
+}
+.currentBenefits {
+  padding: var(--nk-space-s8) 0;
+}
+.currentBenefit {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s10);
+  padding: var(--nk-space-s8) var(--nk-space-s12);
+}
+.currentBilling {
+  padding: var(--nk-space-s12);
+  display: flex;
+  align-items: center;
+}
+
+/* ── VIPQuickPlanSelectV3Screen/Plan (isUpgradeScreen) in VIPUpgradePlanV2 planWrapper ──────────── */
+.optionWrapper {
+  width: calc(100% + var(--nk-space-s8));
+  margin-inline-start: calc(var(--nk-space-s4) * -1);
+  padding: var(--nk-space-s4);
+  border-radius: var(--nk-radius-r20);
+  background: transparent;
+  transition: background-color 200ms;
+}
+.optionWrapper[data-selected] {
+  background: var(--nk-color-mb-plan-selected-wrap);
+}
+.option {
+  display: block;
+  width: 100%;
+  padding: 0;
+  text-align: start;
+  font: inherit;
+  cursor: pointer;
+  background: transparent;
+  border-radius: var(--nk-radius-r16);
+  border: 1.5px solid var(--nk-palette-border-primary);
+}
+.option:disabled {
+  cursor: default;
+}
+.option[data-selected] {
+  border-color: var(--nk-color-mb-plan-selected-border);
+}
+.optionInner {
+  border-radius: var(--nk-radius-mb-plan-inner);
+  overflow: hidden;
+  background: var(--nk-color-bg-surface);
+}
+.optionBody {
+  padding: var(--nk-space-s16);
+  background: var(--nk-color-bg-surface);
+}
+.optionTitleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.optionTitle {
+  flex: 1;
+  padding-inline-end: var(--nk-space-s12);
+  margin-bottom: var(--nk-space-s8);
+  color: var(--nk-color-text-primary);
+  font: var(--nk-type-mb-b16-bold);
+  letter-spacing: var(--nk-space-mb-ls15);
+}
+.optionRadio {
+  width: 21px;
+  height: 21px;
+  flex-shrink: 0;
+}
+.optionPrice {
+  margin-top: -1px;
+  display: flex;
+  flex-direction: column;
+}
+/* upgradeMonthlyPrice: B14 semibold blueGrey */
+.optionMonthly {
+  color: var(--nk-color-text-body);
+  font: var(--nk-type-text14-semibold-lh20);
+  letter-spacing: var(--nk-space-mb-ls10);
+}
+.optionPriceRow {
+  margin-top: var(--nk-space-s4);
+  padding-bottom: var(--nk-space-s2);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.optionDescription {
+  flex-shrink: 1;
+  min-width: 0;
+  padding-bottom: 1px;
+}
+/* savingsContainer r6, padding 4/8, #f0fdf1, marginStart 8 · upgradeSavingsText B12 semibold successTag */
+.optionSavings {
+  margin-inline-start: var(--nk-space-s8);
+  padding: var(--nk-space-s4) var(--nk-space-s8);
+  border-radius: var(--nk-radius-r6);
+  background: var(--nk-palette-kit-green97);
+  color: var(--nk-color-best-price-ink);
+  font: var(--nk-type-mb-b12-semibold);
+  letter-spacing: var(--nk-space-mb-ls10);
+}
+/* upgradeBenefitsContainer gap 14, paddingTop 14, marginTop 14 · dashed (2,5,1,#0000001A) absolute top */
+.optionBenefits {
+  position: relative;
+  margin-top: var(--nk-space-s14);
+  padding-top: var(--nk-space-s14);
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s14);
+}
+.optionDashed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+.optionBenefit {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s10);
+}
+
+/* ── VIPGenericOverlay paymentBottomSheetReview + VIPReviewCancelUpgradeScreen ──────────────────── */
+.reviewSheet {
+  margin-inline: var(--nk-space-s16);
+  border-radius: var(--nk-radius-r20) var(--nk-radius-r20) var(--nk-radius-r16) var(--nk-radius-r16);
+}
+.reviewSheetChildren {
+  border-radius: var(--nk-radius-r20) var(--nk-radius-r20) var(--nk-radius-r16) var(--nk-radius-r16);
+}
+/* container: padding 16 16 + overlayCtaBottomPadding (12) [+ reviewCancelUpgradeContainer 12], gap 8, white */
+.review {
+  padding: var(--nk-space-s16) var(--nk-space-s16) var(--nk-space-s12);
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s8);
+  background: var(--nk-color-bg-surface);
+}
+.reviewHeader {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s8);
+  align-items: flex-start;
+}
+.reviewTitle {
+  color: var(--nk-color-text-primary);
+  font: var(--nk-type-text16-bold-lh20);
+  letter-spacing: var(--nk-space-mb-ls16);
+}
+.reviewBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s8);
+}
+.reviewInfoCard {
+  padding: var(--nk-space-s12);
+  border-radius: var(--nk-radius-r12);
+  border: 1px solid var(--nk-palette-border-primary);
+  background: var(--nk-color-bg-subtle);
+}
+.reviewFooter {
+  margin: 0 calc(var(--nk-space-s16) * -1);
+}
+.reviewDivider {
+  height: 1px;
+  width: 100%;
+  background: var(--nk-color-border);
+}
+.reviewActionRow {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s16);
+  padding: var(--nk-space-s8) var(--nk-space-s16) 0;
+}
+/* VIPSubscriptionButtonV2 container: row, gap 20, width 100% */
+.subButtonRow {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s20);
+}
+/* confirmButton: flex 1, 56, r12, buttonPrimary · confirmButtonText 17/20 semibold -0.26 white */
+.reviewConfirm {
+  flex: 1;
+  height: 56px;
+  padding: 0 var(--nk-space-s12);
+  border-radius: var(--nk-radius-r12);
+  background: var(--nk-color-text-strong);
+  color: var(--nk-color-text-inverse);
+  font: var(--nk-type-text17-semibold-lh20);
+  letter-spacing: var(--nk-space-mb-ls26);
+  text-align: center;
+}
+
+/* pay-with row (review renderPayment / VIPSubscriptionButtonV2 paymentRow) */
+.payRow {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s8);
+  flex-shrink: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: start;
+  cursor: pointer;
+}
+.payRow:disabled {
+  cursor: default;
+}
+.payIconBox {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--nk-radius-r8);
+  background: var(--nk-color-bg-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.payIcon {
+  width: 40px;
+  height: 24px;
+  object-fit: contain;
+}
+.payRow[data-variant='subscription'] .payIconBox {
+  width: 44px;
+  border-radius: 0;
+}
+.payRow[data-variant='subscription'] .payIcon {
+  width: 44px;
+  height: 40px;
+}
+.payCopy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s2);
+}
+.payHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s4);
+  color: var(--nk-color-mb-pay-with-label);
+  font: var(--nk-type-text13-medium-lh16);
+  letter-spacing: var(--nk-space-mb-ls26);
+}
+.payChevron {
+  transform: rotate(180deg);
+}
+.payText {
+  color: var(--nk-palette-dark-navy-alpha92);
+  font: var(--nk-type-mb-pay15-bold);
+  letter-spacing: var(--nk-space-mb-ls26);
+}
+.payRow[data-variant='subscription'] .payText {
+  font-weight: var(--nk-font-weight-medium);
+  letter-spacing: 0;
+}
+
+/* ── VIPSwitchPlanOverlayScreen ───────────────────────────────────────────────────────────────────── */
+.transparentSheet {
+  background: transparent !important;
+}
+.switchCard {
+  margin: 0 var(--nk-space-s6);
+  border-radius: var(--nk-radius-r16);
+  overflow: hidden;
+}
+.switchContainer {
+  padding: 0 var(--nk-space-s12) var(--nk-space-mb-overlay-float);
+  background: var(--nk-color-bg-surface);
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s12);
+}
+.switchContent {
+  padding: var(--nk-space-s24) var(--nk-space-s16);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.switchIcon {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+}
+.switchTitle {
+  margin: var(--nk-space-s16) 0 var(--nk-space-s8);
+  text-align: center;
+  color: var(--nk-color-text-body);
+  font: var(--nk-type-mb-h18-bold);
+  letter-spacing: var(--nk-space-mb-ls15);
+}
+.switchDescription {
+  text-align: center;
+  color: var(--nk-color-text-secondary);
+  font: var(--nk-type-mb-b14-medium);
+  letter-spacing: var(--nk-space-mb-ls10);
+}
+.switchButtons {
+  display: flex;
+  gap: var(--nk-space-s12);
+}
+.switchSecondary,
+.switchPrimary {
+  flex: 1;
+  height: 52px;
+  border-radius: var(--nk-radius-r12);
+  font: var(--nk-type-mb-b16-semibold);
+  letter-spacing: var(--nk-space-mb-ls15);
+}
+.switchSecondary {
+  border: 1px solid var(--nk-color-border);
+  background: var(--nk-color-bg-surface);
+  color: var(--nk-color-text-primary);
+}
+.switchPrimary {
+  background: var(--nk-color-text-strong);
+  color: var(--nk-color-text-inverse);
+}
+
+/* ── VIPInfoOverlayScreen ─────────────────────────────────────────────────────────────────────────── */
+.infoPopupSheet {
+  background: transparent !important;
+  margin: 0 var(--nk-space-s8) !important;
+  border-radius: var(--nk-radius-r24) !important;
+}
+.infoContainer,
+.infoPopupContainer {
+  background: var(--nk-color-bg-surface);
+  overflow: hidden;
+  padding: var(--nk-space-s32) var(--nk-space-s15) var(--nk-space-s12);
+  margin: 0 var(--nk-space-s12);
+  border-radius: var(--nk-radius-r16);
+  display: flex;
+  flex-direction: column;
+}
+.infoPopupContainer {
+  border-radius: var(--nk-radius-r24);
+  padding-inline: calc(var(--nk-space-s15) + var(--nk-space-s8));
+  align-items: center;
+}
+.infoHeaderIcon {
+  height: 139px;
+  width: 100%;
+  object-fit: contain;
+  margin-bottom: var(--nk-space-s15);
+}
+.infoTitle {
+  padding-bottom: var(--nk-space-s8);
+  color: var(--nk-palette-black);
+  font: var(--nk-type-mb-info-title);
+}
+.infoBody {
+  width: 100%;
+}
+.infoListRow {
+  margin-bottom: var(--nk-space-s8);
+  display: flex;
+}
+.infoReminder {
+  margin-bottom: var(--nk-space-s12);
+  padding: var(--nk-space-s16);
+  border-radius: var(--nk-radius-r12);
+  background: var(--nk-color-bg-surface);
+}
+.infoReminderHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s8);
+}
+.infoReminderTitle {
+  color: var(--nk-palette-deep-red-color);
+  font: var(--nk-type-text14-semibold-lh20);
+}
+.infoReminderDescription {
+  margin-top: var(--nk-space-s4);
+  color: var(--nk-color-text-muted);
+  font: var(--nk-type-text13-regular-lh18);
+}
+.infoButtons {
+  width: 100%;
+  padding-top: var(--nk-space-s16);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.infoButton {
+  width: 100%;
+  height: 48px;
+  margin-bottom: var(--nk-space-s8);
+  border-radius: var(--nk-radius-r8);
+  background: var(--nk-palette-black);
+  color: var(--nk-color-text-inverse);
+  font: var(--nk-type-text14-bold-lh20);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.infoButton[data-hollow] {
+  border: 1px solid var(--nk-palette-black);
+  background: transparent;
+  color: var(--nk-palette-black);
+}
+
+/* ── VIPChangePlanScreen + VIPPlanSelect ──────────────────────────────────────────────────────────── */
+.cpHeaderWrap {
+  padding-top: var(--nk-inset-top);
+  background: var(--nk-color-bg-surface);
+}
+/* headerWrapper: row, padding 15, white, centred, shadow2 · headerTitle 16 bold lh24, centred, ml 15 */
+.cpHeader {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--nk-space-s15);
+  background: var(--nk-color-bg-surface);
+  box-shadow: var(--nk-shadow-mb-shadow2);
+}
+.cpHeaderTitle {
+  flex: 1;
+  margin-left: var(--nk-space-s15);
+  text-align: center;
+  color: var(--nk-color-text-primary);
+  font: var(--nk-type-mb-header16);
+}
+.cpClose {
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.cpBack {
+  position: absolute;
+  top: var(--nk-space-s15);
+  left: var(--nk-space-s15);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.cpList {
+  padding-top: var(--nk-space-s8);
+  display: flex;
+  flex-direction: column;
+}
+.cpOtherPlans {
+  margin: 0 0 var(--nk-space-s15) var(--nk-space-s15);
+  color: var(--nk-color-text-primary);
+  font: var(--nk-type-text19-bold-lh24);
+}
+.cpNote {
+  padding: var(--nk-space-s15);
+  text-align: center;
+  color: var(--nk-palette-noon-grey1);
+  font: var(--nk-type-text14-regular-lh20);
+}
+/* VIPPlanSelect container: overflow hidden, r16, centred, mb 15, 1px noonGrey3 border when selectable */
+.bannerContainer {
+  align-self: center;
+  margin-bottom: var(--nk-space-s15);
+  overflow: hidden;
+  border-radius: var(--nk-radius-r16);
+}
+.bannerContainer[data-border] {
+  border: 1px solid var(--nk-palette-noon-grey3);
+}
+.bannerPress {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  text-align: start;
+}
+.bannerSelection {
+  position: absolute;
+  left: var(--nk-space-s12);
+  right: var(--nk-space-s12);
+  top: var(--nk-space-s24);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+}
+.bannerActivated {
+  height: 18px;
+  margin-inline-start: var(--nk-space-s12);
+  padding: 0 var(--nk-space-s8);
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--nk-radius-r4);
+  background: var(--nk-color-badge);
+  color: var(--nk-color-text-inverse);
+  font: var(--nk-type-text12-semibold-lh14);
+}
+.bannerArrow {
+  position: absolute;
+  right: 0;
+  width: 16px;
+  height: 9px;
+  object-fit: contain;
+}
+/* stand-in for the server banner image (bannerConfig.imageUrl) */
+.bannerImage {
+  padding: 56px var(--nk-space-s16) var(--nk-space-s16);
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s4);
+  background: linear-gradient(135deg, var(--nk-color-mb-light-yellow), var(--nk-color-bg-surface));
+}
+.bannerLogo {
+  align-self: flex-start;
+  padding: var(--nk-space-s2) var(--nk-space-s8);
+  border-radius: var(--nk-radius-r6);
+  background: var(--nk-color-brand);
+  color: var(--nk-color-brand-ink);
+  font: var(--nk-type-text12-bold-lh16);
+}
+.bannerTitle {
+  color: var(--nk-color-text-primary);
+  font: var(--nk-type-mb-h20-bold);
+}
+.bannerPrice {
+  color: var(--nk-color-text-body);
+  font: var(--nk-type-text14-semibold-lh20);
+}
+.bannerBenefits {
+  margin-top: var(--nk-space-s8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s4);
+  color: var(--nk-color-text-muted);
+  font: var(--nk-type-text13-regular-lh18);
+}
+.cpFooterWrap {
+  display: flex;
+  flex-direction: column;
+}
+/* disclaimerContainer: #404553, r16 top, pt 8, pb 24, mb -16, mh 15 · text white 12 */
+.cpDisclaimer {
+  margin: 0 var(--nk-space-s15) -16px;
+  padding: var(--nk-space-s8) 0 var(--nk-space-s24);
+  border-radius: var(--nk-radius-r16) var(--nk-radius-r16) 0 0;
+  background: var(--nk-color-text-legacy);
+  display: flex;
+  justify-content: center;
+  color: var(--nk-color-text-inverse);
+  font: var(--nk-type-caption);
+}
+/* stickyFooter: column centred, pt 16, pb stickyBottomPadding, ph 16, white, r16 top, shadow3 */
+.cpFooter {
+  position: relative;
+  padding: var(--nk-space-s16) var(--nk-space-s16) var(--nk-inset-bottom);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--nk-color-bg-surface);
+  border-radius: var(--nk-radius-r16) var(--nk-radius-r16) 0 0;
+  box-shadow: var(--nk-shadow-mb-shadow3);
+}
+/* VIPSubscriptionButtonV2 button: flex 1, 48, r12, black (disabled noonGrey2) · html p white bold 14 */
+.cpSubscribe {
+  flex: 1;
+  height: 48px;
+  border-radius: var(--nk-radius-r12);
+  background: var(--nk-palette-black);
+  color: var(--nk-color-text-inverse);
+  font: var(--nk-type-text14-bold-lh20);
+}
+.cpSubscribe:disabled {
+  background: var(--nk-palette-noon-grey2);
+}
+/* Button: 100% × 48, r8, 2px solid border, mt 8 · text bold 14 */
+.cpCancel {
+  width: 100%;
+  height: 48px;
+  margin-top: var(--nk-space-s8);
+  border-radius: var(--nk-radius-r8);
+  border: 2px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: var(--nk-type-text14-bold-lh20);
+}
+.cpFooterNote {
+  padding-top: var(--nk-space-s8);
+  text-align: center;
+  color: var(--nk-palette-noon-grey1);
+  font: var(--nk-type-text13-regular-lh18);
+}
+.cpReferralApplied {
+  position: relative;
+  width: 100%;
+  height: 30px;
+  margin-top: var(--nk-space-s8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--nk-radius-r8);
+  background: var(--nk-color-mb-referral-applied);
+}
+.cpReferralCode {
+  margin-inline-end: var(--nk-space-s8);
+  color: var(--nk-palette-noon-grey2);
+  font: var(--nk-type-text14-regular-lh20);
+}
+.cpReferralEdit,
+.cpReferralPrompt {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--nk-color-badge);
+  font: var(--nk-type-text14-regular-lh20);
+  cursor: pointer;
+}
+.cpReferralEdit {
+  position: absolute;
+  inset-inline-end: var(--nk-space-s16);
+}
+.cpReferralPrompt {
+  margin-top: var(--nk-space-s8);
+  align-self: center;
+}
+
+/* ── VIPInvoiceScreen ─────────────────────────────────────────────────────────────────────────────── */
+.invHeader {
+  position: relative;
+  z-index: 99;
+  width: 100%;
+  padding: var(--nk-space-s12);
+  padding-top: var(--nk-inset-top);
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s8);
+  background: var(--nk-color-bg-surface);
+  box-shadow: var(--nk-shadow-mb-shadow2);
+}
+.invRoundButton {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: var(--nk-radius-r20);
+  border: 1px solid var(--nk-color-mb-invoice-border);
+  background: var(--nk-color-bg-surface);
+  cursor: pointer;
+}
+.invBackIcon {
+  margin-inline-start: -2px;
+}
+[dir='rtl'] .invBackIcon {
+  transform: rotate(180deg);
+}
+.invTitle {
+  flex: 1;
+  color: var(--nk-color-text-ink);
+  font: var(--nk-type-heading);
+}
+.invFooter {
+  margin-top: -16px;
+  padding: var(--nk-space-s16) var(--nk-space-s12) calc(var(--nk-inset-bottom) + var(--nk-space-s8));
+  background: var(--nk-color-bg-surface);
+  border-radius: var(--nk-radius-r16) var(--nk-radius-r16) 0 0;
+  box-shadow: var(--nk-shadow-mb-shadow3);
+}
+.invDownload {
+  width: 100%;
+  height: 56px;
+  border-radius: var(--nk-radius-r12);
+  background: var(--nk-color-text-strong);
+  color: var(--nk-color-text-inverse);
+  font: var(--nk-type-text16-bold-lh20);
+}
+/* PDF page */
+.invPage {
+  margin: var(--nk-space-s16) var(--nk-space-s12);
+  padding: var(--nk-space-s20) var(--nk-space-s16);
+  background: var(--nk-color-bg-surface);
+  box-shadow: var(--nk-shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s16);
+  color: var(--nk-color-text-primary);
+  font: var(--nk-type-caption);
+}
+.invTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: var(--nk-space-s12);
+  border-bottom: 2px solid var(--nk-color-brand);
+}
+.invBrand {
+  font: var(--nk-type-mb-h28-bold);
+  letter-spacing: var(--nk-space-mb-ls25);
+}
+.invTopRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--nk-space-s2);
+}
+.invDocTitle {
+  font: var(--nk-type-text16-bold-lh20);
+}
+.invMuted {
+  color: var(--nk-color-text-secondary);
+}
+.invCols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--nk-space-s12);
+}
+.invCol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s2);
+}
+.invLabel {
+  margin-bottom: var(--nk-space-s2);
+  font: var(--nk-type-text12-semibold-lh14);
+}
+.invMeta {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--nk-space-s4) var(--nk-space-s12);
+  padding: var(--nk-space-s10) var(--nk-space-s12);
+  background: var(--nk-color-bg-subtle);
+  border-radius: var(--nk-radius-r6);
+}
+.invMeta span {
+  color: var(--nk-color-text-secondary);
+}
+.invTable {
+  display: flex;
+  flex-direction: column;
+}
+.invRowHead,
+.invRow,
+.invRowTotal {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--nk-space-s12);
+  padding: var(--nk-space-s8) 0;
+  border-bottom: 1px solid var(--nk-color-border);
+}
+.invRowHead {
+  font: var(--nk-type-text12-semibold-lh14);
+  color: var(--nk-color-text-secondary);
+}
+.invRowTotal {
+  border-bottom: 0;
+  font: var(--nk-type-text14-bold-lh20);
+}
+.invPaid {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s8);
+  color: var(--nk-color-text-muted);
+}
+.invFine {
+  color: var(--nk-color-text-tertiary);
+  font: var(--nk-type-text11-regular-lh14);
+}

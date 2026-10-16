@@ -1,0 +1,9 @@
+/* AiToggle — repo ManualReviewScreen / NewReviewScreen WriteWithAICard + SpringToggle. */
+.card { display: flex; align-items: center; gap: var(--nk-space-s8); padding: var(--nk-space-s16); border-radius: var(--nk-radius-r16); background: var(--nk-color-bg-surface); }
+.card[data-look='outline'] { border: 1px solid var(--nk-color-border); }
+.card[data-look='raised'] { box-shadow: var(--nk-shadow-reviews-card); }
+.text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--nk-space-s2); }
+.title { font: var(--nk-type-text14-semibold-lh20); color: var(--nk-color-text-primary); }
+.subtitle { font: var(--nk-type-text14-regular-lh20); color: var(--nk-color-text-secondary); }
+.press { display: inline-flex; flex-shrink: 0; border-radius: var(--nk-radius-full); }
+.switch > span { box-shadow: var(--nk-shadow-reviews-knob); }

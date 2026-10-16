@@ -1,0 +1,5 @@
+/* screens/PaymentCardsV2Screen/styles.ts */
+.list { position: relative; min-height: 100%; box-sizing: border-box; padding: calc(var(--nk-inset-top) + 68px + 10px) var(--nk-space-s20) calc(var(--nk-inset-bottom) - 14px); touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+.section { position: relative; }
+.cardSlot { position: relative; width: 350px; margin-left: auto; margin-right: auto; }
+.backdrop { position: absolute; inset: 0; z-index: 5; background: var(--nk-color-cards-list-scrim); }

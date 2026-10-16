@@ -1,0 +1,11 @@
+/* Recommended for you — Figma 1337:5233. Tab strip "Tab Bar" 1337:5239: pl12 pt6.4, sticky. */
+.wrap { display: flex; flex-direction: column; }
+.tabs { position: sticky; top: 0; z-index: 2; align-items: stretch; padding: 6.4px 0 0 var(--nk-space-s12); background: var(--nk-color-bg-surface); }
+.tab { position: relative; flex-shrink: 0; min-width: 66.13px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: center; row-gap: var(--nk-space-s4); padding: var(--nk-space-s4) var(--nk-space-s12) var(--nk-space-s12); border: 0; border-bottom: 1px solid var(--nk-color-border); background: none; cursor: pointer; }
+.tab[data-on] { min-width: 72px; border-bottom-color: transparent; background: linear-gradient(180deg, var(--nk-color-bg-surface) 25.53%, var(--nk-color-home-tab-glow) 117.53%); }
+.label { font: var(--nk-type-text13-medium-lh16); color: var(--nk-color-text-body); text-align: center; white-space: nowrap; }
+.tab[data-on] .label { font: var(--nk-type-home-text13-bold-lh16); color: var(--nk-color-tab-active); }
+.underline { position: absolute; left: 0; right: 0; bottom: 0; height: 3.2px; border-radius: var(--nk-radius-r4) var(--nk-radius-r4) 0 0; background: var(--nk-color-tab-active); }
+
+/* SKU rail — pt16, px12, gap 12, 134 cards */
+.rail { gap: var(--nk-space-s12); padding: var(--nk-space-s16) var(--nk-space-s12) 0; }

@@ -1,0 +1,26 @@
+/* marketplaces/noon/components/NoonCheckoutNoonOneSection/NoonOneCtaReveal + styles.ts (ctaReveal*) */
+.root { position: absolute; inset: 0; z-index: 2; overflow: hidden; border-radius: inherit; pointer-events: none; }
+.backdrop { position: absolute; inset: 0; background: var(--nk-palette-anti-flash-white); } /* ctaRevealBackdrop */
+.lottie { position: absolute; overflow: visible; } /* ctaRevealLottieLayer */
+/* ctaRevealOverlay: bottom corners always 12 */
+.overlay { position: absolute; border-bottom-left-radius: var(--nk-radius-r12); border-bottom-right-radius: var(--nk-radius-r12); transform-origin: 50% 50%; }
+/* ctaRevealTextLayer: full width, content centred */
+.textLayer { position: absolute; left: 0; right: 0; display: flex; align-items: center; justify-content: center; }
+.scale { position: relative; display: inline-flex; transform-origin: 50% 50%; }
+.whiteCopy { position: absolute; inset: 0; display: flex; }
+.row { display: flex; align-items: center; justify-content: center; white-space: nowrap; }
+.saveGroup { position: relative; display: flex; align-items: center; }
+.prefix { position: relative; display: inline-flex; }
+.prefixNormal { position: absolute; inset: 0; }
+/* ctaRevealRemainingContainer: hangs off the end of the save group */
+.suffix { position: absolute; left: 100%; top: 0; bottom: 0; display: flex; align-items: center; white-space: nowrap; }
+/* ctaRevealTextGreen / White: 12/600; digits 12/700 */
+.textGreen { font: var(--nk-type-text12-semibold-lh14); color: var(--nk-color-best-price-ink); }
+.textWhite { font: var(--nk-type-text12-semibold-lh14); color: var(--nk-color-text-inverse); }
+.bold { font-weight: var(--nk-font-weight-bold); }
+.digitsGreen { font: var(--nk-type-text12-bold-lh16); color: var(--nk-color-best-price-ink); display: block; }
+.digitsWhite { font: var(--nk-type-text12-bold-lh16); color: var(--nk-color-text-inverse); display: block; }
+.digits { display: inline-flex; }
+/* AnimatedDigit slot: digitHeight 12, clipped column */
+.slot { display: inline-flex; justify-content: center; overflow: hidden; }
+.column { display: flex; flex-direction: column; align-items: center; }

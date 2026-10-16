@@ -1,0 +1,45 @@
+/* Storefront "Bottom Nav" (Figma 2ldJbjmQq4RkhnrNFCfXQB · 3499:75904) + "Pill Button" back to top (3499:75878). */
+.btnReset { appearance: none; border: 0; background: none; padding: 0; margin: 0; font: inherit; color: inherit; cursor: pointer; }
+
+.sticky { position: relative; pointer-events: none; } /* the content behind the 21px sides stays tappable; the card and the bar take taps */
+
+/* Back to top: 32h, Blue-Gray/900 + 1px Blue-Gray/800, full radius, pl8 pr12, gap 4, 16 chevron, 13/16 600 white, Elevations/100-ish shadow */
+.backToTopWrap { position: absolute; left: 0; right: 0; top: var(--nk-layout-pdp-back-to-top-offset); z-index: 10; display: flex; justify-content: center; pointer-events: none; }
+.backToTop { composes: btnReset; pointer-events: auto; display: flex; align-items: center; gap: var(--nk-space-s4); height: 32px; box-sizing: border-box; padding: 0 var(--nk-space-s12) 0 var(--nk-space-s8); border: 1px solid var(--nk-color-text-body); border-radius: var(--nk-radius-full); background: var(--nk-color-text-primary); box-shadow: 0 0 4px var(--nk-palette-dark-navy-alpha10); font: var(--nk-type-text13-semibold-lh16); color: var(--nk-color-text-inverse); white-space: nowrap; }
+
+/* Bottom Nav shell — liquid-upgrade (NoonProductDetails liquidGlassWrapper / liquidGlassContent): a floating card as wide
+   as the glass tab bar (inset 21), r16 on every corner, content clipped to it; the glass TabBar material. */
+.nav {
+  composes: glass from '../../../../components/Glass/Glass.module.css';
+  position: relative; display: flex; flex-direction: column; overflow: hidden; pointer-events: auto;
+  margin-inline: var(--nk-tab-bar-glass-inset-x); border-radius: var(--nk-radius-r16);
+}
+/* under the card and the bar: one progressive-blur + white fade from fadeExtend above the card to the screen bottom */
+.fade { top: calc(-1 * var(--nk-tab-bar-fade-extend)); }
+
+/* in-cart "Content" row: yellow, p8 gap 8, 20 cart + 14/18 500 Blue-Gray/900 */
+.inCart { overflow: hidden; }
+.inCartInner { display: flex; align-items: center; justify-content: center; gap: var(--nk-space-s8); padding: var(--nk-space-s8); background: var(--nk-color-brand); font: var(--nk-type-product-title); color: var(--nk-color-text-primary); white-space: nowrap; }
+.inCartCount { display: inline-block; }
+
+/* ATC row — NoonAddToCartQuantity buttonsWrapper on liquid glass: p8 / 12 (liquidAddToCartButtonWrapper), gap 8; on the card's glass */
+.atcRow { display: flex; align-items: center; gap: var(--nk-space-s8); height: 64px; box-sizing: border-box; padding: var(--nk-space-s8) var(--nk-space-s12); }
+/* QTY input: 48×48, 1px Blue-Gray/300, r12; "QTY" 12/14 500 Blue-Gray/500 · value 16/20 700 Blue-Gray/800 */
+.qty { composes: btnReset; flex-shrink: 0; width: 48px; height: 48px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid var(--nk-color-border); border-radius: var(--nk-radius-r12); background: var(--nk-tab-bar-glass-inner-fill); }
+.qtyLabel { font: var(--nk-type-text12-medium-lh14); color: var(--nk-color-text-tertiary); }
+.qtyValue { font: var(--nk-type-text16-bold-lh20); color: var(--nk-color-text-body); }
+/* Buy now (New PDP 104:20387 › 3638:35073): shares the row with Add to cart, 47h, #041F62, r10, px 38 → 0 when tight, 14/20 700 white */
+.buyNow { composes: btnReset; flex: 1 1 0; min-width: 0; height: var(--nk-layout-pdp-npa-buy-now-height); display: flex; align-items: center; justify-content: center; border-radius: var(--nk-radius-r10); background: var(--nk-color-pdp-npa-buy-now); font: var(--nk-type-text14-bold-lh20); color: var(--nk-color-text-inverse); white-space: nowrap; }
+.buyNow:active { opacity: var(--nk-layout-pdp-press-default-opacity); }
+/* Add to cart: fills the row (48h), accentColor fill + border, r10, 14/20 700 white */
+.atc { composes: btnReset; position: relative; flex: 1 1 0; min-width: 0; height: 100%; display: flex; align-items: center; justify-content: center; border: 1px solid var(--nk-color-cta); border-radius: var(--nk-radius-r10); background: var(--nk-color-cta); font: var(--nk-type-text14-bold-lh20); color: var(--nk-color-text-inverse); }
+.atc:active { opacity: var(--nk-layout-pdp-press-default-opacity); }
+.atc[data-loading] { border-color: var(--nk-color-border); background: var(--nk-color-border); color: var(--nk-color-text-secondary); }
+.hidden { visibility: hidden; }
+.loader { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+
+/* 5-tab bar (kit TabBar, absolute bottom 0) + home-indicator inset */
+/* liquid-upgrade: NoonNativeStickyBar placement="docked" → the card sits FLOATING_BOTTOM_GAP (10) above the glass bar.
+   Hiding: the sticky bar drops by tab + gap (the card rests above the inset) and the bar here travels on until it's
+   off-screen (inset + its shadow − the gap). */
+.tabs { position: relative; height: calc(var(--nk-layout-tab-bar) + var(--nk-inset-bottom) + var(--nk-tab-bar-floating-gap)); transform: translateY(calc(var(--pdp-tab-hide, 0) * (var(--nk-inset-bottom) + var(--nk-tab-bar-glass-hide-shadow) - var(--nk-tab-bar-floating-gap)))); }

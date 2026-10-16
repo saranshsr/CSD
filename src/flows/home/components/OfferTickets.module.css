@@ -1,0 +1,66 @@
+/* Offers for you — Figma 1337:5485 (ticket 132×172, panel 122×162). */
+.rail { gap: var(--nk-space-s12); padding: 0 var(--nk-space-s12); }
+
+.ticket {
+  position: relative;
+  flex: 0 0 auto;
+  width: 132px;
+  height: 172px;
+  padding: 2.5px;
+  border: 2.5px solid transparent;
+  border-radius: var(--nk-radius-r24);
+  background: linear-gradient(var(--nk-color-bg-surface), var(--nk-color-bg-surface)) padding-box, var(--home-ticket-border) border-box;
+  text-align: center;
+}
+
+.panel {
+  position: relative;
+  display: block;
+  width: 122px;
+  height: 162px;
+  overflow: hidden;
+  border-radius: var(--nk-radius-r20); /* Figma r19 */
+}
+.art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+
+.copy {
+  position: absolute;
+  top: 67px;
+  left: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.title { white-space: nowrap; }
+.subSm, .subMd { display: flex; flex-direction: column; align-items: center; color: var(--nk-palette-white-alpha70); }
+.subSm { font: var(--nk-type-home-text11-regular-lh12); letter-spacing: -0.23px; }
+.subMd { font: var(--nk-type-text12-regular-lh14); letter-spacing: -0.2px; }
+.subLine { display: block; }
+
+.divider { position: absolute; top: 132.5px; left: 0; right: 0; }
+
+.cta {
+  position: absolute;
+  top: 141px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  font: var(--nk-type-text12-semibold-lh14);
+  letter-spacing: -0.11px;
+  color: var(--nk-color-text-inverse);
+}
+
+/* 18pt notch circles over the stroke, centred on the divider line (y=136 from the ticket top) */
+.notch {
+  position: absolute;
+  top: 124.4px;
+  width: 18px;
+  height: 18px;
+  border-radius: var(--nk-radius-full);
+  background: var(--nk-color-bg-surface);
+}
+.notchStart { inset-inline-start: -9.5px; }
+.notchEnd { inset-inline-end: -9.5px; }

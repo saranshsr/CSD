@@ -1,0 +1,24 @@
+/*
+ * Field DS M-InputTextarea (TextArea). The root, label and helper rows come from TextField.module.css (same states:
+ * data-state="rest|focus|error|disabled", data-filled); this file is the multi-line field box.
+ */
+.field {
+  display: flex; flex-direction: column;
+  min-height: 180px; /* token-lint-ignore — M-InputTextarea DEFAULT_MIN_HEIGHT (overridable via minHeight) */
+  padding: var(--nk-space-s14) var(--nk-space-s16);
+  border: 1px solid var(--nk-field-border-primary); border-radius: var(--nk-radius-r12);
+  background: var(--nk-field-surface-primary); cursor: text;
+  transition: border-color var(--tf-focus) var(--tf-ease);
+}
+[data-state='focus'] > .field { border-color: var(--nk-field-border-medium); }
+[data-state='error'] > .field { border-color: var(--nk-field-border-error-bold); }
+[data-state='disabled'] > .field { background: var(--nk-field-surface-muted); cursor: default; }
+
+.input {
+  flex: 1 0 auto; min-width: 0; margin: 0; padding: 0; border: 0; outline: 0; background: transparent; resize: none; overflow-y: hidden;
+  font: var(--nk-type-field-b14-regular); letter-spacing: var(--nk-field-tracking-b);
+  color: var(--nk-field-text-primary); caret-color: var(--nk-field-surface-action-bold);
+}
+.input::placeholder { color: var(--nk-field-text-muted); opacity: 1; }
+[data-filled] > .field .input { font: var(--nk-type-field-b14-medium); letter-spacing: var(--nk-field-tracking-b); }
+[data-state='disabled'] > .field .input { color: var(--nk-field-text-muted); -webkit-text-fill-color: currentColor; cursor: default; }

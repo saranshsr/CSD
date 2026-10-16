@@ -1,0 +1,33 @@
+/* NoonCheckoutPaymentCard/styles.ts */
+.card { display: flex; align-items: center; justify-content: space-between; gap: var(--nk-space-s12); min-height: 34px; }
+.left { display: flex; align-items: center; gap: var(--nk-space-s8); flex-shrink: 1; min-width: 0; }
+.leftNoText { gap: var(--nk-space-s10); }
+.iconWrap { display: flex; overflow: hidden; border-radius: var(--nk-radius-r4); background: var(--nk-color-bg-surface); flex-shrink: 0; }
+.icon { width: 38px; height: 24px; object-fit: contain; }
+.iconLarge { width: 54px; height: 34px; }
+.iconDisabled { opacity: 0.5; }
+.textWrap { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--nk-space-s2); }
+.textRow { display: flex; align-items: center; gap: var(--nk-space-s4); min-width: 0; }
+.nickname { font: var(--nk-type-body-semibold); color: var(--nk-color-text-ink); min-width: 0; flex-shrink: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.separator { width: 1px; height: 14px; border-radius: var(--nk-radius-r2); background: var(--nk-palette-lighter-spanish-gray-color); flex-shrink: 0; }
+.number { display: flex; align-items: center; gap: var(--nk-space-s4); flex-shrink: 0; }
+.dots { display: flex; align-items: center; gap: var(--nk-space-s2); }
+.dot { width: 4px; height: 4px; border-radius: var(--nk-radius-r2); background: var(--nk-color-text-ink); }
+.dotDisabled { background: var(--nk-color-text-disabled); }
+.cardText { font: var(--nk-type-body-semibold); color: var(--nk-color-text-ink); }
+.textDisabled { color: var(--nk-color-text-disabled); }
+.bgDisabled { background: var(--nk-color-bg-disabled); }
+.cvv {
+  flex-shrink: 0;
+  width: 60px;
+  height: 34px;
+  padding: var(--nk-space-s8) var(--nk-space-s14);
+  border: 1px solid var(--nk-palette-neutral-black-hex24);
+  border-radius: var(--nk-radius-r8);
+  background: var(--nk-color-bg-surface);
+  font: var(--nk-type-text13-regular-lh16);
+  color: var(--nk-color-text-legacy);
+  outline: none;
+}
+.cvv::placeholder { color: var(--nk-palette-lighter-spanish-gray-color); }
+.cvv:focus { border-color: var(--nk-color-link); }

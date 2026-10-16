@@ -1,0 +1,5 @@
+/* DraftBScreen — repo ReviewDraftScreenB (Figma 7159:44106 / 7159:44296). */
+.content { display: flex; flex-direction: column; gap: var(--nk-space-s16); padding: var(--nk-space-s16) var(--nk-space-s12) 0; }
+/* editing: Save bar + keyboard rise together over the Submit footer (no scrim, no sheet) */
+.editDock { position: absolute; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; }
+.saveBar { background: var(--nk-color-bg-page); padding: var(--nk-space-s12) var(--nk-space-s12) var(--nk-space-s8); }

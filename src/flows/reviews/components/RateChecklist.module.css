@@ -1,0 +1,12 @@
+/* RateChecklist — repo ManualReviewScreen FeedbackCard / CheckboxRow / SkeletonCard (Figma 6042:140826). */
+.stack { display: flex; flex-direction: column; gap: var(--nk-space-s12); }
+.card { background: var(--nk-color-bg-surface); border-radius: var(--nk-radius-r16); padding-bottom: var(--nk-space-s4); }
+.title { padding: var(--nk-space-s16) var(--nk-space-s16) var(--nk-space-s4); font: var(--nk-type-text16-bold-lh20); color: var(--nk-color-text-primary); }
+.row { position: relative; display: block; width: 100%; text-align: start; background: none; }
+.tint { position: absolute; inset: 0; background: var(--nk-color-reviews-row-press); pointer-events: none; }
+.body { position: relative; display: flex; align-items: center; justify-content: space-between; gap: var(--nk-space-s12); padding: var(--nk-space-s14) var(--nk-space-s16); }
+.label { font: var(--nk-type-reviews-text14-medium-lh20); min-width: 0; }
+.check { position: relative; width: 20px; height: 20px; flex-shrink: 0; }
+.glyph { position: absolute; inset: 0; display: flex; }
+.skTitle { padding: var(--nk-space-s16) var(--nk-space-s16) var(--nk-space-s12); }
+.skRow { display: flex; align-items: center; justify-content: space-between; padding: 15px var(--nk-space-s16); } /* token-lint-ignore — repo skeleton row 15px keeps the 50px row height */

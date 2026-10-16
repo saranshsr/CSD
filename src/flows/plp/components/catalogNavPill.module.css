@@ -1,0 +1,34 @@
+/* NoonCatalogListNavPill styles.ts (pill redesign) — see CatalogNavPill.tsx */
+.pill { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; height: 30px; min-height: 30px; padding: 0; border: 1px solid var(--nk-palette-light-grey-color); border-radius: var(--nk-radius-r20); background: var(--nk-palette-white); cursor: pointer; white-space: nowrap; -webkit-tap-highlight-color: transparent; }
+.text { font: var(--nk-type-text13-medium-lh16); color: var(--nk-palette-blue-gray700); }
+.icon { display: block; flex-shrink: 0; object-fit: contain; }
+.tinted { display: block; flex-shrink: 0; -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center; }
+
+/* customActionPill + actionPillIdle: px 11, gap 6; idle border lightGrey, text facetPillText */
+.action { gap: 6px; padding: 0 11px; }
+/* facetPill: px 11, gap 6; selected → paleBlue border, pr 5 */
+.facet { gap: 6px; padding: 0 11px; }
+.facet.selected { padding-inline-end: 5px; }
+/* plainPill: px 10, gap 6, slateBlueGray text; selected → r19 lavender border, pr 8 */
+.plain { gap: 6px; padding: 0 var(--nk-space-s10); }
+.plain .text { color: var(--nk-palette-slate-blue-gray); }
+.plain.selected { border-radius: 19px; border-color: var(--nk-palette-lavender); padding-inline-end: var(--nk-space-s8); }
+
+.selected { border-color: var(--nk-palette-pale-blue); }
+.selected .text { font: var(--nk-type-text13-semibold-lh16); color: var(--nk-palette-primary-blue); }
+
+/* customFilterCountBubble: 20 r20 primaryBlue, 13 bold white */
+.bubble { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 20px; background: var(--nk-palette-primary-blue); font: var(--nk-type-plp-text13-bold-lh20); color: var(--nk-palette-white); }
+
+/* the filter-pill Lottie: 19 × 19, right −1 (blueGray700 idle file, primaryBlue selected file) */
+.lottie { position: relative; right: -1px; display: flex; width: 19px; height: 19px; flex-shrink: 0; }
+
+/* animatedFilterPill: the idle Filter pill is a transparent 75 × 30 button over the animated back / front layers */
+.idleFilter { width: 75px; background: transparent; position: relative; z-index: 1; }
+.attn { position: relative; display: inline-flex; flex-shrink: 0; width: 75px; height: 30px; }
+.back { position: absolute; inset: 0; pointer-events: none; }
+.backShadow, .backFill, .backGlass { position: absolute; inset: 0; border-radius: 15px; }
+.backShadow { box-shadow: 0 0 16px var(--nk-palette-charcoal-navy-alpha12); }
+.backFill { background: var(--nk-palette-white); }
+.backGlass { background: var(--nk-color-plp-filter-glass); }
+.front { position: absolute; left: 0; top: 0; z-index: 2; pointer-events: none; overflow: visible; }

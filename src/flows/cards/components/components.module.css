@@ -1,0 +1,142 @@
+/* Saved cards (payment V2) — values from each bappzaar features/payment/.../styles.ts */
+
+/* ── PaymentButtonV2 ────────────────────────────────────── */
+.btn { display: flex; align-items: center; justify-content: center; width: 100%; box-sizing: border-box; padding: 0 var(--nk-space-s12); border: 1px solid; border-radius: var(--nk-radius-r12); cursor: pointer; font-family: var(--nk-font-family); }
+.btn_sm { height: 44px; font-size: 15px; }
+.btn_md { height: 48px; font-size: 16px; }
+.btn_lg { height: 52px; font-size: 18px; }
+.btnContent { display: flex; align-items: center; gap: var(--nk-space-s6); }
+.btnText { font-weight: 600; }
+.btn_primary { border-color: var(--nk-color-text-primary); background: var(--nk-color-text-primary); color: var(--nk-color-text-inverse); }
+.btn_danger { border-color: var(--nk-color-danger); background: var(--nk-color-danger); color: var(--nk-color-text-inverse); }
+.btn_outline { border-color: var(--nk-color-border); background: var(--nk-color-bg-surface); color: var(--nk-color-cards-dark-navy); }
+.btn_elevated { border-color: var(--nk-color-text-strong); background: var(--nk-color-text-strong); color: var(--nk-color-text-inverse); box-shadow: 0 4px 8px var(--nk-palette-dark-navy-alpha20); }
+.btnDisabled { border-color: var(--nk-color-cards-disabled-bg); background: var(--nk-color-cards-disabled-bg); color: var(--nk-color-cards-disabled-text); box-shadow: none; cursor: default; }
+.flex1 { flex: 1; width: auto; min-width: 0; }
+
+/* ── PaymentScreenHeaderButton / PaymentScreenHeader ───── */
+.headerBtn { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; padding: 0; box-sizing: border-box; border-radius: 50px; border: 1px solid var(--nk-color-border); background: var(--nk-color-bg-subtle); cursor: pointer; flex-shrink: 0; }
+.headerBtnTransparent { background: var(--nk-color-cards-header-btn-dark-bg); border-color: var(--nk-color-cards-header-btn-dark-border); }
+.screenHeader { position: relative; z-index: 10; width: 100%; box-sizing: border-box; display: flex; align-items: center; gap: var(--nk-space-s12); padding: calc(var(--nk-inset-top) + 16px) var(--nk-space-s16) var(--nk-space-s16); }
+.screenHeaderInner { position: absolute; top: calc(var(--nk-inset-top) + 16px); bottom: 16px; left: 60px; right: 60px; display: flex; align-items: center; justify-content: center; }
+
+/* ── PaymentScrollableHeader / Button / TextButton ──────── */
+.scrollHeader { position: relative; z-index: 10; display: flex; align-items: center; gap: var(--nk-space-s12); box-sizing: border-box; width: 100%; height: calc(var(--nk-inset-top) + 68px); padding: calc(var(--nk-inset-top) + 16px) var(--nk-space-s16) var(--nk-space-s16); pointer-events: none; }
+.scrollHeaderGradient { position: absolute; top: 0; left: 0; right: 0; height: calc(var(--nk-inset-top) + 68px); pointer-events: none; background: linear-gradient(180deg, var(--nk-palette-black-alpha80) 0%, var(--nk-palette-black-alpha50) 25%, var(--nk-palette-black-alpha28) 55%, var(--nk-palette-black-alpha9) 80%, var(--nk-palette-black-alpha0) 100%); }
+.scrollBtn { position: relative; height: 36px; min-width: 36px; pointer-events: auto; }
+.scrollBtnScrolled { position: absolute; top: 0; bottom: 0; right: 0; }
+.textBtn { position: relative; display: block; height: 36px; min-width: 36px; padding: 0; overflow: hidden; border: 0; border-radius: 20px; background: none; cursor: pointer; }
+.textBtnBg { position: absolute; inset: 0; border: 1px solid var(--nk-color-border); border-right-width: 0; border-radius: 20px 0 0 20px; background: var(--nk-color-bg-subtle); }
+.textBtnCap { position: absolute; top: 0; bottom: 0; right: 0; width: 18px; box-sizing: border-box; border: 1px solid var(--nk-color-border); border-left-width: 0; border-radius: 0 20px 20px 0; }
+.textBtnContent { position: relative; display: flex; align-items: center; justify-content: center; box-sizing: border-box; height: 36px; padding: var(--nk-space-s8); }
+.textBtnTitle { padding: 0 var(--nk-space-s4); font: var(--nk-type-body-semibold); color: var(--nk-color-cards-dark-navy); white-space: nowrap; }
+
+/* ── PaymentCard ────────────────────────────────────────── */
+.card { position: relative; width: 350px; height: 220.75px; }
+.cardInnerShadowWrap { position: absolute; inset: 0; top: -1px; opacity: 0.7; }
+.cardInnerShadow { width: 100%; height: 100%; border-radius: var(--nk-radius-r14); background: var(--nk-color-cards-card-background); box-shadow: 0 -3px 4px var(--nk-palette-black-alpha10); }
+.cardTop { position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: var(--nk-radius-r14); direction: ltr; }
+.cardArt { position: absolute; top: -2px; left: -2px; width: calc(100% + 4px); height: calc(100% + 4px); object-fit: cover; background: var(--nk-color-cards-card-background); user-select: none; }
+.cardIssuer { position: absolute; top: 16px; left: 16px; width: 220px; font: var(--nk-type-heading); color: var(--nk-color-text-strong); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ── PaymentAnimatedListCard ────────────────────────────── */
+.listCard { position: relative; width: 350px; margin: 0 auto; cursor: pointer; outline: none; -webkit-tap-highlight-color: transparent; }
+.listCardBorder { position: absolute; inset: 0; z-index: 4; border: 1.3px solid var(--nk-color-cards-card-selected-border); border-top-width: 0; border-radius: var(--nk-radius-r14); pointer-events: none; }
+.listCardTitle { position: absolute; bottom: 12px; left: 12px; max-width: 230px; z-index: 2; overflow: hidden; border-radius: var(--nk-radius-r8); border: 1px solid var(--nk-color-cards-card-title-border); background: var(--nk-color-cards-card-title-bg); }
+.listCardTitleText { display: block; padding: 6px; font: var(--nk-type-text16-semibold-lh18); color: var(--nk-color-text-inverse); white-space: pre; overflow: hidden; text-overflow: ellipsis; }
+
+/* ── PaymentCardShimmer ─────────────────────────────────── */
+.shimmerLayer { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+.shimmer { position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: var(--nk-radius-r14); }
+.shimmerCard { position: absolute; top: -5px; left: -5px; width: calc(100% + 10px); height: calc(100% + 10px); object-fit: contain; }
+.shimmerCover { position: absolute; inset: 0; background: var(--nk-palette-black-alpha10); }
+.shimmerGradient { position: absolute; top: 0; bottom: 0; left: -300px; width: 950px; background: linear-gradient(to bottom right, var(--nk-palette-white-alpha0) 0%, var(--nk-palette-white-alpha0) 20%, var(--nk-palette-white-alpha20) 40%, var(--nk-palette-white-alpha60) 50%, var(--nk-palette-white-alpha20) 60%, var(--nk-palette-white-alpha0) 80%, var(--nk-palette-white-alpha0) 100%); }
+
+/* ── PaymentCardsSectionTitle ───────────────────────────── */
+.sectionTitle { position: relative; left: -20px; width: 390px; height: 36px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: var(--nk-space-s10); padding-bottom: var(--nk-space-s12); }
+.sectionTitleText { font: var(--nk-type-text18-bold-lh20); color: var(--nk-color-text-strong); }
+
+/* ── PaymentCardTypeLogo / PaymentCardBrands ────────────── */
+.typeLogo { display: block; height: 32px; object-fit: contain; position: relative; top: -8px; }
+.brands { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--nk-space-s6); }
+.brandWrap { width: 52px; height: 36px; box-sizing: border-box; padding: var(--nk-space-s8); display: flex; align-items: center; justify-content: center; border-radius: var(--nk-radius-r4); border: 1px solid var(--nk-color-border-subtle); background: var(--nk-color-bg-surface); }
+.brandWrapCompact { width: 40px; height: 26px; padding: var(--nk-space-s4); }
+.brandImg { width: 100%; height: 100%; object-fit: contain; }
+
+/* ── PaymentAdditionContainer / CardAdditionOption ─────── */
+.additionContainer { border-radius: var(--nk-radius-r16); border: 2px solid var(--nk-color-bg-surface); background: var(--nk-color-bg-surface); }
+.additionTitle { height: 40px; box-sizing: border-box; padding: var(--nk-space-s16) var(--nk-space-s16) var(--nk-space-s4); font: var(--nk-type-text14-bold-lh20); color: var(--nk-color-text-strong); }
+.option { display: flex; align-items: center; width: 100%; padding: 0; border: 0; background: none; text-align: left; cursor: pointer; font-family: var(--nk-font-family); }
+.optionLeading { padding-left: var(--nk-space-s12); }
+.optionIcon { display: block; width: 40px; height: 40px; }
+.optionContent { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--nk-space-s2); padding: var(--nk-space-s16) var(--nk-space-s12); }
+.optionTitle { font: var(--nk-type-section); letter-spacing: -0.15px; color: var(--nk-color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.optionSubtitle { font: var(--nk-type-text12-medium-lh18); letter-spacing: -0.1px; color: var(--nk-color-text-secondary); }
+.optionTrailing { display: flex; padding: var(--nk-space-s8) var(--nk-space-s12) var(--nk-space-s8) 0; }
+
+/* ── PaymentScanOptionButton ────────────────────────────── */
+.scanOption { height: 34px; box-sizing: border-box; display: flex; align-items: center; gap: var(--nk-space-s6); padding: 0 var(--nk-space-s12); border-radius: var(--nk-radius-r8); border: 1px solid var(--nk-palette-white); background: var(--nk-color-cards-scan-button-bg); cursor: pointer; }
+.scanOptionIcon { display: block; width: 24px; height: 24px; }
+.scanOptionText { font: var(--nk-type-text13-medium-lh18); letter-spacing: -0.14px; color: var(--nk-color-text-body); white-space: nowrap; }
+
+/* ── PaymentEnterManuallyField / lock notes ─────────────── */
+.enterManually { height: 49px; width: 100%; box-sizing: border-box; display: flex; align-items: center; padding: 0 var(--nk-space-s12); border-radius: var(--nk-radius-r12); background: var(--nk-color-bg-subtle); }
+.enterManuallyText { font: var(--nk-type-text13-regular-lh18); color: var(--nk-color-text-secondary); }
+.lockMessage { display: flex; align-items: center; justify-content: center; gap: var(--nk-space-s4); }
+.lockMessageText { font: var(--nk-type-text13-regular-lh18); color: var(--nk-color-text-tertiary); text-align: center; }
+.secureMessage { display: flex; align-items: flex-start; justify-content: center; gap: var(--nk-space-s4); margin-top: var(--nk-space-s8); }
+.secureMessageText { flex-shrink: 1; font: var(--nk-type-cards-text12-light-lh18); color: var(--nk-color-text-secondary); }
+
+/* ── PaymentCardFormV2 ──────────────────────────────────── */
+.form { display: flex; flex-direction: column; gap: var(--nk-space-s8); background: var(--nk-color-bg-surface); padding: var(--nk-space-s16) var(--nk-space-s4) calc(var(--nk-inset-bottom) + 4px); }
+.formRow { display: flex; gap: var(--nk-space-s8); }
+.halfRow { flex: 1; min-width: 0; }
+.setAsDefault { margin: var(--nk-space-s8) 0 var(--nk-space-s12); }
+.formButton { box-shadow: none; }
+.formBrands { margin-top: var(--nk-space-s8); }
+
+/* ── PaymentTextInputV2 ─────────────────────────────────── */
+.inputWrap { position: relative; }
+.input { display: block; width: 100%; box-sizing: border-box; padding: 25px var(--nk-space-s12) 9px; border: 1px solid var(--nk-color-cards-input-border); border-radius: var(--nk-radius-r12); background: var(--nk-color-cards-input-bg); color: var(--nk-color-cards-input-text); caret-color: var(--nk-color-cards-input-text); font: var(--nk-type-text15-semibold-lh20); outline: none; }
+.inputError { border-color: var(--nk-color-cards-input-error); }
+.inputAfter { position: absolute; top: 25px; bottom: 9px; right: var(--nk-space-s12); display: flex; align-items: center; justify-content: center; }
+.inputLabelWrap { position: absolute; inset: 0; z-index: 2; display: flex; align-items: center; padding: 0 var(--nk-space-s12); pointer-events: none; }
+.inputLabel { display: block; font-family: var(--nk-font-family); line-height: 17px; color: var(--nk-color-text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transform-origin: left center; }
+.inputErrorText { margin: var(--nk-space-s4) var(--nk-space-s12) 0; font: var(--nk-type-text11-regular-lh14); color: var(--nk-color-danger); }
+
+/* ── PaymentSwitchV2 (md / dark / reversed) ─────────────── */
+.switchRow { display: flex; align-items: center; justify-content: space-between; gap: var(--nk-space-s8); cursor: pointer; }
+.switchLabel { flex: 1; font: var(--nk-type-body-medium); color: var(--nk-color-text-ink); }
+
+/* ── PaymentCardActionsScreen overlay ───────────────────── */
+.actionsRoot { position: absolute; inset: 0; z-index: 50; }
+.actionsPanel { position: absolute; left: var(--nk-space-s12); right: var(--nk-space-s12); overflow: hidden; border-radius: 18px; background: var(--nk-color-bg-surface); }
+.actionsMain { position: absolute; top: 0; left: 0; right: 0; height: 170px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; padding: var(--nk-space-s12); }
+.actionsLayer { position: absolute; top: 0; left: 0; right: 0; height: 170px; }
+.actionsTitle { max-width: 100%; margin: var(--nk-space-s4) 0 var(--nk-space-s6); font: var(--nk-type-text20-bold-lh24); color: var(--nk-color-text-strong); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.actionsInfo { font: var(--nk-type-body-large); color: var(--nk-color-text-body); white-space: pre; }
+.actionsRow { position: absolute; left: var(--nk-space-s12); right: var(--nk-space-s12); bottom: var(--nk-space-s12); display: flex; gap: var(--nk-space-s10); }
+.actionBtn { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; margin-top: var(--nk-space-s20); padding: var(--nk-space-s12) var(--nk-space-s4); border-radius: var(--nk-radius-r12); border: 1px solid var(--nk-color-border); background: var(--nk-color-bg-surface); cursor: pointer; }
+.actionBtnText { font: var(--nk-type-caption); color: var(--nk-color-cards-new-black); text-align: center; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+/* ── PaymentActionConfirmation ──────────────────────────── */
+.confirm { height: 170px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; padding: 0 var(--nk-space-s12); }
+.confirmText { display: flex; flex-direction: column; align-items: center; gap: var(--nk-space-s6); padding-top: var(--nk-space-s16); }
+.confirmTitle { max-width: 100%; font: var(--nk-type-text20-bold-lh24); color: var(--nk-color-text-strong); text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.confirmDescription { font: var(--nk-type-cards-text16-regular-lh24); color: var(--nk-color-text-body); text-align: center; white-space: pre-line; }
+.confirmActions { display: flex; gap: var(--nk-space-s12); padding-bottom: var(--nk-space-s12); }
+
+/* ── PaymentEditNickname ────────────────────────────────── */
+.nickname { position: absolute; top: 0; left: 0; right: 0; padding: var(--nk-space-s12); }
+.nicknameInput { display: block; width: 100%; height: 48px; box-sizing: border-box; border: 0; background: transparent; text-align: center; font: var(--nk-type-text20-bold-lh24); color: var(--nk-color-cards-input-text); caret-color: var(--nk-palette-black); outline: none; }
+.nicknameError { position: relative; top: -16px; font: var(--nk-type-body); color: var(--nk-color-cards-red); }
+
+/* ── PaymentEmptyCardsScreen ────────────────────────────── */
+.empty { position: relative; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100%; }
+.emptyHeader { position: absolute; top: 0; left: 0; right: 0; z-index: 2; }
+.emptyContent { flex: 1; width: 273px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.emptyImage { width: 273px; min-height: 193.8px; object-fit: contain; }
+.emptyTexts { display: flex; flex-direction: column; align-items: center; gap: var(--nk-space-s8); }
+.emptyTitle { font: var(--nk-type-cards-text30-extrabold-lh38); color: var(--nk-color-text-strong); text-align: center; }
+.emptyMessage { font: var(--nk-type-cards-text15-regular-lh24); color: var(--nk-color-text-secondary); text-align: center; }
+.emptyButton { width: 100%; box-sizing: border-box; padding: var(--nk-space-s32) var(--nk-space-s16) 0; }

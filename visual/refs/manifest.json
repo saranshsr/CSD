@@ -1,0 +1,140 @@
+{
+  "_readme": "External references for `npm run visual:ref` (scripts/visual-ref.mjs; workflow in .claude/skills/noon-ui/references/verify.md). Every PNG here is exported from Figma or captured from the real app, never from the kit. Entry: name, file, source (origin + export date YYYY-MM-DD), route (+ query), select (CSS selectors whose union box is captured), viewport (the reference's screen width in CSS px; the phone is rendered at it), optional viewportHeight, scale (PNG px per CSS px; the capture's deviceScaleFactor), optional refCrop [x, y, w, h] (PNG px) and masks [[x, y, w, h], ...] (CSS px of the cropped reference; only data that legitimately differs: prices, counts, timers), optional refPosition [x, y] (where the element sits in the reference screen, CSS px; enables the position delta), optional scrollTo (top | <y> | bottom | el:<selector>) and steps ([{click}, {type}, {wait}, {scroll}, {press}]) before the capture, wait (extra settle ms), allowMultiple (selectors may match several elements), optional checks [{ name, selector, expect: { x, y, width, height, right, bottom } (CSS px in the screen, read from the reference), tolerance, sticky: <scroll y> (box must not move after scrolling), source }], and any key of `defaults` to override it: threshold (PASS when the share of differing pixels is at most this), failThreshold (FAIL above; default threshold x failFactor; in between NEEDS-REVIEW), sizeTolerance / failSizeTolerance (px; geometry PASS / FAIL limits, NEEDS-REVIEW in between), positionTolerance (px, checks), channelTolerance (per-channel delta that still counts as the same pixel), cell (px, worst-cell grid), regionShare (a cell is 'hot' above this), maxMaskedShare (more masked than this is NEEDS-REVIEW), acceptSlack (a recorded review still applies while the diff grows by at most this). `review` is written by `node scripts/visual-ref.mjs --accept <name> --by <who> --note <why>` after a human looked; it is pinned to the reference file's hash.",
+  "defaults": {
+    "threshold": 0.05,
+    "failFactor": 3,
+    "sizeTolerance": 2,
+    "failSizeTolerance": 8,
+    "positionTolerance": 2,
+    "channelTolerance": 40,
+    "cell": 24,
+    "regionShare": 0.2,
+    "maxMaskedShare": 0.4,
+    "acceptSlack": 0.005
+  },
+  "refs": [
+    {
+      "name": "account-action-cards-empty",
+      "file": "account-action-cards-empty.png",
+      "source": "Figma 4NvyqO60K7Xn4gRJrkWmzQ \u00b7 8886:66691 (Accounts, My Orders / My Wishlist), exported 2026-10-13",
+      "route": "account/account?orders=none&wishlist=none",
+      "select": [
+        "[class*=actionCard]:first-child",
+        "[class*=actionCard]:last-child"
+      ],
+      "viewport": 375,
+      "scale": 1,
+      "masks": [],
+      "threshold": 0.08,
+      "sizeTolerance": 2
+    },
+    {
+      "name": "cart-sticky-footer",
+      "file": "cart-sticky-footer.png",
+      "source": "Figma Af34gfmhQ1D0wstXUEHSIF \u00b7 127:40209 (All flows, Cart sticky footer + savings wave), exported 2026-10-13",
+      "route": "cart/cart",
+      "select": [
+        "[class*=savings]:not([class*=savingsWave]):not([class*=savingsLabel]):not([class*=savingsText])",
+        "[class*=footer][data-open], [class*=stickyBar] > [class*=footer]"
+      ],
+      "viewport": 375,
+      "scale": 1,
+      "refCrop": [
+        0,
+        24,
+        375,
+        104
+      ],
+      "masks": [
+        [
+          14,
+          4,
+          112,
+          24
+        ],
+        [
+          150,
+          0,
+          225,
+          32
+        ],
+        [
+          14,
+          62,
+          130,
+          30
+        ]
+      ],
+      "threshold": 0.03,
+      "sizeTolerance": 2,
+      "_note": "Figma exports this frame with shadow bleed (24px above, 16 below): crop y 24..128 (the wave's first #E7FBF3 row; the footer starts 32 below it, as designed). Masked: the savings amount and price (mock data differs) and the strip right of the wave, which shows whatever scrolls behind the footer. The savings mask includes the noon One logo, which moves with the amount's width.",
+      "checks": [
+        {
+          "name": "checkout footer",
+          "selector": "[class*=footer][data-open], [class*=stickyBar] > [class*=footer]",
+          "expect": {
+            "width": 375,
+            "height": 72
+          },
+          "sticky": 600,
+          "source": "Figma 127:40209: the footer is the frame's bottom 72px (crop height 104 minus the 32px wave above it), full width; it is a sticky footer, so it must not move when the cart scrolls"
+        }
+      ]
+    },
+    {
+      "name": "plp-filters",
+      "file": "plp-filters.png",
+      "source": "noon app (iOS, live), PLP \"phone\" \u2192 Filter, screenshot 2026-10-14 (bappzaar NoonFiltersScreenV2)",
+      "route": "plp/listing?query=phone",
+      "steps": [
+        {
+          "wait": 1500
+        },
+        {
+          "click": "text=Filter"
+        },
+        {
+          "wait": 1200
+        }
+      ],
+      "select": [
+        "[class*=floatingSheet]"
+      ],
+      "viewport": 402,
+      "scale": 3,
+      "refCrop": [
+        24,
+        377,
+        1158,
+        2135
+      ],
+      "refPosition": [
+        8,
+        126
+      ],
+      "masks": [
+        [
+          0,
+          438,
+          104,
+          196
+        ],
+        [
+          104,
+          503,
+          282,
+          131
+        ],
+        [
+          150,
+          650,
+          236,
+          52
+        ]
+      ],
+      "threshold": 0.08,
+      "_note": "Masked (live data differs from the mock catalogue): sidebar groups after Product Rating (Top Picks, Item Condition, Network Type, Refresh Rate come from the live facets), the Category options and the results count.",
+      "viewportHeight": 874
+    }
+  ]
+}

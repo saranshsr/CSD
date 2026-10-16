@@ -1,9 +1,127 @@
 {
-  "name": "coupon-search-proto",
-  "private": true,
+  "name": "@noon/flow-kit",
   "version": "0.1.0",
+  "description": "noon app UI kit for clickable prototypes: noon design tokens, a central React component library, a motion system and ready-made flows ported 1:1 from bappzaar (home, search, categories, PLP, PDP, cart, checkout, orders, returns, account, addresses, cards, noon One…).",
+  "keywords": [
+    "noon",
+    "design-system",
+    "ui-kit",
+    "react",
+    "prototype",
+    "tokens",
+    "flows"
+  ],
+  "license": "UNLICENSED",
   "type": "module",
-  "scripts": { "dev": "vite --port 5201", "build": "vite build", "preview": "vite preview --port 5202" },
-  "dependencies": { "motion": "^11.15.0", "react": "^18.3.1", "react-dom": "^18.3.1" },
-  "devDependencies": { "@vitejs/plugin-react": "^4.3.4", "vite": "^5.4.11" }
+  "main": "./dist-lib/index.js",
+  "module": "./dist-lib/index.js",
+  "types": "./dist-lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist-lib/index.d.ts",
+      "import": "./dist-lib/index.js"
+    },
+    "./components": {
+      "types": "./dist-lib/components/index.d.ts",
+      "import": "./dist-lib/components/index.js"
+    },
+    "./data": {
+      "types": "./dist-lib/data/index.d.ts",
+      "import": "./dist-lib/data/index.js"
+    },
+    "./tokens": {
+      "types": "./dist-lib/foundations/tokens.d.ts",
+      "import": "./dist-lib/foundations/tokens.js"
+    },
+    "./flows": {
+      "types": "./dist-lib/flows/index.d.ts",
+      "import": "./dist-lib/flows/index.js"
+    },
+    "./flows/*": {
+      "types": "./dist-lib/flows/*/index.d.ts",
+      "import": "./dist-lib/flows/*/index.js"
+    },
+    "./style.css": "./dist-lib/noon-flow-kit.css",
+    "./package.json": "./package.json"
+  },
+  "sideEffects": [
+    "*.css",
+    "./dist-lib/motion/custom/index.js",
+    "./dist-lib/flows/*/transitions.js",
+    "./src/motion/custom/index.ts",
+    "./src/flows/*/transitions.ts"
+  ],
+  "files": [
+    "dist-lib",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -p tsconfig.json && vite build",
+    "build:lib": "vite build --config vite.lib.config.ts && tsc -p tsconfig.lib.json && node scripts/clean-dts.mjs",
+    "preview": "vite preview",
+    "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.lib.json",
+    "new-flow": "node scripts/new-flow.mjs",
+    "shot": "node scripts/shot.mjs",
+    "lint:tokens": "node scripts/token-lint.mjs",
+    "lint:design": "node scripts/design-usage.mjs --check",
+    "motion:usage": "node scripts/motion-usage.mjs",
+    "check:routes": "node scripts/check-routes.mjs",
+    "visual:snap": "node scripts/visual-snap.mjs snap",
+    "visual:diff": "node scripts/visual-snap.mjs diff",
+    "verify": "npm run typecheck && npm run lint:tokens && npm run assets:check && npm run build:lib",
+    "pack:check": "npm pack --dry-run",
+    "prepublishOnly": "npm run verify",
+    "assets:optimize": "node scripts/optimize-assets.mjs",
+    "assets:check": "node scripts/optimize-assets.mjs --check",
+    "assets:measure": "node scripts/optimize-assets.mjs --measure",
+    "skill:check": "node .claude/skills/noon-ui/scripts/validate.mjs && node scripts/brain/build.mjs --check && node scripts/design-usage.mjs --check",
+    "skill:snap": "node .claude/skills/noon-ui/scripts/snap.mjs",
+    "resources:build": "node scripts/design-usage.mjs && node scripts/motion-usage.mjs && node .claude/resources/scripts/build.mjs && node scripts/brain/build.mjs && node scripts/release/build-plugin.mjs",
+    "categories:fetch": "node scripts/fetch-categories-cms.mjs",
+    "skills:package": "node scripts/package-skills.mjs",
+    "icons:import": "node scripts/import-origin-icons.mjs",
+    "test:journeys": "node scripts/journeys.mjs",
+    "visual:ref": "node scripts/visual-ref.mjs",
+    "check:inventory": "node scripts/check-inventory.mjs",
+    "components:api": "node scripts/component-api.mjs",
+    "check:duplicates": "node scripts/check-duplicates.mjs",
+    "design:context": "node scripts/design-context.mjs",
+    "check:design-docs": "node scripts/check-design-docs.mjs",
+    "visual:coverage": "node scripts/visual-ref.mjs --coverage",
+    "brain": "node scripts/brain/query.mjs",
+    "brain:build": "node scripts/brain/build.mjs",
+    "brain:check": "node scripts/brain/build.mjs --check",
+    "brain:eval": "node scripts/brain/eval.mjs",
+    "release:build": "node scripts/release/build-plugin.mjs",
+    "release:check": "node scripts/release/check.mjs",
+    "release:zip": "node scripts/release/build-plugin.mjs --check && rm -rf dist-plugin && mkdir -p dist-plugin && cd plugins/noon-ui && zip -qrX ../../dist-plugin/noon-ui-$npm_package_version.zip . -x '.DS_Store' && echo \"wrote dist-plugin/noon-ui-$npm_package_version.zip\""
+  },
+  "peerDependencies": {
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "dependencies": {
+    "@lottiefiles/dotlottie-react": "^0.20.0",
+    "lucide-react": "^1.55.0",
+    "motion": "^14.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "playwright": "^1.64.0",
+    "postcss": "^8.5.29",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "sharp": "^0.35.5",
+    "svgo": "^4.1.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4"
+  }
 }

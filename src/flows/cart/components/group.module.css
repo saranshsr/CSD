@@ -1,0 +1,56 @@
+/* NoonCartGroup + NoonCartGroupProgressBar — Figma Cart 2.0 groups (Express 10575:94104 · Global 10575:94090 · market 10575:94119) */
+.group { display: flex; flex-direction: column; margin: var(--nk-space-s8) var(--nk-space-s12) 0; border-radius: var(--nk-radius-r16); position: relative; isolation: isolate; }
+
+/* Glass effect Container: tint (per group), 1px Blue-Gray/100, r16, pt 8, gap 6, mb -24, z 2 */
+.glass { position: relative; z-index: 2; display: flex; flex-direction: column; row-gap: var(--nk-space-s6); padding-top: var(--nk-space-s8); margin-bottom: calc(-1 * var(--nk-space-s24)); border: 1px solid var(--nk-color-bg-subtle); border-radius: var(--nk-radius-r16); }
+/* Color waves 🌊 206×53.5 at left 1 / top 0 */
+.waves { position: absolute; left: 0; top: 0; pointer-events: none; }
+[dir='rtl'] .waves { left: auto; right: 0; transform: scaleX(-1); }
+/* fulfilment type: h20, px 20 */
+.fulfilment { position: relative; display: flex; align-items: center; height: 20px; padding: 0 var(--nk-space-s20); }
+.logoExpress { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 65px; height: 100%; padding-top: var(--nk-space-s2); box-sizing: border-box; }
+.logoExpress img { display: block; }
+.logoGlobal { position: relative; width: 78px; height: 20px; }
+.logoGlobalInner { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; align-items: center; column-gap: 1.9px; padding: 0 5.701px; }
+.logoGlobalInner img { display: block; flex-shrink: 0; }
+.logoGlobalText { font: var(--nk-type-cart-global-logo); font-family: 'Figtree', var(--nk-font-family); letter-spacing: -0.1445px; color: var(--nk-color-cart-global-logo-ink); white-space: nowrap; }
+.logoSupermall { position: relative; display: block; width: 76px; height: 18px; flex-shrink: 0; }
+.logoSupermallSuper { position: absolute; left: 0; top: 4.12px; display: block; }
+.logoSupermallMall { position: absolute; left: 44.82px; top: 0; display: block; }
+.logoMarket { display: flex; align-items: center; justify-content: center; column-gap: var(--nk-space-s4); width: 76px; height: 20px; }
+.logoMarketIcon { position: relative; width: 19.345px; height: 19.345px; flex-shrink: 0; }
+.logoMarketIcon img { position: absolute; left: 1.38px; top: 1.38px; display: block; }
+.logoMarket > img { display: block; }
+
+/* items: white, 1px group border, r16, pt 12, overflow clip */
+.items { position: relative; display: flex; flex-direction: column; padding-top: var(--nk-space-s12); background: var(--nk-color-bg-surface); border: 1px solid; border-radius: var(--nk-radius-r16); overflow: hidden; }
+.itemWrap { overflow: hidden; padding-bottom: var(--nk-space-s16); }
+/* Dividers type=dotted: 335 wide, 1px #EBEBEB dash 5/5, gap 16 either side */
+.divider { margin: var(--nk-space-s16) 7px 0; height: 1px; background-image: url('../../../assets/cart/figma/dotted-divider.svg'); background-repeat: repeat-x; background-size: 200px 1px; }
+
+/* Stacks: 40px rows, p12, gap 8, 1px top Blue-Gray/200, white */
+.stacks { display: flex; flex-direction: column; }
+.stack { display: flex; flex-direction: row; align-items: center; column-gap: var(--nk-space-s8); height: 40px; padding: var(--nk-space-s12); box-sizing: border-box; border: 0; border-top: 1px solid var(--nk-color-border-subtle); background: var(--nk-color-bg-surface); min-width: 0; text-align: start; }
+.stackIcon { width: 20px; height: 20px; flex-shrink: 0; }
+.nudge { width: 100%; cursor: pointer; }
+.nudgeText { display: flex; flex-direction: row; align-items: center; column-gap: var(--nk-space-s4); white-space: nowrap; font: var(--nk-type-caption); color: var(--nk-color-text-body); }
+.nudgeLead { font: var(--nk-type-text12-medium-lh16); }
+.nudgeCta { font: var(--nk-type-text12-semibold-lh14); letter-spacing: -0.12px; color: var(--nk-palette-emerald-green700); }
+.oneLogoSlot { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 20px; flex-shrink: 0; }
+.oneLogo { position: relative; width: 20px; height: 12.174px; overflow: hidden; }
+.oneLogoBase { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: block; }
+.oneLogoText { position: absolute; left: 14.91%; top: 29.64%; width: 67.44%; height: 36.53%; display: block; }
+
+/* Progress bars: gradient (per group), pt 36 (24 under the card), pb 16, bottom r16, z 1 */
+.progressBars { position: relative; z-index: 1; padding: var(--nk-space-s36) 0 var(--nk-space-s16); border-radius: 0 0 var(--nk-radius-r16) var(--nk-radius-r16); overflow: hidden; }
+.progressWrapper { display: flex; flex-direction: row; align-items: center; column-gap: var(--nk-space-s8); padding: 0 var(--nk-space-s12); }
+.progressContent { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.progressTrack { position: relative; height: 4px; border-radius: var(--nk-radius-r6); overflow: hidden; }
+.progressFill { position: relative; height: 4px; border-radius: var(--nk-radius-r2); overflow: hidden; }
+.shimmer { position: absolute; top: 0; bottom: 0; left: 0; opacity: 0.55; border-radius: var(--nk-radius-r4); background: linear-gradient(90deg, var(--nk-color-cart-progress-fill), var(--nk-color-cart-progress-track), var(--nk-color-cart-progress-fill)); }
+/* "Add" button: white, 1px Alpha/GrayA/400, r6, py 4 pl 6 pr 12, gap 2, 16px plus, Label3/Semibold #101628 */
+.progressButton { display: flex; flex-direction: row; align-items: center; justify-content: center; column-gap: var(--nk-space-s2); flex-shrink: 0; width: 57px; height: 26px; box-sizing: border-box; padding: var(--nk-space-s4) var(--nk-space-s12) var(--nk-space-s4) var(--nk-space-s6); background: var(--nk-color-bg-surface); border: 1px solid var(--nk-palette-neutral-black-hex24); border-radius: var(--nk-radius-r6); font: var(--nk-type-body-semibold); letter-spacing: -0.14px; color: var(--nk-color-text-strong); cursor: pointer; }
+.progressButton img { width: 16px; height: 16px; display: block; }
+/* supermall "+ Add" (All flows 127:39717): pl 4 pr 8 py 4, 14px plus, SemiBold 13/18 −0.14 Persian-Blue/600, border Persian-Blue/50 (colours from groupTheme) */
+.progressButton[data-variant='supermall'] { padding: var(--nk-space-s4) var(--nk-space-s8) var(--nk-space-s4) var(--nk-space-s4); column-gap: 0; font: var(--nk-type-text13-semibold-lh18); }
+.progressButton[data-variant='supermall'] img { width: 14px; height: 14px; }

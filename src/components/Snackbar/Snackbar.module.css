@@ -1,0 +1,160 @@
+/* Origin M-Toast / M-Stacked Toast (Figma wFRKiKskxZ4vjIHbDVvngJ · 4227:76702, 4229:76747) */
+.toast {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-width: var(--nk-snackbar-min-width);
+  max-width: var(--nk-snackbar-max-width);
+  border: 1px solid var(--nk-snackbar-border);
+  border-radius: var(--nk-snackbar-radius);
+  background: var(--nk-snackbar-dark-bg);
+  filter: drop-shadow(var(--nk-snackbar-shadow));
+  color: var(--nk-snackbar-fg);
+  pointer-events: auto;
+}
+.toast[data-type='light'] {
+  background: var(--nk-snackbar-light-bg);
+  border-color: var(--nk-snackbar-light-border);
+  color: var(--nk-snackbar-light-fg);
+}
+.toast[data-type='error'] {
+  background: var(--nk-snackbar-error-bg);
+}
+.toast[data-type='success'] {
+  background: var(--nk-snackbar-success-bg);
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--nk-snackbar-gap);
+  padding: var(--nk-snackbar-padding);
+}
+/* Asset container: 20–40, hugs the icon / avatar */
+.asset {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  min-width: 20px;
+  min-height: 20px;
+  max-width: var(--nk-snackbar-asset-size);
+  max-height: var(--nk-snackbar-asset-size);
+  overflow: hidden;
+}
+.texts {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--nk-snackbar-text-gap);
+}
+.title {
+  font: var(--nk-snackbar-title-font);
+  letter-spacing: var(--nk-snackbar-tracking);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.subtitleRow {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--nk-snackbar-subtitle-fg);
+  text-align: start;
+  cursor: pointer;
+}
+.subtitleRow:disabled {
+  cursor: default;
+}
+.toast[data-type='light'] .subtitleRow {
+  color: var(--nk-snackbar-light-subtitle-fg);
+}
+.subtitle {
+  font: var(--nk-snackbar-subtitle-font);
+  letter-spacing: var(--nk-snackbar-tracking);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Action container: pr 10, py 10 */
+.actionBox {
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  padding: var(--nk-snackbar-action-inset) var(--nk-snackbar-action-inset) var(--nk-snackbar-action-inset) 0;
+  flex-shrink: 0;
+}
+.action {
+  padding: var(--nk-snackbar-action-padding);
+  border: 0;
+  border-radius: var(--nk-snackbar-action-radius);
+  background: var(--nk-snackbar-action-bg);
+  color: var(--nk-snackbar-fg);
+  font: var(--nk-snackbar-action-font);
+  white-space: nowrap;
+  cursor: pointer;
+}
+/* Light: M-SecondaryNeutralButton H32 */
+.toast[data-type='light'] .action {
+  min-height: var(--nk-snackbar-action-light-height);
+  padding: 0 var(--nk-snackbar-action-inset);
+  border: 1px solid var(--nk-snackbar-action-light-border);
+  background: var(--nk-snackbar-action-light-bg);
+  color: var(--nk-snackbar-light-fg);
+}
+
+/* action 'close' (Field Toast ActionSlot close): ActionContainer p10, round chip p4 around a 20px ✕ */
+.closeBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--nk-snackbar-action-inset);
+  flex-shrink: 0;
+}
+.close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--nk-space-s4);
+  border: 0;
+  border-radius: var(--nk-radius-full);
+  background: var(--nk-field-border-overlay);
+  cursor: pointer;
+}
+.toast[data-type='light'] .close {
+  background: var(--nk-field-surface-tertiary);
+}
+
+/* M-Stacked Toast: back card 12 above, 12 narrower each side, same height as the front */
+.stack {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: var(--nk-snackbar-max-width);
+  padding-top: var(--nk-snackbar-stack-peek);
+  pointer-events: none;
+}
+.back {
+  position: absolute;
+  top: 0;
+  bottom: var(--nk-snackbar-stack-peek);
+  left: var(--nk-snackbar-stack-inset);
+  right: var(--nk-snackbar-stack-inset);
+  width: auto;
+  min-width: 0;
+}
+.front {
+  z-index: 1;
+}

@@ -1,0 +1,128 @@
+/* NoonCartItem — Figma Cart 2.0 "Cart item" (Component 120). Item is 335 wide inside the 351 group card (7px inset). */
+.card { display: flex; flex-direction: column; row-gap: var(--nk-space-s12); margin: 0 7px; background: var(--nk-color-bg-surface); }
+.container { display: flex; flex-direction: row; align-items: flex-start; column-gap: var(--nk-space-s12); cursor: pointer; }
+
+/* Image column: 104 wide, image box #F9F9FB r12 h144 p8 (mb -16 under the stepper) */
+.imageColumn { position: relative; display: flex; flex-direction: column; align-items: center; width: 104px; flex-shrink: 0; }
+.imageBox { position: relative; display: flex; align-items: center; justify-content: center; width: 104px; height: 144px; padding: var(--nk-space-s8); margin-bottom: calc(-1 * var(--nk-space-s16)); box-sizing: border-box; background: var(--nk-color-bg-subtle); border-radius: var(--nk-radius-r12); overflow: hidden; }
+.imageBox img { mix-blend-mode: multiply; }
+/* M-Checkbox H24 at 8/8 */
+.checkbox { position: absolute; left: var(--nk-space-s8); top: var(--nk-space-s8); width: 24px; height: 24px; padding: 0; border: 0; background: none; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.checkbox img { display: block; mix-blend-mode: normal; }
+.checkboxOff { width: 18px; height: 18px; border-radius: 5px; border: 1.5px solid var(--nk-color-text-tertiary); background: var(--nk-color-bg-surface); box-sizing: border-box; }
+[dir='rtl'] .checkbox { left: auto; right: var(--nk-space-s8); }
+/* vertical side tag on the image edge (market "CUSTOMIZABLE" tag) */
+.sideTag { position: absolute; left: 0; top: 50%; transform: translateY(-50%) rotate(180deg); writing-mode: vertical-rl; padding: var(--nk-space-s6) 2px; border-radius: 0 var(--nk-radius-r4) var(--nk-radius-r4) 0; background: var(--nk-color-cart-slate600); color: var(--nk-color-text-inverse); font: var(--nk-type-text10-semibold-lh12); font-size: 6px; letter-spacing: 0.3px; text-transform: uppercase; line-height: 1; }
+
+/* quantity selector — Figma "Stepper Button": white, 1px Border/secondary #EBEBEB, r8, 92×38, gap 8 */
+.qtyHost { position: relative; z-index: 1; cursor: default; }
+.qty { height: 38px; width: 92px; display: flex; flex-direction: row; align-items: center; background: var(--nk-color-bg-surface); border: 1px solid var(--nk-palette-bright-grey-color); border-radius: var(--nk-radius-r8); box-sizing: border-box; overflow: hidden; }
+[dir='rtl'] .qty { flex-direction: row-reverse; }
+.qtyBtn { height: 100%; flex: 1; display: flex; align-items: center; border: 0; background: none; padding: 0; cursor: pointer; }
+.qtyBtn:first-child { justify-content: flex-end; padding-right: var(--nk-space-s8); }
+.qtyBtn:last-child { justify-content: flex-start; padding-left: var(--nk-space-s8); }
+.qtyBtn img { width: 16px; height: 16px; display: block; }
+.qtyBtn:disabled { cursor: default; }
+.qtyBtnOff img { opacity: var(--nk-stepper-disabled-opacity); }
+.qtyNumber { height: 100%; width: 20px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.qtyText { font: var(--nk-type-body-bold); letter-spacing: -0.14px; color: var(--nk-color-text-ink); text-align: center; display: inline-block; }
+
+/* item data: col, gap 16 */
+.data { flex: 1; min-width: 0; align-self: stretch; display: flex; flex-direction: column; row-gap: var(--nk-space-s16); }
+.blockTop { display: flex; flex-direction: column; row-gap: var(--nk-space-s10); }
+.primaryInfo { display: flex; flex-direction: column; row-gap: var(--nk-space-s4); align-items: flex-start; }
+.titleRow { display: flex; flex-direction: row; align-items: center; column-gap: var(--nk-space-s8); width: 100%; }
+/* Body2/Medium 14/18 Blue-Gray/1000, 2 lines */
+.title { flex: 1; min-width: 0; font: var(--nk-type-product-title); color: var(--nk-color-text-strong); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+/* Wishlist: Blue-Gray/50, 1px Blue-Gray/200, r8, p8, 16px icon */
+.wishlistButton { flex-shrink: 0; display: flex; align-items: center; justify-content: center; padding: var(--nk-space-s8); border: 1px solid var(--nk-color-border-subtle); border-radius: var(--nk-radius-r8); background: var(--nk-palette-blue-gray50); cursor: pointer; }
+.wishlistButton img { width: 16px; height: 16px; display: block; }
+
+/* customization row (market "Aliaa · Edit"): #F9F9FB r4, px 6 py 2 */
+.customization { display: flex; flex-direction: row; align-items: center; justify-content: space-between; column-gap: var(--nk-space-s4); width: 100%; padding: var(--nk-space-s2) var(--nk-space-s6); background: var(--nk-color-bg-subtle); border-radius: var(--nk-radius-r4); border: 0; cursor: pointer; text-align: start; min-width: 0; box-sizing: border-box; }
+.customizationAnswers { flex: 1 1 auto; min-width: 0; font: var(--nk-type-body); color: var(--nk-color-text-body); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.customizationLabel { color: var(--nk-color-text-secondary); }
+.customizationEdit { font: var(--nk-type-body-semibold); letter-spacing: -0.14px; color: var(--nk-color-brand-blue); }
+
+/* subtitle chips (variants row / combo / bundle) */
+.callouts { display: flex; flex-direction: column; row-gap: var(--nk-space-s4); width: 100%; }
+.variantChip { width: 100%; padding: var(--nk-space-s2) var(--nk-space-s6); background: var(--nk-color-bg-subtle); border-radius: var(--nk-radius-r6); box-sizing: border-box; }
+.variantChip :global(*) { font: var(--nk-type-text12-regular-lh14); }
+.subtitleChip { align-self: flex-start; max-width: 100%; padding: var(--nk-space-s2) var(--nk-space-s6); border-radius: var(--nk-radius-r6); background: linear-gradient(89.64deg, var(--nk-color-cart-combo-bg) 0%, var(--nk-color-bg-surface) 85.44%); }
+
+/* secondary info: gap 8 */
+.secondaryInfo { display: flex; flex-direction: column; row-gap: var(--nk-space-s8); align-items: flex-start; }
+.priceRow { display: flex; flex-direction: row; align-items: flex-end; column-gap: var(--nk-space-s4); }
+.price { font: var(--nk-type-text16-bold-lh20); letter-spacing: -0.16px; color: var(--nk-color-text-strong); white-space: nowrap; }
+.priceDiscount { display: flex; flex-direction: row; align-items: flex-end; column-gap: var(--nk-space-s4); padding-bottom: 1px; }
+.priceOld { font: var(--nk-type-caption); color: var(--nk-color-text-secondary); text-decoration: line-through; white-space: nowrap; }
+.pricePct { font: var(--nk-type-text12-semibold-lh14); letter-spacing: -0.12px; color: var(--nk-palette-emerald-green700); white-space: nowrap; }
+
+/* ETAs: pill (gradient per group → white, px 6 py 4, r6) + "Order within" line (h20, px 6) */
+.eta { display: flex; flex-direction: column; align-items: flex-start; border-radius: var(--nk-radius-r8); overflow: hidden; max-width: 100%; }
+.etaPill { display: inline-flex; align-items: center; padding: var(--nk-space-s4) var(--nk-space-s6); border-radius: var(--nk-radius-r6); max-width: 100%; box-sizing: border-box; }
+.etaPill[data-ink] { column-gap: var(--nk-space-s4); }
+/* supermall ETAs (All flows 89:44427): 14px flash, text + bold in the group ink */
+.etaPill[data-ink] :global(*) { color: inherit; }
+.etaIcon { width: 14px; height: 14px; flex-shrink: 0; display: block; }
+.etaExpiry { display: flex; align-items: center; height: 20px; padding: 0 var(--nk-space-s6); }
+
+/* tertiary info: gap 6, overflow clip */
+.tertiaryInfo { display: flex; flex-direction: column; row-gap: var(--nk-space-s6); align-items: flex-start; overflow: hidden; width: 100%; }
+
+/* Coupons bar: dashed mint codes, gap 6, 30px scroll fade */
+.discountTags { position: relative; width: 100%; }
+.discountTagsList { display: flex; flex-direction: row; gap: var(--nk-space-s6); overflow-x: auto; scrollbar-width: none; }
+.discountTagsList::-webkit-scrollbar { display: none; }
+.discountTag { flex-shrink: 0; display: flex; align-items: center; justify-content: center; column-gap: var(--nk-space-s2); padding: var(--nk-space-s8) var(--nk-space-s10); border-radius: var(--nk-radius-r8); background: var(--nk-palette-mint-cream); border: 1px dashed var(--nk-palette-emerald-green700-alpha40); cursor: pointer; box-sizing: border-box; }
+.discountTag img { width: 12px; height: 12px; flex-shrink: 0; }
+.discountTagText { font: var(--nk-type-text12-semibold-lh14); letter-spacing: -0.12px; color: var(--nk-color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fadeStart, .fadeEnd { position: absolute; top: 0; bottom: 0; width: 30px; pointer-events: none; transition: opacity 120ms; }
+.fadeStart { inset-inline-start: 0; background: linear-gradient(to left, var(--nk-color-cart-white-alpha0), var(--nk-color-bg-surface) 87%); }
+.fadeEnd { inset-inline-end: 0; background: linear-gradient(to right, var(--nk-color-cart-white-alpha0), var(--nk-color-bg-surface) 87%); }
+[dir='rtl'] .fadeStart { background: linear-gradient(to right, var(--nk-color-cart-white-alpha0), var(--nk-color-bg-surface) 87%); }
+[dir='rtl'] .fadeEnd { background: linear-gradient(to left, var(--nk-color-cart-white-alpha0), var(--nk-color-bg-surface) 87%); }
+
+/* USPs Urgency: #F3F5FC → white, px 6 py 4, r4, gap 4, 16px icon */
+.urgency, .usps { display: inline-flex; align-items: center; column-gap: var(--nk-space-s4); padding: var(--nk-space-s4) var(--nk-space-s6); border-radius: var(--nk-radius-r4); background: linear-gradient(90deg, var(--nk-color-cart-urgency-bg) 0%, var(--nk-color-bg-surface) 107.38%); }
+.urgency img { width: 16px; height: 16px; display: block; }
+.urgencyText { font: var(--nk-type-text12-medium-lh14); letter-spacing: -0.12px; color: var(--nk-color-text-muted); white-space: nowrap; }
+.usps { position: relative; height: 22px; overflow: hidden; box-sizing: border-box; }
+.usp { display: inline-flex; align-items: center; gap: var(--nk-space-s4); min-width: 0; }
+
+/* Item points: wrap, gap 6; each pl 6, gap 4, 16px icon + Label5 11/12 */
+.points { display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; gap: var(--nk-space-s6); width: 100%; }
+.point { display: inline-flex; align-items: center; column-gap: var(--nk-space-s4); padding-inline-start: var(--nk-space-s6); border-radius: var(--nk-radius-r4); }
+.pointIcon { position: relative; width: 16px; height: 16px; flex-shrink: 0; }
+.pointIcon img { position: absolute; display: block; }
+.pointText { font: var(--nk-type-cart-label5); letter-spacing: -0.12px; color: var(--nk-color-text-primary); white-space: nowrap; }
+
+/* notes — Subtitle Block "* While stock lasts": Blue-Gray/100 → transparent, h24, px 6, r4 */
+.note { display: flex; align-items: center; min-height: 24px; width: 100%; padding: var(--nk-space-s2) var(--nk-space-s6); box-sizing: border-box; border-radius: var(--nk-radius-r4); background: linear-gradient(89.48deg, var(--nk-color-bg-subtle) 0%, var(--nk-color-cart-white-alpha0) 99.95%); }
+
+/* Extended warranties row: px 8 wrapper; 1px Blue-Gray/300, r12, px 12 py 8, gap 4 */
+.ewWrap { position: relative; padding: 0 var(--nk-space-s8); }
+.ewRow { display: flex; flex-direction: row; align-items: center; column-gap: var(--nk-space-s4); width: 100%; padding: var(--nk-space-s8) var(--nk-space-s12); border: 1px solid var(--nk-color-border); border-radius: var(--nk-radius-r12); background: linear-gradient(178.7deg, var(--nk-color-bg-surface) 24.44%, var(--nk-color-border-subtle) 166.66%); cursor: pointer; text-align: start; box-sizing: border-box; }
+.ewIcon { position: relative; width: 20px; height: 20px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.ewIcon img { display: block; }
+.ewText { flex: 1; min-width: 0; display: flex; flex-direction: row; align-items: center; justify-content: space-between; column-gap: var(--nk-space-s8); }
+.ewCta { flex-shrink: 0; font: var(--nk-type-cart-ew-cta); color: var(--nk-color-text-ink); text-decoration: underline dotted; text-underline-position: from-font; }
+
+/* Extended warranties (added): 1px #FCF4DE, r12, p12, white → #FFF7E5; cross 16px #FFF5DF circle at 11/9 */
+.warranty { position: relative; display: flex; flex-direction: row; align-items: center; column-gap: var(--nk-space-s8); padding: var(--nk-space-s12); border-radius: var(--nk-radius-r12); border: 1px solid var(--nk-color-cart-protect-border); background: linear-gradient(178.74deg, var(--nk-color-bg-surface) 24.44%, var(--nk-color-cart-protect-gradient-end) 166.66%); }
+.warrantyRemove { position: absolute; right: 11px; top: 9px; z-index: 3; width: 16px; height: 16px; padding: 1.6px; border: 0; border-radius: 80px; background: var(--nk-color-cart-protect-cross-bg); cursor: pointer; display: flex; align-items: center; justify-content: center; box-sizing: border-box; }
+[dir='rtl'] .warrantyRemove { right: auto; left: 11px; }
+.warrantyRemove img { width: 12px; height: 12px; display: block; }
+.warrantyImg { width: 38px; height: 38px; flex-shrink: 0; }
+.warrantyDesc { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.warrantyName { font: var(--nk-type-text12-medium-lh14); letter-spacing: -0.12px; color: var(--nk-palette-secondary-text-color); }
+.warrantyRow { display: flex; flex-direction: row; justify-content: space-between; align-items: center; }
+.warrantyTitle { flex: 1; min-width: 0; font: var(--nk-type-body-semibold); letter-spacing: -0.14px; color: var(--nk-color-text-ink); }
+.warrantyPrice { margin-inline-start: var(--nk-space-s8); font: var(--nk-type-body-semibold); letter-spacing: -0.14px; color: var(--nk-color-text-ink); white-space: nowrap; }
+
+/* foupon */
+.fouponWrap { position: relative; }
+.foupon { display: flex; flex-direction: row; align-items: center; column-gap: var(--nk-space-s8); padding: 0 var(--nk-space-s8); border: 0; background: none; cursor: pointer; text-align: start; }
+.fouponIcon { width: 54px; height: 16px; object-fit: contain; }
+.fouponCheck { width: 13px; height: 13px; object-fit: contain; }
+.fouponLoading { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: var(--nk-palette-white-alpha-light); }

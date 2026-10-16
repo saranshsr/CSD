@@ -1,0 +1,22 @@
+/* PastOrdersScreen — repo RatePastOrdersScreen: one scroll (strip · panel · draft · photos), 16 apart, 16 top. */
+.page { display: flex; flex-direction: column; gap: var(--nk-space-s16); padding-top: var(--nk-space-s16); }
+
+/* header centre: title and docked product share the slot and cross-fade on scroll */
+.headCenter { position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+.headTitle { position: absolute; inset-inline: 0; text-align: center; font: var(--nk-type-text16-semibold-lh22); color: var(--nk-color-text-primary); pointer-events: none; white-space: nowrap; }
+.headDock { position: absolute; inset-inline: 0; display: flex; justify-content: center; }
+
+/* product strip: 88-wide tiles 12 apart, 12px inline; selected = 1.5px textStrong border */
+.strip { display: flex; gap: var(--nk-space-s12); overflow-x: auto; overflow-y: hidden; padding-inline: var(--nk-space-s12); flex-shrink: 0; scrollbar-width: none; }
+.strip::-webkit-scrollbar { display: none; }
+.tile { width: var(--nk-space-s88); flex-shrink: 0; display: flex; flex-direction: column; gap: var(--nk-space-s8); padding: var(--nk-space-s4) var(--nk-space-s4) var(--nk-space-s8); border-radius: var(--nk-radius-r12); border: 1.5px solid var(--nk-color-border); /* token-lint-ignore — repo 1.5px tile stroke */ background: var(--nk-color-bg-surface); text-align: start; }
+.tileImage { width: var(--nk-space-s80); height: var(--nk-space-s80); border-radius: var(--nk-radius-r8); background: var(--nk-color-bg-subtle); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.tileImage img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.tileName { display: block; width: var(--nk-space-s80); padding-inline: var(--nk-space-s2); font: var(--nk-type-micro); color: var(--nk-color-text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* review panel: white r16, 14 padding */
+.panel { margin-inline: var(--nk-space-s12); padding: var(--nk-space-s14); border-radius: var(--nk-radius-r16); background: var(--nk-color-bg-surface); }
+.groups { display: flex; flex-direction: column; gap: var(--nk-space-s16); }
+
+/* draft + photos below the panel */
+.below { margin-inline: var(--nk-space-s12); scroll-margin-top: var(--nk-space-s12); }

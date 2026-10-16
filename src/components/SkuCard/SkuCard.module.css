@@ -1,0 +1,47 @@
+/* SkuCard — Figma "SKU" (Homepage Revamp 2025 1337:5579 · Cart 2.0 10575:94182). Geometry (134 / 174 / 94·136) is Figma layout. */
+.sku { flex-shrink: 0; width: 134px; display: flex; flex-direction: column; row-gap: var(--nk-space-s4); border-radius: var(--nk-radius-r8); background: var(--nk-color-bg-surface); cursor: pointer; }
+
+.media { position: relative; width: 134px; height: 174px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border-radius: var(--nk-radius-r10); overflow: hidden; background: linear-gradient(var(--nk-color-sku-media-tint), var(--nk-color-sku-media-tint)), var(--nk-color-bg-surface); }
+.sku[data-look='cart'] .media { background: var(--nk-color-border); border: 1px solid var(--nk-color-border-subtle); }
+.image { display: block; flex-shrink: 0; object-fit: contain; pointer-events: none; }
+.sku[data-look='cart'] .image { mix-blend-mode: multiply; }
+.sku[data-look='cart'] .media > div img { mix-blend-mode: multiply; }
+
+/* "Best Seller" — 20h, px6, bottom-right r10, Emerald/900, Label4/Semibold white */
+.badge { position: absolute; left: 0; top: 0; height: 20px; box-sizing: border-box; display: inline-flex; align-items: center; padding: 0 var(--nk-space-s6); border-end-end-radius: var(--nk-radius-r10); background: var(--nk-color-best-seller-tag); color: var(--nk-color-text-inverse); font: var(--nk-type-text12-semibold-lh14); letter-spacing: -0.12px; white-space: nowrap; }
+.catalogTag { position: absolute; left: 0; top: 0; }
+
+/* "Ad" — bottom-left 6/6, white 80%, r4, px4 py2, 10/11 Blue-Gray/600 */
+.ad { position: absolute; left: var(--nk-space-s6); bottom: var(--nk-space-s6); padding: var(--nk-space-s2) var(--nk-space-s4); border-radius: var(--nk-radius-r4); background: var(--nk-palette-white-alpha80); color: var(--nk-color-text-secondary); font: var(--nk-type-text10-regular-lh11); }
+
+/* heart — 16 icon in a 24 circle (white 20%, p4) at top 4 / right 4 */
+.heart { position: absolute; right: var(--nk-space-s4); top: var(--nk-space-s4); display: flex; align-items: center; justify-content: center; padding: var(--nk-space-s4); border: 0; border-radius: var(--nk-radius-full); background: var(--nk-palette-white-alpha20); cursor: pointer; }
+.sku[data-look='cart'] .heart { right: 3px; top: 3px; }
+.heartIcon { display: block; width: 16px; height: 16px; }
+
+/* quick add — 24 "+" in a white box, 1.2px Blue/600, r8, p4, at 94/136 */
+.add { position: absolute; left: 94px; top: 136px; display: flex; align-items: center; padding: var(--nk-space-s4); background: var(--nk-color-bg-surface); border: 1.2px solid var(--nk-color-link); border-radius: var(--nk-radius-r8); cursor: pointer; }
+.sku[data-look='cart'] .add { left: 95px; top: 135px; }
+.add img { width: 24px; height: 24px; display: block; }
+
+.info { display: flex; flex-direction: column; align-items: flex-start; row-gap: var(--nk-space-s8); padding: var(--nk-space-s4); }
+.titleBlock { display: flex; flex-direction: column; align-items: flex-start; row-gap: var(--nk-space-s4); align-self: stretch; }
+.title { height: 36px; font: var(--nk-type-product-title); letter-spacing: -0.14px; color: var(--nk-color-text-product); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+/* rating — flat pill #F2F8F8, r4, px4 py2, star 12 + 12/14 600 Emerald/900 */
+.rating { display: inline-flex; align-items: center; column-gap: var(--nk-space-s2); padding: var(--nk-space-s2) var(--nk-space-s4); border-radius: var(--nk-radius-r4); background: var(--nk-color-sku-rating-bg); color: var(--nk-color-best-seller-tag); font: var(--nk-type-text12-semibold-lh14); letter-spacing: -0.12px; }
+.star { width: 12px; height: 11.5px; display: flex; align-items: center; justify-content: center; }
+.star img { display: block; width: 10.54px; height: 10.13px; }
+
+.priceBlock { display: flex; flex-direction: column; align-items: flex-start; }
+.priceRow { display: flex; align-items: center; column-gap: 3px; height: 20px; }
+.price { font: var(--nk-type-text15-bold-lh20); letter-spacing: 0.07px; color: var(--nk-color-text-ink); white-space: nowrap; }
+.was { font: var(--nk-type-text12-regular-lh14); letter-spacing: -0.12px; color: var(--nk-palette-gray); text-decoration: line-through; white-space: nowrap; }
+.pct { font: var(--nk-type-text12-semibold-lh14); letter-spacing: -0.12px; color: var(--nk-color-sku-discount); white-space: nowrap; }
+.sku[data-look='cart'] .pct { color: var(--nk-color-best-price-ink); }
+
+/* delivery — truck 14 + 12/14 500 Blue-Gray/600, gap 4 */
+.delivery { display: flex; align-items: center; column-gap: var(--nk-space-s4); font: var(--nk-type-text12-medium-lh14); letter-spacing: -0.12px; color: var(--nk-color-text-secondary); white-space: nowrap; }
+.delivery img { width: 14px; height: 14px; display: block; }
+
+.pill { display: block; height: 16px; width: auto; }

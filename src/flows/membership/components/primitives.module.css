@@ -1,0 +1,119 @@
+/* VIPButton styles.container is empty — each screen styles it */
+.vipButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.vipButton:disabled {
+  cursor: default;
+}
+
+.dashed {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* VIPManageMembershipV3 styles.backButton / backButtonIcon */
+.back {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: var(--nk-radius-r20);
+  border: 1px solid var(--nk-color-bg-page);
+  background: var(--nk-color-bg-surface);
+  cursor: pointer;
+  z-index: 999;
+}
+.backIcon {
+  margin-inline-start: -4px;
+}
+[dir='rtl'] .backIcon {
+  transform: rotate(180deg);
+}
+
+/* buttonChevron / cancelChevron: rotate 180° (0° in RTL) */
+.rowChevron {
+  transform: rotate(180deg);
+}
+[dir='rtl'] .rowChevron {
+  transform: none;
+}
+
+/* ManageFamilyMembersSection avatar + avatarText (24/30 bold, -0.26, white) */
+.avatar {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 1.5px solid var(--nk-palette-border-primary);
+  font: var(--nk-type-mb-avatar);
+  letter-spacing: var(--nk-space-mb-ls-avatar);
+  color: var(--nk-color-text-inverse);
+  text-align: center;
+}
+
+.hexagon {
+  position: relative;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.hexagon svg {
+  display: block;
+  overflow: visible;
+}
+.hexagonText {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--nk-font-weight-bold);
+  line-height: 1;
+}
+
+/* VIPTransitionAnim */
+.anim {
+  position: absolute;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+}
+.animText {
+  position: absolute;
+  top: 62%;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.animTitle {
+  font: var(--nk-type-mb-anim-title);
+  letter-spacing: var(--nk-space-mb-ls-anim-title);
+  color: var(--nk-color-mb-anim-title);
+}
+.animSubtitle {
+  margin-top: var(--nk-space-s8);
+  font: var(--nk-type-mb-anim-subtitle);
+  letter-spacing: var(--nk-space-mb-ls-anim-subtitle);
+  color: var(--nk-color-mb-anim-subtitle);
+}

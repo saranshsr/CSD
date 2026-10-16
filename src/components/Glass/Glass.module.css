@@ -1,0 +1,28 @@
+/* One Liquid Glass material for every floating element (bappzaar noon/ios/liquid-upgrade): TabBar platter, PDP sticky
+   card, ActionBar surface="glass". Compose `.glass` and add the geometry (radius, inset) in the component. */
+.glass {
+  isolation: isolate;
+  border: 1px solid var(--nk-tab-bar-glass-rim);
+  background: var(--nk-tab-bar-glass-bg-fallback);
+  box-shadow: var(--nk-tab-bar-glass-shadow), var(--nk-tab-bar-glass-highlight);
+}
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass { background: var(--nk-tab-bar-glass-bg); -webkit-backdrop-filter: var(--nk-tab-bar-glass-blur); backdrop-filter: var(--nk-tab-bar-glass-blur); }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .glass { background: var(--nk-tab-bar-glass-bg-fallback); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+/* specular sheen: light catching the top-left */
+.glass::before { content: ''; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none; background: linear-gradient(160deg, var(--nk-tab-bar-glass-sheen), var(--nk-palette-white-alpha0) 45%); }
+
+/* GlassFade: progressive blur (each layer blurs more and is masked in further down) + a white gradient on top */
+.fade { position: absolute; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 0; }
+.layer { position: absolute; inset: 0; }
+.layer:nth-child(1) { -webkit-backdrop-filter: var(--nk-tab-bar-fade-blur1); backdrop-filter: var(--nk-tab-bar-fade-blur1); -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 25%); mask-image: linear-gradient(to bottom, transparent 0%, black 25%); }
+.layer:nth-child(2) { -webkit-backdrop-filter: var(--nk-tab-bar-fade-blur2); backdrop-filter: var(--nk-tab-bar-fade-blur2); -webkit-mask-image: linear-gradient(to bottom, transparent 20%, black 45%); mask-image: linear-gradient(to bottom, transparent 20%, black 45%); }
+.layer:nth-child(3) { -webkit-backdrop-filter: var(--nk-tab-bar-fade-blur3); backdrop-filter: var(--nk-tab-bar-fade-blur3); -webkit-mask-image: linear-gradient(to bottom, transparent 40%, black 70%); mask-image: linear-gradient(to bottom, transparent 40%, black 70%); }
+.layer:nth-child(4) { -webkit-backdrop-filter: var(--nk-tab-bar-fade-blur4); backdrop-filter: var(--nk-tab-bar-fade-blur4); -webkit-mask-image: linear-gradient(to bottom, transparent 60%, black 95%); mask-image: linear-gradient(to bottom, transparent 60%, black 95%); }
+.fade::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, var(--nk-tab-bar-fade-from) 0%, var(--nk-tab-bar-fade-mid) 45%, var(--nk-tab-bar-fade-to) 100%); }
+@media (prefers-reduced-transparency: reduce) {
+  .layer { display: none; }
+}

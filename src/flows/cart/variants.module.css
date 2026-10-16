@@ -1,0 +1,52 @@
+/* NoonCartVariantsOverlayScreen/styles.ts + NoonProductCartOptionsSelection + NoonProductCartSelectionItem + NoonButton */
+.root { display: flex; flex-direction: column; min-height: 0; }
+.scroll { overflow-y: auto; scrollbar-width: none; padding-bottom: 12px; }
+.header { display: flex; gap: 10px; padding: 16px; }
+.imageBox { position: relative; width: 80px; flex-shrink: 0; border-radius: 10px; overflow: hidden; align-self: flex-start; }
+.imageOverlay { position: absolute; inset: 0; background: var(--nk-color-image-overlay); border-radius: 10px; border: 1.2px solid var(--nk-palette-border-primary); }
+.info { flex: 1; min-width: 0; padding-top: 6px; margin-bottom: 4px; display: flex; flex-direction: column; gap: 4px; }
+.name { font: var(--nk-type-body); color: var(--nk-color-text-secondary); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.priceRow { display: flex; align-items: baseline; flex-wrap: wrap; column-gap: 6px; }
+.sale { font: var(--nk-type-text16-bold-lh20); color: var(--nk-color-text-strong); }
+.saleCurrency { font: var(--nk-type-text16-semibold-lh20); color: var(--nk-color-text-product); }
+.was { font: var(--nk-type-body); color: var(--nk-palette-noon-grey2); text-decoration: line-through; }
+.off { font: var(--nk-type-body-semibold); color: var(--nk-color-success-strong); }
+.seller { display: flex; flex-direction: column; gap: 4px; }
+.sellerNoRating { gap: 8px; }
+.sellerRow { display: flex; align-items: center; gap: 2px; min-width: 0; }
+.soldBy { font: var(--nk-type-caption); color: var(--nk-color-cart-secondary-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-shrink: 1; }
+.soldBy b { font-weight: 600; }
+.ratingPill { display: inline-flex; align-items: center; gap: 2px; border: 1px solid var(--nk-palette-border-primary); border-radius: 20px; padding: 4px 6px 4px 4px; flex-shrink: 0; }
+.star { display: inline-flex; width: 12px; height: 12px; }
+.star :global(svg) { width: 100%; height: 100%; }
+.ratingValue { font: var(--nk-type-cart-text10-extrabold-lh1); color: var(--nk-color-cart-secondary-text); }
+.ratingCount { font: var(--nk-type-cart-text10-regular-lh1); color: var(--nk-color-cart-secondary-text); }
+.flag { display: inline-flex; margin-inline-end: 6px; }
+.separator { width: 90%; height: 1px; background: var(--nk-color-border-subtle); align-self: center; margin: 0 auto; }
+.variants { padding-bottom: 12px; display: flex; flex-direction: column; gap: 16px; }
+.group { padding-top: 16px; }
+.groupTitle { display: flex; align-items: center; min-height: 20px; padding: 0 16px; font: var(--nk-type-text12-medium-lh16); letter-spacing: 1px; text-transform: uppercase; color: var(--nk-palette-dark-text-color-alpha60); }
+.hscroll { display: flex; align-items: stretch; overflow-x: auto; scrollbar-width: none; }
+.attributes { display: flex; flex-direction: column; gap: 16px; }
+
+.chip { flex-shrink: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px solid var(--nk-palette-bright-grey-color); border-radius: 8px; margin: 8px 0 8px 8px; overflow: hidden; background: var(--nk-color-bg-surface); cursor: pointer; padding: 0; font: inherit; }
+.chip:disabled { cursor: default; }
+.chipText { padding: 8px 12px; }
+.chipImage { width: 97px; border-radius: 12px; padding-bottom: 2px; }
+.chipSelected { border-color: var(--nk-color-text-ink); }
+.chipDisabled { border-style: dashed; border-color: var(--nk-color-border); overflow: visible; }
+.chipFirst { margin-inline-start: 16px; }
+.chipLast { margin-inline-end: 16px; }
+.chipImageWrap { position: relative; width: 88px; height: 88px; margin-bottom: 8px; }
+.oos { position: absolute; top: 30%; left: -1px; right: -1px; background: var(--nk-palette-black-alpha40); padding: 4px; text-align: center; font: var(--nk-type-text10-semibold-lh12); letter-spacing: 1px; text-transform: uppercase; color: var(--nk-color-text-inverse); }
+.chipLabel { padding: 4px; font: var(--nk-type-body); color: var(--nk-color-text-ink); text-align: center; }
+.chipLabelImage { color: var(--nk-color-cart-secondary-text); }
+.chipLabelSelected { font-weight: 600; }
+.chipLabelDisabled { color: var(--nk-palette-silver); }
+
+.bottomBar { flex-shrink: 0; background: var(--nk-color-bg-surface); padding: 8px 16px 12px; box-shadow: 0 -1px 8px var(--nk-palette-black-alpha8); }
+.buttons { display: flex; gap: 8px; }
+.btn { display: flex; align-items: center; justify-content: center; border-radius: 12px; padding: 14px 24px; min-height: 50px; font: var(--nk-type-text16-semibold-lh20); cursor: pointer; border: 0; white-space: nowrap; }
+.btnPrimary { background: var(--nk-color-link); color: var(--nk-color-text-inverse); }
+.btnSecondary { background: var(--nk-color-bg-surface); color: var(--nk-color-link); border: 1px solid var(--nk-color-link); }
+.btnDisabled { background: var(--nk-palette-primary-alpha4); color: var(--nk-palette-primary-alpha24); cursor: default; }

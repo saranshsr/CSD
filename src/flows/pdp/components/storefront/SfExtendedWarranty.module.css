@@ -1,0 +1,72 @@
+/* Storefront "Extended warranty" — Figma 3499:75479 */
+.head { display: flex; align-items: center; justify-content: space-between; gap: var(--nk-space-s8); padding: 0 var(--nk-space-s2); min-width: 0; }
+.title {
+  flex-shrink: 0;
+  font: var(--nk-type-pdp-sfc-section-title);
+  letter-spacing: -0.28px;
+  font-feature-settings: 'case' 1;
+  color: var(--nk-color-text-strong);
+  white-space: nowrap;
+}
+.ticker { position: relative; flex: 1; min-width: 0; height: var(--nk-layout-pdp-sfc-ticker-h); overflow: hidden; opacity: 0.8; }
+.tickerLine {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* Figma ticker column is items-end: lines hug the right edge */
+  gap: var(--nk-space-s4);
+  white-space: nowrap;
+  font: var(--nk-type-pdp-sfc-text13-lh15);
+  letter-spacing: -0.13px;
+  color: var(--nk-color-text-ink);
+}
+.partnerLogo { width: var(--nk-layout-pdp-sfc-partner-logo-w); height: var(--nk-layout-pdp-sfc-partner-logo-h); object-fit: contain; }
+
+.row { display: flex; gap: var(--nk-space-s12); margin: 0 calc(-1 * var(--nk-space-s12)); padding: 0 var(--nk-space-s12); overflow-x: auto; scrollbar-width: none; scroll-snap-type: x mandatory; scroll-padding: 0 var(--nk-space-s12); }
+.row::-webkit-scrollbar { display: none; }
+.plan {
+  flex: 0 0 var(--nk-layout-pdp-sfc-warranty-w);
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s4);
+  padding-top: var(--nk-space-s6);
+  border-radius: var(--nk-radius-r12);
+  background: var(--nk-palette-alice-blue);
+  overflow: hidden;
+  scroll-snap-align: start;
+}
+.validity { padding: 0 var(--nk-space-s12); text-align: center; font: var(--nk-type-pdp-sfc-text12-bold-lh17); color: var(--nk-color-tab-active); }
+.planCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s12);
+  padding-top: var(--nk-space-s12);
+  border: 1px solid var(--nk-color-bg-surface);
+  border-radius: var(--nk-radius-r12);
+  background: var(--nk-color-bg-surface);
+  overflow: hidden;
+}
+.name { /* button reset inline: a cross-file composes loads later and would wipe this rule's padding */ border: 0; background: none; padding: 0; margin: 0; cursor: pointer; font: inherit; color: inherit; text-align: inherit; display: flex; align-items: center; gap: var(--nk-space-s8); padding: 0 var(--nk-space-s12); text-align: start; }
+.creative { flex-shrink: 0; width: var(--nk-layout-pdp-sfc-warranty-creative); height: var(--nk-layout-pdp-sfc-warranty-creative); }
+.nameText { display: flex; flex-direction: column; align-items: flex-start; flex: 1; min-width: 0; font: var(--nk-type-product-title); letter-spacing: -0.14px; font-feature-settings: 'case' 1; color: var(--nk-color-text-ink); }
+.nameLine { display: block; width: 100%; }
+.nameLast { display: flex; align-items: flex-end; white-space: nowrap; }
+.usps { display: flex; flex-direction: column; gap: var(--nk-space-s2); }
+.usp { display: flex; align-items: center; gap: var(--nk-space-s4); height: var(--nk-layout-pdp-sfc-usp-h); padding: 0 var(--nk-space-s12); }
+.uspText { flex: 1; min-width: 0; font: var(--nk-type-caption); color: var(--nk-palette-secondary-text-color); }
+.footer { display: flex; align-items: center; justify-content: space-between; padding: var(--nk-space-s12); border-top: 1px solid var(--nk-color-border-subtle); }
+.price { font: var(--nk-type-text16-bold-lh20); letter-spacing: -0.16px; font-feature-settings: 'case' 1; color: var(--nk-color-text-ink); white-space: nowrap; }
+.select {
+  padding: var(--nk-space-s8) var(--nk-space-s24);
+  border: 1px solid var(--nk-color-cta);
+  border-radius: var(--nk-radius-r8);
+  background: var(--nk-color-bg-surface);
+  font: var(--nk-type-body-bold);
+  letter-spacing: -0.14px;
+  color: var(--nk-color-cta);
+  white-space: nowrap;
+}
+.select[data-selected] { border-color: var(--nk-palette-sky-blue); background: var(--nk-palette-alice-blue); box-shadow: 0 0 4px var(--nk-color-pdp-sfc-select-glow); }
+
+.name:active { opacity: var(--nk-layout-pdp-press-opacity); }

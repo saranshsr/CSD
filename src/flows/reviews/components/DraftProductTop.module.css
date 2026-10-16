@@ -1,0 +1,8 @@
+/* DraftProductTop — repo ReviewDraftScreen ReviewCard grey top + ProductPhoto (Figma 7116:43933, 7116:43969). */
+.top { position: relative; background: var(--nk-color-bg-subtle); border: 2px solid var(--nk-color-bg-surface); border-bottom: 0; border-radius: var(--nk-radius-r16) var(--nk-radius-r16) 0 0; padding: var(--nk-space-s12) var(--nk-space-s16); }
+.text { display: flex; flex-direction: column; gap: var(--nk-space-s8); padding-inline-end: 72px; min-width: 0; } /* token-lint-ignore — clears the 62px polaroid + 10px */
+.name { font: var(--nk-type-reviews-text14-medium-lh20); color: var(--nk-color-text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.polaroid { position: absolute; z-index: 1; right: var(--nk-space-s14); top: -5px; transform-origin: top right; cursor: pointer; } /* token-lint-ignore — Figma offset */
+.photo { position: relative; width: 100%; height: 100%; border-radius: var(--nk-radius-r10); border: 1px solid var(--nk-color-border); background: var(--nk-color-bg-surface); overflow: hidden; box-shadow: var(--nk-shadow-reviews-polaroid); }
+.photo img { position: absolute; left: 3px; top: 3px; object-fit: contain; display: block; } /* token-lint-ignore — Figma inset */
+.clip { position: absolute; top: -7px; right: var(--nk-space-s8); } /* token-lint-ignore — Figma offset */

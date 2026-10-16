@@ -1,0 +1,34 @@
+/* The kit's PLP chrome (src/flows/plp/plp.module.css, bappzaar NoonCatalogList) for the coupon listings: the search bar
+   block never moves; the pill row hangs under it in an overflow-hidden layer that slides up on scroll (--plp-header-hide). */
+.header { position: relative; }
+.barBlock { position: relative; z-index: 3; padding-top: var(--nk-inset-top); background: var(--nk-color-bg-surface); box-shadow: 0 1px 4px var(--nk-palette-black-alpha10); }
+.hidable { position: absolute; top: 100%; left: 0; right: 0; z-index: 2; overflow: hidden; pointer-events: none; }
+.hidableInner { pointer-events: auto; background: var(--nk-color-bg-surface); box-shadow: 1px 1px 3px var(--nk-palette-black-alpha4); transform: translateY(calc(var(--plp-header-hide, 0) * -100%)); }
+/* pt 4 = the search screen's bar spot (calc(inset + 4px)), so the hand-off never moves it */
+.barRow { padding: 4px var(--nk-space-s16) var(--nk-space-s12); }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 2px 12px 50px; }
+.cell, .cell > div, .cell > div > div:last-child { display: flex; flex-direction: column; flex: 1; }
+.cell [data-testid='product_box'] { flex: 1; }
+.tabSpace { height: calc(var(--nk-layout-tab-bar) + var(--nk-inset-bottom)); }
+.navDock { position: relative; height: 0; }
+.navHide { transform: translateY(calc(var(--plp-tab-hide, 0) * (var(--nk-layout-tab-bar) + var(--nk-inset-bottom)))); }
+.empty { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 48px 24px; text-align: center; }
+.clear { color: var(--nk-color-brand-blue); font: var(--nk-type-body-semibold); }
+
+/* One context line under the pills, where the kit shows its count (never a count here). */
+.context { padding: 2px 16px 10px; font: var(--nk-type-text12-regular-lh18); color: var(--nk-color-text-secondary); }
+.context b { font-weight: 600; color: var(--nk-color-text-primary); }
+
+/* BEAUTY10 hero: the band's green + halftone (375 wide, centred, pinned to the top), white copy, the white code tag */
+.hero {
+  margin: 2px 12px 14px;
+  padding: 16px;
+  border-radius: var(--nk-radius-r12);
+  background: var(--nk-color-success) url('../../assets/couponsearch/coupon-hero-pattern.webp') center top / 375px auto no-repeat;
+  display: flex; flex-direction: column; gap: 4px;
+  color: var(--nk-color-text-inverse);
+}
+.heroTitle { font: var(--nk-type-title); }
+.heroBody { font: var(--nk-type-text13-medium-lh18); color: var(--nk-color-cs-on-green90); }
+.heroUse { display: flex; align-items: center; gap: 6px; margin-top: 8px; font: var(--nk-type-text13-medium-lh18); color: var(--nk-color-cs-on-green90); }
+.codeTag { flex: none; padding: 2px 6px; border-radius: var(--nk-radius-r6); background: var(--nk-color-bg-surface); color: var(--nk-color-success); font: var(--nk-type-cs-text11-bold-lh15); letter-spacing: 0.2px; }

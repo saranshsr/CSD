@@ -1,0 +1,26 @@
+/* Values: semantic tokens + the `quickAdd` group (src/foundations/tokens.ts). */
+.card { position: relative; display: flex; flex-direction: column; background: var(--nk-color-bg-surface); border: 0.5px solid var(--nk-palette-light-gray); border-radius: var(--nk-radius-r12); overflow: hidden; padding-bottom: var(--nk-space-s10); cursor: pointer; min-width: 0; contain: inline-size; }
+.media { position: relative; }
+.tag { position: absolute; top: 0; left: 0; }
+[dir='rtl'] .tag { left: auto; right: 0; }
+.heart { position: absolute; top: var(--nk-space-s4); right: var(--nk-space-s4); }
+[dir='rtl'] .heart { right: auto; left: var(--nk-space-s4); }
+.quick { position: absolute; bottom: var(--nk-space-s4); right: var(--nk-space-s4); }
+[dir='rtl'] .quick { right: auto; left: var(--nk-space-s4); }
+.info { display: flex; flex-direction: column; gap: var(--nk-space-s4); padding: var(--nk-space-s6) var(--nk-space-s8) 0; }
+.delivery { display: flex; align-items: center; gap: var(--nk-space-s4); padding: 0 var(--nk-space-s8); margin-top: var(--nk-space-s6); min-height: 20px; min-width: 0; }
+.quickBtn, .quickFilled { width: var(--nk-quick-add-size); height: var(--nk-quick-add-size); border-radius: var(--nk-quick-add-radius); display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; }
+.quickBtn { background: var(--nk-quick-add-bg); border: 1px solid var(--nk-quick-add-border); box-shadow: var(--nk-quick-add-shadow); }
+.quickFilled { background: var(--nk-quick-add-filled-bg); border: 0; }
+.qty { color: var(--nk-quick-add-count-fg); font: var(--nk-quick-add-count-font); }
+
+/* carousel variant (bappzaar NoonProductCard in the home productCarousel): r8, no border, info inset 4 */
+.card[data-carousel] { border: 0; border-radius: var(--nk-radius-r8); }
+.card[data-carousel] .info { padding: var(--nk-space-s4) var(--nk-space-s4) 0; }
+.card[data-carousel] .delivery { padding: 0 var(--nk-space-s4); margin-top: var(--nk-space-s4); }
+/* NoonCard.MediaBottom padding 4 + imageBottomWrapperCarousel bottom 2 · infoCarousel marginBottom 2 ·
+   priceDiscountedPLP marginTop 6 (= info gap 4 + 2) · flag row 18h (no flagAndDeliveryRowPLP 20h outside PLP) */
+.card[data-carousel] .quick { bottom: var(--nk-space-s6); }
+.card[data-carousel] .info { margin-bottom: var(--nk-space-s2); }
+.card[data-carousel] .price { display: flex; margin-top: var(--nk-space-s2); }
+.card[data-carousel] .delivery { min-height: 18px; }

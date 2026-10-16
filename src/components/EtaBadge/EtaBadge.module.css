@@ -1,0 +1,111 @@
+/* Origin `_ETA` (Figma wFRKiKskxZ4vjIHbDVvngJ · 2673:2414). Values: `eta` component tokens (src/foundations/tokens.ts). */
+.eta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--nk-eta-gap);
+  max-height: var(--nk-eta-pill-height);
+  overflow: clip;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.eta img {
+  display: block;
+  flex-shrink: 0;
+}
+/* Express · Large: mark and "Get by" sit flush (the mark's slant carries the gap) */
+.eta[data-type='express'] {
+  gap: 0;
+}
+
+/* Minutes / Supermall: bold pill, 24 high, 2px hard shadow */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--nk-eta-gap);
+  height: var(--nk-eta-pill-height);
+  padding: var(--nk-eta-pill-padding);
+  border-radius: var(--nk-eta-pill-radius);
+  background: var(--nk-eta-minutes-bg);
+  box-shadow: 0 2px 0 0 var(--nk-eta-minutes-shadow); /* token-lint-ignore — Origin hard shadow geometry, colour is a token */
+  color: var(--nk-eta-on-bold);
+}
+/* the wrapper clips artwork to 24; the pill is 24 itself, so let its 2px hard shadow show below */
+.eta[data-type='minutes'],
+.eta[data-type='supermall'] {
+  overflow: visible;
+}
+.eta[data-type='supermall'] .pill {
+  background: var(--nk-eta-supermall-bg);
+  box-shadow: 0 2px 0 0 var(--nk-eta-supermall-shadow); /* token-lint-ignore — Origin hard shadow geometry, colour is a token */
+}
+.pillLabel {
+  font: var(--nk-eta-label-font);
+}
+.pillValue,
+.pillWord {
+  font: var(--nk-eta-value-font);
+}
+.eta[data-type='supermall'] .pillValue,
+.eta[data-type='supermall'] .pillWord {
+  color: var(--nk-eta-supermall-accent);
+}
+
+/* Express Tomorrow: the express mark overlaps the "Tomorrow" bar */
+.tomorrowMark {
+  position: relative;
+  z-index: 2;
+}
+.eta[data-type='expressTomorrow'][data-size='large'] {
+  gap: 0;
+}
+.eta[data-type='expressTomorrow'][data-size='large'] .tomorrowMark {
+  margin-inline-end: calc(-1 * var(--nk-eta-tomorrow-overlap));
+}
+.tomorrow {
+  position: relative;
+  z-index: 1;
+  width: 83px; /* token-lint-ignore — Figma artwork box (3051:2372) */
+  height: var(--nk-eta-height);
+  overflow: hidden;
+}
+.tomorrow img {
+  position: absolute;
+  top: 0;
+  left: -61.73%; /* token-lint-ignore — Figma image crop of the export */
+  width: 162.01%; /* token-lint-ignore — Figma image crop of the export */
+  height: 100%;
+  max-width: none;
+}
+
+/* "Get by 11 Sep" */
+.text {
+  font: var(--nk-eta-label-font);
+  color: var(--nk-eta-label-color);
+}
+.value {
+  font: var(--nk-eta-value-font);
+  color: var(--nk-eta-value-color);
+}
+
+/* Market / Global chips: 18 high, fully rounded */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--nk-eta-chip-gap);
+  height: var(--nk-eta-chip-height);
+  padding: 0 var(--nk-eta-chip-padding);
+  border-radius: var(--nk-radius-full);
+}
+.chip[data-chip='market'] {
+  padding-block: var(--nk-space-s2);
+  /* Figma's fill is linear-gradient(171.85deg, success-subtle 210.34%, yellow-subtle 175.2%): stops outside the box and
+     out of order, which Figma renders as an even tint (#F4FDD6 sampled) but CSS can't express; this mix matches it. */
+  background: color-mix(in srgb, var(--nk-eta-market-from) 40%, var(--nk-eta-market-to));
+}
+.chip[data-chip='global'] {
+  background: var(--nk-eta-global-bg);
+}
+.globalWord {
+  font: var(--nk-eta-global-font);
+  color: var(--nk-eta-global-color);
+}

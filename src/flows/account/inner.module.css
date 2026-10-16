@@ -1,0 +1,245 @@
+/* Account inner screens + sheets. Values copied from the bappzaar styles.ts files noted per block. */
+
+/* ── NoonAccountSection / NoonAccountSectionItem ───────────────────────── */
+.section { background: var(--nk-color-bg-surface); border-radius: var(--nk-radius-r14); overflow: hidden; margin: 0 var(--nk-space-s15); }
+.item { display: flex; align-items: center; width: 100%; padding: 18px 16px; text-align: start; color: var(--nk-color-text-primary); }
+.itemBefore { display: flex; align-items: center; justify-content: center; margin-inline-end: 14px; flex-shrink: 0; }
+.itemText { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.itemTitleRow { display: flex; align-items: center; gap: 10px; }
+.itemTitle { flex-shrink: 1; font: var(--nk-type-text15-medium-lh18); color: var(--nk-color-text-primary); }
+.itemSubtitle { margin-top: 4px; font: var(--nk-type-text13-regular-lh16); color: var(--nk-color-acct-subtitle); }
+.itemAfter { display: flex; align-items: center; gap: 12px; flex-shrink: 0; margin-inline-start: 8px; }
+
+/* ── NoonAccountBottomSheetScreen → AddressV2FloatingOverlay (EDGE_SPACING 12, #F9F9FB, r16) ── */
+.sheetBody { display: flex; flex-direction: column; min-height: 0; flex: 1; overflow-y: auto; scrollbar-width: none; background: var(--nk-color-bg-subtle); }
+.sheetBody::-webkit-scrollbar { display: none; }
+/* restyle the kit's sheet container (sheet > TokenScope[display:contents] > body) into the floating card */
+div:has(> div > .sheetBody) {
+  margin: 0 12px var(--nk-inset-bottom);
+  max-height: calc((100% - var(--nk-inset-top) - var(--nk-inset-bottom)) * 0.85);
+  padding-bottom: 0;
+  background: var(--nk-color-bg-subtle);
+  border: 1px solid var(--nk-color-border-subtle);
+  border-radius: var(--nk-radius-r16);
+  box-shadow: 0 7px 16px var(--nk-palette-black-alpha40);
+}
+/* keep the kit drag zone for drag-to-dismiss, but invisible and out of the layout */
+div:has(> div > .sheetBody) > div:first-child { position: absolute; top: 0; left: 0; right: 0; height: 12px; padding: 0; z-index: 3; }
+div:has(> div > .sheetBody) > div:first-child > div { opacity: 0; }
+
+/* ── shared sheet buttons ─────────────────────────────────────────────── */
+.sheetButtons { display: flex; gap: var(--nk-space-s12); }
+.btnBase { flex: 1; display: flex; align-items: center; justify-content: center; border-radius: var(--nk-radius-r12); font: var(--nk-type-text16-semibold-lh20); }
+.btnBase:disabled { opacity: 1; }
+
+/* NoonAccountSignOutConfirmation */
+.signOutCard { background: var(--nk-color-bg-surface); border-radius: 10px; margin: 12px; display: flex; flex-direction: column; align-items: center; }
+.signOutIcon { padding: 24px 0 20px; display: flex; justify-content: center; }
+.signOutTitle { text-align: center; font: var(--nk-type-text18-semibold-lh22); color: var(--nk-color-text-strong); margin-bottom: 6px; padding: 0 16px; }
+.signOutDescription { text-align: center; font: var(--nk-type-acct-text14-medium-lh22); color: var(--nk-color-acct-slate); padding: 0 24px; margin-bottom: 20px; }
+.signOutButtons { padding: 0 12px 12px; }
+.signOutCancel { composes: btnBase; padding: 14px 0; border: 1px solid var(--nk-color-acct-outline); background: var(--nk-color-bg-surface); color: var(--nk-color-acct-nightfall); }
+.signOutYes { composes: btnBase; padding: 14px 0; background: var(--nk-color-danger); color: var(--nk-color-text-inverse); }
+
+/* ── NoonAccountPreferences ───────────────────────────────────────────── */
+.listContainer { padding-bottom: 12px; }
+.mt12 { margin-top: 12px; }
+.prefTitle { font: var(--nk-type-acct-text17-bold-lh20); color: var(--nk-color-text-primary); }
+.prefSubtitle { color: var(--nk-color-text-secondary); font-size: 13px; }
+.securityTitle { font: var(--nk-type-text17-semibold-lh20); color: var(--nk-color-text-primary); }
+.securitySubtitle { color: var(--nk-color-text-secondary); font-weight: 500; font-size: 13px; }
+.iconBox24 { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; }
+
+/* NoonAccountClearCacheConfirmation */
+.cacheContainer { padding: 12px 16px 16px; background: var(--nk-color-bg-subtle); }
+.cacheHeader { display: flex; align-items: center; margin-bottom: 12px; }
+.cacheBack { width: 24px; height: 24px; border-radius: 12px; background: var(--nk-color-bg-surface); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.cacheTitle { flex: 1; text-align: center; font: var(--nk-type-text18-bold-lh22); color: var(--nk-color-text-strong); margin-inline-end: 25px; }
+.cacheCard { background: var(--nk-color-bg-surface); border-radius: var(--nk-radius-r12); border: 1px solid var(--nk-color-border-subtle); padding: 12px; margin-bottom: 12px; }
+.cacheText { font: var(--nk-type-text14-regular-lh22); color: var(--nk-color-text-body); }
+.cacheCancel { composes: btnBase; padding: 14px 0; border: 1px solid var(--nk-color-acct-outline); background: var(--nk-color-bg-surface); color: var(--nk-color-acct-nightfall); font-size: 15px; }
+.cacheYes { composes: btnBase; padding: 16px 0; background: var(--nk-color-danger); color: var(--nk-color-text-inverse); font-size: 15px; }
+
+/* ── NoonAccountNotificationsSettings ─────────────────────────────────── */
+.notifScroll { flex: 1; min-height: 0; overflow-y: auto; scrollbar-width: none; }
+.notifCard { margin-top: 12px; }
+.notifHeader { display: flex; align-items: center; padding: 18px 16px; }
+.notifHeaderIcon { margin-inline-end: 10px; display: flex; flex-shrink: 0; }
+.notifHeaderText { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.notifTitle { font: var(--nk-type-text17-semibold-lh22); color: var(--nk-color-text-strong); }
+.notifSubtitle { font: var(--nk-type-text13-regular-lh16); color: var(--nk-color-text-muted); }
+.openSettings { margin-inline-start: 8px; padding: 12px 10px; border-radius: 25px; border: 1px solid var(--nk-color-border-subtle); background: var(--nk-color-bg-subtle); font: var(--nk-type-text13-semibold-lh16); color: var(--nk-color-text-primary); white-space: nowrap; }
+.tabSwitcher { position: relative; display: flex; align-items: center; margin: 0 12px 12px; padding: 4px 8px; min-height: 42px; border-radius: 999px; background: var(--nk-color-bg-page); }
+.tabIndicator { position: absolute; top: 6px; bottom: 6px; border-radius: 999px; background: var(--nk-color-bg-surface); box-shadow: 0 0 4px var(--nk-palette-primary-alpha6); }
+.tab { position: relative; z-index: 2; flex: 1; padding: 12px 0; display: flex; align-items: center; justify-content: center; font: var(--nk-type-acct-text16-medium-lh20); font-family: 'Cairo', var(--nk-font-family); color: var(--nk-color-acct-tab-text); }
+.tab[data-active='true'] { color: var(--nk-color-acct-tab-text-active); font-weight: 600; }
+.prefsWrapper { padding: 0 20px 12px; }
+.prefRow { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; }
+.prefText { flex: 1; font: var(--nk-type-body-medium); color: var(--nk-color-text-strong); }
+.notifButtons { padding: 12px var(--nk-space-s15) 16px; flex-shrink: 0; }
+.notifCancel { composes: btnBase; padding: 16px 0; border: 1px solid var(--nk-color-border); background: var(--nk-color-bg-surface); color: var(--nk-color-text-primary); }
+.notifSave { composes: btnBase; padding: 16px 0; background: var(--nk-color-text-primary); color: var(--nk-color-text-inverse); }
+.loader { height: 500px; display: flex; align-items: center; justify-content: center; }
+
+/* ── NoonAccountPolicies ──────────────────────────────────────────────── */
+.policies { padding-bottom: 12px; }
+.policyLabel { margin-top: 16px; padding: 0 var(--nk-space-s15); font: var(--nk-type-text12-medium-lh16); color: var(--nk-color-acct-subtitle); }
+.policyLabelSpaced { margin-top: 12px; }
+.policySection { margin-top: 6px; }
+
+/* ── NoonAccountCountrySelector ───────────────────────────────────────── */
+.countryContent { padding-bottom: 12px; }
+.countryHeader { display: flex; justify-content: center; margin-top: 12px; padding: 0 24px; }
+.countryTitle { font: var(--nk-type-text19-bold-lh24); color: var(--nk-color-text-strong); text-align: center; }
+
+/* ── NoonAccountLanguageSwitcher (ITEM_WIDTH 59) ──────────────────────── */
+.lang { position: relative; display: flex; width: 126px; height: 40px; padding: 4px; border-radius: 999px; background: var(--nk-color-bg-subtle); }
+.langSlider { position: absolute; top: 5px; inset-inline-start: 4px; width: 59px; height: 30px; border-radius: 999px; background: var(--nk-color-bg-surface); box-shadow: 0 1px 4px var(--nk-palette-black-alpha6); }
+.langOption { position: relative; width: 59px; height: 32px; display: flex; align-items: center; justify-content: center; font: var(--nk-type-product-title); color: var(--nk-color-text-secondary); }
+.langOption[data-ar='true'] { font-family: 'Cairo', var(--nk-font-family); }
+.langOption[data-active='true'] { color: var(--nk-color-text-primary); font-size: 12px; font-weight: 600; }
+
+/* full-screen change language / country lottie */
+.lottieScreen { position: absolute; inset: 0; background: var(--nk-color-bg-surface); }
+
+/* ── NoonAccountSecuritySettingsManageAllDevicesScreen ────────────────── */
+.devicesScreen { display: flex; flex-direction: column; flex: 1; min-height: 100%; padding-top: 20px; gap: 8px; background: var(--nk-color-bg-subtle); }
+.secHeader { display: flex; align-items: center; gap: 12px; padding: var(--nk-inset-top) 12px 12px; background: var(--nk-color-bg-surface); }
+.secHeaderTitle { font: var(--nk-type-text16-bold-lh20); color: var(--nk-color-text-primary); }
+.sectionLabel { margin: 0 var(--nk-space-s15) 6px; font: var(--nk-type-product-title); color: var(--nk-color-text-muted); }
+.otherHeader { display: flex; justify-content: space-between; align-items: center; margin: 20px var(--nk-space-s15) 6px; }
+.deviceCard { background: var(--nk-color-bg-surface); border-radius: var(--nk-radius-r16); overflow: hidden; margin: 0 var(--nk-space-s15); }
+.deviceItem { display: flex; align-items: flex-start; padding: 20px 12px; }
+.deviceIcon { width: 24px; height: 24px; margin-inline-end: 10px; margin-top: 2px; color: var(--nk-color-text-primary); flex-shrink: 0; }
+.deviceInfo { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.deviceName { font: var(--nk-type-text15-semibold-lh20); color: var(--nk-color-text-primary); }
+.deviceSub { margin-top: 2px; font: var(--nk-type-text13-regular-lh20); color: var(--nk-color-text-secondary); }
+.deviceDate { margin-top: 8px; font: var(--nk-type-text13-regular-lh20); color: var(--nk-color-text-secondary); }
+.deviceSignOut { position: relative; align-self: center; padding: 10px 12px; border-radius: 20px; border: 1px solid var(--nk-color-border); font: var(--nk-type-caption-bold); color: var(--nk-color-text-primary); }
+.deviceSignOut[data-loading='true'] > span:first-child { opacity: 0; }
+.deviceSignOutLoader { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.emptyDevices { display: flex; flex-direction: column; align-items: center; padding: 32px 0; gap: 20px; }
+.emptyDevicesTitle { font: var(--nk-type-text14-semibold-lh20); color: var(--nk-color-text-muted); }
+.signOutAll { margin: 10px auto calc(var(--nk-inset-bottom) + 15px); display: flex; justify-content: center; font: var(--nk-type-acct-text13-semibold-lh22); color: var(--nk-color-acct-red); }
+
+/* security loader */
+.skelRow { display: flex; align-items: center; padding: 18px 16px; }
+.skelText { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+
+/* ── NoonAccountEditProfileLayout ─────────────────────────────────────── */
+.epHeaderWrap { position: relative; z-index: 2; padding: var(--nk-inset-top) 12px 12px; background: var(--nk-color-bg-surface); }
+.epHeader { height: 40px; display: flex; align-items: center; gap: 12px; }
+.epHeaderTitle { font: var(--nk-type-text18-bold-lh22); color: var(--nk-color-text-strong); }
+.epContent { padding-bottom: 24px; }
+.epFooter { background: var(--nk-color-bg-surface); padding: 16px 16px calc(var(--nk-inset-bottom) + 12px); border-radius: 12px 12px 0 0; box-shadow: 0 -2px 8px var(--nk-palette-black-alpha3); display: flex; flex-direction: column; gap: 12px; }
+.epCompleteRow { display: flex; justify-content: space-between; align-items: center; }
+.epCompleteTitle { font: var(--nk-type-body-bold); color: var(--nk-color-text-body); }
+.epBadgeRing { padding: 1px; border-radius: 20px; background: linear-gradient(225deg, var(--nk-color-acct-badge-ring-from), var(--nk-color-acct-badge-ring-to)); }
+.epBadge { display: flex; align-items: center; padding: 3px 8px; border-radius: 19px; background: linear-gradient(225deg, var(--nk-color-acct-badge-from), var(--nk-color-acct-badge-to)); font: var(--nk-type-acct-text13-bold-lh16); color: var(--nk-color-text-inverse); }
+.epSave { height: 56px; border-radius: var(--nk-radius-r12); display: flex; align-items: center; justify-content: center; font: var(--nk-type-acct-text18-semibold-lh20); color: var(--nk-color-text-inverse); background: var(--nk-color-acct-disabled); box-shadow: 0 4px 8px var(--nk-palette-dark-navy-alpha10); transition: background-color 0.2s; }
+.epSave[data-dirty='true'] { background: var(--nk-color-text-primary); }
+
+/* NoonAccountCustomerDetailsSection + AddressV2FormInput */
+.epNames { display: flex; gap: 8px; padding: 10px var(--nk-space-s15) 0; }
+.field { position: relative; flex: 1; min-width: 0; }
+.fieldInput { width: 100%; padding: 25px 12px 9px; border-radius: var(--nk-radius-r14); border: 1px solid var(--nk-color-bg-subtle); background: var(--nk-color-bg-surface); font: var(--nk-type-text15-semibold-lh19); color: var(--nk-color-text-strong); caret-color: var(--nk-color-text-strong); outline: none; }
+.fieldInput[data-error='true'] { border-color: var(--nk-palette-deep-red-color); }
+.fieldLabel { position: absolute; inset: 0; display: flex; align-items: center; padding: 0 12px; pointer-events: none; }
+.fieldLabelText { font: var(--nk-type-text13-regular-lh17); color: var(--nk-color-text-secondary); transform-origin: left center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+[dir='rtl'] .fieldLabelText { transform-origin: right center; }
+.fieldError { margin: 4px 12px 0; font: var(--nk-type-text11-regular-lh14); color: var(--nk-color-danger); }
+
+/* NoonAccountSectionCard */
+.card { position: relative; margin: 12px var(--nk-space-s15) 0; padding: 12px; border-radius: var(--nk-radius-r16); background: var(--nk-color-bg-surface); }
+.cardTitleRow { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+.cardTitle { flex: 1; font: var(--nk-type-acct-text16-bold-lh18); color: var(--nk-color-text-primary); }
+.cardRight { position: absolute; top: 13px; inset-inline-end: 0; }
+.cardSubtitle { margin-bottom: 12px; font: var(--nk-type-text13-medium-lh18); color: var(--nk-color-text-muted); }
+.inputLike { display: flex; align-items: center; width: 100%; gap: 6px; padding: 16px 12px; border-radius: var(--nk-radius-r14); border: 1px solid var(--nk-color-border); background: var(--nk-color-acct-field-bg); text-align: start; }
+.inputLikeText { flex: 1; font: var(--nk-type-body-semibold); color: var(--nk-color-text-strong); }
+.inputLikePlaceholder { flex: 1; font: var(--nk-type-product-title); color: var(--nk-color-text-body); }
+
+/* NoonAccountOptionSelector */
+.optCard { margin: 10px var(--nk-space-s15) 0; padding: 12px; border-radius: var(--nk-radius-r16); background: var(--nk-color-bg-surface); }
+.optTitle { margin-bottom: 12px; font: var(--nk-type-text16-bold-lh20); color: var(--nk-color-text-primary); }
+.optRow { display: flex; gap: 8px; }
+.opt { flex: 1; display: flex; align-items: center; gap: 6px; padding: 16px 12px; border-radius: var(--nk-radius-r14); border: 1px solid var(--nk-color-border); background: var(--nk-color-acct-field-bg); text-align: start; }
+.optLabel { flex: 1; font: var(--nk-type-product-title); color: var(--nk-color-text-body); }
+.optLabel[data-selected='true'] { font-weight: 600; }
+
+/* NoonAccountNationalitySectionCard */
+.natRow { display: flex; gap: 8px; }
+.natOpt { flex: 1; min-width: 0; display: flex; align-items: center; justify-content: center; padding: 18px 8px; border-radius: var(--nk-radius-r14); border: 1px solid var(--nk-color-border-subtle); background: var(--nk-color-acct-field-bg); transition: background-color 0.15s, border-color 0.15s; }
+.natOpt[data-selected='true'] { border-color: var(--nk-color-text-secondary); background: var(--nk-color-border-subtle); }
+.natLabel { font: var(--nk-type-text13-medium-lh16); color: var(--nk-color-text-body); text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.natOpt[data-selected='true'] .natLabel { color: var(--nk-color-text-primary); font-weight: 600; }
+.viewAll { padding: 12px; font: var(--nk-type-text13-medium-lh16); color: var(--nk-color-tab-active); }
+
+/* NoonAccountDietaryPreferencesSectionCard */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { padding: 8px 16px; border-radius: 9999px; border: 1px solid var(--nk-color-border); background: var(--nk-color-acct-field-bg); font: var(--nk-type-text12-medium-lh16); color: var(--nk-color-text-primary); transition: background-color 0.15s, color 0.15s; }
+.chip[data-selected='true'] { border-color: var(--nk-color-text-strong); background: var(--nk-color-text-strong); color: var(--nk-color-text-inverse); font-weight: 600; }
+
+/* ── DatePickerScreen (Overlay) + birthday picker title/note ──────────── */
+.dpTitle { padding: 0 var(--nk-space-s15); margin-top: 10px; display: flex; flex-direction: column; }
+.dpTitleText { font: var(--nk-type-text16-bold-lh20); color: var(--nk-color-text-legacy); }
+.dpSubtitle { margin-top: 6px; font: var(--nk-type-body-semibold); color: var(--nk-color-text-legacy); }
+.wheel { position: relative; display: flex; justify-content: center; gap: 4px; height: 216px; margin: 8px auto; width: 320px; max-width: calc(100% - 30px); }
+.wheelHighlight { position: absolute; left: 0; right: 0; top: 50%; height: 36px; margin-top: -18px; border-radius: 8px; background: var(--nk-palette-kit-slate48-alpha12); pointer-events: none; }
+.wheelCol { position: relative; flex: 1; height: 100%; overflow-y: scroll; scroll-snap-type: y mandatory; scrollbar-width: none; -webkit-mask-image: linear-gradient(transparent, var(--nk-palette-black) 30%, var(--nk-palette-black) 70%, transparent); mask-image: linear-gradient(transparent, var(--nk-palette-black) 30%, var(--nk-palette-black) 70%, transparent); }
+.wheelCol::-webkit-scrollbar { display: none; }
+.wheelItem { height: 36px; display: flex; align-items: center; justify-content: center; scroll-snap-align: center; font: var(--nk-type-acct-text21-regular-lh1); color: var(--nk-palette-black); cursor: pointer; user-select: none; }
+.wheelItem[data-disabled='true'] { color: var(--nk-palette-kit-gray77); }
+.wheelPad { height: 90px; }
+.dpNote { display: flex; justify-content: center; align-items: center; gap: 4px; margin: 0 var(--nk-space-s15) 10px; padding: 8px; border-radius: var(--nk-radius-r8); background: var(--nk-color-acct-orange-tint); font: var(--nk-type-body); color: var(--nk-color-text-legacy); }
+.dpNote b { font-weight: 700; }
+.dpDone { margin: 0 var(--nk-space-s15) 0; height: 50px; border-radius: var(--nk-radius-r8); background: var(--nk-color-cta); color: var(--nk-color-text-inverse); font: var(--nk-type-body-bold); display: flex; align-items: center; justify-content: center; width: calc(100% - 30px); }
+.dpSheet { padding-top: 0; background: var(--nk-color-bg-surface); }
+
+/* simple list overlays (nationality "View all", deletion reasons — ListingOverlayScreen) */
+.listOverlay { padding: 12px 0; }
+.listTitle { padding: 4px 16px 12px; font: var(--nk-type-text18-bold-lh22); color: var(--nk-color-text-strong); }
+.listRow { display: flex; align-items: center; width: 100%; gap: 12px; padding: 16px; text-align: start; font: var(--nk-type-body-medium); color: var(--nk-color-text-primary); border-bottom: 1px solid var(--nk-color-border-subtle); }
+.listRow:last-child { border-bottom: 0; }
+.listRow span { flex: 1; }
+
+/* ── NoonAccountDeletionScreen ────────────────────────────────────────── */
+.delScroll { padding: 0 var(--nk-space-s15); }
+.delHeading { margin-top: 10px; font: var(--nk-type-title); color: var(--nk-color-price-old); }
+.delReason { margin: 5px 0; }
+.delBold { font: var(--nk-type-text16-bold-lh20); color: var(--nk-color-text-legacy); }
+.delReasonBtn { display: flex; align-items: center; justify-content: space-between; width: 100%; margin: 10px 0; padding: 10px; border: 1px solid var(--nk-color-acct-legacy-border); border-radius: var(--nk-radius-r4); font: var(--nk-type-text14-regular-lh20); color: var(--nk-color-text-tertiary); text-align: start; }
+.delReasonBtn[data-active='true'] { border-color: var(--nk-color-text-legacy); color: var(--nk-color-text-legacy); }
+.delTerms { margin-bottom: 10px; }
+.delText { margin: 5px 0; font: var(--nk-type-text14-regular-lh20); color: var(--nk-color-text-legacy); }
+.delTermsList { margin: 5px 10px; }
+.delTerm { display: flex; }
+.delTermBody { padding: 0 10px; margin: 5px 0; font: var(--nk-type-text14-regular-lh20); color: var(--nk-color-text-legacy); }
+.delTermBody a { color: var(--nk-color-primary); }
+.delAgree { display: flex; align-items: center; gap: 8px; font: var(--nk-type-text14-regular-lh20); color: var(--nk-color-text-legacy); text-align: start; }
+.delWarning { margin-top: 10px; font: var(--nk-type-text14-bold-lh20); color: var(--nk-color-text-legacy); }
+.primaryBtn { width: 100%; height: 50px; display: flex; align-items: center; justify-content: center; padding: 0 var(--nk-space-s15); background: var(--nk-color-cta); color: var(--nk-color-text-inverse); font: var(--nk-type-body-bold); text-align: center; }
+.primaryBtn:disabled { background: var(--nk-color-acct-disabled); opacity: 1; }
+.delFooter { padding: 10px var(--nk-space-s15) calc(var(--nk-inset-bottom) + 0px); background: var(--nk-color-bg-surface); }
+
+/* ── PasswordEditScreen ───────────────────────────────────────────────── */
+.pwScroll { padding-bottom: 24px; }
+.pwTitle { display: flex; justify-content: center; font: var(--nk-type-text22-bold-lh28); color: var(--nk-color-text-legacy); }
+.pwForm { margin: 30px var(--nk-space-s15) 0; display: flex; flex-direction: column; }
+.pwField { position: relative; margin-bottom: 15px; }
+.pwInput { width: 100%; height: 45px; padding: 0 44px 0 10px; border-radius: var(--nk-radius-r8); border: 1px solid var(--nk-color-acct-password-border); background: var(--nk-color-bg-surface); font: var(--nk-type-body); color: var(--nk-palette-black); outline: none; }
+.pwInput[data-error='true'] { border-color: var(--nk-color-danger); }
+.pwLabel { position: absolute; z-index: 2; left: 10px; top: -8px; padding: 0 6px; background: var(--nk-color-bg-surface); font: var(--nk-type-text13-regular-lh16); color: var(--nk-palette-black); }
+[dir='rtl'] .pwLabel { left: auto; right: 10px; }
+.pwEye { position: absolute; top: 0; right: 0; width: 40px; height: 45px; display: flex; align-items: center; justify-content: center; color: var(--nk-color-text-secondary); }
+[dir='rtl'] .pwEye { right: auto; left: 0; }
+.pwError { margin-top: 4px; font: var(--nk-type-caption); color: var(--nk-color-danger); }
+.pwReqTitle { margin-bottom: 5px; font: var(--nk-type-body-semibold); color: var(--nk-color-text-legacy); }
+.pwReq { display: flex; align-items: center; gap: 5px; margin-bottom: 5px; font: var(--nk-type-body); color: var(--nk-color-text-legacy); }
+.pwReq[data-passed='false'] { color: var(--nk-color-acct-password-muted); }
+.pwFooter { padding: var(--nk-space-s15) var(--nk-space-s15) calc(var(--nk-inset-bottom) + 0px); background: var(--nk-color-bg-surface); }
+.pwSubmit { composes: primaryBtn; border-radius: var(--nk-radius-r8); font-size: 16px; }
+
+/* raw <button> resets (these are not kit Pressables) */
+.langOption, .tab, .pwEye { border: 0; background: none; padding: 0; margin: 0; cursor: pointer; appearance: none; }
+.tab { padding: 12px 0; }

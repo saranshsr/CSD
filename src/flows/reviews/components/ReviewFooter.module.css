@@ -1,0 +1,6 @@
+/* ReviewFooter — repo Footer: transparent bar over the page gradient, 12px 16px padding, CTA 52h. */
+.footer { background: transparent; }
+.bar { display: flex; gap: var(--nk-space-s12); padding: var(--nk-space-s12) var(--nk-space-s16) calc(var(--nk-inset-bottom) + var(--nk-space-s8)); }
+.footer[data-keyboard] .bar { padding-bottom: var(--nk-space-s12); }
+.bar > * { flex: 1; }
+.footer[data-gutter='tight'] .bar { padding-inline: var(--nk-space-s12); } /* @extended-by DeckScreen, SliderScreen */

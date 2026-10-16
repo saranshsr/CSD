@@ -1,0 +1,2 @@
+/* Bestsellers / Selling out fast — Figma 1337:5572 / 1337:6349: rail pt12 px12 gap 12 (Module adds 8 under the title). */
+.rail { gap: var(--nk-space-s12); padding: var(--nk-space-s4) var(--nk-space-s12) 0; }

@@ -1,0 +1,35 @@
+/* NewReview edit patterns — repo NewReviewScreen editing overlay (pinned / grow) + top-sheet editor.
+   Positioned inside the screen's editor stage (top = status-bar inset, bottom = the footer's top edge). */
+.card { position: absolute; top: calc(var(--nk-layout-header) + var(--nk-space-s12)); left: var(--nk-space-s12); right: var(--nk-space-s12); z-index: 6; display: flex; flex-direction: column; background: var(--nk-color-bg-surface); border-radius: var(--nk-radius-r16); padding: var(--nk-space-s16) var(--nk-space-s16) var(--nk-space-s12); pointer-events: auto; }
+.card[data-kind='pinned'] { bottom: var(--nk-space-s12); gap: var(--nk-space-s16); }
+.card[data-kind='grow'] { gap: var(--nk-space-s12); overflow: hidden; }
+
+.input { width: 100%; border: none; outline: none; resize: none; background: transparent; padding: 0; margin: 0; color: var(--nk-color-text-primary); cursor: text; font: var(--nk-type-reviews-text15-regular-lh22); }
+.input[data-kind='pinned'] { flex: 1; }
+.input[data-kind='grow'] { flex: 1 1 auto; min-height: 66px; overflow-y: auto; }
+.input[data-kind='sheet'] { flex: 1; margin: var(--nk-space-s4) var(--nk-space-s14) 0; width: auto; font: var(--nk-type-text14-regular-lh20); }
+
+.counter { font: var(--nk-type-text12-regular-lh18); color: var(--nk-color-text-secondary); }
+.counterLarge { font: var(--nk-type-text14-regular-lh20); }
+.pinnedFoot { display: flex; justify-content: flex-end; flex-shrink: 0; }
+.growFoot { display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+.saveSmall { height: var(--nk-space-s36); padding: 0 var(--nk-space-s14); border-radius: var(--nk-radius-r10); font: var(--nk-type-text13-semibold-lh18); }
+.saveSheet { padding: 0 var(--nk-space-s16); border-radius: var(--nk-radius-r12); font: var(--nk-type-text14-semibold-lh20); }
+
+/* grow: invisible tap-catcher (covers the status bar too) */
+.catcher { position: absolute; top: calc(-1 * var(--nk-inset-top)); left: 0; right: 0; bottom: 0; z-index: 5; pointer-events: auto; }
+
+/* top sheet */
+.frost { position: absolute; top: calc(-1 * var(--nk-inset-top)); left: 0; right: 0; bottom: 0; z-index: 5; background: var(--nk-color-reviews-frost); backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px); pointer-events: auto; }
+.sheetClip { position: absolute; inset: 0; overflow: hidden; z-index: 6; pointer-events: none; }
+.sheet { position: absolute; left: 0; right: 0; bottom: 0; pointer-events: auto; background: var(--nk-color-bg-surface); border-radius: var(--nk-radius-r24) var(--nk-radius-r24) 0 0; box-shadow: var(--nk-shadow-reviews-top-sheet); display: flex; flex-direction: column; }
+.sheetHead { position: relative; height: 52px; margin: var(--nk-space-s12) var(--nk-space-s12) 0; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.sheetBack { position: absolute; left: 0; top: var(--nk-space-s6); width: var(--nk-icon-button-size); height: var(--nk-icon-button-size); border-radius: var(--nk-icon-button-radius); background: var(--nk-icon-button-outline-bg); border: var(--nk-icon-button-border-width) solid var(--nk-icon-button-outline-border); display: inline-flex; align-items: center; justify-content: center; }
+.sheetTitle { font: var(--nk-type-text16-bold-lh20); color: var(--nk-color-text-primary); }
+.sheetBar { display: flex; align-items: center; justify-content: space-between; padding: var(--nk-space-s12) var(--nk-space-s12) var(--nk-space-s14); flex-shrink: 0; }
+.sheetCount { display: flex; align-items: center; gap: var(--nk-space-s8); padding-inline-start: var(--nk-space-s6); }
+.counterLarge { color: var(--nk-color-text-secondary); }
+
+.ring { flex-shrink: 0; display: block; }
+.ringTrack { stroke: var(--nk-color-reviews-ring-track); }
+.ringArc { stroke: var(--nk-color-text-primary); }

@@ -1,0 +1,82 @@
+/* AddressV2OverlayButton — getSubmitCtaStyle + buttonTextStyle */
+.overlayButton {
+  width: 100%;
+  height: 56px;
+  border-radius: var(--nk-radius-r12);
+  background: var(--nk-color-cta);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px var(--nk-palette-dark-navy-alpha10);
+  cursor: pointer;
+}
+.overlayButton[data-disabled='true'] {
+  background: var(--nk-color-addr-disabled);
+  cursor: default;
+}
+.overlayButtonText {
+  color: var(--nk-color-text-inverse);
+  font-size: 18px;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+/* MapV2GradientTitle: $noonGrey1, base text 13 */
+.gradientTitle {
+  display: flex;
+  align-items: center;
+  color: var(--nk-color-addr-noon-grey1);
+  font-size: 13px;
+  margin-inline-end: 5px;
+}
+
+.iconTap {
+  border: 0;
+  background: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+}
+.iconTap::after {
+  /* hitSlop 8 */
+  content: '';
+  position: absolute;
+  inset: -8px;
+}
+.iconTap:disabled {
+  cursor: default;
+}
+
+/* AddressToastScreen */
+.toastRoot {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 950;
+}
+.toastWrapper {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--nk-inset-bottom) + 40px);
+  display: flex;
+  justify-content: center;
+  padding: var(--nk-space-s16);
+}
+.toast {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px var(--nk-space-s16);
+  margin-inline: var(--nk-space-s15);
+  border: 1px solid var(--nk-color-addr-toast-border);
+  border-radius: var(--nk-radius-r32);
+  background: var(--nk-color-bg-inverse);
+  color: var(--nk-color-text-inverse);
+  font-size: 14px;
+  line-height: 18px;
+}

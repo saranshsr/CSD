@@ -1,0 +1,36 @@
+/* bappzaar NoonCatalogList: the search bar block (searchContainer: white, shadow 0 1 4 black 0.1, zIndex 3) never moves; the
+   fulfilment tabs + pills sit in HidableView under it — an absolute, overflow-hidden layer over the list (zIndex 2) whose
+   content slides up by its own height on scroll (scrollStates.ts → --plp-header-hide 0 → 1). The list opens with a spacer. */
+.header { position: relative; }
+.barBlock { position: relative; z-index: 3; padding-top: var(--nk-inset-top); background: var(--nk-color-bg-surface); box-shadow: 0 1px 4px var(--nk-palette-black-alpha10); }
+.hidable { position: absolute; top: 100%; left: 0; right: 0; z-index: 2; overflow: hidden; pointer-events: none; }
+/* fulfillmentHeaderContainer: white + NoonStyles.shadow() (1, 1, black 0.04, RN default radius 3) */
+.hidableInner { pointer-events: auto; background: var(--nk-color-bg-surface); box-shadow: 1px 1px 3px var(--nk-palette-black-alpha4); transform: translateY(calc(var(--plp-header-hide, 0) * -100%)); }
+/* searchButtonContainer: px 16, pb 12 · pt 4 puts it at the same spot as the search screen's bar (padding calc(inset + 4px) 16px …), so it never moves on the hand-off */
+.barRow { padding: 4px var(--nk-space-s16) var(--nk-space-s12); }
+
+/* marketplace strip (82:17411): 60h, tabs 96 wide, gap 12, padding 0 12 */
+/* NoonFulfillmentTabs (bappzaar, 1:1): container white, paddingTop 8; content row gap 12, padding 0 16, min height 55, centred;
+   tab 110 wide (flexGrow 1), logo slot 24 high, name 12 / 17 black, gap 2; indicator 3px r2 at the bottom, tab width, slides 200ms */
+.ft { background: var(--nk-palette-white); padding-top: var(--nk-space-s8); }
+.ftRow { position: relative; display: flex; align-items: center; justify-content: safe center; gap: var(--nk-space-s12); min-height: 55px; padding: 0 var(--nk-space-s16); }
+.ftTab { flex: 1 0 110px; width: 110px; display: flex !important; flex-direction: column; align-items: center; justify-content: center; gap: var(--nk-space-s2); padding: 0; }
+.ftLogo { display: flex; align-items: center; justify-content: center; height: 24px; }
+.ftLogoImg { display: block; object-fit: contain; }
+.ftName { max-width: 100%; font: var(--nk-type-text12-regular-lh14); line-height: 17px; color: var(--nk-palette-black); text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ftIndicator { position: absolute; left: 0; bottom: 0; height: 3px; border-radius: var(--nk-radius-r2); background: var(--nk-palette-black); pointer-events: none; }
+[dir='rtl'] .ftIndicator { left: auto; right: 0; }
+
+.pills { gap: 8px; padding: 12px 15px 12px; align-items: center; }
+/* NoonCatalogListHeader pillDivider: 1 × 24 lightGreyColor, margin 0 8 */
+.pillDivider { display: block; width: 1px; height: 24px; margin: 0 var(--nk-space-s8); background: var(--nk-palette-light-grey-color); }
+.meta { padding: 2px 16px 8px; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 2px 12px 50px; }
+/* productBoxRow stretches its two boxes to the taller one (RN alignItems: stretch): carry the row height down to the card */
+.cell, .cell > div, .cell > div > div:last-child { display: flex; flex-direction: column; flex: 1; }
+.cell [data-testid='product_box'] { flex: 1; }
+.tabSpace { height: calc(var(--nk-layout-tab-bar) + var(--nk-inset-bottom)); }
+.navDock { position: relative; height: 0; }
+/* ScrollVisibilityProvider → native tab bar: slides off by its height incl. the home-indicator inset (--plp-tab-hide 0 → 1) */
+.navHide { transform: translateY(calc(var(--plp-tab-hide, 0) * (var(--nk-layout-tab-bar) + var(--nk-inset-bottom)))); }
+.empty { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 48px 24px; text-align: center; }

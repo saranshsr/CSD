@@ -1,0 +1,85 @@
+/* NoonCheckoutScreen/styles.ts */
+.root {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+/* Figma Button Dock 14288:184318: white, drop-shadow 0 −4 3.5 rgba(0,0,0,.13), column gap 8, pt 12; Home bar → inset */
+/* NoonCheckoutScreen styles.stickyButtonsWrapper + columnReverseWrapper (useSliderCta): white, pt 16, pb safe area
+   (16 without one), px edgeSpacing 15, row gap 8, shadow 0 −4 rgba(0,0,0,0.06); slider above the overview */
+.sticky {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  row-gap: var(--nk-space-s8);
+  padding: var(--nk-space-s16) var(--nk-space-s15) max(var(--nk-inset-bottom), var(--nk-space-s16));
+  background: var(--nk-color-bg-surface);
+  box-shadow: var(--nk-shadow-chk-sticky-footer);
+}
+.cta {
+  display: flex;
+  flex-direction: column;
+}
+/* overviewWrapper: row, space-between, centred, mx 4 */
+.overview {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 var(--nk-space-s4);
+}
+/* itemsCountText: 19/700 steelColor */
+.itemsCount {
+  font: var(--nk-type-text19-bold-lh24);
+  color: var(--nk-palette-steel-color);
+  white-space: nowrap;
+}
+/* totalPrice: 19/700 (Price: currency + amount) */
+.totalPrice {
+  display: flex;
+  gap: var(--nk-space-s4);
+  font: var(--nk-type-text19-bold-lh24);
+  color: var(--nk-color-text-legacy);
+  white-space: nowrap;
+}
+/* Figma "Cards" 14288:184048: white r16, p12, gap 12 — Points & Vouchers · line · Pay With */
+.cards {
+  margin-top: var(--nk-space-s12);
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s12);
+  padding: var(--nk-space-s12);
+  border-radius: var(--nk-radius-r16);
+  overflow: hidden;
+  background: var(--nk-color-bg-surface);
+}
+/* line: 1px Sementic/Border/secondary */
+.cardsLine {
+  display: block;
+  width: 100%;
+  height: 1px;
+}
+/* ApplePayButton height 48 (PKPaymentButton black / buy) */
+.applePay {
+  height: 48px;
+  border: 0;
+  border-radius: var(--nk-radius-r8);
+  background: var(--nk-palette-black);
+  color: var(--nk-color-text-inverse);
+  font: var(--nk-type-chk-text19-medium-lh1);
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', var(--nk-font-family);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--nk-space-s2);
+  cursor: pointer;
+}
+.appleMark {
+  margin-left: var(--nk-space-s6);
+  font-size: 21px;
+}
+/* Main Container: sections 12 apart, the first one flush under the 8px top padding (Figma "All flows" y 8) */
+.sections > :first-child {
+  margin-top: 0;
+}

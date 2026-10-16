@@ -1,0 +1,487 @@
+/* marketplaces/noon/components/NoonCheckoutProvider/* + NoonProviderBurn(Otp)OverlayScreen / NoonProviderEarnOverlayScreen styles */
+
+.sheet {
+  position: relative;
+  overflow-y: auto;
+  min-height: 0;
+  flex: 1;
+}
+/* styles.main: r20 top, continuous */
+.main {
+  position: relative;
+  border-top-left-radius: var(--nk-radius-r20);
+  border-top-right-radius: var(--nk-radius-r20);
+  z-index: 2;
+  overflow: hidden;
+}
+
+/* Header/styles.ts */
+.header {
+  display: flex;
+  align-items: center;
+  padding: var(--nk-space-s12);
+  border-top-left-radius: var(--nk-radius-r20);
+  border-top-right-radius: var(--nk-radius-r20);
+}
+.headerRow {
+  display: flex;
+  align-items: center;
+}
+.headerTitle {
+  font: var(--nk-type-body-semibold);
+  color: var(--nk-color-text-inverse);
+  margin-inline-end: var(--nk-space-s10);
+}
+.headerCta {
+  border: 0;
+  background: var(--nk-color-chk-provider-header-cta-bg);
+  padding: 5px var(--nk-space-s10);
+  border-radius: var(--nk-radius-r16);
+  font: var(--nk-type-body-semibold);
+  color: var(--nk-color-text-ink);
+  cursor: pointer;
+}
+
+/* FormTitle/styles.ts */
+.logoContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--nk-space-s16);
+  padding: var(--nk-space-s24);
+}
+.logoContainerLoyalty {
+  gap: var(--nk-space-s40);
+}
+.titleText {
+  font: var(--nk-type-title-small);
+  color: var(--nk-color-text-ink);
+  text-align: center;
+  max-width: 340px;
+}
+
+/* FormFields/styles.ts — marginHorizontal edgeSpacing + 5 */
+.formContainer {
+  margin: 0 var(--nk-space-s20);
+  display: flex;
+  flex-direction: column;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+}
+/* FormikTextInput label (marginBottom 8) + formLabelStyle 14/500 #0E0E0E */
+.label {
+  font: var(--nk-type-product-title);
+  color: var(--nk-color-text-ink);
+  margin-bottom: var(--nk-space-s8);
+}
+.inputWrap {
+  position: relative;
+  display: flex;
+}
+.input {
+  flex: 1;
+  min-width: 0;
+  height: 48px;
+  background: var(--nk-color-bg-surface);
+  border: 1px solid var(--nk-palette-gray400); /* gray400 */
+  border-radius: var(--nk-radius-r12);
+  padding: 0 var(--nk-space-s12);
+  font: var(--nk-type-body);
+  color: var(--nk-color-text-ink);
+  outline: none;
+  transition: border-color 150ms;
+}
+.input::placeholder {
+  color: var(--nk-palette-lighter-spanish-gray-color); /* lighterSpanishGrayColor */
+}
+.input:disabled {
+  opacity: 0.6;
+}
+.phoneInput {
+  padding-inline-start: 65px;
+}
+.paste {
+  position: absolute;
+  inset-inline-end: 10px;
+  bottom: 0;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+}
+.separator {
+  height: 20px;
+}
+.dialCode {
+  position: absolute;
+  z-index: 2;
+  height: 48px;
+  bottom: 0;
+  inset-inline-start: 0;
+  padding-inline-start: var(--nk-space-s16);
+  display: flex;
+  align-items: center;
+  font: var(--nk-type-body-semibold);
+  color: var(--nk-color-text-ink);
+  pointer-events: none;
+}
+.errorText {
+  font: var(--nk-type-caption);
+  color: var(--nk-palette-deep-red-color); /* deepRedColor */
+  margin: var(--nk-space-s15) 0;
+  min-height: 16px;
+}
+
+/* submit */
+.submitContainer {
+  padding-bottom: var(--nk-space-s12);
+}
+.submitContainerOtp {
+  padding: var(--nk-space-s12) 0;
+}
+.submit {
+  width: calc(100% - 30px);
+  margin: 0 var(--nk-space-s15);
+  padding: var(--nk-space-s14) var(--nk-space-s16);
+  transition: background-color 200ms, color 200ms;
+}
+
+/* AmountTicket/styles.ts */
+.ticket {
+  display: flex;
+  flex-direction: row;
+  height: 75px;
+  margin: var(--nk-space-s24) var(--nk-space-s20) 0;
+  border-radius: var(--nk-radius-r20);
+  background: var(--nk-color-bg-surface);
+}
+.ticketLeft {
+  position: relative;
+  width: 75px;
+  height: 100%;
+  border-radius: var(--nk-radius-r20);
+  background: var(--nk-color-bg-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.ticketNotchTop,
+.ticketNotchBottom {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  inset-inline-end: -15px;
+}
+.ticketNotchTop {
+  top: -23px;
+}
+.ticketNotchBottom {
+  bottom: -23px;
+}
+.ticketDashes {
+  position: absolute;
+  width: 1px;
+  height: 55px;
+  inset-inline-end: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6.5px;
+}
+.ticketDash {
+  width: 1px;
+  height: 6px;
+  background: var(--nk-palette-black);
+  flex-shrink: 0;
+}
+.ticketRight {
+  margin-inline-start: var(--nk-space-s20);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+.ticketAmount {
+  position: relative;
+  bottom: 5px;
+  display: flex;
+  align-items: center;
+}
+.ticketCurrency {
+  font: var(--nk-type-chk-text34-regular-lh40);
+  color: var(--nk-color-text-ink);
+}
+.ticketAmountText {
+  margin-inline-start: 5px;
+  font: var(--nk-type-hero);
+  color: var(--nk-color-text-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* OTP screen (NoonProviderBurnOtpOverlayScreen styles) */
+.otpTitleContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--nk-space-s8);
+}
+.otpLogoContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--nk-space-s24);
+}
+.otpTitleText {
+  font: var(--nk-type-title-small);
+  color: var(--nk-color-text-ink);
+  text-align: center;
+  padding: 0 var(--nk-space-s20);
+}
+.noteFooter {
+  margin: var(--nk-space-s16) var(--nk-space-s15) 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.noteIcon {
+  width: 13.67px;
+  height: 13.33px;
+  flex-shrink: 0;
+  mask-size: contain;
+  -webkit-mask-size: contain;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+}
+.noteText {
+  margin-inline-start: 5px;
+  font: var(--nk-type-caption);
+  color: var(--nk-color-text-ink);
+  flex-shrink: 1;
+}
+
+/* AmountEntry/styles.ts */
+.amountContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--nk-space-s8);
+}
+.amountOuter {
+  border-radius: 36px;
+  border: 2px solid transparent;
+  transition: border-color 200ms;
+}
+.amountOuterError {
+  border-color: var(--nk-color-chk-amount-error-ring);
+}
+.amountWrap {
+  padding: var(--nk-space-s12) var(--nk-space-s14);
+  display: flex;
+  flex-direction: row-reverse; /* LTR: row-reverse → amount first, currency after */
+  align-items: center;
+  column-gap: var(--nk-space-s4);
+  background: var(--nk-color-bg-surface);
+  border: 1px solid var(--nk-palette-gray400);
+  border-radius: var(--nk-radius-r32);
+  transition: border-color 150ms;
+}
+.amountCurrency {
+  font: var(--nk-type-chk-text20-medium-lh24);
+}
+.amountInput {
+  width: 90px;
+  border: 0;
+  outline: none;
+  background: none;
+  padding: 0;
+  font: var(--nk-type-title-small);
+  color: var(--nk-color-text-ink);
+  text-align: center;
+}
+.amountError {
+  font: var(--nk-type-caption);
+  color: var(--nk-palette-deep-red-color);
+  text-align: center;
+}
+
+/* AvailableBalance/styles.ts */
+.balance {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s4);
+  border: 0;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+}
+.balanceLabel {
+  font: var(--nk-type-body);
+  color: var(--nk-color-text-legacy);
+}
+.balanceText {
+  font: var(--nk-type-body-semibold);
+  color: var(--nk-color-text-legacy);
+}
+
+/* VerifyOtp/styles.ts */
+.otp {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: var(--nk-space-s12);
+  padding: 0 var(--nk-space-s20);
+  margin-top: var(--nk-space-s12);
+  cursor: text;
+}
+.otpBox {
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--nk-palette-gray400);
+  border-radius: var(--nk-radius-r12);
+  background: var(--nk-color-bg-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 150ms;
+}
+.otpText {
+  font: var(--nk-type-text18-semibold-lh22);
+  color: var(--nk-color-text-ink);
+}
+.otpHidden {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  width: 100%;
+  border: 0;
+  caret-color: transparent;
+  color: transparent;
+  background: transparent;
+}
+.otpInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.otpError {
+  font: var(--nk-type-caption);
+  color: var(--nk-palette-deep-red-color);
+  margin-top: var(--nk-space-s8);
+}
+.timer {
+  margin-top: var(--nk-space-s10);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.timerText {
+  width: 40px;
+  font: var(--nk-type-text13-regular-lh17);
+  color: var(--nk-color-text-legacy);
+}
+.otpMessage {
+  font: var(--nk-type-text13-regular-lh17);
+  color: var(--nk-color-text-legacy);
+}
+.resend {
+  border: 0;
+  background: none;
+  padding: 0;
+  font: var(--nk-type-text16-semibold-lh20);
+  cursor: pointer;
+}
+.resend:disabled {
+  cursor: default;
+}
+
+/* OtpLoading/styles.ts */
+.otpLoading {
+  position: absolute;
+  inset: 0;
+  background: var(--nk-palette-white-alpha60);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  z-index: 10;
+}
+
+/* NoonProviderEarnOverlayScreen styles */
+.earnContent {
+  position: relative;
+  border-top-left-radius: var(--nk-radius-r20);
+  border-top-right-radius: var(--nk-radius-r20);
+  z-index: 2;
+  overflow: hidden;
+  background: var(--nk-color-bg-surface);
+}
+.radial {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.howItWorks {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  gap: var(--nk-space-s4);
+  padding: var(--nk-space-s4) var(--nk-space-s16) var(--nk-space-s4) var(--nk-space-s8);
+  border-radius: 40px;
+  margin: 0 auto var(--nk-space-s24);
+  border: 0;
+  cursor: pointer;
+}
+.howItWorksText {
+  font: var(--nk-type-caption-bold);
+  color: var(--nk-color-text-muted);
+}
+.earnSubmitContainer {
+  padding: var(--nk-space-s12);
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s8);
+}
+.removePoints {
+  border: 0;
+  background: none;
+  padding: var(--nk-space-s8) var(--nk-space-s24);
+  font: var(--nk-type-text16-semibold-lh20);
+  cursor: pointer;
+  align-self: center;
+}
+
+/* NoonProviderEarnHelpOverlayScreen styles */
+.helpTerms {
+  padding: var(--nk-space-s16);
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s16);
+  margin-bottom: var(--nk-space-s24);
+  font: var(--nk-type-text13-regular-lh17);
+  color: var(--nk-color-text-legacy);
+}
+.helpButtons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s20);
+  padding: var(--nk-space-s12);
+}
+/* <Button variant="noonDotted"> + termsAndConditionsText (12/500) */
+.termsLink {
+  font: var(--nk-type-text12-medium-lh16);
+  align-self: center;
+}
+/* shared Button noonDotted: its line is <svg width="100%"> (300px intrinsic) — take it out of flow so the button hugs the label (see MAPPING.md shared follow-ups) */
+.termsLink > span { position: relative; padding-bottom: 3px; }
+.termsLink > span > svg { position: absolute; left: 0; bottom: 0; width: 100%; margin-top: 0; }

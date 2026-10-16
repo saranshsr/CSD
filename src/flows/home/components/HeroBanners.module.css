@@ -1,0 +1,36 @@
+/* Hero banners, Homepage Revamp 2025 (Figma 1337:5106). Coordinates are Figma points inside a 330×150 card. */
+.rail { display: flex; align-items: center; gap: var(--nk-space-home-hero-gap); padding: 0 var(--nk-space-s12); scroll-snap-type: x mandatory; scroll-padding-inline: var(--nk-space-s12); }
+.card {
+  position: relative; display: block !important; flex: 0 0 auto; width: 330px; height: 150px; overflow: hidden;
+  border-radius: var(--nk-radius-r20); background: var(--nk-color-bg-surface); scroll-snap-align: start;
+}
+.card[data-kind='welcome'] { background: var(--nk-color-home-hero-welcome-bg); }
+.card img { display: block; max-width: none; pointer-events: none; }
+
+/* welcome card 1337:5107 */
+.dryer { position: absolute; left: -35.79px; top: 10px; width: 137.423px; height: 173px; }
+.dryer img, .makeup img, .saleImage img { width: 100%; height: 100%; object-fit: cover; }
+.shadow { position: absolute; left: 31.71px; top: 94.08px; width: 7.576px; height: 42.091px; mix-blend-mode: multiply; }
+.shadow img { position: absolute; inset: -8.3% -46.14%; width: auto; height: auto; }
+.watch { position: absolute; left: 31.29px; top: 71.88px; width: 51.433px; height: 77.98px; overflow: hidden; }
+.watch img { position: absolute; left: -0.08%; top: -0.45%; width: 99.71%; height: 109.61%; }
+.makeup { position: absolute; left: 230px; bottom: -4px; width: 105px; height: 121px; }
+
+.copy { position: absolute; left: 112px; top: 50%; width: 106px; transform: translateY(-50%); display: flex; flex-direction: column; align-items: center; gap: 7px; text-align: center; }
+.eyebrow { width: 100%; font: var(--nk-type-home-text12-bold-lh13); color: var(--nk-color-home-alpha-gray900); }
+.amount { width: 100%; font: var(--nk-type-home-text36-extrabold-lh26); color: var(--nk-palette-black); }
+.line { width: 100%; font: var(--nk-type-text12-medium-lh14); color: var(--nk-color-home-alpha-gray900); }
+.line b { font: var(--nk-type-home-text12-bold-lh14); }
+.code {
+  display: flex; align-items: center; justify-content: center; width: 100%; height: 26px; padding: 0 var(--nk-space-s10);
+  border-radius: var(--nk-radius-r6); background: var(--nk-color-brand); font: var(--nk-type-home-text10-bold-lh16);
+  color: var(--nk-color-home-hero-code-ink); white-space: nowrap;
+}
+/* Figma places "*T&C Apply" just under the clipped card edge; it sits on the bottom edge here so it stays visible */
+.terms { position: absolute; left: calc(50% - 12.84px); bottom: 3px; transform: translateX(-50%); font: var(--nk-type-home-text6-medium-lh7); color: var(--nk-color-home-alpha-gray900); white-space: nowrap; }
+
+/* image card 1337:5124 */
+.saleImage { position: absolute; left: -18.63px; bottom: -17.95px; width: 350.586px; height: 233.666px; }
+.saleLogoBox { position: absolute; inset: -20.44% 89.48% -18.87% 5.26%; display: flex; align-items: center; justify-content: center; container-type: size; }
+.saleLogo { flex: none; position: relative; width: 100cqh; height: 100cqw; transform: rotate(-90deg); }
+.saleLogo img { position: absolute; inset: 0; width: 100%; height: 100%; }

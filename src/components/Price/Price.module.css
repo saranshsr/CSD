@@ -1,0 +1,10 @@
+.row { display: inline-flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--nk-space-s4); }
+.sale { color: var(--nk-color-text-ink); font-weight: var(--nk-font-weight-bold); }
+.cur { font-size: 0.7em; font-weight: var(--nk-font-weight-semibold); } /* relative to the sale price */
+.was { color: var(--nk-color-price-old); text-decoration: line-through; }
+.off { color: var(--nk-color-discount-bright); font-weight: var(--nk-font-weight-semibold); }
+.free { color: var(--nk-color-success-strong); font-weight: var(--nk-font-weight-bold); }
+.sm .sale { font-size: var(--nk-font-size-body); } .sm .was, .sm .off { font-size: var(--nk-font-size-caption); }
+/* line-heights 20 / 24 are PriceDiscounted metrics (no line-height token scale) */
+.md .sale { font-size: var(--nk-font-size-body-large); line-height: 20px; } .md .was, .md .off { font-size: var(--nk-font-size-body-small); }
+.lg .sale { font-size: var(--nk-font-size-title-medium); line-height: 24px; color: var(--nk-color-text-strong); } .lg .was { font-size: var(--nk-font-size-body-large); color: var(--nk-color-text-secondary); } .lg .off { font-size: var(--nk-font-size-body); }

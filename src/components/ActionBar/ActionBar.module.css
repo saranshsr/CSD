@@ -1,0 +1,60 @@
+/* Field M-ActionBar (packages/components/src/ActionBar/ActionBar.tsx): surface/primary, padding 12, gap 12 (leadingTrailing 8) */
+.bar {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--nk-space-s12);
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--nk-space-s12);
+  background: var(--nk-field-surface-primary);
+  flex-shrink: 0;
+}
+.bar[data-layout='split'],
+.bar[data-layout='leadingTrailing'] {
+  flex-direction: row;
+  align-items: center;
+}
+.bar[data-layout='leadingTrailing'] {
+  gap: var(--nk-space-s8);
+}
+/* full-screen footer: the home-indicator inset under the 12px padding */
+.inset {
+  padding-bottom: calc(var(--nk-space-s12) + var(--nk-inset-bottom));
+}
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.leading {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+}
+.flex {
+  flex: 1;
+  min-width: 0;
+}
+
+/* surface="glass" — liquid-upgrade embedded sticky bar: the content on a clear glass surface (r24, the shared Glass
+   material) that runs on down behind the bottom tab, over a GlassFade starting fadeExtend above it */
+.bar[data-surface='glass'] { position: relative; isolation: isolate; background: none; }
+.glassSurface {
+  composes: glass from '../Glass/Glass.module.css';
+  position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  border-radius: var(--nk-radius-r24) var(--nk-radius-r24) 0 0; border-bottom: 0;
+}
+.glassFade { top: calc(-1 * var(--nk-tab-bar-fade-extend)); z-index: -2; }
+/* the content paints above its own surface and fade (whatever order the two CSS modules load in) */
+.bar[data-surface='glass'] > :not(.glassFade):not(.glassSurface) { position: relative; z-index: 1; }
+/* aboveTabBar: dock the content FLOATING_BOTTOM_GAP above the bar; the glass continues behind it to the screen bottom */
+.bar[data-tab] {
+  margin-bottom: calc(var(--nk-layout-tab-bar) + var(--nk-inset-bottom) + var(--nk-tab-bar-floating-gap));
+  /* follows the bar while it hides on scroll (--nk-tab-hide 0 → 1 from the glass TabBar): rests above the inset */
+  transform: translateY(calc(var(--nk-tab-hide, 0) * (var(--nk-layout-tab-bar) + var(--nk-tab-bar-floating-gap))));
+}
+.bar[data-tab] .glassSurface,
+.bar[data-tab] .glassFade { bottom: calc(-1 * (var(--nk-layout-tab-bar) + var(--nk-inset-bottom) + var(--nk-tab-bar-floating-gap))); }

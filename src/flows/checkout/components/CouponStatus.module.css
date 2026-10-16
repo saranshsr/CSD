@@ -1,0 +1,67 @@
+/* NoonCheckoutCouponStatus/styles.ts */
+.cardBorder {
+  padding: var(--nk-space-s2);
+  background: var(--nk-color-bg-surface);
+}
+.cardGradient {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--nk-radius-r14);
+  overflow: hidden;
+}
+.overriddenBanner {
+  padding: var(--nk-space-s8) var(--nk-space-s12) var(--nk-space-s6);
+  background: linear-gradient(90deg, var(--nk-palette-pale-mint), var(--nk-color-bg-surface)); /* paleMint → white */
+}
+.overriddenBannerText {
+  font: var(--nk-type-chk-text11-bold-lh14);
+  color: var(--nk-palette-base-green800); /* baseGreen800 */
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s8);
+  padding: var(--nk-space-s10) var(--nk-space-s12) var(--nk-space-s12);
+}
+.row > img {
+  flex-shrink: 0;
+}
+.textContent {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s2);
+}
+.title {
+  font: var(--nk-type-body-bold);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.titleValid {
+  color: var(--nk-color-success); /* deepGreen #0F8857 */
+}
+.titleInvalid {
+  color: var(--nk-palette-danger-red); /* dangerRed */
+}
+.message {
+  font: var(--nk-type-text13-regular-lh17);
+  color: var(--nk-color-text-muted); /* blueGray700 #475067 */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+/* <Button variant="noonDotted" dottedColor=blueGray900> + changeCardButtonText (12/600 blueGray900); COUPON_ACTION_HIT_SLOP via padding */
+.action {
+  flex-shrink: 0;
+  padding: var(--nk-space-s16) 0;
+  margin: calc(-1 * var(--nk-space-s16)) 0;
+  font: var(--nk-type-caption-bold);
+  color: var(--nk-color-text-primary);
+}
+/* shared Button noonDotted: its line is <svg width="100%"> (300px intrinsic) — take it out of flow so the button hugs the label (see MAPPING.md shared follow-ups) */
+.action > span { position: relative; padding-bottom: 3px; }
+.action > span > svg { position: absolute; left: 0; bottom: 0; width: 100%; margin-top: 0; }

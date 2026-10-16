@@ -1,0 +1,22 @@
+/* "Bundle up & Save" — New PDP Af34gfmhQ1D0wstXUEHSIF · 84:8457 (351 × 64, in the card stack: inset 12, 12 below) */
+.card {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s8);
+  width: calc(100% - 2 * var(--nk-space-s12));
+  margin: 0 var(--nk-space-s12) var(--nk-space-s12);
+  padding: var(--nk-space-s8) var(--nk-space-s8) var(--nk-space-s8) var(--nk-space-s12);
+  border: 1px solid var(--nk-color-bg-surface);
+  border-radius: var(--nk-radius-r16);
+  background: var(--nk-color-pdp-npa-bundle-fill);
+  text-align: start;
+}
+.content { flex: 1 1 0; min-width: 0; display: flex; align-items: center; gap: var(--nk-space-s10); }
+.iconBox { flex-shrink: 0; display: flex; align-items: center; justify-content: center; width: var(--nk-layout-pdp-npa-bundle-icon-box); height: var(--nk-layout-pdp-npa-bundle-icon-box); }
+.icon { width: var(--nk-layout-pdp-npa-bundle-icon); height: var(--nk-layout-pdp-npa-bundle-icon); object-fit: cover; }
+.text { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; }
+/* title 15/600/20 blue-gray/900, −0.1; "Đ20 off" 15/700 #0A49B8 */
+.title { font: var(--nk-type-text15-semibold-lh20); letter-spacing: -0.1px; color: var(--nk-color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.off { font-weight: var(--nk-font-weight-bold); color: var(--nk-color-pdp-npa-bundle-highlight); }
+/* subtitle 13/20 blue-gray/700 */
+.subtitle { font: var(--nk-type-text13-regular-lh20); letter-spacing: -0.1px; color: var(--nk-color-text-muted); }

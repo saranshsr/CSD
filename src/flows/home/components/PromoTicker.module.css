@@ -1,0 +1,37 @@
+/* Cashback ticket strip (Figma 1337:5131): 351×62 at gutter 12 (stretches on the 390 device). Figma coordinates. */
+.wrap { padding: 0 var(--nk-space-s12); }
+.ticket { position: relative; display: block !important; width: 100%; height: 62px; overflow: hidden; border-radius: var(--nk-radius-r12); background: var(--nk-color-bg-surface); text-align: start; }
+
+/* 1337:5133 blurred glows — rotated + skewed vectors inside size containers */
+.glows { position: absolute; inset: 0; pointer-events: none; }
+.glows img { display: block; max-width: none; width: 100%; height: 100%; }
+.glowRight, .glowLeft { position: absolute; display: flex; align-items: center; justify-content: center; container-type: size; }
+.glowRight { inset: -96.92% -56.89% -157.47% 78.84%; }
+.glowLeft { inset: -158.21% 62.76% -55.63% -31.88%; }
+.glowRightShape, .glowLeftShape { flex: none; position: relative; }
+.glowRightShape { width: hypot(37.7868cqw, 37.7868cqh); height: hypot(-62.2132cqw, 62.2132cqh); transform: rotate(38.73deg) skewX(-12.54deg); }
+.glowLeftShape { width: hypot(-37.7868cqw, -37.7868cqh); height: hypot(62.2132cqw, -62.2132cqh); transform: rotate(-141.27deg) skewX(-12.54deg); }
+.glowRightPad, .glowLeftPad { position: absolute; }
+.glowRightPad { inset: -58.57% -96.43%; }
+.glowLeftPad { inset: -66.13% -108.89%; }
+
+/* 12pt notch circles half off both edges (1337:5136 / 5137) */
+.notchStart, .notchEnd { position: absolute; top: calc(50% + 0.5px); width: 12px; height: 12px; transform: translateY(-50%); display: block; }
+.notchStart { left: -6.5px; }
+.notchEnd { right: -5.5px; }
+
+/* 1337:5138 copy + pager, centred at 50% + 21.5 */
+.body { position: absolute; left: calc(50% + 21.5px); top: calc(50% - 0.09px); width: 274px; transform: translate(-50%, -50%); display: flex; align-items: center; justify-content: center; }
+.row { display: flex; align-items: center; gap: var(--nk-space-s24); }
+.copy { position: relative; display: flex; justify-content: center; width: 189px; }
+.copyInner { display: flex; flex-direction: column; align-items: center; gap: var(--nk-space-s2); width: 189px; }
+.title { font: var(--nk-type-text20-bold-lh24); letter-spacing: -0.4px; color: var(--nk-palette-new-black); text-align: center; white-space: nowrap; }
+.subtitle { font: var(--nk-type-text12-medium-lh14); letter-spacing: -0.24px; color: var(--nk-palette-new-black); white-space: nowrap; }
+.pager { display: flex; flex-direction: column; align-items: center; gap: var(--nk-space-s4); width: 22px; }
+.count { width: 100%; font: var(--nk-type-home-text13-bold-lh16); letter-spacing: -0.26px; color: var(--nk-color-home-alpha-gray900); text-align: center; white-space: nowrap; }
+.dots { display: flex; align-items: center; justify-content: center; gap: var(--nk-space-s6); width: 100%; }
+.dots img { display: block; }
+
+/* 1337:5150 card artwork: 101.128×72.475 rotated −46.66° in a 122×123 box at −26.49 / −22.5 */
+.art { position: absolute; left: -26.49px; top: -22.5px; width: 122.117px; height: 123.291px; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+.art img { flex: none; display: block; width: 101.128px; height: 72.475px; object-fit: cover; transform: rotate(-46.66deg); }

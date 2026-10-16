@@ -1,0 +1,138 @@
+/* Figma "All flows" Checkout · Donations new 127:44334 (master NoonCheckoutDonation/styles.ts) */
+/* container: 2px white frame (padding s2) · linearGradient white → borderGray, locations [.5, 1], angle 49 · r16 */
+.container {
+  margin-top: var(--nk-space-s12);
+  display: flex;
+  flex-direction: column;
+  padding: var(--nk-space-s10) 0 var(--nk-space-s16);
+  border: 2px solid var(--nk-color-bg-surface); /* token-lint: geometry (Figma border 2) */
+  border-radius: var(--nk-radius-r16);
+  background: linear-gradient(31deg, var(--nk-color-bg-surface) 50.28%, var(--nk-color-chk-af-donation-end) 103.82%);
+  overflow: hidden;
+}
+/* headerRow: gap 12 (Figma) / 16 (master), px 14, pb 4 */
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--nk-space-s12);
+  padding: 0 var(--nk-space-s14) var(--nk-space-s4);
+}
+.info {
+  flex: 1;
+  min-width: 0;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--nk-space-s8);
+}
+.texts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nk-space-s4);
+}
+/* B16/Bold 16/22 (-0.15) Blue-Gray/900 */
+.name {
+  font: var(--nk-type-section);
+  letter-spacing: -0.15px;
+  color: var(--nk-color-text-primary);
+  white-space: nowrap;
+}
+/* description: 12/16, 2 lines */
+.description {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+/* learnMoreButtonText: primaryBlue 13 / 600 (B13/SemiBold 13/20), dotted underline */
+.learnMore {
+  align-self: flex-start;
+  width: auto;
+  font: var(--nk-type-chk-af-text13-semibold-lh20);
+  letter-spacing: -0.1px;
+  color: var(--nk-palette-primary-blue);
+}
+/* DABS: 106×86, p8, right-aligned 64×86 logo */
+.logoSlot {
+  flex-shrink: 0;
+  width: 106px;
+  height: 86px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: var(--nk-space-s8);
+}
+.logo {
+  display: block;
+  width: 64px;
+  height: 86px;
+  object-fit: cover;
+}
+/* amountsListContent: px 14, py 8, gap 8 */
+.amounts {
+  display: flex;
+  gap: var(--nk-space-s8);
+  padding: var(--nk-space-s8) var(--nk-space-s14);
+  overflow-x: auto;
+}
+/* amountButton: white, h40, minWidth 64, border 1 lightGreyColor, r10 */
+.amount {
+  position: relative;
+  flex-shrink: 0;
+  min-width: 64px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--nk-space-s8);
+  border: 1px solid var(--nk-color-border);
+  border-radius: var(--nk-radius-r10);
+  background: var(--nk-color-bg-surface);
+  overflow: hidden;
+  cursor: pointer;
+}
+/* selected: borderGray bg + primaryBlue border */
+.amountSelected {
+  border-color: var(--nk-palette-primary-blue);
+  background: var(--nk-palette-border-gray);
+}
+/* labelled pill: pt6 pb14 (the sub-label strip sits at the bottom) */
+.amountLabelled {
+  padding-bottom: var(--nk-space-s8);
+}
+/* B13/Bold 13/20 (-0.1) Blue-Gray/900 · selected primaryBlue */
+.amountText {
+  font: var(--nk-type-chk-af-text13-bold-lh20);
+  letter-spacing: -0.1px;
+  color: var(--nk-color-text-primary);
+  white-space: nowrap;
+}
+.amountSelected .amountText {
+  color: var(--nk-palette-primary-blue);
+}
+/* "1 MEAL": 8/12 Bold primaryBlue on #EBF4FF, full width at the bottom (pb 1) */
+.amountLabel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding-bottom: 1px; /* token-lint: geometry */
+  background: var(--nk-palette-border-gray);
+  font: var(--nk-type-chk-af-text8-bold-lh12);
+  letter-spacing: -0.1px;
+  color: var(--nk-palette-primary-blue);
+  text-align: center;
+}
+/* note: 11 / 400 bluishGrey (B11/Regular 11/14), px 14 */
+.note {
+  padding: 0 var(--nk-space-s14);
+  font: var(--nk-type-text11-regular-lh14);
+  letter-spacing: -0.1px;
+  color: var(--nk-color-text-tertiary);
+}
+/* the NoonButton dotted line is a width="100%" SVG: keep it out of the intrinsic width so it spans only the label */
+.learnMore svg {
+  width: 0;
+  min-width: 100%;
+}
