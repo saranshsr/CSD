@@ -28,8 +28,6 @@ export const coupon = {
 
 /** The cart the journey starts from (team file 01 · Cart). */
 export const cartCopy = {
-  addressType: 'Home',
-  address: 'Villa 52, Springville, K, VGP Layout, Mhada Colony',
   savingsTitle: 'Savings & benefits',
   installments: '0% Installments',
   bankInstallments: 'Bank\nInstallments',
@@ -37,16 +35,7 @@ export const cartCopy = {
   cashback: '105 cashback',
   withCard: 'with the noon One credit card.',
   apply: 'Apply',
-  couponTitle: 'Got a coupon?',
-  couponPlaceholder: 'Enter your coupon code or select one',
-  couponApply: 'APPLY',
-  viewAll: 'View all coupons & offers',
   raffleAlt: 'Join our Yellow Friday Sale to win a brand new Lucid Air car! Raffle code IPHONE17. Add 700 to unlock the raffle code.',
-  saved: '130',
-  savedWord: 'saved!',
-  total: 'Total',
-  totalValue: '1,760.00',
-  checkout: 'Checkout',
   checkoutToast: 'Checkout is not part of this demo',
 };
 
@@ -62,7 +51,6 @@ export const copy = {
     { id: 'supermall', label: 'Direct from brand' },
     { id: 'express', label: 'Fulfilled by noon' },
   ],
-  card: { lowestPrice: 'Lowest price in 30 days', megaDeal: 'Mega Deal', getIn: 'Get in' },
   row: { lead: 'Search within', tail: '', label: `Search within ${coupon.code}` },
   scoped: { lead: 'Searching within', strong: 'eligible items', viewAll: 'View all', label: `Search within ${coupon.code} eligible items` },
   results: {
@@ -113,25 +101,6 @@ export const beautyCategories = [
   { id: 'grooming', label: 'Grooming', image: catGrooming, query: 'shampoo' },
 ];
 
-/**
- * What the team file's product card shows on top of the catalogue data: unit price, the Mega Deal strip, the "+3"
- * coupon count and the delivery promise (every card in the frames: "Get in 1 Hr 15 Min").
- */
-export interface CardExtras {
-  unit?: [string, string];
-  megaDeal?: boolean;
-  more?: number;
-}
-export const cardExtras: Record<string, CardExtras> = {
-  'cs-tord': { unit: ['30ml', '0.93/ml'], megaDeal: true, more: 3 },
-  'cs-vitc': { unit: ['30ml', '1.50/ml'], more: 3 },
-  'cs-vitc16': { unit: ['30ml', '1.83/ml'], more: 3 },
-  'cs-mini5': { unit: ['30ml', '1.17/ml'], more: 3 },
-  'cs-olaplex': { unit: ['30ml', '4.33/ml'], more: 3 },
-  'cs-ipl-mlay': { more: 3 },
-  'cs-ipl-philips': { more: 3 },
-};
-export const etaValue = '1 Hr 15 Min';
 
 /** Search keywords per product (what a shopper types), on top of brand + title. */
 const keywords: Record<string, string> = {

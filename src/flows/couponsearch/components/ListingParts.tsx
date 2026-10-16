@@ -1,14 +1,8 @@
 import { motion } from 'motion/react';
 import { useState } from 'react';
-import { Pressable } from '../../../components';
+import { MarketplaceTag, Pressable } from '../../../components';
 import { haptic } from '../../../motion/haptics';
-import noonLogo from '@assets/couponsearch/mp-noon.svg';
-import minutesLogo from '@assets/couponsearch/mp-minutes.webp';
-import supermallA from '@assets/couponsearch/mp-supermall-a.svg';
-import supermallB from '@assets/couponsearch/mp-supermall-b.svg';
-import expressLogo from '@assets/couponsearch/mp-express.svg';
-import chipFilter from '@assets/couponsearch/chip-filter.svg';
-import chipChevron from '@assets/couponsearch/chip-chevron.svg';
+import noonLogo from '@assets/plp/fulfillment/noon-wide-assortment.png';
 import pillBg from '@assets/couponsearch/pill-bg.svg';
 import pillArrow from '@assets/couponsearch/pill-arrow.svg';
 import pillFilter from '@assets/couponsearch/pill-filter.svg';
@@ -17,19 +11,19 @@ import heroBanner from '@assets/couponsearch/beauty10-hero.webp';
 import { beautyCategories, copy, coupon } from '../data';
 import styles from '../listing.module.css';
 
+/** the kit's marketplace marks (the PLP fulfilment tabs' noon logo and MarketplaceTag), in the frame's order */
 const logos: Record<string, React.ReactNode> = {
-  noon: <img src={noonLogo} alt="" width={53} height={18} />,
-  minutes: <img src={minutesLogo} alt="" width={76} height={17} />,
-  supermall: (
-    <span className={styles.mpSupermall}>
-      <img src={supermallA} alt="" width={33.6} height={10.2} style={{ marginTop: 2.7 }} />
-      <img src={supermallB} alt="" width={23.8} height={10.1} />
-    </span>
-  ),
-  express: <img src={expressLogo} alt="" width={63.7} height={19} />,
+  noon: <img src={noonLogo} alt="" width={79} height={18} style={{ objectFit: 'contain' }} />,
+  minutes: <MarketplaceTag kind="minutes" height={18} />,
+  supermall: <MarketplaceTag kind="supermall" height={18} />,
+  express: <MarketplaceTag kind="express" height={18} />,
 };
 
-/** 04 · Eligible items "Marketplace tabs": four equal tabs, logo · 11 / 14 label · 3 × 72 r2 indicator, hairline under. */
+/**
+ * 04 · Eligible items "Marketplace tabs": four equal tabs (noon · Minutes · supermall · express), logo · 11 / 14 label ·
+ * 3 × 72 r2 indicator, hairline under. The kit's MarketplaceStrip is five fixed tabs in another order with other labels,
+ * so the frame's four-tab strip stays, drawn with the kit's marks.
+ */
 export function MarketplaceTabs() {
   const [active, setActive] = useState('noon');
   return (
@@ -52,27 +46,6 @@ export function MarketplaceTabs() {
         </Pressable>
       ))}
     </nav>
-  );
-}
-
-/** The frames' filter chips: 32 high, #EBEAEA hairline, r8, 14 / 19.6 Medium; Filter leads with its icon, Sort / Price carry a chevron. */
-export function FilterChips({ beauty, onPress }: { beauty: boolean; onPress: () => void }) {
-  const chips: { label: string; icon?: boolean; chevron?: boolean }[] = [
-    { label: copy.chips.filter, icon: true },
-    { label: copy.chips.sort, chevron: true },
-    { label: copy.chips.price, chevron: true },
-    ...(beauty ? [{ label: copy.chips.face }, { label: copy.chips.eyes }] : []),
-  ];
-  return (
-    <div className={`nk-hscroll ${styles.chips}`}>
-      {chips.map((c) => (
-        <Pressable key={c.label} className={styles.chip} data-chevron={c.chevron || undefined} scale={0.96} onClick={onPress}>
-          {c.icon && <img src={chipFilter} alt="" width={16} height={16} />}
-          <span>{c.label}</span>
-          {c.chevron && <img src={chipChevron} alt="" width={20} height={20} />}
-        </Pressable>
-      ))}
-    </div>
   );
 }
 

@@ -1,23 +1,15 @@
 /* Coupon listings (04 · Eligible items, Iteration 2 Results): white page, the bar block fixed at the top
    (calc(inset + 4) 16 8, the search screen's bar spot, so the results-fade hand-off never moves it). */
-.barBlock { position: relative; z-index: 3; padding: calc(var(--nk-inset-top) + 4px) var(--nk-space-s16) var(--nk-space-s8); background: var(--nk-palette-white); }
 
 /* Marketplace tabs: pt 8, px 4, four flex-1 tabs; logo · 6 · 11 / 14 label · 6 · 3 × 72 indicator; #EAECF0 hairline */
 .mp { display: flex; align-items: flex-start; padding: var(--nk-space-s8) var(--nk-space-s4) 0; border-bottom: 1px solid var(--nk-palette-light-grey-color); background: var(--nk-palette-white); }
 .mpTab { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; }
 .mpLogo { height: 19px; display: flex; align-items: center; justify-content: center; }
 .mpLogo img { display: block; }
-.mpSupermall { display: flex; align-items: flex-start; justify-content: center; gap: 0.7px; width: 68.9px; height: 19px; padding-top: 4.4px; border-radius: 4.75px; background: var(--nk-color-cs-supermall); }
 .mpLabel { font: var(--nk-type-field-b11-regular); letter-spacing: -0.1px; color: var(--nk-palette-blue-gray900); white-space: nowrap; }
 .mpIndicator, .mpIndicatorSpace { display: block; width: 72px; height: 3px; border-radius: var(--nk-radius-r2); }
 .mpIndicator { background: var(--nk-palette-black); }
 
-/* chips row: p 12, gap 8 */
-.chips { display: flex; gap: var(--nk-space-s8); padding: var(--nk-space-s12); background: var(--nk-palette-white); }
-.chip { flex: none; display: flex; align-items: center; justify-content: center; gap: 2px; height: 32px; padding: 6px 8px; border: 1px solid var(--nk-color-cs-chip-border); border-radius: var(--nk-radius-r8); background: var(--nk-palette-white); font: var(--nk-type-cs-text14-medium-lh20); color: var(--nk-color-cs-chip-ink); white-space: nowrap; cursor: pointer; }
-.chip span { padding: 0 2px; }
-.chip[data-chevron] { padding-right: 4px; }
-.chip img { display: block; flex: none; }
 
 /* BEAUTY10 hero: full-bleed 375 × 164 art */
 .hero { display: block; width: 100%; aspect-ratio: 375 / 164; object-fit: cover; }
@@ -32,14 +24,10 @@
 .context { padding: var(--nk-space-s4) var(--nk-space-s16) 10px; font: var(--nk-type-field-b12-regular); letter-spacing: -0.1px; color: var(--nk-palette-slate-gray); }
 .context b { font-weight: 600; color: var(--nk-palette-blue-gray900); }
 
-/* grid: px 12, 16 rows / 10 columns */
-.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 10px; padding: 0 var(--nk-space-s12) 120px; }
-.cell { display: flex; flex-direction: column; min-width: 0; }
-.empty { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 48px 24px; text-align: center; }
 
-/* the floating Sort | Filter pill and share circle, 12 above the bottom nav */
-.footer { position: relative; }
-.pillDock { position: absolute; left: 50%; bottom: calc(100% + 12px); transform: translateX(-50%); display: flex; align-items: center; gap: var(--nk-space-s8); z-index: 4; }
+/* the floating Sort | Filter pill and share circle (no kit counterpart), 12 above the floating glass tab bar; it rides
+   the tab bar's hide-on-scroll */
+.pillDock { position: absolute; left: 50%; bottom: calc(var(--nk-layout-tab-bar) + var(--nk-tab-bar-floating-gap) + var(--nk-inset-bottom) + 12px); transform: translateX(-50%); display: flex; align-items: center; gap: var(--nk-space-s8); z-index: 4; }
 .pill { position: relative; width: 160px; height: 36px; flex: none; color: var(--nk-palette-white); font: var(--nk-type-cs-text16-bold-lh22b); cursor: pointer; }
 .pillBg { position: absolute; inset: 0; width: 100%; height: 100%; }
 .pillSort { position: absolute; left: 12px; top: 7px; line-height: 22.4px; }
@@ -51,5 +39,3 @@
 .share { flex: none; width: 36px; height: 36px; border-radius: 36px; border: 1.5px solid var(--nk-color-cs-pill); background: var(--nk-palette-white); display: flex; align-items: center; justify-content: center; padding: 0 0 0 0; cursor: pointer; }
 .share img { display: block; }
 
-/* the Field DS bottom nav is absolutely placed: this keeps its room (indicator 4 · 8 · icon 28 · 6 · label 14 + home bar) */
-.tabDock { position: relative; height: calc(60px + var(--nk-inset-bottom)); }
