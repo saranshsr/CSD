@@ -74,6 +74,8 @@ export default function Results({ nav, params = {} }) {
         <motion.div className="rs-context" {...form(STEP)}>
           {normal ? (
             <>Showing results for <b>“{query}”</b></>
+          ) : !variant && scope === 'all' ? (
+            <>Showing results for <b>“{query}”</b></>
           ) : !variant ? (
             <>Showing results for <b>“{query}”</b> in {isNoon ? <NoonScope /> : 'BEAUTY10 items'}</>
           ) : isNoon ? (

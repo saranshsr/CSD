@@ -220,8 +220,10 @@ export default function Search({ nav, params = {} }) {
     moveKb(false);
     go();
   }, [moveKb]);
-  const goResults = useCallback((q) => {
-    leave(() => nav.replace('results', { query: (q || '').trim() || 'serum', scope: !variant && !normal ? 'eligible' : scope, variant, normal }, { transition: 'morph' }));
+  // Auto-suggestion (Flow B): suggestions and Enter are a normal all-of-noon search; only the scoped
+  // row ("Searching within eligible items" / View all) searches the BEAUTY10 items.
+  const goResults = useCallback((q, scoped = false) => {
+    leave(() => nav.replace('results', { query: (q || '').trim() || 'serum', scope: !variant && !normal ? (scoped ? 'eligible' : 'all') : scope, variant, normal }, { transition: 'morph' }));
   }, [nav, leave, scope, variant, normal]);
   const goBack = useCallback(() => leave(() => nav.pop()), [nav, leave]);
 
@@ -404,7 +406,7 @@ export default function Search({ nav, params = {} }) {
           initial={false}
           animate={{ height: nudge ? 'auto' : 0 }}
           transition={reduce ? { duration: 0 } : nudge ? SPR.layout : SPR.recede}>
-          <ScopedRow key={nudgeKey} code={coupon.code} onTap={() => (query.trim() ? goResults(query) : goBack())} /* empty: back to the eligible items */
+          <ScopedRow key={nudgeKey} code={coupon.code} onTap={() => (query.trim() ? goResults(query, true) : goBack())} /* empty: back to the eligible items */
             initial={reduce ? { opacity: 0 } : { opacity: 0, y: -4 }}
             animate={nudge ? { opacity: 1, y: 0 } : { opacity: 0, y: -4 }}
             transition={reduce ? fade() : nudge
