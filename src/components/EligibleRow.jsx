@@ -23,7 +23,7 @@ const TRACK_W = 34, KNOB = 16, PAD = 2, STRETCH = 6;
 const TRAVEL = TRACK_W - PAD * 2 - KNOB; // 14
 const KNOB_SPRING = ios(0.34, 0.84);
 
-export default function EligibleRow({ code, value = 'extra 10% off', on, onChange, entrance }) {
+export default function EligibleRow({ code, value = 'Extra 10% off at checkout', on, onChange, entrance }) {
   const reduce = !!useReducedMotion();
   const p = useMotionValue(on ? 1 : 0);
   const press = useMotionValue(0); // 0..1 knob stretch
@@ -91,8 +91,11 @@ export default function EligibleRow({ code, value = 'extra 10% off', on, onChang
         onPointerCancel={() => { drag.current = null; setHeld(false); stretch(0); glide(on ? 1 : 0); }}
         onKeyDown={(e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); tick(); onChange(!on); } }}>
         <motion.span className="er-icon" style={{ backgroundColor: ink }} aria-hidden="true" />
-        <span className="er-text">
-          <b>{code}</b> items only<motion.span style={{ color: valueC }}> · {value}</motion.span>
+        {/* two lines (Figma "Eligible row · two lines"): scope on one line, the offer under it — wraps to a
+            second line for bigger offers instead of breaking the row */}
+        <span className="er-copy">
+          <span className="er-text"><b>{code}</b> items only</span>
+          <motion.span className="er-offer" style={{ color: valueC }}>{value}</motion.span>
         </span>
         <motion.span className="er-track" style={{ backgroundColor: track }} aria-hidden="true">
           <motion.span className="er-knob" style={{ x: knobX, width: knobW }} />
