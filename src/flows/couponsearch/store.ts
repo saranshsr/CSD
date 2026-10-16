@@ -5,7 +5,7 @@ import { createStore } from '../../kit/createStore';
  *  · `variant` — which of the three designs runs (Context band · Eligible row · Auto-suggestion), set by the
  *    version switch above the phone (`?v=h2|row|n5`)
  *  · `band` — h2: the context band is still up (✕ / a flick dismisses it for the rest of the visit)
- *  · `eligibleOnly` — row: the "Search BEAUTY10 items only" toggle, remembered for the visit
+ *  · `eligibleOnly` — row: the "Search within BEAUTY10" toggle, remembered for the visit
  * Every Shop more starts a new visit: band back, toggle on.
  */
 export type CsVariant = 'h2' | 'row' | 'n5';

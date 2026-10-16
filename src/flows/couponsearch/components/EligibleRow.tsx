@@ -16,7 +16,7 @@ const { slop } = csTokens.gesture;
 const flow = couponsearchFlowTokens.colors as Record<string, string>;
 
 /**
- * Eligible row: "Search BEAUTY10 items only" just under the search bar, from the empty state on. The whole row is the
+ * Eligible row: "Search within BEAUTY10" just under the search bar, from the empty state on. The whole row is the
  * hit target (an iOS settings cell); an Origin M-Toggle H20 (34×20, 16 knob, 2 inset) is its state.
  *
  * UISwitch, translated: ONE progress value `p` (1 = on) drives knob travel, track green ⇄ grey, the row tint ⇄ white
@@ -124,7 +124,7 @@ export function EligibleRow({ on, onChange }: { on: boolean; onChange: (on: bool
       data-held={held || undefined}
       role="switch"
       aria-checked={on}
-      aria-label={`${copy.row.lead} ${coupon.code} ${copy.row.tail}`}
+      aria-label={copy.row.label}
       tabIndex={0}
       style={{ backgroundColor: rowBg, boxShadow: ring }}
       onPointerDown={onPointerDown}
@@ -146,7 +146,7 @@ export function EligibleRow({ on, onChange }: { on: boolean; onChange: (on: bool
       <motion.span className={styles.erIcon} style={{ backgroundColor: ink, WebkitMaskImage: `url("${couponIcon}")`, maskImage: `url("${couponIcon}")` }} aria-hidden />
       <span className={styles.erCopy}>
         <span className={styles.erText}>
-          {copy.row.lead} <b>{coupon.code}</b> {copy.row.tail}
+          {copy.row.lead} <b>{coupon.code}</b>{copy.row.tail ? ` ${copy.row.tail}` : null}
         </span>
         <motion.span className={styles.erValue} style={{ color: valueInk }}>
           {coupon.value}

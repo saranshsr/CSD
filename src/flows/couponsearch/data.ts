@@ -63,7 +63,7 @@ export const copy = {
     { id: 'express', label: 'Fulfilled by noon' },
   ],
   card: { lowestPrice: 'Lowest price in 30 days', megaDeal: 'Mega Deal', getIn: 'Get in' },
-  row: { lead: 'Search', tail: 'items only', label: `Search ${coupon.code} items only` },
+  row: { lead: 'Search within', tail: '', label: `Search within ${coupon.code}` },
   scoped: { lead: 'Searching within', strong: 'eligible items', viewAll: 'View all', label: `Search within ${coupon.code} eligible items` },
   results: {
     inCoupon: `in ${coupon.code} items`,

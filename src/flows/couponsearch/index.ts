@@ -50,7 +50,7 @@ export const couponsearchFlow = defineFlow({
       path: 'beauty10-search',
       parent: 'couponsearch/eligible',
       notes:
-        'h2: ✕ the band (or flick / drag it; catch it mid-close). row: flip "Search BEAUTY10 items only" (tap or drag). n5: the scoped row leads the typeahead. Type "se", then "serum"; then "seiko watch".',
+        'h2: ✕ the band (or flick / drag it; catch it mid-close). row: flip "Search within BEAUTY10" (tap or drag). n5: the scoped row leads the typeahead. Type "se", then "serum"; then "seiko watch".',
       source,
       truth: 'reference',
     },
