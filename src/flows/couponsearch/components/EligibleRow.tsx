@@ -124,7 +124,7 @@ export function EligibleRow({ on, onChange }: { on: boolean; onChange: (on: bool
       data-held={held || undefined}
       role="switch"
       aria-checked={on}
-      aria-label={copy.row.label}
+      aria-label={`${coupon.rowLead ?? copy.row.lead} ${coupon.code} ${coupon.rowTail ?? copy.row.tail}`.trim()}
       tabIndex={0}
       style={{ backgroundColor: rowBg, boxShadow: ring }}
       onPointerDown={onPointerDown}
@@ -146,7 +146,8 @@ export function EligibleRow({ on, onChange }: { on: boolean; onChange: (on: bool
       <motion.span className={styles.erIcon} style={{ backgroundColor: ink, WebkitMaskImage: `url("${couponIcon}")`, maskImage: `url("${couponIcon}")` }} aria-hidden />
       <span className={styles.erCopy}>
         <span className={styles.erText}>
-          {copy.row.lead} <b>{coupon.code}</b>{copy.row.tail ? ` ${copy.row.tail}` : null}
+          {coupon.rowLead ?? copy.row.lead} <b>{coupon.code}</b>
+          {(coupon.rowTail ?? copy.row.tail) && <span className={styles.erTail}> {coupon.rowTail ?? copy.row.tail}</span>}
         </span>
         <motion.span className={styles.erValue} style={{ color: valueInk }}>
           {coupon.value}

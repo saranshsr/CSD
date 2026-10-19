@@ -8,7 +8,6 @@ import { useReduceMotion } from '../../../motion/reducedMotion';
 import { copy } from '../data';
 import { useCoupon } from '../couponContext';
 import { clamp, project, rubber, velocityTracker } from '../gesture';
-import { csStore, useCs } from '../store';
 import { csTokens } from '../tokens';
 import styles from '../search.module.css';
 
@@ -36,10 +35,9 @@ export interface BandHeaderHandle {
  *    and the release projects momentum (decel 0.998) to pick the side, handing its velocity to the spring.
  *  · the white sheet is never a grab area (it belongs to the search bar).
  */
-export const BandHeader = forwardRef<BandHeaderHandle, { children: ReactNode }>(function BandHeader({ children }, ref) {
+export const BandHeader = forwardRef<BandHeaderHandle, { children: ReactNode; band: boolean; onBand: (band: boolean) => void }>(function BandHeader({ children, band, onBand }, ref) {
   const reduce = useReduceMotion();
   const coupon = useCoupon();
-  const band = useCs((s) => s.band);
   const bandRef = useRef(band);
   bandRef.current = band;
   const p = useMotionValue(band ? 1 : 0);
@@ -82,7 +80,7 @@ export const BandHeader = forwardRef<BandHeaderHandle, { children: ReactNode }>(
   };
 
   const dismiss = () => {
-    csStore.setBand(false);
+    onBand(false);
     haptic('tick');
     move(0, B.close);
   };
@@ -147,10 +145,10 @@ export const BandHeader = forwardRef<BandHeaderHandle, { children: ReactNode }>(
     const v = vt.current.get(e.timeStamp);
     const gone = project(p.get() * h, v) < h / 2;
     if (gone && bandRef.current) {
-      csStore.setBand(false);
+      onBand(false);
       haptic('tick');
     }
-    if (!gone && !bandRef.current) csStore.setBand(true); // caught mid-close and pulled back open
+    if (!gone && !bandRef.current) onBand(true); // caught mid-close and pulled back open
     move(gone ? 0 : 1, B.release, v / h);
   };
 

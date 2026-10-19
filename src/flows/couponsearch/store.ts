@@ -4,9 +4,9 @@ import { createStore } from '../../kit/createStore';
  * Coupon-scoped search (BEAUTY10) state. Screens are separate stack entries, so the visit lives here:
  *  · `variant` — which of the three designs runs (Context band · Eligible row · Auto-suggestion), set by the
  *    version switch above the phone (`?v=h2|row|n5`)
- *  · `band` — h2: the context band is still up (✕ / a flick dismisses it for the rest of the visit)
  *  · `eligibleOnly` — row: the "Search within BEAUTY10" toggle, remembered for the visit
- * Every Shop more starts a new visit: band back, toggle on.
+ * Every Shop more starts a new visit: toggle on. The h2 band lives with its search (SearchScreen): ✕ lasts for that
+ * search (results and back keep it dismissed); opening the search again from the eligible page brings it back.
  */
 export type CsVariant = 'h2' | 'row' | 'n5';
 export const csVariants: { id: CsVariant; label: string; short: string }[] = [
@@ -18,20 +18,18 @@ export const isCsVariant = (v: unknown): v is CsVariant => v === 'h2' || v === '
 
 interface CsState {
   variant: CsVariant;
-  band: boolean;
   eligibleOnly: boolean;
 }
 
-const store = createStore<CsState>({ variant: 'h2', band: true, eligibleOnly: true });
+const store = createStore<CsState>({ variant: 'h2', eligibleOnly: true });
 
 export const csStore = {
   get: store.get,
   subscribe: store.subscribe,
-  /** a new coupon visit (Shop more, or a version switch): band back, toggle on */
-  newVisit: () => store.patch({ band: true, eligibleOnly: true }),
+  /** a new coupon visit (Shop more, or a version switch): toggle on */
+  newVisit: () => store.patch({ eligibleOnly: true }),
   /** the version switch: the visit starts over in the other design */
-  setVariant: (variant: CsVariant) => store.patch({ variant, band: true, eligibleOnly: true }),
-  setBand: (band: boolean) => store.patch({ band }),
+  setVariant: (variant: CsVariant) => store.patch({ variant, eligibleOnly: true }),
   setEligibleOnly: (eligibleOnly: boolean) => store.patch({ eligibleOnly }),
 };
 

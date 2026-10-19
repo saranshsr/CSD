@@ -42,7 +42,7 @@ export const cartCopy = {
 export const copy = {
   band: { title: 'Shop eligible products', dismiss: 'Dismiss' },
   hero: { title: 'Extra 10% off', body: 'Skincare, haircare, makeup & more', use: 'Use code' },
-  search: { placeholder: 'Search', recent: 'Recently searched', trending: 'Trending searches', viewed: 'Recently viewed categories', banner: 'OSN+ exclusives with noon One' },
+  search: { placeholder: 'Search', scoped: 'Search within', recent: 'Recently searched', trending: 'Trending searches', viewed: 'Recently viewed categories', banner: 'OSN+ exclusives with noon One' },
   chips: { filter: 'Filter', sort: 'Sort', price: 'Price', face: 'Face', eyes: 'Eyes' },
   pill: { sort: 'Sort', filter: 'Filter', share: 'Share' },
   marketplaces: [
@@ -51,11 +51,18 @@ export const copy = {
     { id: 'supermall', label: 'Direct from brand' },
     { id: 'express', label: 'Fulfilled by noon' },
   ],
-  row: { lead: 'Search within', tail: '', label: `Search within ${coupon.code}` },
-  scoped: { lead: 'Searching within', strong: 'eligible items', viewAll: 'View all', label: `Search within ${coupon.code} eligible items` },
+  /** eligible row line 1 (Section 1 · Eligible row): "Search **BEAUTY10** items only", "items only" in Regular */
+  row: { lead: 'Search', tail: 'items only' },
+  /** n5 scoped row (Section 1 · Auto-suggestion): pre-state "Search within **CODE** items"; typing "Search for **“q”** within **CODE**" */
+  scoped: { pre: 'Search within', items: 'items', query: 'Search for', within: 'within' },
+  /** h2 / n5: the label over the all-of-noon suggestions */
+  allOfNoon: 'Suggestions from all of noon',
+  /** h2 (F · No eligible match): message, caption and the section heading over the all-of-noon results */
+  fallback: { none: 'No', itemsFor: 'items for', caption: 'Here’s what we found across noon', heading: 'From all of noon' },
   results: {
     inCoupon: `in ${coupon.code} items`,
     inCouponStrong: `${coupon.code} items`,
+    code: coupon.code,
     allOfNoon: 'across all of noon',
     noCoupon: `No ${coupon.code} items for`,
     showingAll: 'showing all of noon',
@@ -148,8 +155,9 @@ const hay = (p: Product) => {
   return h;
 };
 /** every typed word starts a word of the product (typing letter by letter keeps matching) */
+const STOP = new Set(['for', 'the', 'and', 'with', 'of', 'in', 'a']);
 const matches = (p: Product, q: string) => {
-  const w = words(q);
+  const w = words(q).filter((x) => !STOP.has(x));
   return !!w.length && w.every((x) => hay(p).some((h) => h.startsWith(x)));
 };
 
@@ -243,6 +251,10 @@ const pool: [string, string?][] = [
 
 export interface Suggestion {
   text: string;
+  /** h2 mixed list: the scope this row searches (BEAUTY10 rows first, then all of noon) */
+  want?: Scope;
+  /** h2 mixed list: the first all-of-noon row carries the divider + "Suggestions from all of noon" label */
+  section?: boolean;
   product?: Product;
   category?: string;
 }
@@ -290,6 +302,18 @@ const curated: Record<string, { all: [string, string][]; eligible?: [string, str
   },
 };
 const row = ([text, id]: [string, string]): Suggestion => ({ text, product: getProduct(id) });
+
+/**
+ * h2 (F · Typing): BEAUTY10 suggestions first with no label, then the all-of-noon ones under a divider and the label.
+ * It is the all-of-noon typeahead split by eligibility ("se" → serum, sebamed baby lotion, setting spray | seiko
+ * watches for men, seiko 5); a query with only eligible rows shows no all-of-noon section ("serum").
+ */
+export function suggestMixed(q: string): Suggestion[] {
+  const all = suggest(q, 'all');
+  const mine = all.filter((r) => isEligibleQuery(r.text)).map((r) => ({ ...r, want: 'eligible' as Scope }));
+  const rest = all.filter((r) => !isEligibleQuery(r.text)).map((r, i) => ({ ...r, want: 'all' as Scope, section: i === 0 }));
+  return [...mine, ...rest];
+}
 
 /** At most this many suggestion rows (every typing frame shows five). */
 export const MAX_ROWS = 5;

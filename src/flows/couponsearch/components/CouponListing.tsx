@@ -58,7 +58,7 @@ function Pills({ beauty, onPress }: { beauty: boolean; onPress: () => void }) {
  * kit's Liquid Glass bottom tabs, sliding off on scroll as on the PLP. Filter, Sort and the pills are not part of this
  * demo (a toast says so), so no sheet with counts ever opens.
  */
-export function CouponListing({ query, items, lead, marketplaces, beauty, onBarPress }: { query: string; items: Product[]; lead: ReactNode; marketplaces?: boolean; beauty: boolean; onBarPress: () => void }) {
+export function CouponListing({ query, placeholder, items, lead, marketplaces, beauty, onBarPress }: { query: string; placeholder?: string; items: Product[]; lead: ReactNode; marketplaces?: boolean; beauty: boolean; onBarPress: () => void }) {
   const nav = useNav();
   const scroller = useRef<HTMLDivElement>(null);
   const isTop = useIsTop();
@@ -69,7 +69,7 @@ export function CouponListing({ query, items, lead, marketplaces, beauty, onBarP
     <div className={plp.header}>
       <div className={plp.barBlock}>
         <div className={plp.barRow}>
-          <CsSearchBar value={query} onChange={() => undefined} onBack={nav.back} onFieldPress={onBarPress} />
+          <CsSearchBar value={query} placeholder={placeholder} onChange={() => undefined} onBack={nav.back} onFieldPress={onBarPress} />
         </div>
       </div>
       {/* HidableView: hangs under the search bar over the list, clipped as it slides up */}

@@ -16,8 +16,8 @@ import { clamp, project } from './gesture';
 import { BandHeader, type BandHeaderHandle } from './components/BandHeader';
 import { EligibleRow } from './components/EligibleRow';
 import { ScopedRow } from './components/ScopedRow';
-import { MAX_ROWS, suggest, type Scope, type Suggestion } from './data';
-import { CouponContext, csCoupons } from './couponContext';
+import { MAX_ROWS, copy, suggest, suggestMixed, type Scope, type Suggestion } from './data';
+import { CouponContext, csCoupons, useCoupon } from './couponContext';
 import { csStore, useCs, type CsVariant } from './store';
 import { csTokens } from './tokens';
 import styles from './search.module.css';
@@ -37,13 +37,15 @@ type SlotCustom = { d: number; dissolve: boolean };
 const empty: Rows = { list: [], delay: [], epoch: Array(MAX_ROWS).fill(0), dissolve: false };
 const searchFor = (s: string): Suggestion => ({ text: `Search for "${s}"` });
 const isSearchFor = (s: Suggestion) => s.text.startsWith('Search for "');
-const listFor = (q: string, scope: Scope): Suggestion[] => {
+/** what the suggestions come from: a scope, or h2's BEAUTY10-first list with an all-of-noon section */
+type ListScope = Scope | 'mixed';
+const listFor = (q: string, scope: ListScope): Suggestion[] => {
   const s = q.trim();
   if (!s) return [];
-  const hit = suggest(q, scope);
+  const hit = scope === 'mixed' ? suggestMixed(q) : suggest(q, scope);
   return hit.length ? hit : [searchFor(s)];
 };
-const keyOf = (l: Suggestion[]) => l.map((s) => s.text).join('|');
+const keyOf = (l: Suggestion[]) => l.map((s) => `${s.section ? '§' : ''}${s.text}`).join('|');
 const dissolveT = { duration: csTokens.toggle.dissolve, ease: handoff.easeInOut };
 
 /** One suggestion slot (the kit's): in (falls 20px on the handoff spring), out (lifts 20px), gone (spare row), fast (exit into results); a scope change only dissolves. */
@@ -114,7 +116,11 @@ function CouponSearch({ variant }: { variant: CsVariant }) {
   const params = useParams<{ q?: string; normal?: string }>();
   const normal = !!params.normal;
   const eligibleOnly = useCs((s) => s.eligibleOnly);
-  const scope: Scope = normal ? 'all' : variant === 'h2' ? 'eligible' : variant === 'row' && eligibleOnly ? 'eligible' : 'all';
+  // h2: the band lives with this search: ✕ lasts until the search is opened again (results and back keep it)
+  const [bandOn, setBandOn] = useState(true);
+  const banded = variant === 'h2' && !normal && bandOn;
+  // h2 with the band: BEAUTY10 suggestions first, then all of noon; after ✕ a normal all-of-noon search
+  const scope: ListScope = normal ? 'all' : variant === 'h2' ? (bandOn ? 'mixed' : 'all') : variant === 'row' && eligibleOnly ? 'eligible' : 'all';
   const scopeRef = useRef(scope);
   scopeRef.current = scope;
   const [q, setQ] = useState(params.q ?? '');
@@ -231,7 +237,9 @@ function CouponSearch({ variant }: { variant: CsVariant }) {
   const onKey = (ch: string) => {
     if (phaseRef.current === 'leaving') return;
     if (!kbShownRef.current) moveKb(true);
-    setQ((v) => v + ch);
+    const field = headerRef.current?.querySelector('input');
+    const all = !!field && field.value.length > 0 && field.selectionStart === 0 && field.selectionEnd === field.value.length;
+    setQ((v) => (all ? ch : v + ch)); // a selected query is replaced, as on iOS
   };
   const onBackspace = (kind: 'char' | 'word') => {
     if (phaseRef.current === 'leaving') return;
@@ -291,14 +299,16 @@ function CouponSearch({ variant }: { variant: CsVariant }) {
     setPhase('idle');
     band.current?.comeBack();
     moveKb(true, 0, K.dockDelay);
-    headerRef.current?.querySelector('input')?.focus({ preventScroll: true });
+    const field = headerRef.current?.querySelector('input');
+    field?.focus({ preventScroll: true });
+    if (variant === 'h2') field?.select(); // F · Back from results: the query comes back selected
     return update(q);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isTop]);
 
   const fillFrom = (text: string) => (text.toLowerCase().startsWith(q.toLowerCase()) ? q.length : 0);
   /** every query goes through here; `want` = the scope the results page searches */
-  const go = (text: string, want: Scope = scopeRef.current) => {
+  const go = (text: string, want: Scope = scopeRef.current === 'mixed' ? 'eligible' : scopeRef.current) => {
     const query = text.trim();
     if (!query || phaseRef.current === 'leaving') return;
     setFill({ from: fillFrom(query), key: Date.now() });
@@ -329,11 +339,14 @@ function CouponSearch({ variant }: { variant: CsVariant }) {
   const chromeState = leaving ? 'fast' : 'in';
   const chromeDelay = leaving ? n * st.fastExit.stagger : presearchDelay;
 
-  const input = <CsSearchBar value={q} onChange={setQ} onBack={back} autoFocus onSubmit={(v) => go(v)} fill={fill} />;
+  const coupon = useCoupon();
+  const input = <CsSearchBar value={q} onChange={setQ} onBack={back} autoFocus onSubmit={(v) => go(v)} fill={fill} placeholder={banded ? `${copy.search.scoped} ${coupon.code}` : undefined} />;
   const header =
     variant === 'h2' && !normal ? (
       <div ref={headerRef} onPointerDownCapture={onHeaderPointerDown}>
-        <BandHeader ref={band}>{input}</BandHeader>
+        <BandHeader ref={band} band={bandOn} onBand={setBandOn}>
+          {input}
+        </BandHeader>
       </div>
     ) : (
       <div ref={headerRef} onPointerDownCapture={onHeaderPointerDown}>
@@ -373,8 +386,15 @@ function CouponSearch({ variant }: { variant: CsVariant }) {
           variants={chrome}
           style={{ pointerEvents: leaving ? 'none' : 'auto' }}
         >
-          {/* empty field: back to the eligible items; typed: search them */}
-          <ScopedRow onPress={() => (q.trim() ? go(q, 'eligible') : nav.back())} />
+          {/* typed: search the BEAUTY10 items; pre-state: the field takes the caret (and the keyboard comes up) */}
+          <ScopedRow
+            query={q}
+            onPress={() => {
+              if (q.trim()) return go(q, 'eligible');
+              headerRef.current?.querySelector('input')?.focus({ preventScroll: true });
+              if (!kbShownRef.current) moveKb(true);
+            }}
+          />
         </motion.div>
       )}
       <div style={{ position: 'relative' }}>
@@ -404,12 +424,18 @@ function CouponSearch({ variant }: { variant: CsVariant }) {
                 style={{ visibility: s ? 'visible' : 'hidden' }}
               >
                 {s && (
-                  <BlurSwap key={rows.epoch[i]} swapKey={s.text} delay={rows.delay[i] ?? 0} {...plain}>
+                  <BlurSwap key={rows.epoch[i]} swapKey={`${s.section ? '§' : ''}${s.text}`} delay={rows.delay[i] ?? 0} {...plain}>
+                    {s.section && (
+                      <div aria-hidden>
+                        <div className={styles.sqDivider} />
+                        <div className={styles.sgLabel}>{copy.allOfNoon}</div>
+                      </div>
+                    )}
                     <CsSuggestionRow
                       text={s.text}
                       query={isSearchFor(s) ? '' : q}
                       product={s.product}
-                      onPress={() => go(isSearchFor(s) ? q : s.text)}
+                      onPress={() => go(isSearchFor(s) ? q : s.text, s.want)}
                       onFill={() => {
                         setFill({ from: fillFrom(s.text), key: Date.now() });
                         setQ(s.text + ' ');

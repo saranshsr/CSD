@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useNav } from '../../kit/Navigator';
 import { CouponListing } from './components/CouponListing';
 import { Beauty10Hero, CategoryCircles } from './components/ListingParts';
-import { eligibleProducts } from './data';
+import { copy, coupon, eligibleProducts } from './data';
 import { csStore, useCs } from './store';
 
 /**
@@ -21,6 +21,8 @@ export function EligibleScreen() {
     <CouponListing
       key={variant}
       query=""
+      // h2 (F · Back on BEAUTY10 page): the bar says where its search looks
+      placeholder={variant === 'h2' ? `${copy.search.scoped} ${coupon.code}` : undefined}
       items={eligibleProducts}
       marketplaces
       beauty
