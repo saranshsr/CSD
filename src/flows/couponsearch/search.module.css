@@ -2,7 +2,7 @@
 .header { background: var(--nk-color-bg-surface); padding: calc(var(--nk-inset-top) + 4px) var(--nk-space-s16) var(--nk-space-s8); }
 
 /* ── H2 · Context band ─────────────────────────────────────────────────────────────────────────────── */
-.h2 { position: relative; background: var(--nk-color-bg-surface); touch-action: pan-x; }
+.h2 { position: relative; overflow: hidden; background: var(--nk-color-bg-surface); touch-action: pan-x; } /* the green can never reach past the header */
 /* green + halftone pattern (375 wide, centred, pinned to the top: the dots stay still while the band opens / closes) */
 .h2Green { position: absolute; top: 0; left: 0; right: 0; pointer-events: none; background: var(--nk-color-success) url('../../assets/couponsearch/coupon-hero-pattern.webp') center top / 375px auto no-repeat; }
 /* the band copy overflows its slot while the sheet rises over it: covered, never clipped */

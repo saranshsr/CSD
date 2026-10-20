@@ -44,9 +44,15 @@ export const BandHeader = forwardRef<BandHeaderHandle, { children: ReactNode; ba
   const H = useMotionValue(77);
   const copyRef = useRef<HTMLDivElement>(null);
   const sheetRef = useRef<HTMLDivElement>(null);
+  // measured, and re-measured whenever the band resizes (fonts landing late, a host frame that resizes: Prism)
   useLayoutEffect(() => {
-    const h = copyRef.current?.offsetHeight;
-    if (h) H.set(h);
+    const el = copyRef.current;
+    if (!el) return;
+    const measure = () => { if (el.offsetHeight) H.set(el.offsetHeight); };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
   }, [H]);
 
   const slotH = useTransform(() => Math.max(0, p.get()) * H.get());
