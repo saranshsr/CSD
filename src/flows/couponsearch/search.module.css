@@ -43,6 +43,10 @@
 .sqTitle b { font-weight: 700; }
 .sqSub { font: var(--nk-type-field-b11-regular); letter-spacing: -0.1px; color: var(--nk-palette-deep-green); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .sqChevron { flex: none; }
+/* pre-state: greyed out and inert until the user types */
+.sq[data-pre] { cursor: default; }
+.sq[data-pre] .sqTile { background: var(--nk-color-bg-muted); }
+.sq[data-pre] .sqTitle, .sq[data-pre] .sqSub { color: var(--nk-color-text-disabled); }
 .sqDivider { height: 1px; margin: 4px var(--nk-space-s16); background: var(--nk-color-cs-divider); }
 
 /* ── Suggestion rows (team file "Suggestion"): 52 high, padding 6 / 16, gap 12 ─────────────────────── */

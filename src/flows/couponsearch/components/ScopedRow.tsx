@@ -24,18 +24,28 @@ export function ScopedRow({ query, onPress }: { query: string; onPress: () => vo
       {copy.scoped.pre} <b>{coupon.code}</b> {copy.scoped.items}
     </>
   );
+  const body = (
+    <>
+      <span className={styles.sqTile}>
+        <OriginIcon name="coupon-discount-filled" size={20} color={q ? field.textSuccess : field.textTertiary} />
+      </span>
+      <span className={styles.sqCopy}>
+        <span className={styles.sqTitle}>{title}</span>
+        <span className={styles.sqSub}>{coupon.value}</span>
+      </span>
+      {q && <OriginIcon name="chevron-right-bold" size={16} color={field.textAction} className={styles.sqChevron} />}
+    </>
+  );
+  // pre-state (empty field): a greyed-out hint, not a button. It becomes the action once you type.
   return (
     <div>
-      <Pressable asDiv className={styles.sq} data-typing={!!q || undefined} scale={0.98} onClick={onPress} aria-label={q ? `${copy.scoped.query} ${q} ${copy.scoped.within} ${coupon.code}` : `${copy.scoped.pre} ${coupon.code} ${copy.scoped.items}`}>
-        <span className={styles.sqTile}>
-          <OriginIcon name="coupon-discount-filled" size={20} color={field.textSuccess} />
-        </span>
-        <span className={styles.sqCopy}>
-          <span className={styles.sqTitle}>{title}</span>
-          <span className={styles.sqSub}>{coupon.value}</span>
-        </span>
-        <OriginIcon name="chevron-right-bold" size={16} color={field.textAction} className={styles.sqChevron} />
-      </Pressable>
+      {q ? (
+        <Pressable asDiv className={styles.sq} data-typing scale={0.98} onClick={onPress} aria-label={`${copy.scoped.query} ${q} ${copy.scoped.within} ${coupon.code}`}>
+          {body}
+        </Pressable>
+      ) : (
+        <div className={styles.sq} data-pre aria-disabled="true">{body}</div>
+      )}
       <div className={styles.sqDivider} />
       {q && <div className={styles.sgLabel}>{copy.allOfNoon}</div>}
     </div>
