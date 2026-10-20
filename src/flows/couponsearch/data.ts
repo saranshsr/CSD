@@ -52,7 +52,7 @@ export const copy = {
     { id: 'express', label: 'Fulfilled by noon' },
   ],
   /** eligible row line 1 (Section 1 · Eligible row): "Search **BEAUTY10** items only", "items only" in Regular */
-  row: { lead: 'Search', tail: 'items only' },
+  row: { lead: 'Search within', tail: 'items only' },
   /** n5 scoped row (Section 1 · Auto-suggestion): pre-state "Search within **CODE** items"; typing "Search for **“q”** within **CODE**" */
   scoped: { pre: 'Search within', items: 'items', query: 'Search for', within: 'within' },
   /** h2 / n5: the label over the all-of-noon suggestions */
