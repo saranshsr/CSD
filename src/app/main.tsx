@@ -29,13 +29,18 @@ setWasmUrl(new URL('../../node_modules/@lottiefiles/dotlottie-web/dist/dotlottie
 
 const readUrl = (): { route?: Route; params: Record<string, string> } => {
   const { route, params } = parsePageUrl(window.location);
-  const { v, ...rest } = params;
+  const { v, embed: _embed, ...rest } = params;
   if (isCsVariant(v)) csStore.setVariant(v);
   return { route: route ? registry.resolve(route)?.route : 'couponsearch/cart', params: rest };
 };
+// `?embed=1`: for tools that put the prototype in their own phone frame (Prism, Figma embeds). No version switch,
+// no backdrop or phone frame of ours, the screen fills the window, and the link stays locked to its `?v=`.
+const embed = new URLSearchParams(window.location.search).get('embed') === '1';
+if (embed) document.documentElement.classList.add('pg-embed');
 const withVersion = (search: string) => {
   const q = new URLSearchParams(search);
   q.set('v', csStore.get().variant);
+  if (embed) q.set('embed', '1');
   return `?${q.toString()}`;
 };
 
@@ -43,12 +48,23 @@ const withVersion = (search: string) => {
 // expect it at the stage's 24px offset: under automation the switch only shows when a test asks for it (`?v=`), and
 // the phone is never scaled. People get the switch, and a phone scaled down to fit a short window.
 const automated = !!navigator.webdriver;
-const showSwitch = !automated || new URLSearchParams(window.location.search).has('v');
+const showSwitch = !embed && (!automated || new URLSearchParams(window.location.search).has('v'));
 const SWITCH_H = 52; // VersionSwitch: 16 top + 36
 const STAGE_PAD = 48; // .pg-stage padding, top + bottom
 function useFitScale() {
   const [scale, setScale] = useState(1);
   useLayoutEffect(() => {
+    if (embed) {
+      // the app keeps its 390 layout (keyboard, grids) and scales to the host frame's width; its height fills the frame
+      const fit = () => {
+        const k = window.innerWidth / layout.deviceWidth;
+        document.documentElement.style.setProperty('--emb-scale', String(k));
+        setScale(k);
+      };
+      fit();
+      window.addEventListener('resize', fit);
+      return () => window.removeEventListener('resize', fit);
+    }
     if (automated) return;
     const fit = () => {
       const h = (window.innerHeight - (showSwitch ? SWITCH_H : 0) - STAGE_PAD) / layout.deviceHeight;
@@ -98,8 +114,8 @@ function Preview() {
       {showSwitch && <VersionSwitch value={variant} onChange={onVersion} />}
       <div className="pg-stage">
         {/* PhoneFrame scales from its top centre; this box takes the scaled height so the page doesn't scroll */}
-        <div style={scale < 1 ? { height: layout.deviceHeight * scale, overflow: 'clip', overflowClipMargin: 24 } : undefined}>
-          <NoonPrototype key={page.nonce} flows={allFlows} initialRoute={page.route} initialParams={page.params} onRouteChange={onRouteChange} scale={scale} />
+        <div style={embed ? undefined : scale < 1 ? { height: layout.deviceHeight * scale, overflow: 'clip', overflowClipMargin: 24 } : undefined}>
+          <NoonPrototype key={page.nonce} flows={allFlows} initialRoute={page.route} initialParams={page.params} onRouteChange={onRouteChange} scale={scale} frame={!embed} />
         </div>
       </div>
     </>

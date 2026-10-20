@@ -12,3 +12,10 @@ body,
   justify-content: center;
   padding: 24px 0;
 }
+
+/* ?embed=1 (main.tsx): the host draws the phone, so the screen fills its window */
+.pg-embed, .pg-embed body, .pg-embed #root { background: #fff; height: 100%; overflow: hidden; } /* token-lint-ignore — embed backdrop */
+.pg-embed .pg-stage { padding: 0; height: 100%; }
+.pg-embed [style*="--nk-inset-top"] { height: calc(100vh / var(--emb-scale, 1)) !important; border-radius: 0 !important; }
+.pg-embed .pg-stage [class*="frameless"] { box-shadow: none; border-radius: 0; transform-origin: top left !important; }
+.pg-embed .pg-stage { justify-content: flex-start; }
