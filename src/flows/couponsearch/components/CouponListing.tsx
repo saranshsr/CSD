@@ -16,7 +16,7 @@ import { plpTokens } from '../../plp/tokens';
 import plp from '../../plp/plp.module.css';
 import { copy } from '../data';
 import { CsSearchBar } from './CsSearchBar';
-import { MarketplaceTabs, SortFilterPill } from './ListingParts';
+import { MarketplaceTabs } from './ListingParts';
 
 const T = plpTokens.timeline;
 /** `results-fade` shows the layer at once; everything under the search bar fades in here (S-curve 300ms), as on the kit's PLP. */
@@ -85,7 +85,6 @@ export function CouponListing({ query, placeholder, items, lead, marketplaces, b
   const footer = (
     <motion.div className={plp.navDock} initial={{ y: T.navRise }} animate={{ y: 0 }} transition={{ ...handoff.spring, delay: T.navAt }}>
       <motion.div className={plp.navHide} style={{ '--plp-tab-hide': scroll.tabHide } as never}>
-        <SortFilterPill onPress={notInDemo} />
         <TabBar active="cart" />
       </motion.div>
     </motion.div>

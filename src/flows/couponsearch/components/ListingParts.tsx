@@ -3,10 +3,6 @@ import { useState } from 'react';
 import { MarketplaceTag, Pressable } from '../../../components';
 import { haptic } from '../../../motion/haptics';
 import noonLogo from '@assets/plp/fulfillment/noon-wide-assortment.png';
-import pillBg from '@assets/couponsearch/pill-bg.svg';
-import pillArrow from '@assets/couponsearch/pill-arrow.svg';
-import pillFilter from '@assets/couponsearch/pill-filter.svg';
-import shareIcon from '@assets/couponsearch/share.svg';
 import heroBanner from '@assets/couponsearch/beauty10-hero.webp';
 import { beautyCategories, copy, coupon } from '../data';
 import styles from '../listing.module.css';
@@ -68,24 +64,3 @@ export function CategoryCircles({ onPress }: { onPress: (query: string) => void 
   );
 }
 
-/** The floating "Sort ⇅ | Filter" pill (160 × 36, #3866DF) and the 36 share circle, 12 above the bottom nav. */
-export function SortFilterPill({ onPress }: { onPress: () => void }) {
-  return (
-    <div className={styles.pillDock}>
-      <Pressable className={styles.pill} scale={0.96} onClick={onPress} aria-label={`${copy.pill.sort} and ${copy.pill.filter}`}>
-        <img className={styles.pillBg} src={pillBg} alt="" />
-        <span className={styles.pillSort}>{copy.pill.sort}</span>
-        <span className={styles.pillSortIcon} aria-hidden>
-          <img src={pillArrow} alt="" style={{ transform: 'rotate(90deg)' }} />
-          <img src={pillArrow} alt="" style={{ transform: 'rotate(-90deg)' }} />
-        </span>
-        <span className={styles.pillSep} aria-hidden />
-        <span className={styles.pillFilter}>{copy.pill.filter}</span>
-        <img className={styles.pillFilterIcon} src={pillFilter} alt="" width={24} height={24} />
-      </Pressable>
-      <Pressable className={styles.share} scale={0.92} onClick={onPress} aria-label={copy.pill.share}>
-        <img src={shareIcon} alt="" width={24} height={24} />
-      </Pressable>
-    </div>
-  );
-}
