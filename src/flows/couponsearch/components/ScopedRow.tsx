@@ -27,7 +27,7 @@ export function ScopedRow({ query, onPress }: { query: string; onPress: () => vo
   const body = (
     <>
       <span className={styles.sqTile}>
-        <OriginIcon name="coupon-discount-filled" size={20} color={q ? field.textSuccess : field.textTertiary} />
+        <OriginIcon name="coupon-discount-filled" size={20} color={q ? field.textSuccess : 'var(--nk-color-cs-icon-off)'} />
       </span>
       <span className={styles.sqCopy}>
         <span className={styles.sqTitle}>{title}</span>
