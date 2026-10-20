@@ -122,6 +122,8 @@ export interface SearchInputProps {
   iconRight?: ReactNode;
   /** field variant: second trailing icon, after a 1 × 24 borderSubtle divider */
   iconRightTwo?: ReactNode;
+  /** default variant: keep the camera while typing (the live app) instead of swapping it for the clear (x) */
+  keepCamera?: boolean;
 }
 
 /** the handoff "picked suggestion" fill, shared by both SearchInput looks */
@@ -170,9 +172,10 @@ function KitSearchInput({
   onSubmit,
   onFieldPress,
   fill,
+  keepCamera,
 }: SearchInputProps) {
   const filling = useFill(value, fill);
-  const showClear = !!value && !onFieldPress;
+  const showClear = !!value && !onFieldPress && !keepCamera;
   return (
     <div className={`${styles.bar} ${styles.input}`}>
       {onBack && (

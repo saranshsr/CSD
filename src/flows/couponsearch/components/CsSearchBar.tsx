@@ -7,5 +7,6 @@ import { copy } from '../data';
  * the kit's results-fade hand-off exact.
  */
 export function CsSearchBar({ placeholder, ...props }: Omit<SearchInputProps, 'variant'>) {
-  return <SearchInput {...props} placeholder={placeholder ?? copy.search.placeholder} />;
+  // the live app keeps the camera on the right while typing (no clear x)
+  return <SearchInput {...props} keepCamera placeholder={placeholder ?? copy.search.placeholder} />;
 }
