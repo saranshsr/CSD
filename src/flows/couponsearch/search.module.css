@@ -18,6 +18,8 @@
 .bandValue { font: var(--nk-type-text13-medium-lh18); color: var(--nk-color-cs-on-green90); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 /* ✕: a 32 circle in white 18% inside a 36 hit area */
 .bandX { flex: none; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; }
+/* "Remove" (replaces the ✕): a quiet pill on the green, same translucent white, 32 tall */
+.bandRemove { flex: none; height: 32px; padding: 0 var(--nk-space-s12); border-radius: var(--nk-radius-r16); background: var(--nk-color-cs-on-green18); color: var(--nk-color-bg-surface); font: var(--nk-type-text13-semibold-lh16); letter-spacing: -0.1px; display: flex; align-items: center; white-space: nowrap; }
 .bandXCircle { width: 32px; height: 32px; border-radius: var(--nk-radius-r16); background: var(--nk-color-cs-on-green18); display: flex; align-items: center; justify-content: center; }
 
 /* ── Row · Eligible row ────────────────────────────────────────────────────────────────────────────── */

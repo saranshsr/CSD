@@ -40,7 +40,7 @@ export const cartCopy = {
 };
 
 export const copy = {
-  band: { title: 'Shop eligible products', dismiss: 'Dismiss' },
+  band: { title: 'Shop eligible products', dismiss: 'Remove', dismissLabel: 'Remove BEAUTY10 filter' },
   hero: { title: 'Extra 10% off', body: 'Skincare, haircare, makeup & more', use: 'Use code' },
   search: { placeholder: 'Search', scoped: 'Search within', recent: 'Recently searched', trending: 'Trending searches', viewed: 'Recently viewed categories', banner: 'OSN+ exclusives with noon One' },
   chips: { filter: 'Filter', sort: 'Sort', price: 'Price', face: 'Face', eyes: 'Eyes' },

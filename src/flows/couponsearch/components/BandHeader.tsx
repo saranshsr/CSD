@@ -1,6 +1,6 @@
 import { animate, motion, useMotionValue, useMotionValueEvent, useTransform, type AnimationPlaybackControls } from 'motion/react';
 import { forwardRef, useImperativeHandle, useLayoutEffect, useRef, useState, type PointerEvent as ReactPointerEvent, type ReactNode } from 'react';
-import { OriginIcon, Pressable } from '../../../components';
+import { Pressable } from '../../../components';
 import { layout } from '../../../foundations/tokens';
 import { useStatusBar } from '../../../kit/statusBar';
 import { haptic } from '../../../motion/haptics';
@@ -170,10 +170,8 @@ export const BandHeader = forwardRef<BandHeaderHandle, { children: ReactNode; ba
               <span className={styles.bandValue}>{coupon.bandValue ?? coupon.value}</span>
             </span>
           </div>
-          <Pressable className={styles.bandX} aria-label={copy.band.dismiss} scale={0.9} onClick={dismiss}>
-            <span className={styles.bandXCircle}>
-              <OriginIcon name="cross" size={16} color="var(--nk-color-bg-surface)" />
-            </span>
+          <Pressable className={styles.bandRemove} aria-label={copy.band.dismissLabel} scale={0.95} onClick={dismiss}>
+            {copy.band.dismiss}
           </Pressable>
         </motion.div>
       </motion.div>
