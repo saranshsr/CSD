@@ -50,7 +50,7 @@
 .sq[data-pre] { cursor: default; }
 .sq[data-pre] .sqTile { background: var(--nk-color-bg-surface); box-shadow: inset 0 0 0 1px var(--nk-color-border-subtle); }
 .sq[data-pre] .sqSub { color: var(--nk-color-text-secondary); }
-.sqDivider { height: 1px; margin: 4px var(--nk-space-s16); background: var(--nk-color-cs-divider); }
+.sqDivider { height: 1px; margin: 4px var(--nk-space-s16); background: var(--nk-color-border-subtle); }
 
 /* ── Suggestion rows (team file "Suggestion"): 52 high, padding 6 / 16, gap 12 ─────────────────────── */
 .sg { display: flex; align-items: center; gap: var(--nk-space-s12); width: 100%; height: 52px; padding: 6px var(--nk-space-s16); cursor: pointer; -webkit-tap-highlight-color: transparent; }

@@ -51,8 +51,8 @@ export function EligibleRow({ on, onChange }: { on: boolean; onChange: (on: bool
   const knobW = useTransform(press, (v) => T.knob + v * T.stretch);
   const knobX = useTransform(() => Math.min(1.08, Math.max(-0.08, p.get())) * (TRAVEL - press.get() * T.stretch));
   const track = useTransform(p, [0, 1], [colors.border, colors.success]);
-  const rowBg = useTransform(p, [0, 1], [colors.bgSurface, flow.csTint]);
-  const ring = useTransform(p, [0, 1], [`inset 0 0 0 1px ${colors.borderSubtle}`, `inset 0 0 0 1px ${flow.csTint}`]);
+  const rowBg = useTransform(p, [0, 1], [colors.bgSurface, colors.successSurface]);
+  const ring = useTransform(p, [0, 1], [`inset 0 0 0 1px ${colors.borderSubtle}`, `inset 0 0 0 1px ${colors.successSurface}`]);
   const ink = useTransform(p, [0, 1], [flow.csIconOff, colors.success]);
   const valueInk = useTransform(p, [0, 1], [colors.textSecondary, colors.success]);
 
