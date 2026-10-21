@@ -25,7 +25,7 @@
 /* ── Row · Eligible row ────────────────────────────────────────────────────────────────────────────── */
 /* 343 wide, min 56, r12, padding 10 / 12, gap 10, two lines; the whole row is the hit target */
 .erWrap { padding: 0 var(--nk-space-s16) var(--nk-space-s8); background: var(--nk-color-bg-surface); }
-.er { display: flex; align-items: center; gap: 10px; min-height: 56px; padding: 10px 12px; border-radius: var(--nk-radius-r12); cursor: pointer; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; touch-action: pan-y; outline: none; }
+.er { position: relative; isolation: isolate; display: flex; align-items: center; gap: 10px; min-height: 56px; padding: 10px 12px; border-radius: var(--nk-radius-r12); cursor: pointer; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; touch-action: pan-y; outline: none; }
 .er:focus-visible { outline: 2px solid var(--nk-color-primary); outline-offset: 2px; }
 .erIcon { flex: none; width: 20px; height: 20px; -webkit-mask-position: center; mask-position: center; -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
 .erCopy { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
@@ -60,3 +60,6 @@
 .sgText b { font-weight: 700; color: var(--nk-palette-blue-gray900); }
 .sgFill { flex: none; display: flex; width: 20px; height: 20px; }
 .sgLabel { padding: var(--nk-space-s8) var(--nk-space-s16) var(--nk-space-s4); font: var(--nk-type-text12-medium-lh16); color: var(--nk-palette-slate-gray); }
+
+/* Eligible row "on": Figma gradient base/colour/green/100 → green/50 */
+.erOnBg { position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none; background: linear-gradient(97deg, var(--nk-color-success-surface) 0%, var(--nk-color-cs-green50) 100%); }

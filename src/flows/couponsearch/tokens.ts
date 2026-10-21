@@ -88,6 +88,8 @@ export const couponsearchFlowTokens: TokenOverrides = {
   colors: {
     // this flow's page is white (kit default is the grey #F2F3F7); same value as the kit's `bgSurface`
     bgPage: palette.white,
+    /** Figma value, no kit token: base/colour/green/50, end of the Eligible row "on" gradient */
+    csGreen50: '#F6FEFB',
     /** Figma value, no DS token: eligible row coupon icon, off */
     csIconOff: '#9AA0B4',
     /** Figma value, no DS token: white over the band green, ✕ circle 18% (the 90% value copy is `palette.whiteAlpha90`) */

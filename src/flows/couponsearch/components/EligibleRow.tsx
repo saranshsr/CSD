@@ -51,7 +51,8 @@ export function EligibleRow({ on, onChange }: { on: boolean; onChange: (on: bool
   const knobW = useTransform(press, (v) => T.knob + v * T.stretch);
   const knobX = useTransform(() => Math.min(1.08, Math.max(-0.08, p.get())) * (TRAVEL - press.get() * T.stretch));
   const track = useTransform(p, [0, 1], [colors.border, colors.success]);
-  const rowBg = useTransform(p, [0, 1], [colors.bgSurface, colors.successSurface]);
+  // on: the Figma gradient (base/colour/green/100 → green/50) fades in over white with the toggle
+  const onBg = useTransform(p, [0, 1], [0, 1]);
   const ring = useTransform(p, [0, 1], [`inset 0 0 0 1px ${colors.borderSubtle}`, `inset 0 0 0 1px ${colors.successSurface}`]);
   const ink = useTransform(p, [0, 1], [flow.csIconOff, colors.success]);
   const valueInk = useTransform(p, [0, 1], [colors.textSecondary, colors.success]);
@@ -126,7 +127,7 @@ export function EligibleRow({ on, onChange }: { on: boolean; onChange: (on: bool
       aria-checked={on}
       aria-label={`${coupon.rowLead ?? copy.row.lead} ${coupon.code} ${coupon.rowTail ?? copy.row.tail}`.trim()}
       tabIndex={0}
-      style={{ backgroundColor: rowBg, boxShadow: ring }}
+      style={{ backgroundColor: colors.bgSurface, boxShadow: ring }}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
@@ -143,6 +144,7 @@ export function EligibleRow({ on, onChange }: { on: boolean; onChange: (on: bool
         }
       }}
     >
+      <motion.span className={styles.erOnBg} style={{ opacity: onBg }} aria-hidden />
       <motion.span className={styles.erIcon} style={{ backgroundColor: ink, WebkitMaskImage: `url("${couponIcon}")`, maskImage: `url("${couponIcon}")` }} aria-hidden />
       <span className={styles.erCopy}>
         <span className={styles.erText}>
