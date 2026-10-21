@@ -1,4 +1,5 @@
 import type { TokenOverrides } from '../../foundations/tokens';
+import { palette } from '../../foundations/palette';
 import { appleSpring } from '../../motion/presets';
 
 /**
@@ -78,47 +79,37 @@ export const csTokens = {
   },
 } as const;
 
+/**
+ * Flow overrides. Everything here is a value copied from the team Figma file that no Field DS / kit token carries
+ * (checked against `palette.ts` / `tokens.ts` by exact value and by meaning); values the kit does carry are used
+ * straight from the kit in the CSS / TSX and are not repeated here.
+ */
 export const couponsearchFlowTokens: TokenOverrides = {
   colors: {
-    bgPage: '#FFFFFF',
-    /** eligible row "on" tint (team file Eligible row · on) */
+    // this flow's page is white (kit default is the grey #F2F3F7); same value as the kit's `bgSurface`
+    bgPage: palette.white,
+    /** Figma value, no DS token: eligible row "on" tint (team file Eligible row · on) */
     csTint: '#EDF7F2',
-    /** eligible row coupon icon, off */
+    /** Figma value, no DS token: eligible row coupon icon, off */
     csIconOff: '#9AA0B4',
-    /** scoped row divider */
+    /** Figma value, no DS token: scoped row divider */
     csDivider: '#ECEEF3',
-    /** white over the band green: value copy 90%, ✕ circle 18% */
-    csOnGreen90: 'rgba(255, 255, 255, 0.9)',
+    /** Figma value, no DS token: white over the band green, ✕ circle 18% (the 90% value copy is `palette.whiteAlpha90`) */
     csOnGreen18: 'rgba(255, 255, 255, 0.18)',
-    /* team file (Iteration 1 / 2) values with no kit token */
+    /** Figma value, no DS token (currently unused): chip border */
     csChipBorder: '#EBEAEA',
-    csChipInk: '#262A33',
+    /** Figma value, no DS token (currently unused): card image placeholder */
     csCardImageBg: 'rgba(0, 40, 136, 0.03)',
-    csTagBg: '#0A4F4A',
-    csTitleInk: '#212121',
-    csDiscount: '#13645F',
-    csUnitInk: '#343D54',
-    csCouponBg: '#E9FBF9',
-    csCouponBorder: '#BBE0DE',
+    /** Figma value, no DS token (currently unused): ETA strip */
     csEta: '#1F20B7',
     csEtaShade: '#0E0E60',
-    csEtaValue: '#FEEE00',
-    csPill: '#3866DF',
+    /** Figma value, no DS token: "viewed" chip on the presearch */
     csViewedBg: '#EBF2FF',
     csViewedInk: '#2959EB',
+    /** Figma value, no DS token: category circle border */
     csCircleBorder: '#EDF0F2',
-    csSupermall: '#2122B8',
-    csSwatchRed: '#F43333',
-    csSwatchGreen: '#05AF25',
-    csSwatchBlue: '#0076FF',
-    csDotOn: '#0E0E0E',
-    csDotOff: 'rgba(14, 14, 14, 0.25)',
-    csSavingsBg: '#E3FCF2',
-    csSavingsInk: '#0B623F',
-    csLink: '#0057FF',
-    /* M-Keyboard (iOS light) */
+    /* M-Keyboard (iOS 26 light): iOS system colours, not noon DS, so no kit token applies (white keys use `palette.white`) */
     csKbBg: '#E6E9ED',
-    csKbKey: '#FFFFFF',
     csKbKeyDown: '#ABB0BC',
     csKbGlyph: '#595959',
     csKbReturn: '#0088FF',
@@ -126,27 +117,17 @@ export const couponsearchFlowTokens: TokenOverrides = {
     csKbReturnOff: '#A4A8B0',
     csKbBarGlyph: '#5E6B85',
     csKbSep: 'rgba(60, 60, 67, 0.22)',
+    /** iOS: QuickType slot while pressed; key popup hairline edge and soft shadow */
+    csKbQtDown: 'rgba(255, 255, 255, 0.72)',
+    csKbPopEdge: 'rgba(0, 0, 0, 0.35)',
+    csKbPopShadow: 'rgba(0, 0, 0, 0.14)',
   },
   type: {
-    /** band title */
-    csText16BoldLh22: { size: 16, line: 22, weight: 700 },
-    /** band / hero code tag */
+    /** Figma value, no DS token: band / hero code tag */
     csText11BoldLh15: { size: 11, line: 15, weight: 700 },
-    /** card selling price */
+    /** Figma value, no DS token (currently unused): card selling price */
     csText15BoldLh16: { size: 15, line: 16, weight: 700 },
-    /** card label 4 (12 / 14) */
-    csText12RegularLh14: { size: 12, line: 14, weight: 400 },
-    csText12MediumLh14: { size: 12, line: 14, weight: 500 },
-    csText12SemiboldLh14: { size: 12, line: 14, weight: 600 },
-    /** card title (14 / 18 medium) */
-    csText14MediumLh18: { size: 14, line: 18, weight: 500 },
-    csText14RegularLh18: { size: 14, line: 18, weight: 400 },
-    /** Figtree chips (14 / 19.6 medium) */
+    /** Figma value, no DS token (currently unused): Figtree chips (14 / 19.6 medium) */
     csText14MediumLh20: { size: 14, line: 20, weight: 500 },
-    /** floating Sort | Filter pill */
-    csText16BoldLh22b: { size: 16, line: 22, weight: 700 },
-    /** cart total */
-    csText20BoldLh24: { size: 20, line: 24, weight: 700 },
-    csText17SemiboldLh20: { size: 17, line: 20, weight: 600 },
   },
 };

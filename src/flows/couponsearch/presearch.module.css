@@ -29,5 +29,5 @@
 .viewed { display: flex; gap: var(--nk-space-s12); padding: 0 var(--nk-space-s16); }
 .viewedItem { flex: none; width: 133px; display: flex; flex-direction: column; align-items: flex-start; gap: var(--nk-space-s8); text-align: left; }
 .viewedImg { display: block; width: 133px; height: 160px; border-radius: var(--nk-radius-r12); object-fit: cover; }
-.viewedLabel { font: var(--nk-type-cs-text14-regular-lh18); letter-spacing: -0.14px; color: var(--nk-palette-blue-gray900); white-space: nowrap; }
+.viewedLabel { font: var(--nk-type-body); letter-spacing: -0.14px; color: var(--nk-palette-blue-gray900); white-space: nowrap; }
 .viewedChip { padding: 2px 6px; border-radius: var(--nk-radius-r4); background: var(--nk-color-cs-viewed-bg); color: var(--nk-color-cs-viewed-ink); font: var(--nk-type-field-b12-medium); letter-spacing: -0.1px; white-space: pre; }

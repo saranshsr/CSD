@@ -12,10 +12,10 @@
 /* band: padding (8 + tuck) 12 16 16; title 16/22 bold white; tag 11 bold green on white r6; value 13/18 white 90% */
 .band { display: flex; align-items: center; gap: 12px; padding: 0 12px 16px 16px; }
 .bandCopy { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
-.bandTitle { font: var(--nk-type-cs-text16-bold-lh22); letter-spacing: -0.2px; color: var(--nk-color-text-inverse); }
+.bandTitle { font: var(--nk-type-section); letter-spacing: -0.2px; color: var(--nk-color-text-inverse); }
 .bandSub { display: flex; align-items: center; gap: 6px; min-width: 0; }
 .codeTag { flex: none; padding: 2px 6px; border-radius: var(--nk-radius-r6); background: var(--nk-color-bg-surface); color: var(--nk-color-success); font: var(--nk-type-cs-text11-bold-lh15); letter-spacing: 0.2px; }
-.bandValue { font: var(--nk-type-text13-medium-lh18); color: var(--nk-color-cs-on-green90); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bandValue { font: var(--nk-type-text13-medium-lh18); color: var(--nk-palette-white-alpha90); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 /* ✕: a 32 circle in white 18% inside a 36 hit area */
 .bandX { flex: none; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; }
 /* "Remove" (replaces the ✕): a quiet pill on the green, same translucent white, 32 tall */
@@ -59,4 +59,4 @@
 .sgText { flex: 1; min-width: 0; font: var(--nk-type-field-b14-regular); letter-spacing: -0.1px; color: var(--nk-palette-blue-gray700); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .sgText b { font-weight: 700; color: var(--nk-palette-blue-gray900); }
 .sgFill { flex: none; display: flex; width: 20px; height: 20px; }
-.sgLabel { padding: var(--nk-space-s8) var(--nk-space-s16) var(--nk-space-s4); font: 500 12px/16px var(--nk-font-family); color: var(--nk-palette-slate-gray); }
+.sgLabel { padding: var(--nk-space-s8) var(--nk-space-s16) var(--nk-space-s4); font: var(--nk-type-text12-medium-lh16); color: var(--nk-palette-slate-gray); }

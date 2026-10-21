@@ -378,7 +378,8 @@ function CouponSearch({ variant }: { variant: CsVariant }) {
       }
     >
       <div onWheel={onWheel} onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd} onTouchCancel={onTouchEnd}>
-      {variant === 'n5' && !normal && (
+      {/* no pre-state: the scoped row appears once the user types (19 Oct review) */}
+      {variant === 'n5' && !normal && !!q.trim() && (
         <motion.div
           initial={{ opacity: 0, y: handoff.travel }}
           animate={chromeState}

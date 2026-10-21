@@ -112,7 +112,7 @@ export function CartScreen() {
               </span>
               <Pressable className={styles.poApply} onClick={() => nav.push('noonone/landing', { source: '/cart' })}>
                 {cartCopy.apply}
-                <OriginIcon name="chevron-right" size={16} color="var(--nk-color-cs-link)" />
+                <OriginIcon name="chevron-right" size={16} color="var(--nk-color-brand-blue)" />
               </Pressable>
             </div>
           </div>

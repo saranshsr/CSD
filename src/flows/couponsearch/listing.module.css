@@ -28,7 +28,7 @@
 /* the floating Sort | Filter pill and share circle (no kit counterpart), 12 above the floating glass tab bar; it rides
    the tab bar's hide-on-scroll */
 .pillDock { position: absolute; left: 50%; bottom: calc(var(--nk-layout-tab-bar) + var(--nk-tab-bar-floating-gap) + var(--nk-inset-bottom) + 12px); transform: translateX(-50%); display: flex; align-items: center; gap: var(--nk-space-s8); z-index: 4; }
-.pill { position: relative; width: 160px; height: 36px; flex: none; color: var(--nk-palette-white); font: var(--nk-type-cs-text16-bold-lh22b); cursor: pointer; }
+.pill { position: relative; width: 160px; height: 36px; flex: none; color: var(--nk-palette-white); font: var(--nk-type-section); cursor: pointer; }
 .pillBg { position: absolute; inset: 0; width: 100%; height: 100%; }
 .pillSort { position: absolute; left: 12px; top: 7px; line-height: 22.4px; }
 .pillSortIcon { position: absolute; left: 46px; top: 6px; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; gap: 0; }
@@ -36,7 +36,7 @@
 .pillSep { position: absolute; left: 78px; top: 8px; width: 1px; height: 20px; background: var(--nk-palette-white); opacity: 0.2; }
 .pillFilter { position: absolute; left: 86px; top: 7px; line-height: 22.4px; }
 .pillFilterIcon { position: absolute; left: 128px; top: 6px; display: block; }
-.share { flex: none; width: 36px; height: 36px; border-radius: 36px; border: 1.5px solid var(--nk-color-cs-pill); background: var(--nk-palette-white); display: flex; align-items: center; justify-content: center; padding: 0 0 0 0; cursor: pointer; }
+.share { flex: none; width: 36px; height: 36px; border-radius: 36px; border: 1.5px solid var(--nk-color-cta); background: var(--nk-palette-white); display: flex; align-items: center; justify-content: center; padding: 0 0 0 0; cursor: pointer; }
 .share img { display: block; }
 
 
@@ -44,5 +44,5 @@
    "From all of noon" heading (pt 16 pb 12) over the results; no button */
 .noMatch { display: flex; flex-direction: column; gap: 2px; padding: var(--nk-space-s4) var(--nk-space-s16); }
 .noMatchTitle { font: var(--nk-type-field-b14-semibold); color: var(--nk-palette-blue-gray900); }
-.noMatchCaption { font: 400 12px/16px var(--nk-font-family); color: var(--nk-palette-slate-gray); }
+.noMatchCaption { font: var(--nk-type-caption); color: var(--nk-palette-slate-gray); }
 .fromAll { margin: 0; padding: var(--nk-space-s16) var(--nk-space-s16) var(--nk-space-s12); font: var(--nk-type-field-b16-bold); color: var(--nk-palette-blue-gray900); }

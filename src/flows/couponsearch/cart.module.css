@@ -13,13 +13,13 @@
 .instClock { position: absolute; left: 21.1px; top: 7.1px; width: 16.9px; height: 16.9px; border-radius: 50%; background: var(--nk-palette-white); }
 .instClock img { position: absolute; inset: 8.33%; width: 83.34%; height: 83.34%; }
 .poCopy { display: flex; flex-direction: column; gap: 2px; }
-.poValue { font: var(--nk-type-cs-text12-medium-lh14); letter-spacing: -0.12px; color: var(--nk-palette-blue-gray1000); white-space: pre-line; }
-.poNote { font: 600 11px/14px var(--nk-font-family); letter-spacing: -0.12px; color: var(--nk-color-cs-discount); white-space: nowrap; }
+.poValue { font: var(--nk-type-text12-medium-lh14); letter-spacing: -0.12px; color: var(--nk-palette-blue-gray1000); white-space: pre-line; }
+.poNote { font: var(--nk-type-text11-semibold-lh14); letter-spacing: -0.12px; color: var(--nk-palette-emerald-green); white-space: nowrap; }
 .poWide { display: flex; align-items: center; gap: var(--nk-space-s8); padding: var(--nk-space-s8); border-radius: var(--nk-radius-r12); background: var(--nk-palette-secondary-background-color); }
 .poOne { flex: none; border-radius: var(--nk-radius-r4); object-fit: cover; }
-.poOneCopy { flex: 1; min-width: 0; font: 500 12px/18px var(--nk-font-family); letter-spacing: -0.12px; color: var(--nk-palette-blue-gray700); }
+.poOneCopy { flex: 1; min-width: 0; font: var(--nk-type-text12-medium-lh18); letter-spacing: -0.12px; color: var(--nk-palette-blue-gray700); }
 .poOneCopy b { font-weight: 700; color: var(--nk-palette-blue-gray900); }
-.poApply { flex: none; display: flex; align-items: center; gap: 2px; padding-right: 4px; font: 600 13px/18px var(--nk-font-family); letter-spacing: -0.14px; color: var(--nk-color-cs-link); }
+.poApply { flex: none; display: flex; align-items: center; gap: 2px; padding-right: 4px; font: var(--nk-type-text13-semibold-lh18); letter-spacing: -0.14px; color: var(--nk-color-brand-blue); }
 
 .raffle { display: block; width: 100%; height: auto; border-radius: var(--nk-radius-r16); }
 
