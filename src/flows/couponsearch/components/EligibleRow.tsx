@@ -53,7 +53,7 @@ export function EligibleRow({ on, onChange }: { on: boolean; onChange: (on: bool
   const track = useTransform(p, [0, 1], [colors.border, colors.success]);
   // on: the Figma gradient (base/colour/green/100 → green/50) fades in over white with the toggle
   const onBg = useTransform(p, [0, 1], [0, 1]);
-  const ring = useTransform(p, [0, 1], [`inset 0 0 0 1px ${colors.borderSubtle}`, `inset 0 0 0 1px ${colors.successSurface}`]);
+  const ring = useTransform(p, [0, 1], [`inset 0 0 0 1px ${colors.borderSubtle}`, `inset 0 0 0 1px transparent`]);
   const ink = useTransform(p, [0, 1], [flow.csIconOff, colors.success]);
   const valueInk = useTransform(p, [0, 1], [colors.textSecondary, colors.success]);
 

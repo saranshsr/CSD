@@ -90,6 +90,8 @@ export const couponsearchFlowTokens: TokenOverrides = {
     bgPage: palette.white,
     /** Figma value, no kit token: base/colour/green/50, end of the Eligible row "on" gradient */
     csGreen50: '#F6FEFB',
+    /** Figma value, no kit token: start of the Eligible row "on" gradient (Typing · on) */
+    csGreenOnStart: '#E7FAF2',
     /** Figma value, no DS token: eligible row coupon icon, off */
     csIconOff: '#9AA0B4',
     /** Figma value, no DS token: white over the band green, ✕ circle 18% (the 90% value copy is `palette.whiteAlpha90`) */
