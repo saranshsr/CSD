@@ -10,7 +10,7 @@
 .h2Sheet { position: relative; z-index: 2; background: var(--nk-color-bg-surface); padding: 0 var(--nk-space-s16) var(--nk-space-s8); }
 
 /* band: padding (8 + tuck) 12 16 16; title 16/22 bold white; tag 11 bold green on white r6; value 13/18 white 90% */
-.band { display: flex; align-items: center; gap: 12px; padding: 0 12px 16px 16px; }
+.band { display: flex; align-items: center; gap: 12px; padding: 0 var(--nk-space-s14) 16px; } /* 14 on both sides (Figma Section 2) */
 .bandCopy { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
 .bandTitle { font: var(--nk-type-section); letter-spacing: -0.2px; color: var(--nk-color-text-inverse); }
 .bandSub { display: flex; align-items: center; gap: 6px; min-width: 0; }
