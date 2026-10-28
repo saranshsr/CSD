@@ -20,6 +20,7 @@ import { MAX_ROWS, copy, suggest, suggestMixed, type Scope, type Suggestion } fr
 import { CouponContext, csCoupons, useCoupon } from './couponContext';
 import { csStore, useCs, type CsVariant } from './store';
 import { csTokens } from './tokens';
+import { barMorph } from './transitions';
 import styles from './search.module.css';
 
 type Phase = 'idle' | 'showing' | 'hiding' | 'leaving';
@@ -127,7 +128,11 @@ function CouponSearch({ variant }: { variant: CsVariant }) {
   const [fill, setFill] = useState<{ from: number; key: number }>();
   const [phase, setPhaseState] = useState<Phase>('idle');
   const [rows, setRows] = useState<Rows>(empty);
-  const [presearchDelay, setPresearchDelay] = useState(params.q ? 0 : st.presearchPushDelay);
+  // opened from a bar (BEAUTY10 / results, transitions.ts): the page under clears while this layer fades in over it, then
+  // our content forms on white (never a dense page over a dense page), and h2's band opens above the bar (BandHeader `enter`)
+  const [viaBar] = useState(barMorph.armed);
+  useEffect(() => barMorph.disarm(), []);
+  const [presearchDelay, setPresearchDelay] = useState(params.q ? 0 : viaBar ? Math.max(st.presearchPushDelay, handoff.fade.io) : st.presearchPushDelay);
   const phaseRef = useRef<Phase>('idle');
   const rowsRef = useRef(rows);
   const hideEnd = useRef(0);
@@ -245,13 +250,46 @@ function CouponSearch({ variant }: { variant: CsVariant }) {
     if (phaseRef.current === 'leaving') return;
     setQ((v) => (kind === 'word' ? v.replace(/\S*\s*$/, '') : v.slice(0, -1)));
   };
+  // back to the bar it came from (transitions.ts): this screen clears first, as on the way into results (the keyboard
+  // drops, the rows / presearch / our chrome leave, h2's band makes way so the bar is back at the kit's spot), then the
+  // layer lets go and the page under shows its bar exactly where this one is
+  const pendingBack = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  useEffect(() => () => clearTimeout(pendingBack.current), []);
   const back = () => {
+    if (phaseRef.current === 'leaving') return;
+    const up = phaseRef.current === 'showing' ? rowsRef.current.list.length : 0;
+    setPhase('leaving');
     moveKb(false);
-    nav.back();
+    (document.activeElement as HTMLElement | null)?.blur();
+    const rowsS = up ? (up - 1) * st.fastExit.stagger + st.fastExit.move : !qRef.current.trim() ? handoff.fade.io : 0;
+    const bandS = band.current?.makeWay() ?? 0;
+    const chromeS = variant !== 'h2' && !normal ? up * st.fastExit.stagger + st.fastExit.move : 0;
+    // h2: the layer lets go only once the bar is back at rest at the kit's spot (never two bars a few px apart)
+    const timer = setTimeout(() => {
+      const go = () => {
+        if (pendingBack.current !== timer) return; // cancelled by a tap in the field
+        pendingBack.current = undefined;
+        nav.back();
+      };
+      if (bandS) void band.current?.rest().then(go);
+      else go();
+    }, Math.max(rowsS, bandS, chromeS) * 1000);
+    pendingBack.current = timer;
   };
-  // a tap in the field brings the keyboard back up after a scroll dismissed it
+  // a tap in the field brings the keyboard back up after a scroll dismissed it; during a back's clear-out it cancels the
+  // back (the screen forms again from where it is)
   const onHeaderPointerDown = (e: React.PointerEvent) => {
-    if ((e.target as HTMLElement).tagName === 'INPUT' && !kbShownRef.current && phaseRef.current !== 'leaving') moveKb(true);
+    if ((e.target as HTMLElement).tagName !== 'INPUT') return;
+    if (pendingBack.current) {
+      clearTimeout(pendingBack.current);
+      pendingBack.current = undefined;
+      setPhase('idle');
+      band.current?.comeBack();
+      moveKb(true);
+      update(qRef.current);
+      return;
+    }
+    if (!kbShownRef.current && phaseRef.current !== 'leaving') moveKb(true);
   };
   // scrolling the content dismisses it (.onDrag on wheel / trackpad; a finger carries it down, .interactive)
   const wheelAcc = useRef(0);
@@ -344,7 +382,7 @@ function CouponSearch({ variant }: { variant: CsVariant }) {
   const header =
     variant === 'h2' && !normal ? (
       <div ref={headerRef} onPointerDownCapture={onHeaderPointerDown}>
-        <BandHeader ref={band} band={bandOn} onBand={setBandOn}>
+        <BandHeader ref={band} band={bandOn} onBand={setBandOn} enter={viaBar}>
           {input}
         </BandHeader>
       </div>

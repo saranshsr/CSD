@@ -4,12 +4,13 @@ import { CouponListing } from './components/CouponListing';
 import { Beauty10Hero, CategoryCircles } from './components/ListingParts';
 import { copy, coupon, eligibleProducts } from './data';
 import { csStore, useCs } from './store';
+import { barMorph } from './transitions';
 
 /**
  * BEAUTY10 eligible items (team file 04 · Eligible items): the coupon tray's Shop more lands here. Search bar,
  * noon / Minutes / supermall / express tabs, Filter · Sort · Price · Face · Eyes chips, the "Extra 10% off · Use code
  * BEAUTY10" hero with its 1-2-3 steps, the category circles and the eligible grid. Tapping the search bar opens the
- * coupon search; a category searches it. Every visit starts fresh (band back, eligible toggle on).
+ * coupon search, the bar staying put as the one shared object (transitions.ts); a category searches it. Every visit starts fresh (band back, eligible toggle on).
  */
 export function EligibleScreen() {
   const nav = useNav();
@@ -32,7 +33,10 @@ export function EligibleScreen() {
           <CategoryCircles onPress={(q) => nav.push('couponsearch/results', { query: q, scope: 'eligible' })} />
         </>
       }
-      onBarPress={() => nav.push('couponsearch/search')}
+      onBarPress={() => {
+        barMorph.arm();
+        nav.push('couponsearch/search');
+      }}
     />
   );
 }

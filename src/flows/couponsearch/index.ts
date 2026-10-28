@@ -1,6 +1,7 @@
 import { defineFlow } from '../../kit/registry';
 import { lazyScreen } from '../../kit/lazyScreen';
 import { couponsearchFlowTokens } from './tokens';
+import { BAR_MORPH } from './transitions';
 
 const CartScreen = lazyScreen(() => import('./CartScreen'), 'CartScreen');
 const EligibleScreen = lazyScreen(() => import('./EligibleScreen'), 'EligibleScreen');
@@ -46,7 +47,8 @@ export const couponsearchFlow = defineFlow({
       id: 'search',
       title: 'Coupon search',
       component: SearchScreen,
-      transition: 'slide-left',
+      // the bar is shared with BEAUTY10 and the results: it holds while the screens cross-fade (transitions.ts)
+      transition: BAR_MORPH,
       path: 'beauty10-search',
       parent: 'couponsearch/eligible',
       notes:

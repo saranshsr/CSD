@@ -1,5 +1,5 @@
 import { animate, motion, useMotionValue, useMotionValueEvent, useTransform, type AnimationPlaybackControls } from 'motion/react';
-import { forwardRef, useImperativeHandle, useLayoutEffect, useRef, useState, type PointerEvent as ReactPointerEvent, type ReactNode } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useLayoutEffect, useRef, useState, type PointerEvent as ReactPointerEvent, type ReactNode } from 'react';
 import { Pressable } from '../../../components';
 import { layout } from '../../../foundations/tokens';
 import { useStatusBar } from '../../../kit/statusBar';
@@ -21,6 +21,8 @@ export interface BandHeaderHandle {
   makeWay: () => number;
   /** back from results: the band returns if it was never dismissed */
   comeBack: () => void;
+  /** resolves once the band has come to rest (or at once when it isn't moving) */
+  rest: () => Promise<void>;
 }
 
 /**
@@ -34,13 +36,17 @@ export interface BandHeaderHandle {
  *  · touch-down on the green mid-close catches it where it is; a drag follows the finger 1:1 (rubber band past open),
  *    and the release projects momentum (decel 0.998) to pick the side, handing its velocity to the spring.
  *  · the white sheet is never a grab area (it belongs to the search bar).
+ *  · `enter` (opened from a bar, transitions.ts): the band starts closed, so the bar sits exactly where the bar it came
+ *    from is, and opens on the make-way spring once the page under has cleared (`returnDelay`, as back from results):
+ *    the bar travels down with the sheet while the green unfolds above it. Reduced motion: open from the first frame.
  */
-export const BandHeader = forwardRef<BandHeaderHandle, { children: ReactNode; band: boolean; onBand: (band: boolean) => void }>(function BandHeader({ children, band, onBand }, ref) {
+export const BandHeader = forwardRef<BandHeaderHandle, { children: ReactNode; band: boolean; onBand: (band: boolean) => void; enter?: boolean }>(function BandHeader({ children, band, onBand, enter = false }, ref) {
   const reduce = useReduceMotion();
   const coupon = useCoupon();
   const bandRef = useRef(band);
   bandRef.current = band;
-  const p = useMotionValue(band ? 1 : 0);
+  const entering = enter && band && !reduce;
+  const p = useMotionValue(band && !entering ? 1 : 0);
   const H = useMotionValue(77);
   const copyRef = useRef<HTMLDivElement>(null);
   const sheetRef = useRef<HTMLDivElement>(null);
@@ -67,7 +73,7 @@ export const BandHeader = forwardRef<BandHeaderHandle, { children: ReactNode; ba
   });
 
   // the status-bar ink follows the green actually behind it
-  const [tone, setTone] = useState<'light' | 'dark'>(band ? 'light' : 'dark');
+  const [tone, setTone] = useState<'light' | 'dark'>(band && !entering ? 'light' : 'dark');
   useMotionValueEvent(greenH, 'change', (h) => {
     const next = h > B.inkAt ? 'light' : 'dark';
     setTone((t) => (t === next ? t : next));
@@ -91,15 +97,27 @@ export const BandHeader = forwardRef<BandHeaderHandle, { children: ReactNode; ba
     move(0, B.close);
   };
 
+  // arriving from a bar: open once the page under has cleared (interruptible: makeWay / a touch stop it where it is)
+  useEffect(() => {
+    if (entering) move(1, B.makeWay, 0, B.returnDelay);
+    return () => run.current?.stop();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useImperativeHandle(ref, () => ({
     makeWay: () => {
-      if (p.get() < 0.02) return 0;
+      run.current?.stop(); // also a band still waiting to open (back mid-arrival)
+      if (p.get() < 0.02) {
+        p.jump(0);
+        return 0;
+      }
       move(0, B.makeWay);
       return reduce ? 0 : 0.3;
     },
     comeBack: () => {
       if (bandRef.current && p.get() < 0.98) move(1, B.makeWay, 0, B.returnDelay);
     },
+    rest: () => (run.current ? Promise.resolve(run.current).then(() => undefined) : Promise.resolve()),
   }));
 
   // ---- gestures: catch, drag, flick ------------------------------------------------------------------------

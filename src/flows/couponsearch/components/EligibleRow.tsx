@@ -3,6 +3,7 @@ import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } f
 import { colors, field } from '../../../foundations/tokens';
 import couponIcon from '@assets/icons/origin/coupon-discount-filled.svg';
 import { haptic } from '../../../motion/haptics';
+import { fieldMotion, spring, supermall } from '../../../motion/presets';
 import { useReduceMotion } from '../../../motion/reducedMotion';
 import { copy } from '../data';
 import { useCoupon } from '../couponContext';
@@ -20,10 +21,13 @@ const flow = couponsearchFlowTokens.colors as Record<string, string>;
  * hit target (an iOS settings cell); an Origin M-Toggle H20 (34×20, 16 knob, 2 inset) is its state.
  *
  * UISwitch, translated: ONE progress value `p` (1 = on) drives knob travel, track green ⇄ grey, the row tint ⇄ white
- * with its hairline, the coupon icon and the value colour, so a double tap reverses mid-flight with its velocity. The
- * knob rides its own short spring (0.34s, 0.84), stretches 6px toward its travel on touch-down and relaxes as it lands.
- * Dragging along the row scrubs the knob 1:1 (rubber band past the ends); the release projects momentum to pick the
- * side. A haptic tick on commit. Pointer-down never takes focus from the search field.
+ * and its hairline (off ring out, on ring in: two opacities, so no colour is ever mixed through black), the coupon icon
+ * and the value colour, so a double tap reverses mid-flight from where it is, with its velocity. The kit's motion roles:
+ * the knob travels on `fieldMotion.spring.springLight` (the Field M-Toggle's knob spring: ≈0.35s, no visible settle on
+ * a tap), stretches 6px toward its travel on touch-down on `spring.press` and relaxes on `supermall.springs.return`
+ * (critically damped) as it lands. Dragging along the row scrubs the knob 1:1 (rubber band past the ends); the release
+ * projects momentum to pick the side. A haptic tick on commit. Reduced motion: everything snaps. Pointer-down never
+ * takes focus from the search field.
  */
 export function EligibleRow({ on, onChange }: { on: boolean; onChange: (on: boolean) => void }) {
   const coupon = useCoupon();
@@ -41,7 +45,7 @@ export function EligibleRow({ on, onChange }: { on: boolean; onChange: (on: bool
       p.jump(to);
       return;
     }
-    run.current = animate(p, to, { ...T.spring, velocity });
+    run.current = animate(p, to, { ...fieldMotion.spring.springLight, velocity });
   };
   useEffect(() => {
     if (!drag.current?.active) glide(on ? 1 : 0, p.getVelocity());
@@ -53,12 +57,13 @@ export function EligibleRow({ on, onChange }: { on: boolean; onChange: (on: bool
   const track = useTransform(p, [0, 1], [colors.border, colors.success]);
   // on: the Figma gradient (base/colour/green/100 → green/50) fades in over white with the toggle
   const onBg = useTransform(p, [0, 1], [0, 1]);
-  const ring = useTransform(p, [0, 1], [`inset 0 0 0 1px ${colors.borderSubtle}`, `inset 0 0 0 1px transparent`]);
+  // off: the borderSubtle hairline, fading out as the on look (gradient + its success-surface hairline) fades in
+  const offRing = useTransform(p, [0, 1], [1, 0]);
   const ink = useTransform(p, [0, 1], [flow.csIconOff, colors.success]);
   const valueInk = useTransform(p, [0, 1], [colors.textSecondary, colors.success]);
 
   const stretch = (v: number) => {
-    if (!reduce) animate(press, v, v ? T.stretchIn : T.stretchOut);
+    if (!reduce) animate(press, v, v ? spring.press : supermall.springs.return);
   };
   const commit = (next: boolean) => {
     haptic('tick');
@@ -127,7 +132,7 @@ export function EligibleRow({ on, onChange }: { on: boolean; onChange: (on: bool
       aria-checked={on}
       aria-label={`${coupon.rowLead ?? copy.row.lead} ${coupon.code} ${coupon.rowTail ?? copy.row.tail}`.trim()}
       tabIndex={0}
-      style={{ backgroundColor: colors.bgSurface, boxShadow: ring }}
+      style={{ backgroundColor: colors.bgSurface }}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
@@ -145,6 +150,7 @@ export function EligibleRow({ on, onChange }: { on: boolean; onChange: (on: bool
       }}
     >
       <motion.span className={styles.erOnBg} style={{ opacity: onBg }} aria-hidden />
+      <motion.span className={styles.erOffRing} style={{ opacity: offRing }} aria-hidden />
       <motion.span className={styles.erIcon} style={{ backgroundColor: ink, WebkitMaskImage: `url("${couponIcon}")`, maskImage: `url("${couponIcon}")` }} aria-hidden />
       <span className={styles.erCopy}>
         <span className={styles.erText}>

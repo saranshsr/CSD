@@ -3,6 +3,7 @@ import { useNav, useParams } from '../../kit/Navigator';
 import { CouponListing } from './components/CouponListing';
 import { copy, resultsFor, type Scope } from './data';
 import { useCs, type CsVariant } from './store';
+import { barMorph } from './transitions';
 import styles from './listing.module.css';
 
 type Params = { query?: string; scope?: Scope };
@@ -80,7 +81,10 @@ export function ResultsScreen() {
   const editQuery = () => {
     const at = nav.stack.map((e) => e.route).lastIndexOf(nav.route);
     if (nav.stack[at - 1]?.route === 'couponsearch/search') nav.back();
-    else nav.push('couponsearch/search', { q: query });
+    else {
+      barMorph.arm();
+      nav.push('couponsearch/search', { q: query });
+    }
   };
 
   // h2's all-of-noon search is a normal search: no coupon (beauty) pills

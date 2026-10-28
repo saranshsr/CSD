@@ -42,10 +42,8 @@ export const csTokens = {
     inset: 2,
     /** the knob stretches toward its travel direction while pressed */
     stretch: 6,
-    /** the knob is a thrown object: its own short spring, a whisper of settle */
-    spring: appleSpring(0.34, 0.84),
-    stretchIn: appleSpring(0.18, 1),
-    stretchOut: appleSpring(0.36, 1),
+    /* springs: the kit's roles (EligibleRow): knob `fieldMotion.spring.springLight`, stretch `spring.press` in /
+       `supermall.springs.return` out */
     /** the surface the row sits on: 343 wide, min 56 high */
     rowWidth: 343,
     /** scope change: suggestions cross-dissolve, no direction */
