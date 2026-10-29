@@ -24,15 +24,18 @@ interface CsState {
   eligibleOnly: boolean;
 }
 
+/** where a visit starts: row v2 opens with the toggle off (the user opts in to BEAUTY10 items), the others on */
+const startsOn = (v: CsVariant) => v !== 'row2';
+
 const store = createStore<CsState>({ variant: 'h2', eligibleOnly: true });
 
 export const csStore = {
   get: store.get,
   subscribe: store.subscribe,
-  /** a new coupon visit (Shop more, or a version switch): toggle on */
-  newVisit: () => store.patch({ eligibleOnly: true }),
+  /** a new coupon visit (Shop more, or a version switch): toggle back to its starting state */
+  newVisit: () => store.patch({ eligibleOnly: startsOn(store.get().variant) }),
   /** the version switch: the visit starts over in the other design */
-  setVariant: (variant: CsVariant) => store.patch({ variant, eligibleOnly: true }),
+  setVariant: (variant: CsVariant) => store.patch({ variant, eligibleOnly: startsOn(variant) }),
   setEligibleOnly: (eligibleOnly: boolean) => store.patch({ eligibleOnly }),
 };
 
