@@ -49,6 +49,14 @@ export const csTokens = {
     /** scope change: suggestions cross-dissolve, no direction */
     dissolve: 0.2,
   },
+  /** Eligible row v2 (Figma Typing · on/off): the DS switch one step up, 42×24 (knob 20, inset 2), on a 64-high row */
+  toggleV2: {
+    track: { w: 42, h: 24 },
+    knob: 20,
+    inset: 2,
+    stretch: 6,
+    rowWidth: 343,
+  },
   gesture: {
     /** px of travel before a press turns into a drag */
     slop: 10,

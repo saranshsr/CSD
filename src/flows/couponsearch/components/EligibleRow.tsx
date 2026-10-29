@@ -2,6 +2,7 @@ import { animate, motion, useMotionValue, useTransform, type AnimationPlaybackCo
 import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react';
 import { colors, field } from '../../../foundations/tokens';
 import couponIcon from '@assets/icons/origin/coupon-discount-filled.svg';
+import badgeIcon from '@assets/icons/origin/discount-filled.svg';
 import { haptic } from '../../../motion/haptics';
 import { fieldMotion, spring, supermall } from '../../../motion/presets';
 import { useReduceMotion } from '../../../motion/reducedMotion';
@@ -11,8 +12,8 @@ import { project, rubber, velocityTracker } from '../gesture';
 import { couponsearchFlowTokens, csTokens } from '../tokens';
 import styles from '../search.module.css';
 
-const T = csTokens.toggle;
-const TRAVEL = T.track.w - T.inset * 2 - T.knob; // 14
+const T1 = csTokens.toggle;
+const T2 = csTokens.toggleV2;
 const { slop } = csTokens.gesture;
 const flow = couponsearchFlowTokens.colors as Record<string, string>;
 
@@ -29,7 +30,9 @@ const flow = couponsearchFlowTokens.colors as Record<string, string>;
  * projects momentum to pick the side. A haptic tick on commit. Reduced motion: everything snaps. Pointer-down never
  * takes focus from the search field.
  */
-export function EligibleRow({ on, onChange }: { on: boolean; onChange: (on: boolean) => void }) {
+export function EligibleRow({ on, onChange, v2 = false }: { on: boolean; onChange: (on: boolean) => void; v2?: boolean }) {
+  const T = v2 ? T2 : T1;
+  const TRAVEL = T.track.w - T.inset * 2 - T.knob; // v1: 14, v2: 18
   const coupon = useCoupon();
   const reduce = useReduceMotion();
   const p = useMotionValue(on ? 1 : 0);
@@ -60,6 +63,9 @@ export function EligibleRow({ on, onChange }: { on: boolean; onChange: (on: bool
   // off: the borderSubtle hairline, fading out as the on look (gradient + its success-surface hairline) fades in
   const offRing = useTransform(p, [0, 1], [1, 0]);
   const ink = useTransform(p, [0, 1], [flow.csIconOff, colors.success]);
+  // v2: the 36×36 badge fill (muted ⇄ success-subtle) follows p too
+  const badgeBg = useTransform(p, [0, 1], [colors.bgMuted, colors.successSurface]);
+  const subInk = useTransform(p, [0, 1], [field.textTertiary, colors.success]);
   const valueInk = useTransform(p, [0, 1], [colors.textSecondary, colors.success]);
 
   const stretch = (v: number) => {
@@ -126,7 +132,7 @@ export function EligibleRow({ on, onChange }: { on: boolean; onChange: (on: bool
 
   return (
     <motion.div
-      className={styles.er}
+      className={v2 ? `${styles.er} ${styles.er2}` : styles.er}
       data-held={held || undefined}
       role="switch"
       aria-checked={on}
@@ -149,15 +155,29 @@ export function EligibleRow({ on, onChange }: { on: boolean; onChange: (on: bool
         }
       }}
     >
-      <motion.span className={styles.erOnBg} style={{ opacity: onBg }} aria-hidden />
+      <motion.span className={v2 ? `${styles.erOnBg} ${styles.erOnBg2}` : styles.erOnBg} style={{ opacity: onBg }} aria-hidden />
       <motion.span className={styles.erOffRing} style={{ opacity: offRing }} aria-hidden />
-      <motion.span className={styles.erIcon} style={{ backgroundColor: ink, WebkitMaskImage: `url("${couponIcon}")`, maskImage: `url("${couponIcon}")` }} aria-hidden />
+      {v2 ? (
+        <motion.span className={styles.erBadge} style={{ backgroundColor: badgeBg }} aria-hidden>
+          <motion.span className={styles.erBadgeIcon} style={{ backgroundColor: ink, WebkitMaskImage: `url("${badgeIcon}")`, maskImage: `url("${badgeIcon}")` }} />
+        </motion.span>
+      ) : (
+        <motion.span className={styles.erIcon} style={{ backgroundColor: ink, WebkitMaskImage: `url("${couponIcon}")`, maskImage: `url("${couponIcon}")` }} aria-hidden />
+      )}
       <span className={styles.erCopy}>
-        <span className={styles.erText}>
-          {coupon.rowLead ?? copy.row.lead} <b>{coupon.code}</b>
-          {(coupon.rowTail ?? copy.row.tail) && <span className={styles.erTail}> {coupon.rowTail ?? copy.row.tail}</span>}
-        </span>
-        <motion.span className={styles.erValue} style={{ color: valueInk }}>
+        {v2 ? (
+          <span className={styles.erText}>
+            {coupon.rowTail === '' ? `${coupon.rowLead ?? copy.row.lead} ` : null}
+            <b>{coupon.code}</b>
+            {coupon.rowTail !== '' && ` ${coupon.rowTail ?? copy.row.tail}`}
+          </span>
+        ) : (
+          <span className={styles.erText}>
+            {coupon.rowLead ?? copy.row.lead} <b>{coupon.code}</b>
+            {(coupon.rowTail ?? copy.row.tail) && <span className={styles.erTail}> {coupon.rowTail ?? copy.row.tail}</span>}
+          </span>
+        )}
+        <motion.span className={styles.erValue} style={{ color: v2 ? subInk : valueInk }}>
           {coupon.value}
         </motion.span>
       </span>

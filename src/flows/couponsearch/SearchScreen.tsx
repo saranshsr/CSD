@@ -18,7 +18,7 @@ import { EligibleRow } from './components/EligibleRow';
 import { ScopedRow } from './components/ScopedRow';
 import { MAX_ROWS, copy, suggest, suggestMixed, type Scope, type Suggestion } from './data';
 import { CouponContext, csCoupons, useCoupon } from './couponContext';
-import { csStore, useCs, type CsVariant } from './store';
+import { csStore, isRowVariant, useCs, type CsVariant } from './store';
 import { csTokens } from './tokens';
 import { barMorph } from './transitions';
 import styles from './search.module.css';
@@ -121,7 +121,7 @@ function CouponSearch({ variant }: { variant: CsVariant }) {
   const [bandOn, setBandOn] = useState(true);
   const banded = variant === 'h2' && !normal && bandOn;
   // h2 with the band: BEAUTY10 suggestions first, then all of noon; after ✕ a normal all-of-noon search
-  const scope: ListScope = normal ? 'all' : variant === 'h2' ? (bandOn ? 'mixed' : 'all') : variant === 'row' && eligibleOnly ? 'eligible' : 'all';
+  const scope: ListScope = normal ? 'all' : variant === 'h2' ? (bandOn ? 'mixed' : 'all') : isRowVariant(variant) && eligibleOnly ? 'eligible' : 'all';
   const scopeRef = useRef(scope);
   scopeRef.current = scope;
   const [q, setQ] = useState(params.q ?? '');
@@ -389,9 +389,9 @@ function CouponSearch({ variant }: { variant: CsVariant }) {
     ) : (
       <div ref={headerRef} onPointerDownCapture={onHeaderPointerDown}>
         <div className={styles.header}>{input}</div>
-        {variant === 'row' && !normal && (
+        {isRowVariant(variant) && !normal && (
           <motion.div className={styles.erWrap} initial={{ opacity: 0, y: handoff.travel }} animate={chromeState} custom={chromeDelay} variants={chrome}>
-            <EligibleRow on={eligibleOnly} onChange={csStore.setEligibleOnly} />
+            <EligibleRow on={eligibleOnly} onChange={csStore.setEligibleOnly} v2={variant === 'row2'} />
           </motion.div>
         )}
       </div>

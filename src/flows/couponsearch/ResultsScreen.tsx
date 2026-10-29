@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useNav, useParams } from '../../kit/Navigator';
 import { CouponListing } from './components/CouponListing';
 import { copy, resultsFor, type Scope } from './data';
-import { useCs, type CsVariant } from './store';
+import { isRowVariant, useCs, type CsVariant } from './store';
 import { barMorph } from './transitions';
 import styles from './listing.module.css';
 
@@ -14,7 +14,7 @@ function ContextLine({ variant, want, scope, query }: { variant: CsVariant; want
   let line;
   if (scope === 'all')
     line =
-      variant === 'row' ? (
+      isRowVariant(variant) ? (
         <>
           Showing results for {q} {copy.results.allOfNoon}
         </>
