@@ -29,7 +29,7 @@ setWasmUrl(new URL('../../node_modules/@lottiefiles/dotlottie-web/dist/dotlottie
 
 const readUrl = (): { route?: Route; params: Record<string, string> } => {
   const { route, params } = parsePageUrl(window.location);
-  const { v, embed: _embed, ...rest } = params;
+  const { v, embed: _embed, solo: _solo, ...rest } = params;
   if (isCsVariant(v)) csStore.setVariant(v);
   return { route: route ? registry.resolve(route)?.route : 'couponsearch/cart', params: rest };
 };
@@ -37,10 +37,13 @@ const readUrl = (): { route?: Route; params: Record<string, string> } => {
 // no backdrop or phone frame of ours, the screen fills the window, and the link stays locked to its `?v=`.
 const embed = new URLSearchParams(window.location.search).get('embed') === '1';
 if (embed) document.documentElement.classList.add('pg-embed');
+// `?solo=1`: a review link for one version: our phone frame stays, the version switch goes, the link stays on its `?v=`.
+const solo = new URLSearchParams(window.location.search).get('solo') === '1';
 const withVersion = (search: string) => {
   const q = new URLSearchParams(search);
   q.set('v', csStore.get().variant);
   if (embed) q.set('embed', '1');
+  if (solo) q.set('solo', '1');
   return `?${q.toString()}`;
 };
 
@@ -48,7 +51,7 @@ const withVersion = (search: string) => {
 // expect it at the stage's 24px offset: under automation the switch only shows when a test asks for it (`?v=`), and
 // the phone is never scaled. People get the switch, and a phone scaled down to fit a short window.
 const automated = !!navigator.webdriver;
-const showSwitch = !embed && (!automated || new URLSearchParams(window.location.search).has('v'));
+const showSwitch = !embed && !solo && (!automated || new URLSearchParams(window.location.search).has('v'));
 const SWITCH_H = 52; // VersionSwitch: 16 top + 36
 const STAGE_PAD = 48; // .pg-stage padding, top + bottom
 function useFitScale() {

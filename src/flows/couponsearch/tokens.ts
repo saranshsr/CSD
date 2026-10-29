@@ -56,6 +56,35 @@ export const csTokens = {
     inset: 2,
     stretch: 6,
     rowWidth: 343,
+    /**
+     * The on/off choreography: the switch leads, the row answers. The knob keeps the kit's
+     * `fieldMotion.spring.springLight`; the row's on-surface runs on its own progress (`spread` below) that follows a
+     * beat later and reaches the badge last, so the green reads as spreading out of the switch. Everything is a spring
+     * on a MotionValue, so a tap mid-flight reverses from where it is.
+     */
+    spread: {
+      /** the row answers ≈3 frames after the knob starts, only when it starts from rest (never on a reversal) */
+      lead: 0.05,
+      /** on: the green spreads right → left out of the switch; critically damped, a touch softer than the knob */
+      on: appleSpring(0.44, 1),
+      /** off: recedes back into the switch, quicker and calmer (never overshoots) */
+      off: appleSpring(0.34, 1),
+      /** while the knob is dragged, the surface chases it */
+      chase: appleSpring(0.16, 1),
+      /** the soft leading edge of the spread, as a share of the row's width */
+      feather: 0.6,
+      /** where the badge and the subtitle sit along the spread (0 = switch edge, 1 = far edge), so each one turns as
+          the green reaches it */
+      at: { badge: 0.91, value: 0.6 },
+      /** reduced motion: the row cross-fades uniformly, this long */
+      fade: 0.15,
+    },
+    /**
+     * The badge confirms "on": as the green reaches it, the coupon icon gets a small downward kick on a lightly
+     * under-damped spring (dips to ≈0.9, settles with ≈1% overshoot). Turning off never bounces: it eases back to 1
+     * on `off`.
+     */
+    settle: { spring: appleSpring(0.4, 0.6), kick: -3.1, at: 0.35, off: appleSpring(0.3, 1) },
   },
   gesture: {
     /** px of travel before a press turns into a drag */

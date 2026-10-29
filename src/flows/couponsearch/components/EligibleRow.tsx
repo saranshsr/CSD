@@ -14,6 +14,17 @@ import styles from '../search.module.css';
 
 const T1 = csTokens.toggle;
 const T2 = csTokens.toggleV2;
+const S = T2.spread;
+const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
+/** how far the spread has reached a point `at` along the row (0 = switch edge, 1 = far edge), feathered */
+const reach = (q: number, at: number) => clamp01((clamp01(q) * (1 + S.feather) - at) / S.feather);
+/** the spread as a mask: opaque behind its feathered front, which travels from the switch (right) to the far edge */
+const spreadMask = (q: number, invert: boolean) => {
+  const f = clamp01(q) * (1 + S.feather);
+  const a = `${((f - S.feather) * 100).toFixed(2)}%`;
+  const b = `${(f * 100).toFixed(2)}%`;
+  return invert ? `linear-gradient(to left, transparent ${a}, black ${b})` : `linear-gradient(to left, black ${a}, transparent ${b})`;
+};
 const { slop } = csTokens.gesture;
 const flow = couponsearchFlowTokens.colors as Record<string, string>;
 
@@ -29,6 +40,13 @@ const flow = couponsearchFlowTokens.colors as Record<string, string>;
  * (critically damped) as it lands. Dragging along the row scrubs the knob 1:1 (rubber band past the ends); the release
  * projects momentum to pick the side. A haptic tick on commit. Reduced motion: everything snaps. Pointer-down never
  * takes focus from the search field.
+ *
+ * v2 (`?v=row2`) choreographs it: the switch leads, the row answers. `p` moves only the switch (knob + track); the
+ * row's surface runs on its own spring value `q` that starts a beat later (`toggleV2.spread`) and spreads the green out
+ * of the switch, right → left, through a feathered mask, with the off hairline masked as its exact complement. The
+ * subtitle and the badge turn as the front reaches them, and as it reaches the badge on the way on, the coupon icon
+ * takes a small settle (`toggleV2.settle`). Off recedes back into the switch on a quicker, critically damped spring.
+ * Reduced motion: the knob snaps and the row cross-fades uniformly for 150ms.
  */
 export function EligibleRow({ on, onChange, v2 = false }: { on: boolean; onChange: (on: boolean) => void; v2?: boolean }) {
   const T = v2 ? T2 : T1;
@@ -41,6 +59,45 @@ export function EligibleRow({ on, onChange, v2 = false }: { on: boolean; onChang
   const drag = useRef<{ id: number; x0: number; y0: number; s: number; p0: number; active: boolean; cancelled: boolean } | null>(null);
   const vt = useRef(velocityTracker());
   const [held, setHeld] = useState(false);
+  // v2: the row's surface progress (1 = on), its own spring a beat behind the knob, and the badge icon's settle
+  const q = useMotionValue(on ? 1 : 0);
+  const qRun = useRef<AnimationPlaybackControls | null>(null);
+  const qTarget = useRef<0 | 1 | null>(on ? 1 : 0); // null while the surface chases a drag
+  const iconScale = useMotionValue(1);
+  const reduceRef = useRef(reduce);
+  reduceRef.current = reduce;
+
+  const surface = (to: 0 | 1) => {
+    if (!v2) return;
+    const from = q.get();
+    const atRest = Math.abs(q.getVelocity()) < 0.01 && (from <= 0.001 || from >= 0.999);
+    qRun.current?.stop();
+    qTarget.current = to;
+    if (reduce) {
+      qRun.current = animate(q, to, { duration: S.fade, ease: 'linear' });
+      return;
+    }
+    qRun.current = animate(q, to, { ...(to ? S.on : S.off), velocity: q.getVelocity(), delay: atRest && from !== to ? S.lead : 0 });
+    if (!to) animate(iconScale, 1, T2.settle.off); // turning off never bounces
+  };
+  const chase = (to: number) => {
+    if (!v2) return;
+    qRun.current?.stop();
+    qTarget.current = null;
+    qRun.current = animate(q, clamp01(to), { ...S.chase, velocity: q.getVelocity() });
+  };
+  // the badge confirms "on": a downward kick on a lightly under-damped spring as the green reaches it
+  useEffect(() => {
+    if (!v2) return;
+    let prev = reach(q.get(), S.at.badge);
+    return q.on('change', (v) => {
+      const r = reach(v, S.at.badge);
+      if (qTarget.current === 1 && !reduceRef.current && prev < T2.settle.at && r >= T2.settle.at) {
+        animate(iconScale, 1, { ...T2.settle.spring, velocity: T2.settle.kick });
+      }
+      prev = r;
+    });
+  }, [v2, q, iconScale]);
 
   const glide = (to: number, velocity = 0) => {
     run.current?.stop();
@@ -51,7 +108,10 @@ export function EligibleRow({ on, onChange, v2 = false }: { on: boolean; onChang
     run.current = animate(p, to, { ...fieldMotion.spring.springLight, velocity });
   };
   useEffect(() => {
-    if (!drag.current?.active) glide(on ? 1 : 0, p.getVelocity());
+    if (!drag.current?.active) {
+      glide(on ? 1 : 0, p.getVelocity());
+      surface(on ? 1 : 0);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [on]);
 
@@ -63,10 +123,19 @@ export function EligibleRow({ on, onChange, v2 = false }: { on: boolean; onChang
   // off: the borderSubtle hairline, fading out as the on look (gradient + its success-surface hairline) fades in
   const offRing = useTransform(p, [0, 1], [1, 0]);
   const ink = useTransform(p, [0, 1], [flow.csIconOff, colors.success]);
-  // v2: the 36×36 badge fill (muted ⇄ success-subtle) follows p too
-  const badgeBg = useTransform(p, [0, 1], [colors.bgMuted, colors.successSurface]);
-  const subInk = useTransform(p, [0, 1], [field.textTertiary, colors.success]);
   const valueInk = useTransform(p, [0, 1], [colors.textSecondary, colors.success]);
+  // v2: the row follows `q`, not the knob; at rest both layers drop their masks, so the resting looks are the old ones
+  const onBg2 = useTransform(q, (v) => (reduceRef.current ? clamp01(v) : v <= 0.0005 ? 0 : 1));
+  const onMask2 = useTransform(q, (v) => (reduceRef.current || v >= 0.9995 ? 'none' : spreadMask(v, false)));
+  const offRing2 = useTransform(q, (v) => (reduceRef.current ? 1 - clamp01(v) : v >= 0.9995 ? 0 : 1));
+  const offMask2 = useTransform(q, (v) => (reduceRef.current || v <= 0.0005 ? 'none' : spreadMask(v, true)));
+  const badgeReach = useTransform(q, (v) => (reduceRef.current ? clamp01(v) : reach(v, S.at.badge)));
+  const valueReach = useTransform(q, (v) => (reduceRef.current ? clamp01(v) : reach(v, S.at.value)));
+  const badgeBg2 = useTransform(badgeReach, [0, 1], [colors.bgMuted, colors.successSurface]);
+  const ink2 = useTransform(badgeReach, [0, 1], [flow.csIconOff, colors.success]);
+  // Field text-tertiary is #666D85 = kit `textSecondary`; the kit's literal is used because `field.*` resolves to a CSS
+  // var, which motion can't interpolate (the subtitle would snap instead of turning green)
+  const subInk2 = useTransform(valueReach, [0, 1], [colors.textSecondary, colors.success]);
 
   const stretch = (v: number) => {
     if (!reduce) animate(press, v, v ? spring.press : supermall.springs.return);
@@ -112,6 +181,7 @@ export function EligibleRow({ on, onChange, v2 = false }: { on: boolean; onChang
     if (px < 0) px = rubber(px, TRAVEL);
     else if (px > TRAVEL) px = TRAVEL + rubber(px - TRAVEL, TRAVEL);
     p.set(px / TRAVEL);
+    chase(px / TRAVEL);
     vt.current.add(px, e.timeStamp);
   };
   const onPointerUp = (e: ReactPointerEvent<HTMLDivElement>) => {
@@ -127,6 +197,7 @@ export function EligibleRow({ on, onChange, v2 = false }: { on: boolean; onChang
     const v = vt.current.get(e.timeStamp);
     const next = project(p.get() * TRAVEL, v) > TRAVEL / 2;
     glide(next ? 1 : 0, v / TRAVEL);
+    surface(next ? 1 : 0);
     if (next !== on) commit(next);
   };
 
@@ -147,6 +218,7 @@ export function EligibleRow({ on, onChange, v2 = false }: { on: boolean; onChang
         setHeld(false);
         stretch(0);
         glide(on ? 1 : 0);
+        surface(on ? 1 : 0);
       }}
       onKeyDown={(e) => {
         if (e.key === ' ' || e.key === 'Enter') {
@@ -155,11 +227,20 @@ export function EligibleRow({ on, onChange, v2 = false }: { on: boolean; onChang
         }
       }}
     >
-      <motion.span className={v2 ? `${styles.erOnBg} ${styles.erOnBg2}` : styles.erOnBg} style={{ opacity: onBg }} aria-hidden />
-      <motion.span className={styles.erOffRing} style={{ opacity: offRing }} aria-hidden />
       {v2 ? (
-        <motion.span className={styles.erBadge} style={{ backgroundColor: badgeBg }} aria-hidden>
-          <motion.span className={styles.erBadgeIcon} style={{ backgroundColor: ink, WebkitMaskImage: `url("${badgeIcon}")`, maskImage: `url("${badgeIcon}")` }} />
+        <>
+          <motion.span className={`${styles.erOnBg} ${styles.erOnBg2}`} style={{ opacity: onBg2, WebkitMaskImage: onMask2, maskImage: onMask2 }} aria-hidden />
+          <motion.span className={styles.erOffRing} style={{ opacity: offRing2, WebkitMaskImage: offMask2, maskImage: offMask2 }} aria-hidden />
+        </>
+      ) : (
+        <>
+          <motion.span className={styles.erOnBg} style={{ opacity: onBg }} aria-hidden />
+          <motion.span className={styles.erOffRing} style={{ opacity: offRing }} aria-hidden />
+        </>
+      )}
+      {v2 ? (
+        <motion.span className={styles.erBadge} style={{ backgroundColor: badgeBg2 }} aria-hidden>
+          <motion.span className={styles.erBadgeIcon} style={{ backgroundColor: ink2, scale: iconScale, WebkitMaskImage: `url("${badgeIcon}")`, maskImage: `url("${badgeIcon}")` }} />
         </motion.span>
       ) : (
         <motion.span className={styles.erIcon} style={{ backgroundColor: ink, WebkitMaskImage: `url("${couponIcon}")`, maskImage: `url("${couponIcon}")` }} aria-hidden />
@@ -177,7 +258,7 @@ export function EligibleRow({ on, onChange, v2 = false }: { on: boolean; onChang
             {(coupon.rowTail ?? copy.row.tail) && <span className={styles.erTail}> {coupon.rowTail ?? copy.row.tail}</span>}
           </span>
         )}
-        <motion.span className={styles.erValue} style={{ color: v2 ? subInk : valueInk }}>
+        <motion.span className={styles.erValue} style={{ color: v2 ? subInk2 : valueInk }}>
           {coupon.value}
         </motion.span>
       </span>
