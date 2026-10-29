@@ -98,6 +98,9 @@ export const couponsearchFlowTokens: TokenOverrides = {
     csGreen50: '#F6FEFB',
     /** Figma value, no kit token: start of the Eligible row "on" gradient (Typing · on) */
     csGreenOnStart: '#E7FAF2',
+    /** Figma value, no DS token: Eligible row v2 "on" stroke, a vertical #CBF6E5 gradient (10% top → 40% bottom) */
+    csBorderOnTop: 'rgba(203, 246, 229, 0.1)',
+    csBorderOnBottom: 'rgba(203, 246, 229, 0.4)',
     /** Figma value, no DS token: eligible row coupon icon, off */
     csIconOff: '#9AA0B4',
     /** Figma value, no DS token: white over the band green, ✕ circle 18% (the 90% value copy is `palette.whiteAlpha90`) */
