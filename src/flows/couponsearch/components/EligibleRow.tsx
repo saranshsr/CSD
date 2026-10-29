@@ -1004,7 +1004,9 @@ const useLook: (on: boolean, parts: Parts, knob: MotionValue<number>, glyph: Gly
 /** v2 (`?v=row2`): the switch leads, the row answers with the `&tg=` choreography. */
 function EligibleRowV2({ on, onChange }: { on: boolean; onChange: (on: boolean) => void }) {
   const { coupon, lead, tail, label } = useLabel(true);
-  const glyph = GLYPHS[coupon.icon];
+  // one badge glyph for every coupon (Gaurav, 29 Oct: "icon dynamic nahi rakhege, just the first one everywhere");
+  // `coupon.icon` and the wallet / bank glyphs stay in place in case per-type icons come back
+  const glyph = GLYPHS['discount-filled'];
   const reduce = useReduceMotion();
   const parts: Parts = { row: useRef<HTMLDivElement>(null), badge: useRef<HTMLSpanElement>(null), sub: useRef<HTMLSpanElement>(null), track: useRef<HTMLSpanElement>(null) };
   const p = useMotionValue(on ? 1 : 0);
