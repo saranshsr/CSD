@@ -30,6 +30,12 @@ const TG = (() => {
   return n >= 1 && n <= 5 ? n : 5;
 })();
 
+/** `&offer=0`: the coupon has no value line; v2 drops the subtitle and goes single-line (`toggleV2.noOffer`). Read once;
+    main.tsx keeps it in the URL on every page. */
+const NO_OFFER = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('offer') === '0';
+/** a flood scaled to the badge it fills (the single-line row's badge is 32, not 36) */
+const sized = <F extends { from: number; to: number; crest: number }>(f: F): F => (NO_OFFER ? { ...f, ...T2.noOffer.flood } : f);
+
 /**
  * Eligible row: "Search within BEAUTY10" just under the search bar, from the empty state on. The whole row is the
  * hit target (an iOS settings cell); an Origin M-Toggle is its state.
@@ -46,6 +52,8 @@ const TG = (() => {
  *   1 the track becomes the row · 2 a light sweep delivers the value · 3 the seal stamps it · 4 the card pops up ·
  *   5 (default) the green spreads out of the switch and the seal quietly stamps it as it arrives.
  * Each one rests on exactly the same on / off looks. Reduced motion (all five): the row cross-fades for 150ms.
+ * `&offer=0` (v2 only): no value line; the row is one line, 56 high, with a 32 badge and a 20 seal (`toggleV2.noOffer`).
+ * The choreographies are unchanged; where they place the copy, the title stands in for the subtitle.
  */
 export function EligibleRow({ on, onChange, v2 = false }: { on: boolean; onChange: (on: boolean) => void; v2?: boolean }) {
   return v2 ? <EligibleRowV2 on={on} onChange={onChange} /> : <EligibleRowV1 on={on} onChange={onChange} />;
@@ -613,9 +621,10 @@ function useStampLook(on: boolean, parts: Parts): Look {
   // the % is a knockout painted in what shows under it: the badge fill, or the flood once it is under the seal
   const hole = useTransform(() => Math.max(bg.get(), floodA.get()));
   const holeInk = useTransform(hole, [0, 1], [colors.bgMuted, colors.successSurface]);
+  const FL = sized(K.flood);
   const floodImage = useTransform(() => {
-    const R = K.flood.from + (K.flood.to - K.flood.from) * clamp01(flood.get());
-    return `radial-gradient(circle at 50% 50%, var(--nk-color-success-surface) ${px(R - K.flood.crest)}, color-mix(in srgb, var(--nk-color-success) 12%, var(--nk-color-success-surface)) ${px(R - 1)}, transparent ${px(R + 0.5)})`;
+    const R = FL.from + (FL.to - FL.from) * clamp01(flood.get());
+    return `radial-gradient(circle at 50% 50%, var(--nk-color-success-surface) ${px(R - FL.crest)}, color-mix(in srgb, var(--nk-color-success) 12%, var(--nk-color-success-surface)) ${px(R - 1)}, transparent ${px(R + 0.5)})`;
   });
   const floodShown = useTransform(floodA, (v) => (v > 0.0005 ? 'block' : 'none'));
   const ringScale = useTransform(ring, (v) => K.ring.scale[0] + (K.ring.scale[1] - K.ring.scale[0]) * v);
@@ -635,7 +644,7 @@ function useStampLook(on: boolean, parts: Parts): Look {
           flood.jump(0);
           let landed = false;
           animate(flood, 1, {
-            ...K.flood.spring,
+            ...FL.spring,
             delay: K.impact,
             onUpdate: () => {
               if (landed) return;
@@ -805,6 +814,8 @@ function useDepthLook(on: boolean, parts: Parts): Look {
 function useSpreadStampLook(on: boolean, _parts: Parts, knob: MotionValue<number>): Look {
   const S = T2.mix.spread;
   const K = T2.mix.stamp;
+  // where the badge sits along the fill: the single-line row's 32 badge centres 2px further from the switch
+  const AT_BADGE = NO_OFFER ? T2.noOffer.at.badge : S.at.badge;
   const q = useMotionValue(on ? 1 : 0); // the fill, from the switch
   const target = useRef<0 | 1>(on ? 1 : 0);
   const armed = useRef(false); // the flood fires once, as the front reaches the badge
@@ -837,7 +848,7 @@ function useSpreadStampLook(on: boolean, _parts: Parts, knob: MotionValue<number
   const sealInk = useTransform(seal, [0, 1], [flow.csIconOff, colors.success]);
   const hole = useTransform(() => Math.max(bg.get(), floodA.get()));
   const holeInk = useTransform(hole, [0, 1], [colors.bgMuted, colors.successSurface]);
-  const F = K.flood;
+  const F = sized(K.flood);
   const floodImage = useTransform(() => {
     const R = F.from + (F.to - F.from) * clamp01(flood.get());
     return `radial-gradient(circle at 50% 50%, var(--nk-color-success-surface) ${px(R - F.crest)}, color-mix(in srgb, var(--nk-color-success) ${F.crestMix}%, var(--nk-color-success-surface)) ${px(R - 1)}, transparent ${px(R + 0.5)})`;
@@ -877,7 +888,7 @@ function useSpreadStampLook(on: boolean, _parts: Parts, knob: MotionValue<number
   useEffect(
     () =>
       q.on('change', (v) => {
-        if (armed.current && target.current === 1 && reach(v, S.at.badge) >= K.at) stamp();
+        if (armed.current && target.current === 1 && reach(v, AT_BADGE) >= K.at) stamp();
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [q],
@@ -897,7 +908,7 @@ function useSpreadStampLook(on: boolean, _parts: Parts, knob: MotionValue<number
       target.current = to;
       if (to) {
         animate(q, 1, { ...S.on, velocity: q.getVelocity(), delay: fromRest ? S.lead : 0 });
-        if (reach(q.get(), S.at.badge) >= K.at) quietOn();
+        if (reach(q.get(), AT_BADGE) >= K.at) quietOn();
         else {
           armed.current = true;
           if (knob.get() >= K.inkAt) inkSeal();
@@ -985,20 +996,23 @@ function EligibleRowV2({ on, onChange }: { on: boolean; onChange: (on: boolean) 
       };
   const sw = useSwitch(T2, on, onChange, p, T2.knobSpring, L);
   return (
-    <motion.div ref={parts.row} className={`${styles.er} ${styles.er2}`} {...sw.bind} aria-label={label} style={{ backgroundColor: colors.bgSurface, ...L.row }}>
+    <motion.div ref={parts.row} className={NO_OFFER ? `${styles.er} ${styles.er2} ${styles.er2Solo}` : `${styles.er} ${styles.er2}`} {...sw.bind} aria-label={label} style={{ backgroundColor: colors.bgSurface, ...L.row }}>
       {L.under}
       <motion.span ref={parts.badge} className={L.badgeClass ? `${styles.erBadge} ${L.badgeClass}` : styles.erBadge} style={L.badge} aria-hidden>
         {L.icon}
       </motion.span>
-      <span className={styles.erCopy}>
+      {/* no value line: the copy box stands in for the subtitle wherever a choreography places it */}
+      <span ref={NO_OFFER ? parts.sub : undefined} className={styles.erCopy}>
         <span className={styles.erText}>
           {coupon.rowTail === '' ? `${coupon.rowLead ?? copy.row.lead} ` : null}
           <b>{coupon.code}</b>
           {coupon.rowTail !== '' && ` ${coupon.rowTail ?? copy.row.tail}`}
         </span>
-        <motion.span ref={parts.sub} className={styles.erValue} style={L.sub}>
-          {coupon.value}
-        </motion.span>
+        {!NO_OFFER && (
+          <motion.span ref={parts.sub} className={styles.erValue} style={L.sub}>
+            {coupon.value}
+          </motion.span>
+        )}
       </span>
       <motion.span ref={parts.track} className={styles.erTrack} style={{ backgroundColor: track }} aria-hidden>
         <motion.span className={styles.erKnob} style={{ x: sw.knobX, width: sw.knobW, background: field.surfacePrimary, boxShadow: field.shadowSm }} />

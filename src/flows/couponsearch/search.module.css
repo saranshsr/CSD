@@ -106,3 +106,8 @@
 .erBadgeIcon { width: 24px; height: 24px; -webkit-mask-position: center; mask-position: center; -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
 /* tg=5: the badge clips its stamp (the ink flood) to its own r8, so nothing renders outside it */
 .erBadgeClip { overflow: hidden; }
+/* Eligible row v2, no value line (`&offer=0`, Figma Section 5): one line, 56 high (12 around a 32 badge), 32×32 r8
+   badge with a 20 seal (the 36 / 24 badge's 6px inset); title, switch, padding and gap unchanged */
+.er2Solo { height: 56px; min-height: 56px; }
+.er2Solo .erBadge { width: 32px; height: 32px; }
+.er2Solo .erBadgeIcon, .er2Solo .erSeal { width: 20px; height: 20px; }

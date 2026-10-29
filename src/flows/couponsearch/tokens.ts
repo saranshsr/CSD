@@ -225,6 +225,18 @@ export const csTokens = {
            flood's soft crest, clipped to the badge (`.erBadgeClip`), is the pulse */
       },
     },
+    /**
+     * `&offer=0`: a coupon with no value line ("Extra 10% off at checkout"). The row is one line, 56 high (12 padding
+     * around a 32 badge; the 20 title line and the 24 switch sit centred), the badge 32 r8 with a 20 seal: the same 6px
+     * seal inset as the 36 / 24 badge, so it reads as the same part one step down. Figma: Section 5 · Eligible row · no
+     * offer line. Only what the geometry changes is here; every spring and colour is the two-line row's.
+     */
+    noOffer: {
+      /** tg=5: the badge's centre along the fill (0 = switch edge): (343 − 28) ÷ 343 */
+      at: { badge: 0.92 },
+      /** the flood, scaled with the badge (32 ÷ 36): from under the 20 seal to past the badge's corners (r 22.6) */
+      flood: { from: 6, to: 24, crest: 5 },
+    },
   },
   gesture: {
     /** px of travel before a press turns into a drag */
