@@ -57,34 +57,131 @@ export const csTokens = {
     stretch: 6,
     rowWidth: 343,
     /**
-     * The on/off choreography: the switch leads, the row answers. The knob keeps the kit's
-     * `fieldMotion.spring.springLight`; the row's on-surface runs on its own progress (`spread` below) that follows a
-     * beat later and reaches the badge last, so the green reads as spreading out of the switch. Everything is a spring
-     * on a MotionValue, so a tap mid-flight reverses from where it is.
+     * Shared by the four choreographies (`&tg=1..4`, EligibleRow): the knob is UISwitch, critically damped at the
+     * Field `springLight` response (ω = √300 → 0.363s), so a tap lands with no settle; the 6px press stretch stays on
+     * `spring.press` in / `supermall.springs.return` out. Every value below is a spring or tween on a MotionValue, so a
+     * tap mid-flight reverses from what is on screen, with its velocity.
      */
-    spread: {
-      /** the row answers ≈3 frames after the knob starts, only when it starts from rest (never on a reversal) */
-      lead: 0.05,
-      /** on: the green spreads right → left out of the switch; critically damped, a touch softer than the knob */
-      on: appleSpring(0.44, 1),
-      /** off: recedes back into the switch, quicker and calmer (never overshoots) */
-      off: appleSpring(0.34, 1),
-      /** while the knob is dragged, the surface chases it */
-      chase: appleSpring(0.16, 1),
-      /** the soft leading edge of the spread, as a share of the row's width */
-      feather: 0.6,
-      /** where the badge and the subtitle sit along the spread (0 = switch edge, 1 = far edge), so each one turns as
-          the green reaches it */
-      at: { badge: 0.91, value: 0.6 },
-      /** reduced motion: the row cross-fades uniformly, this long */
-      fade: 0.15,
+    knobSpring: appleSpring(0.363, 1),
+    /** while the knob is dragged, the row's surface chases it */
+    chase: appleSpring(0.16, 1),
+    /** reduced motion: the knob snaps and the row cross-fades uniformly, this long; nothing moves */
+    fade: 0.15,
+    /**
+     * `tg=1` Track becomes the row. One material, Dynamic Island style: the green leaves the switch track as the
+     * track's own paint and grows into the row's on-surface. Its two axes are independent springs (Apple: decompose 2D
+     * motion): it swells around the switch first, where the walls are close, then reaches across the row; its ends stay
+     * round (a capsule) while they travel and square off into the row's r12 corners only as they meet the walls. The
+     * paint thins as it spreads (tint ∝ (track area ÷ its area)^dilute), so it is switch-green at the switch and the
+     * row's mint by the time it lands. Off: the leading end retracts first, then the swell sinks back into the track; no tint.
+     */
+    morph: {
+      /** it leaves the track ≈4 frames after the knob starts, once the track is mostly green (only from rest; a
+          reversal turns at once) */
+      lead: 0.07,
+      /** on: the swell (top, bottom, switch end: walls ≤ 20px away). Both on-springs are lightly under-damped and the
+          shape is clamped at the walls, so the material lands against them with its momentum instead of creeping in */
+      swell: appleSpring(0.3, 0.86),
+      /** on: the leading end, across the row (≈290px) */
+      reach: appleSpring(0.5, 0.84),
+      /** off: the leading end comes back first … */
+      retract: appleSpring(0.3, 1),
+      /** … and the swell sinks into the track a beat later */
+      sink: appleSpring(0.3, 1),
+      sinkDelay: 0.05,
+      /** the switch-green thins as (track area ÷ area)^dilute: 0.55 ≈ with its length, so the capsule is still green
+          as it clears the switch and mint by the time it lands */
+      dilute: 0.55,
+      /** it reaches full body at this many times the track's area (thin while it leaves the track) */
+      body: 2.2,
+      /** last share of each axis' travel over which its round end squares off into the row's corners */
+      conform: 0.22,
+      /** the tint follows direction: on while it grows, gone while it recedes */
+      tint: { on: appleSpring(0.16, 1), off: appleSpring(0.12, 1) },
+      /** the subtitle turns as the leading end crosses this many px of it; the badge as it crosses the badge */
+      subSpan: 180,
+      /** …and their inks follow on this spring, so a quick retract never pops a colour */
+      inkFollow: appleSpring(0.1, 1),
     },
     /**
-     * The badge confirms "on": as the green reaches it, the coupon icon gets a small downward kick on a lightly
-     * under-damped spring (dips to ≈0.9, settles with ≈1% overshoot). Turning off never bounces: it eases back to 1
-     * on `off`.
+     * `tg=2` Light sweep (Apple Pay "Done", the Wallet card sheen). The switch and the row light up together, uniformly,
+     * on the knob's beat; then one soft band of light, leaning like a reflection on a tilted card, crosses the row once
+     * left → right. It is the light that delivers the value: the seal and then the subtitle, letter by letter, turn
+     * green as it passes (a one-time "slide to unlock" shimmer through the text), and it glints off the switch on its
+     * way out. Off: everything fades back together, calmer; no light.
      */
-    settle: { spring: appleSpring(0.4, 0.6), kick: -3.1, at: 0.35, off: appleSpring(0.3, 1) },
+    sheen: {
+      /** the surface, with the track */
+      surface: appleSpring(0.28, 1),
+      /** off */
+      off: appleSpring(0.26, 1),
+      /** the light sets off as the surface is ≈60% in */
+      delay: 0.1,
+      /** one pass across the row, on the Field ease-in-out (`fieldMotion.ease.easeInOut`) */
+      sweep: 0.64,
+      /** the band: px wide, leaning (deg) */
+      width: 96,
+      skew: -20,
+      /** the copy turns across this many px around the light's centre */
+      soft: 56,
+      /** at the light's centre the subtitle's green lifts this many % toward white (the one-time shimmer) */
+      glint: 45,
+      /** off mid-pass: the light fades out this fast */
+      fadeOut: 0.14,
+    },
+    /**
+     * `tg=3` Stamp. The coupon seal leads: touch-down presses it in, the commit stamps it (a kick on a lightly
+     * under-damped press spring) and turns it two lobes (90°; it has 8, so it lands on the same silhouette, the % stays
+     * upright) on Apple's rotation spring, overshooting ≈1.5° and clicking home like a bezel detent. Ink lands at the
+     * bottom of the press: the seal inks green and the ink floods out of it across the badge, one soft ring leaves from
+     * behind the badge, and the surface washes left → right from the badge side to the switch. Off: the seal un-turns,
+     * critically damped, and greys with the badge; the wash recedes back into the badge.
+     */
+    stamp: {
+      /** the turn: Apple rotation (damping 0.8) */
+      turn: appleSpring(0.5, 0.8),
+      /** off: un-turns, no overshoot */
+      unturn: appleSpring(0.34, 1),
+      /** touch-down preload (scale) */
+      preload: 0.94,
+      /** the stamp: kicked from wherever the press is, it dips to ≈0.86 and springs back with ≈1.5% overshoot */
+      press: appleSpring(0.42, 0.55),
+      kick: 4,
+      /** ink lands at the bottom of the press */
+      impact: 0.07,
+      /** the seal's ink, and the badge fill when there is no flood */
+      ink: appleSpring(0.16, 1),
+      inkOff: appleSpring(0.22, 1),
+      /** off: the seal un-turns at once and greys a beat later, as the wash drains back into it */
+      inkOffDelay: 0.06,
+      /** the ink floods out of the seal across the badge: a disc from under the seal (px radius) past the badge's
+          corners, with a slightly deeper crest; once past, it simply is the badge's fill */
+      flood: { spring: appleSpring(0.3, 1), from: 7, to: 27, crest: 5 },
+      /** one soft ring leaves from behind the badge: r px, scaled across `scale` on the strong ease-out (animate
+          skill: cubic-bezier(0.23, 1, 0.32, 1)) while it flashes in and fades out to nothing as it slows */
+      ring: { r: 24, scale: [0.9, 1.3] as [number, number], alpha: 0.8, duration: 0.42, ease: [0.23, 1, 0.32, 1] as [number, number, number, number] },
+      /** the wash: front feather in px */
+      spread: { on: appleSpring(0.5, 1), off: appleSpring(0.3, 1), feather: 150 },
+    },
+    /**
+     * `tg=4` Depth. The row is a physical card: it gives a little under the finger on touch-down; on, the colour fills
+     * radially from the touch point while the card pops up toward you (1.5px lift, 1% grow, a soft green shadow it
+     * casts) and settles back flat as the fill lands. Off: the fill drains back into the touch point and the card stays
+     * flat. The pop is a kicked, critically damped spring, so it can be grabbed mid-air and never wobbles.
+     */
+    depth: {
+      /** touch-down: scale −1.2% on `spring.press` */
+      sink: 0.012,
+      /** the pop: a kick on a critically damped spring, so it peaks 1/ω ≈ 0.1s after the commit and is flat again by
+          ≈0.5s, as the fill lands; 1.5px up, 1% bigger, the shadow at full at the peak */
+      lift: { spring: appleSpring(0.62, 1), px: 1.5, grow: 0.01 },
+      /** off: anything still up settles flat, quick */
+      settle: appleSpring(0.28, 1),
+      /** the fill: a feathered radial front from the touch point (keyboard: the switch) */
+      fill: { on: appleSpring(0.52, 1), off: appleSpring(0.3, 1), feather: 80 },
+      /** the badge and subtitle inks follow the front on this spring, so a quick drain never pops a colour */
+      inkFollow: appleSpring(0.1, 1),
+    },
   },
   gesture: {
     /** px of travel before a press turns into a drag */

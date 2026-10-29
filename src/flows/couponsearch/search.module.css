@@ -73,6 +73,28 @@
 /* Eligible row "off" hairline (borderSubtle); cross-fades against .erOnBg's ring on the toggle's progress */
 .erOffRing { position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none; box-shadow: inset 0 0 0 1px var(--nk-color-border-subtle); }
 
+/* Eligible row v2 choreographies (EligibleRow `&tg=`); every layer here is invisible at rest */
+/* tg=1: the track's own paint inside the growing material (its colour rides the track's) */
+.erInk { position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none; }
+/* tg=2: the light. Not a stacking context, so the band's soft-light blends with the row (isolated by .er) */
+.erSheen { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; pointer-events: none; }
+.erSheenBand { position: absolute; top: -20px; bottom: -20px; left: 0; mix-blend-mode: soft-light;
+  background: linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--nk-palette-white) 40%, transparent) 30%, color-mix(in srgb, var(--nk-palette-white) 85%, transparent) 50%, color-mix(in srgb, var(--nk-palette-white) 40%, transparent) 70%, transparent 100%); }
+/* the light on the card itself, under the copy (width from toggleV2.sheen.width) */
+.erSheenUnder { z-index: -1; }
+.erSheenLight { position: absolute; top: -20px; bottom: -20px; left: 0;
+  background: linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--nk-color-success) 5%, transparent) 22%, color-mix(in srgb, var(--nk-palette-white) 70%, transparent) 42%, var(--nk-palette-white) 50%, color-mix(in srgb, var(--nk-palette-white) 70%, transparent) 58%, color-mix(in srgb, var(--nk-color-success) 5%, transparent) 78%, transparent 100%); }
+/* tg=3: the seal in layers (whole at rest; ring + upright % while it turns) and the ring that leaves the badge */
+.erBadgeStamp { position: relative; }
+.erSeal { position: relative; display: block; width: 24px; height: 24px; }
+.erSeal > .erBadgeIcon { position: absolute; inset: 0; }
+.erFlood { position: absolute; inset: 0; border-radius: inherit; pointer-events: none; }
+.erRing { position: absolute; z-index: -1; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(closest-side, transparent 76%, color-mix(in srgb, var(--nk-color-success) 22%, transparent) 90%, transparent 100%); }
+/* tg=4: the green-tinted shadow the row casts while it pops up */
+.erLift { position: absolute; inset: 0; z-index: -2; border-radius: inherit; pointer-events: none;
+  box-shadow: 0 10px 22px -12px color-mix(in srgb, var(--nk-color-success) 50%, transparent), 0 1px 4px -1px color-mix(in srgb, var(--nk-color-success) 16%, transparent); }
+
 /* Eligible row v2: 64 high, padding 12, gap 12; 36×36 r8 badge with a 24 coupon icon; 14 Medium title over a 12 Medium subtitle; 42×24 switch */
 .er2 { box-sizing: border-box; height: 64px; min-height: 64px; padding: var(--nk-space-s12); gap: var(--nk-space-s12); }
 .er2 .erCopy { gap: 0; }

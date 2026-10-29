@@ -29,7 +29,7 @@ setWasmUrl(new URL('../../node_modules/@lottiefiles/dotlottie-web/dist/dotlottie
 
 const readUrl = (): { route?: Route; params: Record<string, string> } => {
   const { route, params } = parsePageUrl(window.location);
-  const { v, embed: _embed, solo: _solo, ...rest } = params;
+  const { v, embed: _embed, solo: _solo, tg: _tg, ...rest } = params;
   if (isCsVariant(v)) csStore.setVariant(v);
   return { route: route ? registry.resolve(route)?.route : 'couponsearch/cart', params: rest };
 };
@@ -39,11 +39,14 @@ const embed = new URLSearchParams(window.location.search).get('embed') === '1';
 if (embed) document.documentElement.classList.add('pg-embed');
 // `?solo=1`: a review link for one version: our phone frame stays, the version switch goes, the link stays on its `?v=`.
 const solo = new URLSearchParams(window.location.search).get('solo') === '1';
+// `&tg=1..4`: which Eligible row v2 toggle choreography runs (EligibleRow reads it); kept on every page like `?solo=1`.
+const tg = new URLSearchParams(window.location.search).get('tg');
 const withVersion = (search: string) => {
   const q = new URLSearchParams(search);
   q.set('v', csStore.get().variant);
   if (embed) q.set('embed', '1');
   if (solo) q.set('solo', '1');
+  if (tg) q.set('tg', tg);
   return `?${q.toString()}`;
 };
 
