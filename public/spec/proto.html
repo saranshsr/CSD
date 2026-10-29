@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>noon Flow Kit · spec harness</title>
+<!--
+  Spec-sheet harness (spec only; the prototype's code is untouched). The spec sheet records the prototype on a virtual
+  clock, but motion/react and React capture requestAnimationFrame / setTimeout / clearTimeout when their modules are
+  evaluated, i.e. before the sheet can patch the frame, so their springs would run on real frames and the recording would
+  lag the playhead by up to ~40ms. This page installs one-line indirections for those four first, then loads the app's
+  own index.html (same bundle, same styles) at the nudge URL. Opened without ?spec= it simply forwards to the prototype.
+-->
+<script>
+  const NUDGE = '/beauty10?v=row2&solo=1';
+  if (!new URLSearchParams(location.search).has('spec')) location.replace(NUDGE);
+  else for (const n of ['requestAnimationFrame', 'cancelAnimationFrame', 'setTimeout', 'clearTimeout']) {
+    const real = window[n].bind(window), shim = (...a) => (window[n] === shim ? real(...a) : window[n](...a));
+    window[n] = shim;
+  }
+</script>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  (() => {
+    if (!new URLSearchParams(location.search).has('spec')) return;
+    history.replaceState(null, '', NUDGE);                       // the app reads its route and ?v= / solo= from the URL
+    const x = new XMLHttpRequest(); x.open('GET', '/index.html', false); x.send();   // synchronous: before any frame runs
+    const src = new DOMParser().parseFromString(x.responseText, 'text/html');
+    for (const el of src.head.children) {
+      if (!/^(LINK|SCRIPT)$/.test(el.tagName) || (el.tagName === 'LINK' && el.rel === 'preconnect')) continue;
+      const c = document.createElement(el.tagName.toLowerCase());
+      for (const a of el.attributes) c.setAttribute(a.name, a.value);
+      document.head.appendChild(c);
+    }
+  })();
+</script>
+</body>
+</html>
