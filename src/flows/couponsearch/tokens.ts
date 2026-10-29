@@ -188,8 +188,9 @@ export const csTokens = {
      * the row), on its own critically damped spring, with the off hairline masked as its exact inverse. The subtitle
      * turns green as the front crosses it. The seal is geared to the knob: it turns 90° (8 lobes: same outline) on the
      * knob's own progress, with the barest dip at mid-travel, and inks green with the track as the knob passes
-     * halfway; as the front reaches the badge (≈0.25s) a soft ink flood out of the seal fills the badge, clipped to
-     * it. Off: the seal un-turns with the knob and greys first, then the green
+     * halfway. The badge is part of the same fill: its green comes in as the same front crosses it (same spring, edge
+     * and direction), and as the front covers the seal one thin, soft ripple leaves it and dies out at the badge's
+     * edge (a separate ring, never clipped). Off: the seal un-turns with the knob and greys first, then the green
      * drains back into the switch, quicker (≈0.3s). Nothing on the row moves or casts a shadow.
      */
     mix: {
@@ -209,24 +210,24 @@ export const csTokens = {
       stamp: {
         /** the seal inks as the knob passes this share of its travel (≈0.1s), so it turns green with the track */
         inkAt: 0.5,
-        /** the flood fires as the front's feather first touches the badge (≈0.2s after the commit), so the badge fills
-            as the front arrives: the full stop at the end of the fill */
-        at: 0.02,
+        /** the ripple leaves the seal as the front is this far across the badge (≈0.25s after the commit: the badge
+            is ≈half green), the full stop at the end of the fill */
+        at: 0.4,
         /* the turn and the dip have no springs of their own: the seal is geared to the knob (EligibleRow), 90° across
            its travel, so it starts, moves and lands on the knob's frames, drags and reversals included */
         /** the barest dip, at mid-travel: scale 1 − dip·sin(π·knob) (0.96 halfway, 1 at both ends) */
         dip: 0.04,
         /** a glyph that can't turn (`&coupon=` wallet / bank: only the 8-lobed seal lands on its own outline at 90°)
-            keeps the dip, the ink at `inkAt` and the flood, and instead of the turn settles `settle` px down at
+            keeps the dip, the ink at `inkAt` and the ripple, and instead of the turn settles `settle` px down at
             mid-travel, sin(π·knob), home at both ends: the stamp pressed in, nothing more */
         glyph: { settle: 0.5 },
         ink: appleSpring(0.16, 1),
         inkOff: appleSpring(0.2, 1),
-        /** a soft flood out of the seal across the badge: a disc (px radius) from under the seal past the corners,
-            its crest only `crestMix`% deeper than the badge's on-fill (`stamp`: 12) */
-        flood: { spring: appleSpring(0.34, 1), from: 7, to: 27, crest: 6, crestMix: 5 },
-        /* no separate ring: inside a 36px badge a ring and the flood's crest read as two concentric targets; the
-           flood's soft crest, clipped to the badge (`.erBadgeClip`), is the pulse */
+        /** the ripple: a thin soft ring (`.erRipple`, a ≈2px band at its rim) that grows from the seal's edge
+            (`from` × r) to `r` px, just inside the badge's half-width (18), on the strong ease-out over `duration`,
+            while it flashes in to `alpha` and is gone after `fade`, before it can park at the edge: it dies out
+            within the badge without being clipped */
+        ripple: { r: 17, from: 0.7, alpha: 0.4, duration: 0.28, fade: 0.2, ease: [0.23, 1, 0.32, 1] as [number, number, number, number] },
       },
     },
     /**
@@ -240,6 +241,8 @@ export const csTokens = {
       at: { badge: 0.92 },
       /** the flood, scaled with the badge (32 ÷ 36): from under the 20 seal to past the badge's corners (r 22.6) */
       flood: { from: 6, to: 24, crest: 5 },
+      /** tg=5: the ripple ends at the 32 badge's half-width, from the 20 seal's edge */
+      ripple: { r: 15, from: 0.67 },
     },
   },
   gesture: {
