@@ -24,7 +24,7 @@ const smooth = (v: number) => {
 };
 const px = (v: number) => `${v.toFixed(2)}px`;
 
-/** `&tg=1..5` picks the v2 choreography (default 5, stamp + lift). Read once; main.tsx keeps it in the URL on every page. */
+/** `&tg=1..5` picks the v2 choreography (default 5, spread + stamp). Read once; main.tsx keeps it in the URL on every page. */
 const TG = (() => {
   const n = typeof window === 'undefined' ? 5 : Number(new URLSearchParams(window.location.search).get('tg'));
   return n >= 1 && n <= 5 ? n : 5;
@@ -44,7 +44,7 @@ const TG = (() => {
  * v2 (`?v=row2`, 42×24 on a 64-high row): the knob is critically damped (`toggleV2.knobSpring`) and the row answers
  * with one of five choreographies, `&tg=1..5` (tokens: `toggleV2.morph | sheen | stamp | depth | mix`):
  *   1 the track becomes the row · 2 a light sweep delivers the value · 3 the seal stamps it · 4 the card pops up ·
- *   5 (default) the seal stamps it as the card rises to meet it.
+ *   5 (default) the green spreads out of the switch and the seal quietly stamps it as it arrives.
  * Each one rests on exactly the same on / off looks. Reduced motion (all five): the row cross-fades for 150ms.
  */
 export function EligibleRow({ on, onChange, v2 = false }: { on: boolean; onChange: (on: boolean) => void; v2?: boolean }) {
@@ -585,24 +585,10 @@ const wash = (front: number, feather: number, invert: boolean) =>
     ? `linear-gradient(to right, transparent ${px(front - feather)}, black ${px(front)})`
     : `linear-gradient(to right, black ${px(front - feather)}, transparent ${px(front)})`;
 
-/** the stamp's tokens (`toggleV2.stamp`, and `toggleV2.mix` which adds the lift), literals widened */
-type Widen<T> = T extends number ? number : { [P in keyof T]: Widen<T[P]> };
-type StampTokens = Widen<typeof T2.stamp> & { lift?: Widen<typeof T2.mix.lift> };
-/** device pixels: a translate that lands on them keeps the copy's glyphs crisp (fractional ones resample it) */
-const dpx = (v: number) => {
-  const d = typeof window === 'undefined' ? 1 : window.devicePixelRatio || 1;
-  return Math.round(v * d) / d;
-};
-
-/** tg=3 · the seal stamps it (tg=5: `toggleV2.mix`, and the card rises to meet it) */
-function useStampLook(on: boolean, parts: Parts, K: StampTokens = T2.stamp): Look {
+/** tg=3 · the seal stamps it */
+function useStampLook(on: boolean, parts: Parts): Look {
+  const K = T2.stamp;
   const { geo, measure } = useGeo(parts);
-  const L = K.lift;
-  const lift = useMotionValue(0);
-  const liftY = useTransform(lift, (v) => (L ? -dpx(L.px * v) : 0));
-  const liftShadow = useTransform(lift, (v) => (L ? L.shadow * clamp01(v) : 0));
-  // out of the render tree while flat: even at opacity 0 the blurred shadow re-rasterises the row
-  const liftShown = useTransform(lift, (v) => (v > 0.0005 ? 'block' : 'none'));
   const rot = useMotionValue(on ? 90 : 0); // deg; 90 ≡ 0 for the 8-lobed seal
   const squash = useMotionValue(1);
   const seal = useMotionValue(on ? 1 : 0); // the seal's ink
@@ -643,8 +629,6 @@ function useStampLook(on: boolean, parts: Parts, K: StampTokens = T2.stamp): Loo
         go(rot, 90, K.turn);
         if (moment) {
           animate(squash, 1, { ...K.press, velocity: -K.kick });
-          // the card rises to meet the seal: a kick that peaks at 1 (v·t·e^(−ωt) peaks at v ÷ (ω·e)) at 1/ω ≈ impact
-          if (L) animate(lift, 0, { ...L.spring, velocity: Math.sqrt(L.spring.stiffness) * Math.E });
           go(seal, 1, K.ink, K.impact);
           // the flood: from under the seal to past the badge's corners, then it becomes the badge's fill
           bg.stop();
@@ -680,7 +664,6 @@ function useStampLook(on: boolean, parts: Parts, K: StampTokens = T2.stamp): Loo
         go(floodA, 0, K.inkOff, K.inkOffDelay);
         go(q, 0, K.spread.off);
         animate(ringA, 0, { duration: 0.12 });
-        if (L) go(lift, 0, L.settle);
       }
     },
     scrub: (v) => {
@@ -690,7 +673,6 @@ function useStampLook(on: boolean, parts: Parts, K: StampTokens = T2.stamp): Loo
       go(seal, clamp01(v), T2.chase);
       go(bg, clamp01(v), T2.chase);
       go(q, clamp01(v), T2.chase);
-      if (L && !atRest(lift, 0)) go(lift, 0, L.settle);
     },
     press: (down) => {
       animate(squash, down ? K.preload : 1, down ? spring.press : supermall.springs.return);
@@ -704,12 +686,9 @@ function useStampLook(on: boolean, parts: Parts, K: StampTokens = T2.stamp): Loo
       floodA.jump(0);
       q.jump(to);
       ringA.jump(0);
-      lift.jump(0);
     },
-    row: L ? { y: liftY } : undefined,
     under: (
       <>
-        {L && <motion.span className={styles.erLift} style={{ opacity: liftShadow, display: liftShown }} aria-hidden />}
         <OnSurface style={{ opacity: onOp, WebkitMaskImage: onMask, maskImage: onMask }} />
         <OffRing style={{ opacity: offOp, WebkitMaskImage: offMask, maskImage: offMask }} />
         {/* the ring leaves from behind the badge */}
@@ -822,10 +801,150 @@ function useDepthLook(on: boolean, parts: Parts): Look {
   };
 }
 
-/** tg=5 · the seal stamps it as the card rises to meet it (the default) */
-const useMixLook = (on: boolean, parts: Parts) => useStampLook(on, parts, T2.mix);
+/** tg=5 · the green spreads out of the switch and the seal stamps it as it arrives (the default) */
+function useSpreadStampLook(on: boolean, _parts: Parts): Look {
+  const S = T2.mix.spread;
+  const K = T2.mix.stamp;
+  const q = useMotionValue(on ? 1 : 0); // the fill, from the switch
+  const target = useRef<0 | 1>(on ? 1 : 0);
+  const armed = useRef(false); // the stamp fires once, as the front reaches the badge
+  const rot = useMotionValue(on ? 90 : 0); // deg; 90 ≡ 0 for the 8-lobed seal
+  const squash = useMotionValue(1);
+  const seal = useMotionValue(on ? 1 : 0); // the seal's ink
+  const bg = useMotionValue(on ? 1 : 0); // the badge's own fill
+  const flood = useMotionValue(0);
+  const floodA = useMotionValue(0);
+  // how far the front has reached a point `at` along the row (0 = switch edge, 1 = far edge), through its feather
+  const reach = (v: number, at: number) => clamp01((clamp01(v) * (1 + S.feather) - at) / S.feather);
+  const mask = (v: number, invert: boolean) => {
+    const f = clamp01(v) * (1 + S.feather);
+    const a = `${((f - S.feather) * 100).toFixed(2)}%`;
+    const b = `${(f * 100).toFixed(2)}%`;
+    return invert ? `linear-gradient(to left, transparent ${a}, black ${b})` : `linear-gradient(to left, black ${a}, transparent ${b})`;
+  };
+  // at rest both layers drop their masks, so the resting looks are exactly the shared ones
+  const onMask = useTransform(q, (v) => (v >= 0.9995 ? 'none' : mask(v, false)));
+  const offMask = useTransform(q, (v) => (v <= 0.0005 ? 'none' : mask(v, true)));
+  const onOp = useTransform(q, (v) => (v <= 0.0005 ? 0 : 1));
+  const offOp = useTransform(q, (v) => (v >= 0.9995 ? 0 : 1));
+  const subOn = useTransform(q, (v) => reach(v, S.at.value));
+  const inks = useInks(bg, subOn);
+  const turning = useTransform(rot, (r) => (Math.abs(r - Math.round(r / 90) * 90) > 0.05 ? 1 : 0));
+  const still = useTransform(turning, (t) => 1 - t);
+  const sealInk = useTransform(seal, [0, 1], [flow.csIconOff, colors.success]);
+  const hole = useTransform(() => Math.max(bg.get(), floodA.get()));
+  const holeInk = useTransform(hole, [0, 1], [colors.bgMuted, colors.successSurface]);
+  const F = K.flood;
+  const floodImage = useTransform(() => {
+    const R = F.from + (F.to - F.from) * clamp01(flood.get());
+    return `radial-gradient(circle at 50% 50%, var(--nk-color-success-surface) ${px(R - F.crest)}, color-mix(in srgb, var(--nk-color-success) ${F.crestMix}%, var(--nk-color-success-surface)) ${px(R - 1)}, transparent ${px(R + 0.5)})`;
+  });
+  const floodShown = useTransform(floodA, (v) => (v > 0.0005 ? 'block' : 'none'));
 
-const useLook: (on: boolean, parts: Parts) => Look = [useMorphLook, useSheenLook, (on: boolean, parts: Parts) => useStampLook(on, parts), useDepthLook, useMixLook][TG - 1];
+  /** the full stop: the barest dip, the turn, the ink and its soft flood (no ring: the flood's crest is the pulse) */
+  const stamp = () => {
+    armed.current = false;
+    go(rot, 90, K.turn);
+    animate(squash, 1, { ...K.press, velocity: -K.kick });
+    go(seal, 1, K.ink, K.impact);
+    bg.stop();
+    flood.jump(0);
+    let landed = false;
+    animate(flood, 1, {
+      ...F.spring,
+      delay: K.impact,
+      onUpdate: () => {
+        if (landed) return;
+        landed = true;
+        floodA.jump(1);
+      },
+      onComplete: () => {
+        bg.jump(1);
+        floodA.jump(0);
+      },
+    });
+  };
+  /** no stamp (a drag, or a reversal that is already past the badge): the seal just turns and inks */
+  const quietOn = () => {
+    armed.current = false;
+    go(rot, 90, K.turn);
+    go(squash, 1, K.press);
+    go(seal, 1, K.ink);
+    go(bg, 1, K.ink);
+  };
+  useEffect(
+    () =>
+      q.on('change', (v) => {
+        if (armed.current && target.current === 1 && reach(v, S.at.badge) >= K.at) stamp();
+      }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [q],
+  );
+
+  return {
+    settle: (to) => {
+      const fromRest = atRest(q, to ? 0 : 1);
+      target.current = to;
+      if (to) {
+        animate(q, 1, { ...S.on, velocity: q.getVelocity(), delay: fromRest ? S.lead : 0 });
+        if (reach(q.get(), S.at.badge) >= K.at) quietOn();
+        else armed.current = true;
+      } else {
+        armed.current = false;
+        flood.stop();
+        go(rot, 0, K.unturn);
+        go(squash, 1, K.unturn);
+        go(seal, 0, K.inkOff);
+        go(bg, 0, K.inkOff);
+        go(floodA, 0, K.inkOff);
+        animate(q, 0, { ...S.off, velocity: q.getVelocity(), delay: fromRest ? S.offDelay : 0 });
+      }
+    },
+    scrub: (v) => {
+      armed.current = false;
+      target.current = v >= 0.5 ? 1 : 0;
+      flood.stop();
+      go(floodA, 0, T2.chase);
+      go(q, clamp01(v), T2.chase);
+      go(rot, 90 * clamp01(v), T2.chase);
+      go(seal, clamp01(v), T2.chase);
+      go(bg, clamp01(v), T2.chase);
+    },
+    press: () => {},
+    snap: (to) => {
+      armed.current = false;
+      target.current = to;
+      flood.stop();
+      q.jump(to);
+      rot.jump(to * 90);
+      squash.jump(1);
+      seal.jump(to);
+      bg.jump(to);
+      floodA.jump(0);
+    },
+    under: (
+      <>
+        <OnSurface style={{ opacity: onOp, WebkitMaskImage: onMask, maskImage: onMask }} />
+        <OffRing style={{ opacity: offOp, WebkitMaskImage: offMask, maskImage: offMask }} />
+      </>
+    ),
+    badgeClass: `${styles.erBadgeStamp} ${styles.erBadgeClip}`,
+    badge: { backgroundColor: inks.badgeBg },
+    icon: (
+      <>
+        <motion.span className={styles.erFlood} style={{ backgroundImage: floodImage, opacity: floodA, display: floodShown }} />
+        <motion.span className={styles.erSeal} style={{ scale: squash }}>
+          <motion.span className={styles.erBadgeIcon} style={{ backgroundColor: sealInk, opacity: still, ...masked(BADGE_MASK) }} />
+          <motion.span className={styles.erBadgeIcon} style={{ backgroundColor: sealInk, opacity: turning, rotate: rot, ...masked(SEAL.ring) }} />
+          <motion.span className={styles.erBadgeIcon} style={{ backgroundColor: holeInk, opacity: turning, ...masked(SEAL.pct) }} />
+        </motion.span>
+      </>
+    ),
+    sub: { color: inks.subInk },
+  };
+}
+
+const useLook: (on: boolean, parts: Parts) => Look = [useMorphLook, useSheenLook, useStampLook, useDepthLook, useSpreadStampLook][TG - 1];
 
 /** v2 (`?v=row2`): the switch leads, the row answers with the `&tg=` choreography. */
 function EligibleRowV2({ on, onChange }: { on: boolean; onChange: (on: boolean) => void }) {

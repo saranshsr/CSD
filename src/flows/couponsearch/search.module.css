@@ -104,3 +104,5 @@
 .er2 .erKnob { height: 20px; border-radius: var(--nk-radius-r10); }
 .erBadge { flex: none; display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: var(--nk-radius-r8); }
 .erBadgeIcon { width: 24px; height: 24px; -webkit-mask-position: center; mask-position: center; -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
+/* tg=5: the badge clips its stamp (the ink flood) to its own r8, so nothing renders outside it */
+.erBadgeClip { overflow: hidden; }
