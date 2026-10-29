@@ -1004,9 +1004,10 @@ function EligibleRowV2({ on, onChange }: { on: boolean; onChange: (on: boolean) 
       {/* no value line: the copy box stands in for the subtitle wherever a choreography places it */}
       <span ref={NO_OFFER ? parts.sub : undefined} className={styles.erCopy}>
         <span className={styles.erText}>
-          {coupon.rowTail === '' ? `${coupon.rowLead ?? copy.row.lead} ` : null}
+          {/* "Search within **CODE** items only", as v1 (Gaurav / AJ, 29 Oct: the verb makes the scope clear) */}
+          {`${coupon.rowLead ?? copy.row.lead} `}
           <b>{coupon.code}</b>
-          {coupon.rowTail !== '' && ` ${coupon.rowTail ?? copy.row.tail}`}
+          {(coupon.rowTail ?? copy.row.tail) && ` ${coupon.rowTail ?? copy.row.tail}`}
         </span>
         {!NO_OFFER && (
           <motion.span ref={parts.sub} className={styles.erValue} style={L.sub}>
