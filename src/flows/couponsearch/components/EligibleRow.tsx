@@ -82,6 +82,8 @@ interface Look {
   /** layers over the content */
   over?: ReactNode;
   badgeClass?: string;
+  /** the final row design: no badge container, the glyph sits bare in the row at 28 (`.er2Bare`) */
+  bare?: boolean;
   badge: MotionStyle;
   icon: ReactNode;
   sub: MotionStyle;
@@ -357,6 +359,14 @@ const SEAL = (() => {
     `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill-rule="evenodd" d="${path}"/></svg>`)}")`;
   return { ring: url(d.slice(0, cut)), pct: url(d.slice(cut)) };
 })();
+
+/** everything but the upright %: wraps the turning scallop so the % is a hole onto whatever is behind the bare icon */
+const SEAL_CUT = {
+  WebkitMaskImage: `${SEAL.pct}, linear-gradient(black, black)`,
+  maskImage: `${SEAL.pct}, linear-gradient(black, black)`,
+  WebkitMaskComposite: 'xor',
+  maskComposite: 'exclude',
+} as MotionStyle;
 
 const OnSurface = ({ style }: { style: MotionStyle }) => <motion.span className={`${styles.erOnBg} ${styles.erOnBg2}`} style={style} aria-hidden />;
 const OffRing = ({ style }: { style: MotionStyle }) => <motion.span className={styles.erOffRing} style={style} aria-hidden />;
@@ -838,10 +848,14 @@ function useDepthLook(on: boolean, parts: Parts, _knob: MotionValue<number>, gly
 function useSpreadStampLook(on: boolean, parts: Parts, knob: MotionValue<number>, glyph: Glyph): Look {
   const S = T2.mix.spread;
   const K = T2.mix.stamp;
-  const R = NO_OFFER ? { ...K.ripple, ...T2.noOffer.ripple } : K.ripple;
+  const R = K.ripple;
   const { geo, measure } = useGeo(parts);
   // where the badge sits along the fill: the single-line row's 32 badge centres 2px further from the switch
-  const AT_BADGE = NO_OFFER ? T2.noOffer.at.badge : S.at.badge;
+  // where the icon's centre sits along the fill (0 = switch edge, 1 = far edge), measured: 24px from the left (10 + 14)
+  const atIcon = () => {
+    const g = geo.current;
+    return (g.w - (g.badge.l + g.badge.r) / 2) / g.w;
+  };
   const q = useMotionValue(on ? 1 : 0); // the fill, from the switch: the row's and the badge's
   const target = useRef<0 | 1>(on ? 1 : 0);
   const armed = useRef(false); // the ripple leaves once, as the front reaches the badge
@@ -858,10 +872,10 @@ function useSpreadStampLook(on: boolean, parts: Parts, knob: MotionValue<number>
   const rippleA = useMotionValue(0);
   // how far the front has reached a point `at` along the row (0 = switch edge, 1 = far edge), through its feather
   const reach = (v: number, at: number) => clamp01((clamp01(v) * (1 + S.feather) - at) / S.feather);
-  /** the front as a mask; `from` px = where the mask's box ends short of the row's right edge (0: the row itself) */
-  const mask = (v: number, invert: boolean, from = 0) => {
+  /** the front as a mask, in the row's px */
+  const mask = (v: number, invert: boolean) => {
     const w = geo.current.w;
-    const f = clamp01(v) * (1 + S.feather) * w - from;
+    const f = clamp01(v) * (1 + S.feather) * w;
     const a = px(f - S.feather * w);
     const b = px(f);
     return invert ? `linear-gradient(to left, transparent ${a}, black ${b})` : `linear-gradient(to left, black ${a}, transparent ${b})`;
@@ -871,10 +885,6 @@ function useSpreadStampLook(on: boolean, parts: Parts, knob: MotionValue<number>
   const offMask = useTransform(q, (v) => (v <= 0.0005 ? 'none' : mask(v, true)));
   const onOp = useTransform(q, (v) => (v <= 0.0005 ? 0 : 1));
   const offOp = useTransform(q, (v) => (v >= 0.9995 ? 0 : 1));
-  // the badge: muted, with its success-subtle painted in by the very same front, in the row's coordinates
-  const badgeBg = useTransform(q, (v) => (v >= 0.9995 ? colors.successSurface : colors.bgMuted));
-  const tintOp = useTransform(q, (v) => (v <= 0.0005 || v >= 0.9995 ? 0 : 1));
-  const tintMask = useTransform(q, (v) => (v <= 0.0005 || v >= 0.9995 ? 'none' : mask(v, false, geo.current.w - geo.current.badge.r)));
   const subOn = useTransform(q, (v) => reach(v, S.at.value));
   const inks = useInks(q, subOn);
   // only the seal turns; any other glyph stays whole and upright (`still`)
@@ -882,7 +892,6 @@ function useSpreadStampLook(on: boolean, parts: Parts, knob: MotionValue<number>
   const still = useTransform(turning, (t) => 1 - t);
   const sealInk = useTransform(seal, [0, 1], [flow.csIconOff, colors.success]);
   // the % is a knockout painted in what shows under the seal: the badge's fill where the front is
-  const holeInk = useTransform(q, (v) => (v >= 0.9995 ? colors.successSurface : subMixBadge(reach(v, AT_BADGE))));
   const rippleScale = useTransform(ripple, (v) => R.from + (1 - R.from) * v);
   const rippleShown = useTransform(rippleA, (v) => (v > 0.0005 ? 'block' : 'none'));
 
@@ -901,7 +910,7 @@ function useSpreadStampLook(on: boolean, parts: Parts, knob: MotionValue<number>
   useEffect(
     () =>
       q.on('change', (v) => {
-        if (armed.current && target.current === 1 && reach(v, AT_BADGE) >= K.at) rippleOut();
+        if (armed.current && target.current === 1 && reach(v, atIcon()) >= K.at) rippleOut();
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [q],
@@ -923,7 +932,7 @@ function useSpreadStampLook(on: boolean, parts: Parts, knob: MotionValue<number>
       if (to) {
         animate(q, 1, { ...S.on, velocity: q.getVelocity(), delay: fromRest ? S.lead : 0 });
         // a reversal (or a drag) already past the badge: no ripple
-        armed.current = reach(q.get(), AT_BADGE) < K.at;
+        armed.current = reach(q.get(), atIcon()) < K.at;
         if (knob.get() >= K.inkAt) inkSeal();
         else inkArmed.current = true;
       } else {
@@ -957,17 +966,19 @@ function useSpreadStampLook(on: boolean, parts: Parts, knob: MotionValue<number>
       </>
     ),
     badgeClass: styles.erBadgeStamp,
-    badge: { backgroundColor: badgeBg },
+    bare: true,
+    badge: {},
     icon: (
       <>
-        <motion.span className={styles.erBadgeTint} style={{ opacity: tintOp, WebkitMaskImage: tintMask, maskImage: tintMask }} />
         <motion.span className={styles.erRipple} style={{ width: R.r * 2, height: R.r * 2, marginLeft: -R.r, marginTop: -R.r, scale: rippleScale, opacity: rippleA, display: rippleShown }} />
         <motion.span className={styles.erSeal} style={{ scale: squash, y: settleY }}>
           <motion.span className={styles.erBadgeIcon} style={{ backgroundColor: sealInk, opacity: still, ...masked(glyph.mask) }} />
           {glyph.seal && (
             <>
-              <motion.span className={styles.erBadgeIcon} style={{ backgroundColor: sealInk, opacity: turning, rotate: rot, ...masked(SEAL.ring) }} />
-              <motion.span className={styles.erBadgeIcon} style={{ backgroundColor: holeInk, opacity: turning, ...masked(SEAL.pct) }} />
+              {/* while it turns: the scallop rotates under an upright % that is a true hole (no badge to paint it in) */}
+              <motion.span className={styles.erSealCut} style={{ opacity: turning, ...SEAL_CUT }}>
+                <motion.span className={styles.erBadgeIcon} style={{ backgroundColor: sealInk, rotate: rot, ...masked(SEAL.ring) }} />
+              </motion.span>
             </>
           )}
         </motion.span>
@@ -976,9 +987,6 @@ function useSpreadStampLook(on: boolean, parts: Parts, knob: MotionValue<number>
     sub: { color: inks.subInk },
   };
 }
-/** the badge's fill under the seal for an on-ness, mixed by the browser from the kit's tokens */
-const subMixBadge = (v: number) =>
-  v >= 0.9995 ? colors.successSurface : v <= 0.0005 ? colors.bgMuted : `color-mix(in srgb, var(--nk-color-success-surface) ${(v * 100).toFixed(2)}%, var(--nk-color-bg-muted))`;
 
 const useLook: (on: boolean, parts: Parts, knob: MotionValue<number>, glyph: Glyph) => Look = [useMorphLook, useSheenLook, useStampLook, useDepthLook, useSpreadStampLook][TG - 1];
 
@@ -1012,9 +1020,10 @@ function EligibleRowV2({ on, onChange }: { on: boolean; onChange: (on: boolean) 
       };
   const sw = useSwitch(T2, on, onChange, p, T2.knobSpring, L);
   return (
-    <motion.div ref={parts.row} className={NO_OFFER ? `${styles.er} ${styles.er2} ${styles.er2Solo}` : `${styles.er} ${styles.er2}`} {...sw.bind} aria-label={label} style={{ backgroundColor: colors.bgSurface, ...L.row }}>
+    <motion.div ref={parts.row} className={[styles.er, styles.er2, NO_OFFER && styles.er2Solo, look.bare && styles.er2Bare].filter(Boolean).join(' ')} {...sw.bind} aria-label={label} style={{ backgroundColor: colors.bgSurface, ...L.row }}>
       {L.under}
-      <motion.span ref={parts.badge} className={L.badgeClass ? `${styles.erBadge} ${L.badgeClass}` : styles.erBadge} style={L.badge} aria-hidden>
+      {/* the final design (tg=5) has no badge container: the span stays as the icon's box, unpainted (reduced motion too) */}
+      <motion.span ref={parts.badge} className={[styles.erBadge, L.badgeClass].filter(Boolean).join(' ')} style={look.bare ? undefined : L.badge} aria-hidden>
         {L.icon}
       </motion.span>
       {/* no value line: the copy box stands in for the subtitle wherever a choreography places it */}

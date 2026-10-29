@@ -106,9 +106,7 @@
 .er2 .erKnob { height: 20px; border-radius: var(--nk-radius-r10); }
 .erBadge { flex: none; display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: var(--nk-radius-r8); }
 .erBadgeIcon { width: 24px; height: 24px; -webkit-mask-position: center; mask-position: center; -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
-/* tg=5: the badge's green, painted by the row's front (masked to it in EligibleRow), and the ripple that leaves the
-   seal: a ≈2px soft band at the rim of a circle sized and faded so it dies out at the badge's edge (never clipped) */
-.erBadgeTint { position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: var(--nk-color-success-surface); }
+/* tg=5: the ripple that leaves the seal: a ≈2px soft band at the rim of a circle, sized and faded in EligibleRow (never clipped) */
 .erRipple { position: absolute; left: 50%; top: 50%; border-radius: 50%; pointer-events: none;
   background: radial-gradient(closest-side, transparent calc(100% - 2px), color-mix(in srgb, var(--nk-color-success) 45%, transparent) calc(100% - 1px), transparent 100%); }
 /* Eligible row v2, no value line (`&offer=0`, Figma Section 5): one line, min 56 high (12 around a 32 badge), 32×32 r8
@@ -116,3 +114,13 @@
 .er2Solo { min-height: 56px; }
 .er2Solo .erBadge { width: 32px; height: 32px; }
 .er2Solo .erBadgeIcon, .er2Solo .erSeal { width: 20px; height: 20px; }
+/* Eligible row v2, final (tg=5, Figma 224:377705): no badge container; the discount seal sits bare at 28 (the Origin
+   icon at 28: a ≈21 glyph, 3.5 inset); padding 12 / 12 / 12 / 10 (10 left: optical, for the icon's own inset), gap 10;
+   min 64 and growing with its copy, icon and switch centred; `&offer=0`: one line, 52 high (12 + 28 + 12) */
+.er2Bare { padding: var(--nk-space-s12) var(--nk-space-s12) var(--nk-space-s12) var(--nk-space-s10); gap: var(--nk-space-s10); }
+.er2Bare .erBadge { width: 28px; height: 28px; border-radius: 0; }
+.er2Bare .erBadgeIcon, .er2Bare .erSeal { width: 28px; height: 28px; }
+.er2Solo.er2Bare { min-height: 52px; }
+/* the turning seal's wrapper: masked to everything but the upright % (mask set inline), so the % is a true hole */
+.erSealCut { position: absolute; inset: 0; -webkit-mask-size: contain, 100% 100%; mask-size: contain, 100% 100%; -webkit-mask-position: center; mask-position: center; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
+.erSealCut > .erBadgeIcon { position: absolute; inset: 0; }

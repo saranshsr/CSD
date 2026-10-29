@@ -188,9 +188,9 @@ export const csTokens = {
      * the row), on its own critically damped spring, with the off hairline masked as its exact inverse. The subtitle
      * turns green as the front crosses it. The seal is geared to the knob: it turns 90° (8 lobes: same outline) on the
      * knob's own progress, with the barest dip at mid-travel, and inks green with the track as the knob passes
-     * halfway. The badge is part of the same fill: its green comes in as the same front crosses it (same spring, edge
-     * and direction), and as the front covers the seal one thin, soft ripple leaves it and dies out at the badge's
-     * edge (a separate ring, never clipped). Off: the seal un-turns with the knob and greys first, then the green
+     * halfway. There is no badge container (the final row): the 28 seal sits bare in the row and the
+     * row's green front passes behind it; as the front reaches it one thin, soft ripple leaves the seal (a separate
+     * ring, never clipped). Off: the seal un-turns with the knob and greys first, then the green
      * drains back into the switch, quicker (≈0.3s). Nothing on the row moves or casts a shadow.
      */
     mix: {
@@ -204,8 +204,9 @@ export const csTokens = {
         offDelay: 0.04,
         /** the front's soft edge, as a share of the row's width */
         feather: 0.6,
-        /** where the badge and the subtitle sit along the fill (0 = switch edge, 1 = far edge) */
-        at: { badge: 0.91, value: 0.6 },
+        /** where the subtitle sits along the fill (0 = switch edge, 1 = far edge); the icon's place is measured
+            (its centre, 10 + 14 = 24px from the row's left) */
+        at: { value: 0.6 },
       },
       stamp: {
         /** the seal inks as the knob passes this share of its travel (≈0.1s), so it turns green with the track */
@@ -223,11 +224,10 @@ export const csTokens = {
         glyph: { settle: 0.5 },
         ink: appleSpring(0.16, 1),
         inkOff: appleSpring(0.2, 1),
-        /** the ripple: a thin soft ring (`.erRipple`, a ≈2px band at its rim) that grows from the seal's edge
-            (`from` × r) to `r` px, just inside the badge's half-width (18), on the strong ease-out over `duration`,
-            while it flashes in to `alpha` and is gone after `fade`, before it can park at the edge: it dies out
-            within the badge without being clipped */
-        ripple: { r: 17, from: 0.7, alpha: 0.4, duration: 0.28, fade: 0.2, ease: [0.23, 1, 0.32, 1] as [number, number, number, number] },
+        /** the ripple: a thin soft ring (`.erRipple`, a ≈2px band at its rim), centred on the bare 28 seal, that grows
+            from the glyph's edge (`from` × r ≈ 10.5px) to `r` px on the strong ease-out over `duration`, while it
+            flashes in to `alpha` and is gone after `fade`; separate and never clipped */
+        ripple: { r: 18, from: 0.6, alpha: 0.4, duration: 0.28, fade: 0.2, ease: [0.23, 1, 0.32, 1] as [number, number, number, number] },
       },
     },
     /**
@@ -237,12 +237,8 @@ export const csTokens = {
      * offer line. Only what the geometry changes is here; every spring and colour is the two-line row's.
      */
     noOffer: {
-      /** tg=5: the badge's centre along the fill (0 = switch edge): (343 − 28) ÷ 343 */
-      at: { badge: 0.92 },
       /** the flood, scaled with the badge (32 ÷ 36): from under the 20 seal to past the badge's corners (r 22.6) */
       flood: { from: 6, to: 24, crest: 5 },
-      /** tg=5: the ripple ends at the 32 badge's half-width, from the 20 seal's edge */
-      ripple: { r: 15, from: 0.67 },
     },
   },
   gesture: {
