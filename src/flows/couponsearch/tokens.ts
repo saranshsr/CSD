@@ -57,7 +57,7 @@ export const csTokens = {
     stretch: 6,
     rowWidth: 343,
     /**
-     * Shared by the four choreographies (`&tg=1..4`, EligibleRow): the knob is UISwitch, critically damped at the
+     * Shared by the five choreographies (`&tg=1..5`, EligibleRow; 5 is the default): the knob is UISwitch, critically damped at the
      * Field `springLight` response (ω = √300 → 0.363s), so a tap lands with no settle; the 6px press stretch stays on
      * `spring.press` in / `supermall.springs.return` out. Every value below is a spring or tween on a MotionValue, so a
      * tap mid-flight reverses from what is on screen, with its velocity.
@@ -181,6 +181,45 @@ export const csTokens = {
       fill: { on: appleSpring(0.52, 1), off: appleSpring(0.3, 1), feather: 80 },
       /** the badge and subtitle inks follow the front on this spring, so a quick drain never pops a colour */
       inkFollow: appleSpring(0.1, 1),
+    },
+    /**
+     * `tg=5` Stamp + lift (the default). The `tg=3` stamp is the hero, the `tg=4` lift is its body: touch-down presses
+     * the seal in; the commit stamps and turns it, and in the same beat the card rises a hair to meet it and casts a
+     * soft green shadow, so the seal landing and the card lifting read as one "thunk". Then the ink floods the badge and
+     * the surface washes from the badge to the switch. Only a faint, tight ring hugs the badge at contact (no ripple
+     * across the row). The lift is a pure translateY snapped to device pixels plus the shadow; no scale, so the copy
+     * never softens. Off is calmer and quicker than on: the seal un-turns and greys, the wash drains, nothing lifts.
+     * Same shape as `stamp` (EligibleRow reuses its choreography), plus `lift`.
+     */
+    mix: {
+      /** the turn: Apple rotation (damping 0.8), as `stamp` */
+      turn: appleSpring(0.5, 0.8),
+      /** off: un-turns, no overshoot; a touch quicker than `stamp` */
+      unturn: appleSpring(0.3, 1),
+      /** touch-down preload (scale), as `stamp` */
+      preload: 0.94,
+      /** the stamp, as `stamp`: dips to ≈0.83–0.86 at ≈65–75ms and springs back with ≈1.5% overshoot */
+      press: appleSpring(0.42, 0.55),
+      kick: 4,
+      /** ink lands at the bottom of the press */
+      impact: 0.07,
+      ink: appleSpring(0.16, 1),
+      /** off: greys quicker and sooner than `stamp` */
+      inkOff: appleSpring(0.2, 1),
+      inkOffDelay: 0.04,
+      /** the ink floods out of the seal across the badge, as `stamp` */
+      flood: { spring: appleSpring(0.3, 1), from: 7, to: 27, crest: 5 },
+      /** a faint contact ring that stays close to the badge: from its edge (≈19px) out ≈4px, a third of `stamp`'s
+          strength and ≈70% of its life, so it marks the impact without rippling into the row */
+      ring: { r: 22, scale: [0.95, 1.14] as [number, number], alpha: 0.32, duration: 0.3, ease: [0.23, 1, 0.32, 1] as [number, number, number, number] },
+      /** the wash: on as `stamp` (≈0.6s with the impact delay, the turn-on's length); off quicker */
+      spread: { on: appleSpring(0.5, 1), off: appleSpring(0.26, 1), feather: 150 },
+      /**
+       * The card rises to meet the seal: a kick on a critically damped spring, x(t) = ωt·e^(1−ωt), so it peaks at 1/ω
+       * ≈ 76ms after the commit (the seal's dip bottom, `impact`) and is flat again by ≈0.5s. 1px up (`depth`: 1.5px +
+       * 1% grow), snapped to device pixels so the copy stays crisp; the shadow peaks at `shadow` × `depth`'s.
+       */
+      lift: { spring: appleSpring(0.48, 1), px: 1, shadow: 0.65, settle: appleSpring(0.2, 1) },
     },
   },
   gesture: {

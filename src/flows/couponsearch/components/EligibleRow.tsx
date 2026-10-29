@@ -24,10 +24,10 @@ const smooth = (v: number) => {
 };
 const px = (v: number) => `${v.toFixed(2)}px`;
 
-/** `&tg=1..4` picks the v2 choreography (default 1). Read once; main.tsx keeps it in the URL on every page. */
+/** `&tg=1..5` picks the v2 choreography (default 5, stamp + lift). Read once; main.tsx keeps it in the URL on every page. */
 const TG = (() => {
-  const n = typeof window === 'undefined' ? 1 : Number(new URLSearchParams(window.location.search).get('tg'));
-  return n >= 1 && n <= 4 ? n : 1;
+  const n = typeof window === 'undefined' ? 5 : Number(new URLSearchParams(window.location.search).get('tg'));
+  return n >= 1 && n <= 5 ? n : 5;
 })();
 
 /**
@@ -42,9 +42,10 @@ const TG = (() => {
  *
  * v1 (`?v=row`, Origin H20 34×20): the row's tint, hairline, icon and value colour all ride `p`.
  * v2 (`?v=row2`, 42×24 on a 64-high row): the knob is critically damped (`toggleV2.knobSpring`) and the row answers
- * with one of four choreographies, `&tg=1..4` (tokens: `toggleV2.morph | sheen | stamp | depth`):
- *   1 the track becomes the row · 2 a light sweep delivers the value · 3 the seal stamps it · 4 the card pops up.
- * Each one rests on exactly the same on / off looks. Reduced motion (all four): the row cross-fades for 150ms.
+ * with one of five choreographies, `&tg=1..5` (tokens: `toggleV2.morph | sheen | stamp | depth | mix`):
+ *   1 the track becomes the row · 2 a light sweep delivers the value · 3 the seal stamps it · 4 the card pops up ·
+ *   5 (default) the seal stamps it as the card rises to meet it.
+ * Each one rests on exactly the same on / off looks. Reduced motion (all five): the row cross-fades for 150ms.
  */
 export function EligibleRow({ on, onChange, v2 = false }: { on: boolean; onChange: (on: boolean) => void; v2?: boolean }) {
   return v2 ? <EligibleRowV2 on={on} onChange={onChange} /> : <EligibleRowV1 on={on} onChange={onChange} />;
@@ -584,10 +585,24 @@ const wash = (front: number, feather: number, invert: boolean) =>
     ? `linear-gradient(to right, transparent ${px(front - feather)}, black ${px(front)})`
     : `linear-gradient(to right, black ${px(front - feather)}, transparent ${px(front)})`;
 
-/** tg=3 · the seal stamps it */
-function useStampLook(on: boolean, parts: Parts): Look {
-  const K = T2.stamp;
+/** the stamp's tokens (`toggleV2.stamp`, and `toggleV2.mix` which adds the lift), literals widened */
+type Widen<T> = T extends number ? number : { [P in keyof T]: Widen<T[P]> };
+type StampTokens = Widen<typeof T2.stamp> & { lift?: Widen<typeof T2.mix.lift> };
+/** device pixels: a translate that lands on them keeps the copy's glyphs crisp (fractional ones resample it) */
+const dpx = (v: number) => {
+  const d = typeof window === 'undefined' ? 1 : window.devicePixelRatio || 1;
+  return Math.round(v * d) / d;
+};
+
+/** tg=3 · the seal stamps it (tg=5: `toggleV2.mix`, and the card rises to meet it) */
+function useStampLook(on: boolean, parts: Parts, K: StampTokens = T2.stamp): Look {
   const { geo, measure } = useGeo(parts);
+  const L = K.lift;
+  const lift = useMotionValue(0);
+  const liftY = useTransform(lift, (v) => (L ? -dpx(L.px * v) : 0));
+  const liftShadow = useTransform(lift, (v) => (L ? L.shadow * clamp01(v) : 0));
+  // out of the render tree while flat: even at opacity 0 the blurred shadow re-rasterises the row
+  const liftShown = useTransform(lift, (v) => (v > 0.0005 ? 'block' : 'none'));
   const rot = useMotionValue(on ? 90 : 0); // deg; 90 ≡ 0 for the 8-lobed seal
   const squash = useMotionValue(1);
   const seal = useMotionValue(on ? 1 : 0); // the seal's ink
@@ -628,6 +643,8 @@ function useStampLook(on: boolean, parts: Parts): Look {
         go(rot, 90, K.turn);
         if (moment) {
           animate(squash, 1, { ...K.press, velocity: -K.kick });
+          // the card rises to meet the seal: a kick that peaks at 1 (v·t·e^(−ωt) peaks at v ÷ (ω·e)) at 1/ω ≈ impact
+          if (L) animate(lift, 0, { ...L.spring, velocity: Math.sqrt(L.spring.stiffness) * Math.E });
           go(seal, 1, K.ink, K.impact);
           // the flood: from under the seal to past the badge's corners, then it becomes the badge's fill
           bg.stop();
@@ -663,6 +680,7 @@ function useStampLook(on: boolean, parts: Parts): Look {
         go(floodA, 0, K.inkOff, K.inkOffDelay);
         go(q, 0, K.spread.off);
         animate(ringA, 0, { duration: 0.12 });
+        if (L) go(lift, 0, L.settle);
       }
     },
     scrub: (v) => {
@@ -672,6 +690,7 @@ function useStampLook(on: boolean, parts: Parts): Look {
       go(seal, clamp01(v), T2.chase);
       go(bg, clamp01(v), T2.chase);
       go(q, clamp01(v), T2.chase);
+      if (L && !atRest(lift, 0)) go(lift, 0, L.settle);
     },
     press: (down) => {
       animate(squash, down ? K.preload : 1, down ? spring.press : supermall.springs.return);
@@ -685,9 +704,12 @@ function useStampLook(on: boolean, parts: Parts): Look {
       floodA.jump(0);
       q.jump(to);
       ringA.jump(0);
+      lift.jump(0);
     },
+    row: L ? { y: liftY } : undefined,
     under: (
       <>
+        {L && <motion.span className={styles.erLift} style={{ opacity: liftShadow, display: liftShown }} aria-hidden />}
         <OnSurface style={{ opacity: onOp, WebkitMaskImage: onMask, maskImage: onMask }} />
         <OffRing style={{ opacity: offOp, WebkitMaskImage: offMask, maskImage: offMask }} />
         {/* the ring leaves from behind the badge */}
@@ -800,7 +822,10 @@ function useDepthLook(on: boolean, parts: Parts): Look {
   };
 }
 
-const useLook: (on: boolean, parts: Parts) => Look = [useMorphLook, useSheenLook, useStampLook, useDepthLook][TG - 1];
+/** tg=5 · the seal stamps it as the card rises to meet it (the default) */
+const useMixLook = (on: boolean, parts: Parts) => useStampLook(on, parts, T2.mix);
+
+const useLook: (on: boolean, parts: Parts) => Look = [useMorphLook, useSheenLook, (on: boolean, parts: Parts) => useStampLook(on, parts), useDepthLook, useMixLook][TG - 1];
 
 /** v2 (`?v=row2`): the switch leads, the row answers with the `&tg=` choreography. */
 function EligibleRowV2({ on, onChange }: { on: boolean; onChange: (on: boolean) => void }) {
