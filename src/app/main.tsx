@@ -43,6 +43,9 @@ const solo = new URLSearchParams(window.location.search).get('solo') === '1';
 const tg = new URLSearchParams(window.location.search).get('tg');
 // `&offer=0`: the Eligible row v2 for a coupon with no value line (EligibleRow reads it); kept on every page like `&tg=`.
 const offer = new URLSearchParams(window.location.search).get('offer');
+// `&coupon=<id>`: the coupon the whole visit runs on (couponsearch data.ts `coupons`, default BEAUTY10); kept like `&offer=`.
+// Not stripped from the first page's params (checkout reads its own `coupon`), and a page's own `coupon` wins.
+const coupon = new URLSearchParams(window.location.search).get('coupon');
 const withVersion = (search: string) => {
   const q = new URLSearchParams(search);
   q.set('v', csStore.get().variant);
@@ -50,6 +53,7 @@ const withVersion = (search: string) => {
   if (solo) q.set('solo', '1');
   if (tg) q.set('tg', tg);
   if (offer) q.set('offer', offer);
+  if (coupon && !q.has('coupon')) q.set('coupon', coupon);
   return `?${q.toString()}`;
 };
 

@@ -216,6 +216,10 @@ export const csTokens = {
            its travel, so it starts, moves and lands on the knob's frames, drags and reversals included */
         /** the barest dip, at mid-travel: scale 1 − dip·sin(π·knob) (0.96 halfway, 1 at both ends) */
         dip: 0.04,
+        /** a glyph that can't turn (`&coupon=` wallet / bank: only the 8-lobed seal lands on its own outline at 90°)
+            keeps the dip, the ink at `inkAt` and the flood, and instead of the turn settles `settle` px down at
+            mid-travel, sin(π·knob), home at both ends: the stamp pressed in, nothing more */
+        glyph: { settle: 0.5 },
         ink: appleSpring(0.16, 1),
         inkOff: appleSpring(0.2, 1),
         /** a soft flood out of the seal across the badge: a disc (px radius) from under the seal past the corners,

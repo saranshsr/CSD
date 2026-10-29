@@ -95,19 +95,21 @@
 .erLift { position: absolute; inset: 0; z-index: -2; border-radius: inherit; pointer-events: none;
   box-shadow: 0 10px 22px -12px color-mix(in srgb, var(--nk-color-success) 50%, transparent), 0 1px 4px -1px color-mix(in srgb, var(--nk-color-success) 16%, transparent); }
 
-/* Eligible row v2: 64 high, padding 12, gap 12; 36×36 r8 badge with a 24 coupon icon; 14 Medium title over a 12 Medium subtitle; 42×24 switch */
-.er2 { box-sizing: border-box; height: 64px; min-height: 64px; padding: var(--nk-space-s12); gap: var(--nk-space-s12); }
-.er2 .erCopy { gap: 0; }
-.er2 .erText { font: var(--nk-type-text14-medium-lh1); line-height: 20px; }
-.er2 .erValue { font: var(--nk-type-text12-medium-lh16); display: block; white-space: nowrap; text-overflow: ellipsis; }
+/* Eligible row v2 (Figma Section 4): min 64 high and growing with its copy, padding 12, gap 12; 36×36 r8 badge with a
+   24 glyph and the 42×24 switch, both centred; B13 Medium title (code B13 Bold), never truncated, so a long code wraps
+   (SUMMERGLOW25: 84); 2 below it a B12 Medium offer that wraps to at most 2 lines (ALINMA25: 82) */
+.er2 { box-sizing: border-box; height: auto; min-height: 64px; padding: var(--nk-space-s12); gap: var(--nk-space-s12); }
+.er2 .erCopy { gap: 2px; }
+.er2 .erText { font: var(--nk-type-field-b13-medium); white-space: normal; overflow: visible; text-overflow: clip; }
+.er2 .erValue { font: var(--nk-type-field-b12-medium); }
 .er2 .erTrack { width: 42px; height: 24px; border-radius: var(--nk-radius-r12); }
 .er2 .erKnob { height: 20px; border-radius: var(--nk-radius-r10); }
 .erBadge { flex: none; display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: var(--nk-radius-r8); }
 .erBadgeIcon { width: 24px; height: 24px; -webkit-mask-position: center; mask-position: center; -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
 /* tg=5: the badge clips its stamp (the ink flood) to its own r8, so nothing renders outside it */
 .erBadgeClip { overflow: hidden; }
-/* Eligible row v2, no value line (`&offer=0`, Figma Section 5): one line, 56 high (12 around a 32 badge), 32×32 r8
+/* Eligible row v2, no value line (`&offer=0`, Figma Section 5): one line, min 56 high (12 around a 32 badge), 32×32 r8
    badge with a 20 seal (the 36 / 24 badge's 6px inset); title, switch, padding and gap unchanged */
-.er2Solo { height: 56px; min-height: 56px; }
+.er2Solo { min-height: 56px; }
 .er2Solo .erBadge { width: 32px; height: 32px; }
 .er2Solo .erBadgeIcon, .er2Solo .erSeal { width: 20px; height: 20px; }

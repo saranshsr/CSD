@@ -16,7 +16,7 @@ import { clamp, project } from './gesture';
 import { BandHeader, type BandHeaderHandle } from './components/BandHeader';
 import { EligibleRow } from './components/EligibleRow';
 import { ScopedRow } from './components/ScopedRow';
-import { MAX_ROWS, copy, suggest, suggestMixed, type Scope, type Suggestion } from './data';
+import { MAX_ROWS, copy, coupon as visitCoupon, suggest, suggestMixed, type Scope, type Suggestion } from './data';
 import { CouponContext, csCoupons, useCoupon } from './couponContext';
 import { csStore, isRowVariant, useCs, type CsVariant } from './store';
 import { csTokens } from './tokens';
@@ -94,7 +94,7 @@ export function SearchScreen() {
   const variant = useCs((s) => s.variant);
   const { coupon } = useParams<{ coupon?: string }>();
   return (
-    <CouponContext.Provider value={csCoupons[coupon ?? ''] ?? csCoupons.beauty10}>
+    <CouponContext.Provider value={csCoupons[coupon ?? ''] ?? visitCoupon}>
       <CouponSearch key={variant} variant={variant} />
     </CouponContext.Provider>
   );

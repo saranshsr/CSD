@@ -4,10 +4,12 @@ import { colors, field } from '../../../foundations/tokens';
 import couponIcon from '@assets/icons/origin/coupon-discount-filled.svg';
 import badgeIcon from '@assets/icons/origin/discount-filled.svg';
 import badgeSvg from '@assets/icons/origin/discount-filled.svg?raw';
+import walletIcon from '@assets/icons/origin/noon-wallet-filled.svg';
+import bankIcon from '@assets/icons/origin/payment-bank-filled.svg';
 import { haptic } from '../../../motion/haptics';
 import { fieldMotion, spring, supermall } from '../../../motion/presets';
 import { useReduceMotion } from '../../../motion/reducedMotion';
-import { copy } from '../data';
+import { copy, type CouponIcon } from '../data';
 import { useCoupon } from '../couponContext';
 import { project, rubber, velocityTracker } from '../gesture';
 import { couponsearchFlowTokens, csTokens } from '../tokens';
@@ -54,6 +56,9 @@ const sized = <F extends { from: number; to: number; crest: number }>(f: F): F =
  * Each one rests on exactly the same on / off looks. Reduced motion (all five): the row cross-fades for 150ms.
  * `&offer=0` (v2 only): no value line; the row is one line, 56 high, with a 32 badge and a 20 seal (`toggleV2.noOffer`).
  * The choreographies are unchanged; where they place the copy, the title stands in for the subtitle.
+ * `&coupon=<id>` (data.ts `coupons`): the code, the offer and the badge glyph. v2's row is min 64 (56 with `&offer=0`)
+ * and grows with its copy (the title never truncates, the offer wraps to 2 lines), badge and switch centred. Only the
+ * 8-lobed seal turns; the wallet and the bank keep the dip, the ink and the flood and settle `mix.stamp.glyph.settle` px.
  */
 export function EligibleRow({ on, onChange, v2 = false }: { on: boolean; onChange: (on: boolean) => void; v2?: boolean }) {
   return v2 ? <EligibleRowV2 on={on} onChange={onChange} /> : <EligibleRowV1 on={on} onChange={onChange} />;
@@ -225,9 +230,13 @@ function useSwitch(T: SwitchSize, on: boolean, onChange: (on: boolean) => void, 
   return { bind, knobX, knobW };
 }
 
-const useLabel = () => {
+/** v1 keeps the coupon's own line-1 overrides (its longest-offer stress frame); v2 always reads "Search within **CODE**
+    items only" (Section 4) */
+const useLabel = (v2 = false) => {
   const coupon = useCoupon();
-  return { coupon, label: `${coupon.rowLead ?? copy.row.lead} ${coupon.code} ${coupon.rowTail ?? copy.row.tail}`.trim() };
+  const lead = v2 ? copy.row.lead : (coupon.rowLead ?? copy.row.lead);
+  const tail = v2 ? copy.row.tail : (coupon.rowTail ?? copy.row.tail);
+  return { coupon, lead, tail, label: `${lead} ${coupon.code} ${tail}`.trim() };
 };
 
 /** v1 (`?v=row`): everything rides the knob's progress. */
@@ -328,8 +337,18 @@ function useInks(badgeOn: MotionValue<number>, subOn: MotionValue<number>) {
     subInk: useTransform(subOn, [0, 1], [colors.textSecondary, colors.success]),
   };
 }
-const BADGE_MASK = `url("${badgeIcon}")`;
 const masked = (url: string) => ({ WebkitMaskImage: url, maskImage: url });
+/** the v2 badge glyph for a coupon: its whole-icon mask, and whether it is the 8-lobed seal (only the seal turns: 90°
+    lands it on its own outline; a wallet or a bank turned would read as a mistake) */
+interface Glyph {
+  mask: string;
+  seal: boolean;
+}
+const GLYPHS: Record<CouponIcon, Glyph> = {
+  'discount-filled': { mask: `url("${badgeIcon}")`, seal: true },
+  'noon-wallet-filled': { mask: `url("${walletIcon}")`, seal: false },
+  'payment-bank-filled': { mask: `url("${bankIcon}")`, seal: false },
+};
 /** the badge seal split in two (stamp): the scalloped seal turns, the % stays upright */
 const SEAL = (() => {
   const d = /\sd="([^"]+)"/.exec(badgeSvg)?.[1] ?? '';
@@ -341,10 +360,10 @@ const SEAL = (() => {
 
 const OnSurface = ({ style }: { style: MotionStyle }) => <motion.span className={`${styles.erOnBg} ${styles.erOnBg2}`} style={style} aria-hidden />;
 const OffRing = ({ style }: { style: MotionStyle }) => <motion.span className={styles.erOffRing} style={style} aria-hidden />;
-const Icon = ({ ink }: { ink: MotionValue<string> }) => <motion.span className={styles.erBadgeIcon} style={{ backgroundColor: ink, ...masked(BADGE_MASK) }} />;
+const Icon = ({ ink, glyph }: { ink: MotionValue<string>; glyph: Glyph }) => <motion.span className={styles.erBadgeIcon} style={{ backgroundColor: ink, ...masked(glyph.mask) }} />;
 
 /** reduced motion: one uniform value, a 150ms linear cross-fade */
-function useUniformLook(on: boolean): Look {
+function useUniformLook(on: boolean, glyph: Glyph): Look {
   const u = useMotionValue(on ? 1 : 0);
   const inks = useInks(u, u);
   const offRing = useTransform(u, (v) => 1 - v);
@@ -362,13 +381,13 @@ function useUniformLook(on: boolean): Look {
       </>
     ),
     badge: { backgroundColor: inks.badgeBg },
-    icon: <Icon ink={inks.iconInk} />,
+    icon: <Icon ink={inks.iconInk} glyph={glyph} />,
     sub: { color: inks.subInk },
   };
 }
 
 /** tg=1 · the track becomes the row */
-function useMorphLook(on: boolean, parts: Parts): Look {
+function useMorphLook(on: boolean, parts: Parts, _knob: MotionValue<number>, glyph: Glyph): Look {
   const K = T2.morph;
   const { geo, measure } = useGeo(parts);
   const mx = useMotionValue(on ? 1 : 0); // the leading (left) end, across the row
@@ -451,7 +470,7 @@ function useMorphLook(on: boolean, parts: Parts): Look {
       </>
     ),
     badge: { backgroundColor: inks.badgeBg },
-    icon: <Icon ink={inks.iconInk} />,
+    icon: <Icon ink={inks.iconInk} glyph={glyph} />,
     sub: { color: inks.subInk },
   };
 }
@@ -464,7 +483,7 @@ const PASSED = 1e4;
 const glint = (v: number) => `color-mix(in srgb, var(--nk-color-success) ${(100 - T2.sheen.glint * v).toFixed(2)}%, var(--nk-palette-white))`;
 
 /** tg=2 · a light sweep delivers the value */
-function useSheenLook(on: boolean, parts: Parts): Look {
+function useSheenLook(on: boolean, parts: Parts, _knob: MotionValue<number>, glyph: Glyph): Look {
   const K = T2.sheen;
   const { geo, measure } = useGeo(parts);
   const q = useMotionValue(on ? 1 : 0); // the surface; also the copy's on-ness behind the light
@@ -582,7 +601,7 @@ function useSheenLook(on: boolean, parts: Parts): Look {
       </span>
     ),
     badge: { backgroundColor: inks.badgeBg },
-    icon: <Icon ink={inks.iconInk} />,
+    icon: <Icon ink={inks.iconInk} glyph={glyph} />,
     sub: { color: subColor, backgroundImage: subImage, WebkitBackgroundClip: subClip, backgroundClip: subClip },
   };
 }
@@ -594,7 +613,7 @@ const wash = (front: number, feather: number, invert: boolean) =>
     : `linear-gradient(to right, black ${px(front - feather)}, transparent ${px(front)})`;
 
 /** tg=3 · the seal stamps it */
-function useStampLook(on: boolean, parts: Parts): Look {
+function useStampLook(on: boolean, parts: Parts, _knob: MotionValue<number>, glyph: Glyph): Look {
   const K = T2.stamp;
   const { geo, measure } = useGeo(parts);
   const rot = useMotionValue(on ? 90 : 0); // deg; 90 ≡ 0 for the 8-lobed seal
@@ -607,7 +626,8 @@ function useStampLook(on: boolean, parts: Parts): Look {
   const ring = useMotionValue(0);
   const ringA = useMotionValue(0);
   const ringAt = { left: useMotionValue(px(30 - K.ring.r)), top: useMotionValue(px(32 - K.ring.r)) };
-  const turning = useTransform(rot, (r) => (Math.abs(r - Math.round(r / 90) * 90) > 0.05 ? 1 : 0));
+  // only the seal turns; any other glyph stays whole and upright (`still`)
+  const turning = useTransform(rot, (r) => (glyph.seal && Math.abs(r - Math.round(r / 90) * 90) > 0.05 ? 1 : 0));
   const still = useTransform(turning, (t) => 1 - t);
   const F = K.spread.feather;
   const front = () => clamp01(q.get()) * (geo.current.w + F);
@@ -710,9 +730,13 @@ function useStampLook(on: boolean, parts: Parts): Look {
       <>
         <motion.span className={styles.erFlood} style={{ backgroundImage: floodImage, opacity: floodA, display: floodShown }} />
         <motion.span className={styles.erSeal} style={{ scale: squash }}>
-          <motion.span className={styles.erBadgeIcon} style={{ backgroundColor: sealInk, opacity: still, ...masked(BADGE_MASK) }} />
-          <motion.span className={styles.erBadgeIcon} style={{ backgroundColor: sealInk, opacity: turning, rotate: rot, ...masked(SEAL.ring) }} />
-          <motion.span className={styles.erBadgeIcon} style={{ backgroundColor: holeInk, opacity: turning, ...masked(SEAL.pct) }} />
+          <motion.span className={styles.erBadgeIcon} style={{ backgroundColor: sealInk, opacity: still, ...masked(glyph.mask) }} />
+          {glyph.seal && (
+            <>
+              <motion.span className={styles.erBadgeIcon} style={{ backgroundColor: sealInk, opacity: turning, rotate: rot, ...masked(SEAL.ring) }} />
+              <motion.span className={styles.erBadgeIcon} style={{ backgroundColor: holeInk, opacity: turning, ...masked(SEAL.pct) }} />
+            </>
+          )}
         </motion.span>
       </>
     ),
@@ -721,7 +745,7 @@ function useStampLook(on: boolean, parts: Parts): Look {
 }
 
 /** tg=4 · the card pops up */
-function useDepthLook(on: boolean, parts: Parts): Look {
+function useDepthLook(on: boolean, parts: Parts, _knob: MotionValue<number>, glyph: Glyph): Look {
   const K = T2.depth;
   const { geo, measure } = useGeo(parts);
   const q = useMotionValue(on ? 1 : 0); // the radial fill
@@ -805,13 +829,13 @@ function useDepthLook(on: boolean, parts: Parts): Look {
       </>
     ),
     badge: { backgroundColor: inks.badgeBg },
-    icon: <Icon ink={inks.iconInk} />,
+    icon: <Icon ink={inks.iconInk} glyph={glyph} />,
     sub: { color: inks.subInk },
   };
 }
 
 /** tg=5 · the green spreads out of the switch and the seal stamps it as it arrives (the default) */
-function useSpreadStampLook(on: boolean, _parts: Parts, knob: MotionValue<number>): Look {
+function useSpreadStampLook(on: boolean, _parts: Parts, knob: MotionValue<number>, glyph: Glyph): Look {
   const S = T2.mix.spread;
   const K = T2.mix.stamp;
   // where the badge sits along the fill: the single-line row's 32 badge centres 2px further from the switch
@@ -824,6 +848,9 @@ function useSpreadStampLook(on: boolean, _parts: Parts, knob: MotionValue<number
   // frames (drag, rubber band and reversals included), and gives the barest dip at mid-travel; no timer of its own
   const rot = useTransform(knob, (v) => Math.min(1.08, Math.max(-0.08, v)) * 90);
   const squash = useTransform(knob, (v) => 1 - K.dip * Math.sin(Math.PI * clamp01(v)));
+  // a glyph that can't turn (wallet, bank) keeps the dip and the inks; it only settles a hair, on the same gear:
+  // `glyph.settle` px down at mid-travel (pressed into the badge), home at both ends (the seal: 0, its turn is its motion)
+  const settleY = useTransform(knob, (v) => (glyph.seal ? 0 : K.glyph.settle * Math.sin(Math.PI * clamp01(v))));
   const seal = useMotionValue(on ? 1 : 0); // the seal's ink
   const bg = useMotionValue(on ? 1 : 0); // the badge's own fill
   const flood = useMotionValue(0);
@@ -843,7 +870,8 @@ function useSpreadStampLook(on: boolean, _parts: Parts, knob: MotionValue<number
   const offOp = useTransform(q, (v) => (v >= 0.9995 ? 0 : 1));
   const subOn = useTransform(q, (v) => reach(v, S.at.value));
   const inks = useInks(bg, subOn);
-  const turning = useTransform(rot, (r) => (Math.abs(r - Math.round(r / 90) * 90) > 0.05 ? 1 : 0));
+  // only the seal turns; any other glyph stays whole and upright (`still`)
+  const turning = useTransform(rot, (r) => (glyph.seal && Math.abs(r - Math.round(r / 90) * 90) > 0.05 ? 1 : 0));
   const still = useTransform(turning, (t) => 1 - t);
   const sealInk = useTransform(seal, [0, 1], [flow.csIconOff, colors.success]);
   const hole = useTransform(() => Math.max(bg.get(), floodA.get()));
@@ -956,10 +984,14 @@ function useSpreadStampLook(on: boolean, _parts: Parts, knob: MotionValue<number
     icon: (
       <>
         <motion.span className={styles.erFlood} style={{ backgroundImage: floodImage, opacity: floodA, display: floodShown }} />
-        <motion.span className={styles.erSeal} style={{ scale: squash }}>
-          <motion.span className={styles.erBadgeIcon} style={{ backgroundColor: sealInk, opacity: still, ...masked(BADGE_MASK) }} />
-          <motion.span className={styles.erBadgeIcon} style={{ backgroundColor: sealInk, opacity: turning, rotate: rot, ...masked(SEAL.ring) }} />
-          <motion.span className={styles.erBadgeIcon} style={{ backgroundColor: holeInk, opacity: turning, ...masked(SEAL.pct) }} />
+        <motion.span className={styles.erSeal} style={{ scale: squash, y: settleY }}>
+          <motion.span className={styles.erBadgeIcon} style={{ backgroundColor: sealInk, opacity: still, ...masked(glyph.mask) }} />
+          {glyph.seal && (
+            <>
+              <motion.span className={styles.erBadgeIcon} style={{ backgroundColor: sealInk, opacity: turning, rotate: rot, ...masked(SEAL.ring) }} />
+              <motion.span className={styles.erBadgeIcon} style={{ backgroundColor: holeInk, opacity: turning, ...masked(SEAL.pct) }} />
+            </>
+          )}
         </motion.span>
       </>
     ),
@@ -967,17 +999,18 @@ function useSpreadStampLook(on: boolean, _parts: Parts, knob: MotionValue<number
   };
 }
 
-const useLook: (on: boolean, parts: Parts, knob: MotionValue<number>) => Look = [useMorphLook, useSheenLook, useStampLook, useDepthLook, useSpreadStampLook][TG - 1];
+const useLook: (on: boolean, parts: Parts, knob: MotionValue<number>, glyph: Glyph) => Look = [useMorphLook, useSheenLook, useStampLook, useDepthLook, useSpreadStampLook][TG - 1];
 
 /** v2 (`?v=row2`): the switch leads, the row answers with the `&tg=` choreography. */
 function EligibleRowV2({ on, onChange }: { on: boolean; onChange: (on: boolean) => void }) {
-  const { coupon, label } = useLabel();
+  const { coupon, lead, tail, label } = useLabel(true);
+  const glyph = GLYPHS[coupon.icon];
   const reduce = useReduceMotion();
   const parts: Parts = { row: useRef<HTMLDivElement>(null), badge: useRef<HTMLSpanElement>(null), sub: useRef<HTMLSpanElement>(null), track: useRef<HTMLSpanElement>(null) };
   const p = useMotionValue(on ? 1 : 0);
   const track = useTransform<number, string>(p, [0, 1], [colors.border, colors.success]);
-  const look = useLook(on, parts, p);
-  const uniform = useUniformLook(on);
+  const look = useLook(on, parts, p, glyph);
+  const uniform = useUniformLook(on, glyph);
   // reduced motion swaps in the cross-fade; the choreography is kept in step underneath so a switch back is seamless
   const L: Look = reduce
     ? {
@@ -1005,13 +1038,13 @@ function EligibleRowV2({ on, onChange }: { on: boolean; onChange: (on: boolean) 
       <span ref={NO_OFFER ? parts.sub : undefined} className={styles.erCopy}>
         <span className={styles.erText}>
           {/* "Search within **CODE** items only", as v1 (Gaurav / AJ, 29 Oct: the verb makes the scope clear) */}
-          {`${coupon.rowLead ?? copy.row.lead} `}
+          {`${lead} `}
           <b>{coupon.code}</b>
-          {(coupon.rowTail ?? copy.row.tail) && ` ${coupon.rowTail ?? copy.row.tail}`}
+          {tail && ` ${tail}`}
         </span>
         {!NO_OFFER && (
           <motion.span ref={parts.sub} className={styles.erValue} style={L.sub}>
-            {coupon.value}
+            {coupon.v2Value ?? coupon.value}
           </motion.span>
         )}
       </span>

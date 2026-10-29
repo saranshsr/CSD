@@ -1,4 +1,4 @@
-import { couponProducts, getProduct, products as noonCatalogue, type Product } from '../../data';
+import { couponProducts, currency, getProduct, products as noonCatalogue, type Product } from '../../data';
 import recentS24 from '@assets/couponsearch/recent-s24.webp';
 import recentS25 from '@assets/couponsearch/recent-s25-edge.webp';
 import recentIp17pm from '@assets/couponsearch/recent-iphone-17-pro-max.webp';
@@ -18,13 +18,67 @@ import catGrooming from '@assets/couponsearch/cat-grooming.webp';
  * the beauty items carry `coupon: 'Extra 10% Off'` and are BEAUTY10-eligible, the Seiko watches are not).
  * Item counts are never shown anywhere (stakeholder rule), so nothing here exposes one.
  */
-export const coupon = {
-  code: 'BEAUTY10',
-  title: 'Extra 10% off on beauty',
-  value: 'Extra 10% off at checkout',
-  /** scoped row subline: "BEAUTY10 · extra 10% off" */
-  short: 'extra 10% off',
-} as const;
+
+/** the badge glyphs the Eligible row v2 knows (Origin icons, `src/assets/icons/origin/`) */
+export type CouponIcon = 'discount-filled' | 'noon-wallet-filled' | 'payment-bank-filled';
+
+/**
+ * One coupon the search can start from. Item counts are never part of a coupon's copy.
+ */
+export interface CsCoupon {
+  id: string;
+  code: string;
+  /** eligible row line 2 / band subline / scoped row subline */
+  value: string;
+  /** Eligible row v2's line 2 when it differs (Section 4 frames) */
+  v2Value?: string;
+  /** the band's subline when it differs from the row's */
+  bandValue?: string;
+  /** scoped row subline: "CODE · short" */
+  short: string;
+  /** Eligible row v1's line 1 when it differs (the frames' longest-offer stress case: "Search within ALINMA25");
+      v2 always reads "Search within **CODE** items only" (Section 4) */
+  rowLead?: string;
+  rowTail?: string;
+  /** Eligible row v2 badge glyph: the coupon seal, the noon wallet (cashback) or the bank (bank offer) */
+  icon: CouponIcon;
+}
+
+/**
+ * The coupons a visit can run on, `&coupon=<id>` (kept on every page by main.tsx; default BEAUTY10). The team file's
+ * Section 4 frames (XIrs4DHW03O94Km0QgLKps · 195:364091 EXTRA250, 195:364502 SUMMERGLOW25, 195:364560 ALINMA25).
+ * The eligible items stay the BEAUTY10 beauty set for every coupon: it is a demo of the row, not of the catalogue.
+ */
+export const coupons = {
+  beauty10: { id: 'beauty10', code: 'BEAUTY10', value: 'Extra 10% off at checkout', short: 'extra 10% off', icon: 'discount-filled' },
+  extra250: { id: 'extra250', code: 'EXTRA250', value: `Extra ${currency}250 off on orders above ${currency}1,500`, short: `extra ${currency}250 off`, icon: 'discount-filled' },
+  summerglow25: {
+    id: 'summerglow25',
+    code: 'SUMMERGLOW25',
+    value: `15% cashback up to ${currency}100 in noon credits`,
+    v2Value: `15% cashback up to ${currency}100`,
+    bandValue: 'Extra 15% cashback at checkout',
+    short: '15% cashback',
+    icon: 'noon-wallet-filled',
+  },
+  alinma25: {
+    id: 'alinma25',
+    code: 'ALINMA25',
+    value: `25% off with Alinma Bank cards, up to ${currency}200 on beauty and fragrance`,
+    short: '25% off with Alinma',
+    rowLead: 'Search within',
+    rowTail: '',
+    icon: 'payment-bank-filled',
+  },
+} satisfies Record<string, CsCoupon>;
+
+/** the visit's coupon from `&coupon=` (read once; main.tsx keeps it in the URL on every page), BEAUTY10 otherwise */
+export function getCoupon(id = typeof window === 'undefined' ? null : new URLSearchParams(window.location.search).get('coupon')): CsCoupon {
+  return (coupons as Record<string, CsCoupon>)[id?.toLowerCase() ?? ''] ?? coupons.beauty10;
+}
+
+/** the coupon this visit runs on */
+export const coupon: CsCoupon = getCoupon();
 
 /** The cart the journey starts from (team file 01 · Cart). */
 export const cartCopy = {
@@ -40,7 +94,7 @@ export const cartCopy = {
 };
 
 export const copy = {
-  band: { title: 'Shop eligible products', dismiss: 'Remove', dismissLabel: 'Remove BEAUTY10 filter' },
+  band: { title: 'Shop eligible products', dismiss: 'Remove', dismissLabel: `Remove ${coupon.code} filter` },
   hero: { title: 'Extra 10% off', body: 'Skincare, haircare, makeup & more', use: 'Use code' },
   search: { placeholder: 'Search', scoped: 'Search within', recent: 'Recently searched', trending: 'Trending searches', viewed: 'Recently viewed categories', banner: 'OSN+ exclusives with noon One' },
   chips: { filter: 'Filter', sort: 'Sort', price: 'Price', face: 'Face', eyes: 'Eyes' },
