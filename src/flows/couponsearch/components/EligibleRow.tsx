@@ -802,14 +802,17 @@ function useDepthLook(on: boolean, parts: Parts): Look {
 }
 
 /** tg=5 · the green spreads out of the switch and the seal stamps it as it arrives (the default) */
-function useSpreadStampLook(on: boolean, _parts: Parts): Look {
+function useSpreadStampLook(on: boolean, _parts: Parts, knob: MotionValue<number>): Look {
   const S = T2.mix.spread;
   const K = T2.mix.stamp;
   const q = useMotionValue(on ? 1 : 0); // the fill, from the switch
   const target = useRef<0 | 1>(on ? 1 : 0);
-  const armed = useRef(false); // the stamp fires once, as the front reaches the badge
-  const rot = useMotionValue(on ? 90 : 0); // deg; 90 ≡ 0 for the 8-lobed seal
-  const squash = useMotionValue(1);
+  const armed = useRef(false); // the flood fires once, as the front reaches the badge
+  const inkArmed = useRef(false); // the seal inks once, as the knob passes `inkAt` of its travel
+  // the seal is geared to the knob: it turns 90° (≡ 0 for the 8-lobed seal) across the knob's travel, on the same
+  // frames (drag, rubber band and reversals included), and gives the barest dip at mid-travel; no timer of its own
+  const rot = useTransform(knob, (v) => Math.min(1.08, Math.max(-0.08, v)) * 90);
+  const squash = useTransform(knob, (v) => 1 - K.dip * Math.sin(Math.PI * clamp01(v)));
   const seal = useMotionValue(on ? 1 : 0); // the seal's ink
   const bg = useMotionValue(on ? 1 : 0); // the badge's own fill
   const flood = useMotionValue(0);
@@ -841,18 +844,19 @@ function useSpreadStampLook(on: boolean, _parts: Parts): Look {
   });
   const floodShown = useTransform(floodA, (v) => (v > 0.0005 ? 'block' : 'none'));
 
-  /** the full stop: the barest dip, the turn, the ink and its soft flood (no ring: the flood's crest is the pulse) */
+  /** the seal's ink, with the knob: it turns green as the switch's track does */
+  const inkSeal = () => {
+    inkArmed.current = false;
+    go(seal, 1, K.ink);
+  };
+  /** the full stop as the front reaches the badge: its soft flood out of the seal (no ring: the flood's crest is the pulse) */
   const stamp = () => {
     armed.current = false;
-    go(rot, 90, K.turn);
-    animate(squash, 1, { ...K.press, velocity: -K.kick });
-    go(seal, 1, K.ink, K.impact);
     bg.stop();
     flood.jump(0);
     let landed = false;
     animate(flood, 1, {
       ...F.spring,
-      delay: K.impact,
       onUpdate: () => {
         if (landed) return;
         landed = true;
@@ -867,9 +871,7 @@ function useSpreadStampLook(on: boolean, _parts: Parts): Look {
   /** no stamp (a drag, or a reversal that is already past the badge): the seal just turns and inks */
   const quietOn = () => {
     armed.current = false;
-    go(rot, 90, K.turn);
-    go(squash, 1, K.press);
-    go(seal, 1, K.ink);
+    inkSeal();
     go(bg, 1, K.ink);
   };
   useEffect(
@@ -880,6 +882,14 @@ function useSpreadStampLook(on: boolean, _parts: Parts): Look {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [q],
   );
+  useEffect(
+    () =>
+      knob.on('change', (v) => {
+        if (inkArmed.current && target.current === 1 && v >= K.inkAt) inkSeal();
+      }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [knob],
+  );
 
   return {
     settle: (to) => {
@@ -888,12 +898,15 @@ function useSpreadStampLook(on: boolean, _parts: Parts): Look {
       if (to) {
         animate(q, 1, { ...S.on, velocity: q.getVelocity(), delay: fromRest ? S.lead : 0 });
         if (reach(q.get(), S.at.badge) >= K.at) quietOn();
-        else armed.current = true;
+        else {
+          armed.current = true;
+          if (knob.get() >= K.inkAt) inkSeal();
+          else inkArmed.current = true;
+        }
       } else {
         armed.current = false;
+        inkArmed.current = false;
         flood.stop();
-        go(rot, 0, K.unturn);
-        go(squash, 1, K.unturn);
         go(seal, 0, K.inkOff);
         go(bg, 0, K.inkOff);
         go(floodA, 0, K.inkOff);
@@ -902,22 +915,21 @@ function useSpreadStampLook(on: boolean, _parts: Parts): Look {
     },
     scrub: (v) => {
       armed.current = false;
+      inkArmed.current = false;
       target.current = v >= 0.5 ? 1 : 0;
       flood.stop();
       go(floodA, 0, T2.chase);
       go(q, clamp01(v), T2.chase);
-      go(rot, 90 * clamp01(v), T2.chase);
       go(seal, clamp01(v), T2.chase);
       go(bg, clamp01(v), T2.chase);
     },
     press: () => {},
     snap: (to) => {
       armed.current = false;
+      inkArmed.current = false;
       target.current = to;
       flood.stop();
       q.jump(to);
-      rot.jump(to * 90);
-      squash.jump(1);
       seal.jump(to);
       bg.jump(to);
       floodA.jump(0);
@@ -944,7 +956,7 @@ function useSpreadStampLook(on: boolean, _parts: Parts): Look {
   };
 }
 
-const useLook: (on: boolean, parts: Parts) => Look = [useMorphLook, useSheenLook, useStampLook, useDepthLook, useSpreadStampLook][TG - 1];
+const useLook: (on: boolean, parts: Parts, knob: MotionValue<number>) => Look = [useMorphLook, useSheenLook, useStampLook, useDepthLook, useSpreadStampLook][TG - 1];
 
 /** v2 (`?v=row2`): the switch leads, the row answers with the `&tg=` choreography. */
 function EligibleRowV2({ on, onChange }: { on: boolean; onChange: (on: boolean) => void }) {
@@ -953,7 +965,7 @@ function EligibleRowV2({ on, onChange }: { on: boolean; onChange: (on: boolean) 
   const parts: Parts = { row: useRef<HTMLDivElement>(null), badge: useRef<HTMLSpanElement>(null), sub: useRef<HTMLSpanElement>(null), track: useRef<HTMLSpanElement>(null) };
   const p = useMotionValue(on ? 1 : 0);
   const track = useTransform<number, string>(p, [0, 1], [colors.border, colors.success]);
-  const look = useLook(on, parts);
+  const look = useLook(on, parts, p);
   const uniform = useUniformLook(on);
   // reduced motion swaps in the cross-fade; the choreography is kept in step underneath so a switch back is seamless
   const L: Look = reduce

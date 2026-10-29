@@ -186,9 +186,10 @@ export const csTokens = {
      * `tg=5` Spread + stamp (the default). The fill does the work, the stamp is its quiet full stop. The knob moves;
      * a beat later the row's green spreads out of the switch, right → left, through a soft feathered front (≈60% of
      * the row), on its own critically damped spring, with the off hairline masked as its exact inverse. The subtitle
-     * turns green as the front crosses it; as the front reaches the badge (≈0.25s) the seal stamps, minimally: the
-     * barest dip, a 90° turn (8 lobes: same outline) that settles with no visible overshoot, and a soft ink flood
-     * out of the seal, clipped to the badge. Off: the seal un-turns and greys first, then the green
+     * turns green as the front crosses it. The seal is geared to the knob: it turns 90° (8 lobes: same outline) on the
+     * knob's own progress, with the barest dip at mid-travel, and inks green with the track as the knob passes
+     * halfway; as the front reaches the badge (≈0.25s) a soft ink flood out of the seal fills the badge, clipped to
+     * it. Off: the seal un-turns with the knob and greys first, then the green
      * drains back into the switch, quicker (≈0.3s). Nothing on the row moves or casts a shadow.
      */
     mix: {
@@ -206,18 +207,15 @@ export const csTokens = {
         at: { badge: 0.91, value: 0.6 },
       },
       stamp: {
-        /** the stamp fires as the front's feather first touches the badge (≈0.18s after the commit), so its ink
-            lands (`impact`) as the front's middle arrives (≈0.25s): the full stop at the end of the fill */
+        /** the seal inks as the knob passes this share of its travel (≈0.1s), so it turns green with the track */
+        inkAt: 0.5,
+        /** the flood fires as the front's feather first touches the badge (≈0.2s after the commit), so the badge fills
+            as the front arrives: the full stop at the end of the fill */
         at: 0.02,
-        /** the turn: near-critically damped, so it settles with no visible overshoot (≈0.01°) */
-        turn: appleSpring(0.45, 0.95),
-        /** off: un-turns, no overshoot */
-        unturn: appleSpring(0.3, 1),
-        /** the barest dip: kicked from rest, ≈0.96 at ≈65ms, back with no visible overshoot */
-        press: appleSpring(0.4, 0.9),
-        kick: 1.6,
-        /** ink lands just before the dip's bottom (`stamp`: 0.07), so the full stop follows the front with no lag */
-        impact: 0.045,
+        /* the turn and the dip have no springs of their own: the seal is geared to the knob (EligibleRow), 90° across
+           its travel, so it starts, moves and lands on the knob's frames, drags and reversals included */
+        /** the barest dip, at mid-travel: scale 1 − dip·sin(π·knob) (0.96 halfway, 1 at both ends) */
+        dip: 0.04,
         ink: appleSpring(0.16, 1),
         inkOff: appleSpring(0.2, 1),
         /** a soft flood out of the seal across the badge: a disc (px radius) from under the seal past the corners,
