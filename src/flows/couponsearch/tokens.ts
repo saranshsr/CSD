@@ -189,8 +189,7 @@ export const csTokens = {
      * turns green as the front crosses it. The seal is geared to the knob: it turns 90° (8 lobes: same outline) on the
      * knob's own progress, with the barest dip at mid-travel, and inks green with the track as the knob passes
      * halfway. There is no badge container (the final row): the 28 seal sits bare in the row and the
-     * row's green front passes behind it; as the front reaches it one thin, soft ripple leaves the seal (a separate
-     * ring, never clipped). Off: the seal un-turns with the knob and greys first, then the green
+     * row's green front passes behind it (no ripple, 30 Oct). Off: the seal un-turns with the knob and greys first, then the green
      * drains back into the switch, quicker (≈0.3s). Nothing on the row moves or casts a shadow.
      */
     mix: {
@@ -211,23 +210,16 @@ export const csTokens = {
       stamp: {
         /** the seal inks as the knob passes this share of its travel (≈0.1s), so it turns green with the track */
         inkAt: 0.5,
-        /** the ripple leaves the seal as the front is this far across the badge (≈0.25s after the commit: the badge
-            is ≈half green), the full stop at the end of the fill */
-        at: 0.4,
         /* the turn and the dip have no springs of their own: the seal is geared to the knob (EligibleRow), 90° across
            its travel, so it starts, moves and lands on the knob's frames, drags and reversals included */
         /** the barest dip, at mid-travel: scale 1 − dip·sin(π·knob) (0.96 halfway, 1 at both ends) */
         dip: 0.04,
         /** a glyph that can't turn (`&coupon=` wallet / bank: only the 8-lobed seal lands on its own outline at 90°)
-            keeps the dip, the ink at `inkAt` and the ripple, and instead of the turn settles `settle` px down at
+            keeps the dip and the ink at `inkAt`, and instead of the turn settles `settle` px down at
             mid-travel, sin(π·knob), home at both ends: the stamp pressed in, nothing more */
         glyph: { settle: 0.5 },
         ink: appleSpring(0.16, 1),
         inkOff: appleSpring(0.2, 1),
-        /** the ripple: a thin soft ring (`.erRipple`, a ≈2px band at its rim), centred on the bare 28 seal, that grows
-            from the glyph's edge (`from` × r ≈ 10.5px) to `r` px on the strong ease-out over `duration`, while it
-            flashes in to `alpha` and is gone after `fade`; separate and never clipped */
-        ripple: { r: 18, from: 0.6, alpha: 0.4, duration: 0.28, fade: 0.2, ease: [0.23, 1, 0.32, 1] as [number, number, number, number] },
       },
     },
     /**

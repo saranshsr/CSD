@@ -844,21 +844,13 @@ function useDepthLook(on: boolean, parts: Parts, _knob: MotionValue<number>, gly
   };
 }
 
-/** tg=5 · the green spreads out of the switch, across the badge too, and a ripple leaves the seal as it arrives (the default) */
+/** tg=5 · the green spreads out of the switch, behind the bare seal, which turns with the knob (the default; no ripple, 30 Oct) */
 function useSpreadStampLook(on: boolean, parts: Parts, knob: MotionValue<number>, glyph: Glyph): Look {
   const S = T2.mix.spread;
   const K = T2.mix.stamp;
-  const R = K.ripple;
   const { geo, measure } = useGeo(parts);
-  // where the badge sits along the fill: the single-line row's 32 badge centres 2px further from the switch
-  // where the icon's centre sits along the fill (0 = switch edge, 1 = far edge), measured: 24px from the left (10 + 14)
-  const atIcon = () => {
-    const g = geo.current;
-    return (g.w - (g.badge.l + g.badge.r) / 2) / g.w;
-  };
   const q = useMotionValue(on ? 1 : 0); // the fill, from the switch: the row's and the badge's
   const target = useRef<0 | 1>(on ? 1 : 0);
-  const armed = useRef(false); // the ripple leaves once, as the front reaches the badge
   const inkArmed = useRef(false); // the seal inks once, as the knob passes `inkAt` of its travel
   // the seal is geared to the knob: it turns 90° (≡ 0 for the 8-lobed seal) across the knob's travel, on the same
   // frames (drag, rubber band and reversals included), and gives the barest dip at mid-travel; no timer of its own
@@ -868,8 +860,6 @@ function useSpreadStampLook(on: boolean, parts: Parts, knob: MotionValue<number>
   // `glyph.settle` px down at mid-travel (pressed into the badge), home at both ends (the seal: 0, its turn is its motion)
   const settleY = useTransform(knob, (v) => (glyph.seal ? 0 : K.glyph.settle * Math.sin(Math.PI * clamp01(v))));
   const seal = useMotionValue(on ? 1 : 0); // the seal's ink
-  const ripple = useMotionValue(0);
-  const rippleA = useMotionValue(0);
   // how far the front has reached a point `at` along the row (0 = switch edge, 1 = far edge), through its feather
   const reach = (v: number, at: number) => clamp01((clamp01(v) * (1 + S.feather) - at) / S.feather);
   /** the front as a mask, in the row's px */
@@ -892,29 +882,12 @@ function useSpreadStampLook(on: boolean, parts: Parts, knob: MotionValue<number>
   const still = useTransform(turning, (t) => 1 - t);
   const sealInk = useTransform(seal, [0, 1], [flow.csIconOff, colors.success]);
   // the % is a knockout painted in what shows under the seal: the badge's fill where the front is
-  const rippleScale = useTransform(ripple, (v) => R.from + (1 - R.from) * v);
-  const rippleShown = useTransform(rippleA, (v) => (v > 0.0005 ? 'block' : 'none'));
 
   /** the seal's ink, with the knob: it turns green as the switch's track does */
   const inkSeal = () => {
     inkArmed.current = false;
     go(seal, 1, K.ink);
   };
-  /** the full stop as the front reaches the badge: one thin, soft ripple leaves the seal and dies out at the badge's edge */
-  const rippleOut = () => {
-    armed.current = false;
-    if (R.alpha <= 0) return;
-    animate(ripple, [0, 1], { duration: R.duration, ease: R.ease });
-    animate(rippleA, [0, R.alpha, 0], { duration: R.fade, times: [0, 0.22, 1], ease: ['easeOut', 'easeOut'] });
-  };
-  useEffect(
-    () =>
-      q.on('change', (v) => {
-        if (armed.current && target.current === 1 && reach(v, atIcon()) >= K.at) rippleOut();
-      }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [q],
-  );
   useEffect(
     () =>
       knob.on('change', (v) => {
@@ -931,20 +904,15 @@ function useSpreadStampLook(on: boolean, parts: Parts, knob: MotionValue<number>
       target.current = to;
       if (to) {
         animate(q, 1, { ...S.on, velocity: q.getVelocity(), delay: fromRest ? S.lead : 0 });
-        // a reversal (or a drag) already past the badge: no ripple
-        armed.current = reach(q.get(), atIcon()) < K.at;
         if (knob.get() >= K.inkAt) inkSeal();
         else inkArmed.current = true;
       } else {
-        armed.current = false;
         inkArmed.current = false;
         go(seal, 0, K.inkOff);
-        animate(rippleA, 0, { duration: 0.08 });
         animate(q, 0, { ...S.off, velocity: q.getVelocity(), delay: fromRest ? S.offDelay : 0 });
       }
     },
     scrub: (v) => {
-      armed.current = false;
       inkArmed.current = false;
       target.current = v >= 0.5 ? 1 : 0;
       go(q, clamp01(v), T2.chase);
@@ -952,12 +920,10 @@ function useSpreadStampLook(on: boolean, parts: Parts, knob: MotionValue<number>
     },
     press: () => {},
     snap: (to) => {
-      armed.current = false;
       inkArmed.current = false;
       target.current = to;
       q.jump(to);
       seal.jump(to);
-      rippleA.jump(0);
     },
     under: (
       <>
@@ -970,7 +936,6 @@ function useSpreadStampLook(on: boolean, parts: Parts, knob: MotionValue<number>
     badge: {},
     icon: (
       <>
-        <motion.span className={styles.erRipple} style={{ width: R.r * 2, height: R.r * 2, marginLeft: -R.r, marginTop: -R.r, scale: rippleScale, opacity: rippleA, display: rippleShown }} />
         <motion.span className={styles.erSeal} style={{ scale: squash, y: settleY }}>
           <motion.span className={styles.erBadgeIcon} style={{ backgroundColor: sealInk, opacity: still, ...masked(glyph.mask) }} />
           {glyph.seal && (
