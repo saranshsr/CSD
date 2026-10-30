@@ -12,8 +12,8 @@
   own index.html (same bundle, same styles) at the nudge URL. Opened without ?spec= it simply forwards to the prototype.
 -->
 <script>
-  const NUDGE = '/beauty10?v=row2&solo=1';
-  if (!new URLSearchParams(location.search).has('spec')) location.replace(NUDGE);
+  const NUDGE = '/beauty10?v=row2&solo=1&embed=1'; // embed: the bare 390×844 screen, no phone frame or stage
+  if (!new URLSearchParams(location.search).has('spec')) location.replace(NUDGE.replace('&embed=1', ''));   // the header's back link: the framed prototype
   else for (const n of ['requestAnimationFrame', 'cancelAnimationFrame', 'setTimeout', 'clearTimeout']) {
     const real = window[n].bind(window), shim = (...a) => (window[n] === shim ? real(...a) : window[n](...a));
     window[n] = shim;
