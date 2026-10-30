@@ -517,7 +517,6 @@ window.SPEC = (() => {
     fillOff:{ name: 'Fill drain (off)',   ...ap(0.24),    src: 'toggleV2.mix.spread.off = appleSpring(0.24, 1)' },
     inkOn:  { name: 'Seal ink (on)',      ...ap(0.16),    src: 'toggleV2.mix.stamp.ink = appleSpring(0.16, 1)' },
     inkOff: { name: 'Seal ink (off)',     ...ap(0.2),     src: 'toggleV2.mix.stamp.inkOff = appleSpring(0.2, 1)' },
-    flood:  { name: 'Ink flood',          ...ap(0.34),    src: 'toggleV2.mix.stamp.flood.spring = appleSpring(0.34, 1)' },
     hand:   { name: 'Handoff spring',     w: 16.75, z: 0.81, src: 'handoff.spring, k 280.6 · c 27.14 (src/motion/presets.ts), used by the row\'s rise' },
   };
   const CURVE = {
@@ -532,16 +531,14 @@ window.SPEC = (() => {
     row:   '[class*="_er2_"]',      // Eligible row (the switch itself, role=switch)
     fill:  '[class*="_erOnBg_"]',   // Surface fill (green gradient + success stroke)
     hair:  '[class*="_erOffRing_"]',// Off hairline
-    badge: '[class*="_erBadge_"]',  // Coupon badge
-    seal:  '[class*="_erSeal_"]',   // Seal
-    flood: '[class*="_erFlood_"]',  // Ink flood
+    seal:  '[class*="_erSeal_"]',   // Icon / Seal (bare 28×28 discount-filled seal, no badge container)
     sub:   '[class*="_erValue_"]',  // Subtitle
     track: '[class*="_erTrack_"]',  // Switch track
     knob:  '[class*="_erKnob_"]',   // Switch knob
   };
 
   /* ═══ numbers derived from the code ═══ */
-  const GREEN = '#0F8857', GREY_SEAL = '#9AA0B4', GREY_SUB = '#666D85', TRACK_OFF = '#EAECF0', BADGE_ON = '#E3FCF2', BADGE_OFF = '#F3F4F8';
+  const GREEN = '#0F8857', GREY_SEAL = '#9AA0B4', GREY_SUB = '#666D85', TRACK_OFF = '#EAECF0';
   const sp = (k) => SPR[k];
   const prog = (k) => { const f = springFn(sp(k).w, sp(k).z, 1, 0); return (tMs) => (tMs <= 0 ? 0 : 1 - f.d(tMs / 1000)); };   // 0 → 1
   const tAt = (k, p) => { const f = prog(k); for (let t = 0; t < 4000; t++) if (f(t) >= p) return t; return 4000; };                  // ms the spring reaches p
@@ -551,14 +548,12 @@ window.SPEC = (() => {
   const pressK = (() => { const f = springFn(Math.sqrt(500 / 0.6), 30 / (2 * Math.sqrt(500 * 0.6)), -1, 0); return 1 + f.d(HOLD / 1000); })();   // spring.press k500 c30 m0.6 after HOLD ms
   const W0 = +(20 + STRETCH * pressK).toFixed(1);                     // knob width when the finger lifts
   const X0 = +(TRAVEL - STRETCH * pressK).toFixed(1);                 // knob's left edge at lift, on the right end (the stretch pulls it back)
-  const FEATHER = 0.6, AT_BADGE = 0.91, AT_VALUE = 0.6, STAMP_AT = 0.02, LEAD = 50, OFF_DELAY = 40, INK_AT = 0.5;
+  const FEATHER = 0.6, AT_VALUE = 0.6, LEAD = 50, OFF_DELAY = 40, INK_AT = 0.5;
   const reach = (q, at) => clamp01((clamp01(q) * (1 + FEATHER) - at) / FEATHER);
   const qOn = (tMs) => prog('fillOn')(tMs - LEAD), qOff = (tMs) => 1 - prog('fillOff')(tMs - OFF_DELAY);
-  const qAtBadge = (STAMP_AT * FEATHER + AT_BADGE) / (1 + FEATHER);   // fill progress where the front's feather first touches the badge
   const T = {
     knob: settle('knob'), ret: settle('ret'), fillOn: LEAD + settle('fillOn'), fillOff: OFF_DELAY + settle('fillOff'),
     turn50: tAt('knob', INK_AT) + 8,                                               // knob passes inkAt (+ the frame it is picked up on)
-    flood: LEAD + tAt('fillOn', qAtBadge) + 8,                                     // front reaches the badge (+ the frame it is picked up on)
     subOnFrom: LEAD + tAt('fillOn', AT_VALUE / (1 + FEATHER)), subOnTo: LEAD + tAt('fillOn', (AT_VALUE + FEATHER) / (1 + FEATHER)),
     subOffFrom: OFF_DELAY + tAt('fillOff', 1 - (AT_VALUE + FEATHER) / (1 + FEATHER)), subOffTo: OFF_DELAY + tAt('fillOff', 1 - AT_VALUE / (1 + FEATHER)),
   };
@@ -580,9 +575,9 @@ window.SPEC = (() => {
       note: 'The track’s paint is interpolated by the same p, so it turns with the knob.' },
   ];
   const sealRows = (on) => [
-    { icon: 'scale', prop: 'Rotate', layer: 'Seal', sel: L.seal, delay: 0, dur: T.knob, from: on ? '0deg' : '90deg', to: on ? '90deg' : '0deg', ease: S('knob'), driver: 'frame',
-      note: 'Geared to the knob: rotation = p × 90°, on the knob’s own frames (drag, rubber band and reversals included), with no spring of its own. The seal has 8 lobes, so 90° lands on the same outline; the % stays upright.' },
-    { icon: 'scale', prop: 'Scale', layer: 'Seal', sel: L.seal, delay: 0, dur: T.knob, from: '100%', to: '96%',
+    { icon: 'scale', prop: 'Rotate', layer: 'Icon / Seal', sel: L.seal, delay: 0, dur: T.knob, from: on ? '0deg' : '90deg', to: on ? '90deg' : '0deg', ease: S('knob'), driver: 'frame',
+      note: 'Geared to the knob: rotation = p × 90°, on the knob’s own frames (drag, rubber band and reversals included), with no spring of its own. The seal has 8 lobes, so 90° lands on the same outline; the % stays upright as a true hole (nothing paints behind the bare icon, 28×28).' },
+    { icon: 'scale', prop: 'Scale', layer: 'Icon / Seal', sel: L.seal, delay: 0, dur: T.knob, from: '100%', to: '96%',
       ease: knobBound('Dip', 'Knob-bound', 'scale = 1 − 0.04 · sin(π · p)', (p) => Math.sin(Math.PI * clamp01(p))),
       note: 'The barest dip: 96% at mid-travel (p = ½), back to 100% at both ends. Same timing as the knob row, no spring of its own.' },
   ];
@@ -591,8 +586,8 @@ window.SPEC = (() => {
     return [
       { icon: 'size', prop: 'Fill front', layer: 'Surface fill', sel: L.fill, delay: d0, dur, from: on ? '0%' : '100%', to: on ? '100%' : '0%', ease: S(k), driver: 'frame',
         note: on
-          ? `Starts ${LEAD}ms after the knob (only from rest; a reversal turns at once). The green spreads right → left, out of the switch, through a soft edge ${FEATHER * 100}% of the row wide: a mask gradient on the fill. Critically damped, a touch softer than the knob.`
-          : `Starts ${OFF_DELAY}ms after the seal begins to grey (only from rest). The green drains back into the switch, left → right, so the badge side goes first, then the subtitle. Quicker than the way in.` },
+          ? `Starts ${LEAD}ms after the knob (only from rest; a reversal turns at once). The green spreads right → left, out of the switch, passing behind the bare icon (no badge fill, no ripple), through a soft edge ${FEATHER * 100}% of the row wide: a mask gradient on the fill. Critically damped, a touch softer than the knob.`
+          : `Starts ${OFF_DELAY}ms after the seal begins to grey (only from rest). The green drains back into the switch, left → right, so the icon side goes first, then the subtitle. Quicker than the way in.` },
       { icon: 'size', prop: 'Fill front', layer: 'Off hairline', sel: L.hair, delay: d0, dur, from: on ? '100%' : '0%', to: on ? '0%' : '100%', ease: S(k), driver: 'frame',
         note: 'The grey 1px hairline carries the exact inverse mask (same front, same spring), so exactly one of the two outlines shows at every point of the row.' },
     ];
@@ -622,25 +617,18 @@ window.SPEC = (() => {
       { grp: 'Green spreads', at: LEAD, note: 'About 50ms behind the knob the fill leaves the switch and crosses the row.' },
       ...fillRows(true),
       { grp: 'Seal inks', at: T.turn50, note: 'As the knob passes 50% of its travel (toggleV2.mix.stamp.inkAt) the seal inks green, with the track.' },
-      { icon: 'opacity', prop: 'Colour', layer: 'Seal', sel: L.seal, delay: Math.round(T.turn50), dur: settle('inkOn'), from: GREY_SEAL, to: GREEN, ease: S('inkOn'), driver: 'frame',
-        note: 'Critically damped, response 0.16s. Armed once per change; a drag or a reversal past the badge inks without the flood.' },
+      { icon: 'opacity', prop: 'Colour', layer: 'Icon / Seal', sel: L.seal, delay: Math.round(T.turn50), dur: settle('inkOn'), from: GREY_SEAL, to: GREEN, ease: S('inkOn'), driver: 'frame',
+        note: 'Critically damped, response 0.16s. Armed once per change, as the knob passes inkAt 0.5 (a drag inks with the knob).' },
       subRow(true),
-      { grp: 'Ink flood', at: Math.round(T.flood), note: 'The stamp: fires as the front’s feather first touches the badge.' },
-      { icon: 'size', prop: 'Radius', layer: 'Ink flood', sel: L.flood, delay: Math.round(T.flood), dur: settle('flood'), from: '7px', to: '27px', ease: S('flood'), driver: 'frame',
-        note: 'A soft disc grows out from under the seal (7px → 27px, past the badge’s corners) with a crest only 5% deeper than the fill. It is clipped inside the badge (.erBadgeClip, r8), so nothing renders outside it. No separate ring. The disc then hands over to the badge’s own fill with no visible change (≈0.57s).' },
-      { icon: 'opacity', prop: 'Colour', layer: 'Coupon badge', sel: L.badge, delay: Math.round(T.flood), dur: settle('flood'), from: BADGE_OFF, to: BADGE_ON, ease: S('flood'), driver: 'frame',
-        note: 'The badge turns green from the seal outward as the flood covers it.' },
     ] },
     { id: 3, name: 'Toggle off', trig: 'Tap the switch (on → off)', rows: () => [
       { grp: 'Commit', at: 0, note: 'Pointer-up on the switch (or Space / Enter). The knob leads; the seal turns with it.' },
       haptic(0),
       ...knobRows(false),
       ...sealRows(false),
-      { grp: 'Seal greys', at: 0, note: 'Immediately, ahead of the fill: the seal and the badge go grey first.' },
-      { icon: 'opacity', prop: 'Colour', layer: 'Seal', sel: L.seal, delay: 0, dur: settle('inkOff'), from: GREEN, to: GREY_SEAL, ease: S('inkOff'), driver: 'frame',
-        note: 'The seal’s ink goes grey at once on its own critically damped spring (response 0.2s).' },
-      { icon: 'opacity', prop: 'Colour', layer: 'Coupon badge', sel: L.badge, delay: 0, dur: settle('inkOff'), from: BADGE_ON, to: BADGE_OFF, ease: S('inkOff'), driver: 'frame',
-        note: 'The badge’s own fill greys on the same spring. Any ink flood still in flight is stopped.' },
+      { grp: 'Seal greys', at: 0, note: 'Immediately, ahead of the fill: the seal goes grey first.' },
+      { icon: 'opacity', prop: 'Colour', layer: 'Icon / Seal', sel: L.seal, delay: 0, dur: settle('inkOff'), from: GREEN, to: GREY_SEAL, ease: S('inkOff'), driver: 'frame',
+        note: 'The icon’s ink goes grey at once on its own critically damped spring (response 0.2s). The seal un-turns with the knob in the same instant. There is no badge fill behind it.' },
       { grp: 'Green drains', at: OFF_DELAY, note: 'About 40ms after the seal starts to grey, the fill leaves the way it came.' },
       ...fillRows(false),
       subRow(false),
