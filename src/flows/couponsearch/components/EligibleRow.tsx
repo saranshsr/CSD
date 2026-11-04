@@ -849,7 +849,7 @@ function useSpreadStampLook(on: boolean, parts: Parts, knob: MotionValue<number>
   const S = T2.mix.spread;
   const K = T2.mix.stamp;
   const { geo, measure } = useGeo(parts);
-  const q = useMotionValue(on ? 1 : 0); // the fill, from the switch: the row's and the badge's
+  const q = useMotionValue(on ? 1 : 0); // the fill, left → right from the icon side
   const target = useRef<0 | 1>(on ? 1 : 0);
   const inkArmed = useRef(false); // the seal inks once, as the knob passes `inkAt` of its travel
   // the seal is geared to the knob: it turns 90° (≡ 0 for the 8-lobed seal) across the knob's travel, on the same
@@ -860,15 +860,16 @@ function useSpreadStampLook(on: boolean, parts: Parts, knob: MotionValue<number>
   // `glyph.settle` px down at mid-travel (pressed into the badge), home at both ends (the seal: 0, its turn is its motion)
   const settleY = useTransform(knob, (v) => (glyph.seal ? 0 : K.glyph.settle * Math.sin(Math.PI * clamp01(v))));
   const seal = useMotionValue(on ? 1 : 0); // the seal's ink
-  // how far the front has reached a point `at` along the row (0 = switch edge, 1 = far edge), through its feather
+  // how far the front has reached a point `at` along the row (0 = left edge, the icon side; 1 = right edge), through its feather
   const reach = (v: number, at: number) => clamp01((clamp01(v) * (1 + S.feather) - at) / S.feather);
-  /** the front as a mask, in the row's px */
+  /** the front as a mask, in the row's px: opaque behind it, from the left edge; on drains back the same way, so off
+      recedes right → left and is gone at the left edge */
   const mask = (v: number, invert: boolean) => {
     const w = geo.current.w;
     const f = clamp01(v) * (1 + S.feather) * w;
     const a = px(f - S.feather * w);
     const b = px(f);
-    return invert ? `linear-gradient(to left, transparent ${a}, black ${b})` : `linear-gradient(to left, black ${a}, transparent ${b})`;
+    return invert ? `linear-gradient(to right, transparent ${a}, black ${b})` : `linear-gradient(to right, black ${a}, transparent ${b})`;
   };
   // at rest every layer drops its mask, so the resting looks are exactly the shared ones
   const onMask = useTransform(q, (v) => (v >= 0.9995 ? 'none' : mask(v, false)));

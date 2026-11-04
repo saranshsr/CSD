@@ -184,28 +184,29 @@ export const csTokens = {
     },
     /**
      * `tg=5` Spread + stamp (the default). The fill does the work, the stamp is its quiet full stop. The knob moves;
-     * a beat later the row's green spreads out of the switch, right → left, through a soft feathered front (≈60% of
+     * a beat later the row's green spreads from the icon side, left → right, through a soft feathered front (≈60% of
      * the row), on its own critically damped spring, with the off hairline masked as its exact inverse. The subtitle
      * turns green as the front crosses it. The seal is geared to the knob: it turns 90° (8 lobes: same outline) on the
      * knob's own progress, with the barest dip at mid-travel, and inks green with the track as the knob passes
      * halfway. There is no badge container (the final row): the 28 seal sits bare in the row and the
      * row's green front passes behind it (no ripple, 30 Oct). Off: the seal un-turns with the knob and greys first, then the green
-     * drains back into the switch, quicker (≈0.3s). Nothing on the row moves or casts a shadow.
+     * recedes right → left and is gone at the left edge, quicker (≈0.3s). Nothing on the row moves or casts a shadow.
      */
     mix: {
       spread: {
-        /** the fill leaves the switch ≈3 frames after the knob starts, only from rest (a reversal turns at once) */
+        /** the fill leaves the row's left edge ≈3 frames after the knob starts, only from rest (a reversal turns at once) */
         lead: 0.05,
         /** on: critically damped, a touch softer than the knob */
         on: appleSpring(0.44, 1),
-        /** off: back into the switch, quicker; a beat after the seal starts to grey (only from rest) */
+        /** off: recedes right → left, back to the left edge, quicker; a beat after the seal starts to grey (only from rest) */
         off: appleSpring(0.24, 1),
         offDelay: 0.04,
         /** the front's soft edge, as a share of the row's width */
         feather: 0.6,
-        /** where the subtitle sits along the fill (0 = switch edge, 1 = far edge); the icon's place is measured
-            (its centre, 10 + 14 = 24px from the row's left) */
-        at: { value: 0.6 },
+        /** where the subtitle sits along the fill, measured from the left (0 = left edge, the icon side; 1 = switch
+            edge): ≈ the middle of "Extra 10% off at checkout" (x ≈ 48–200 of 343 → 124); it turns green as the
+            front's feather passes it */
+        at: { value: 0.36 },
       },
       stamp: {
         /** the seal inks as the knob passes this share of its travel (≈0.1s), so it turns green with the track */
