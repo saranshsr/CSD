@@ -513,8 +513,6 @@ window.SPEC = (() => {
   const SPR = {
     knob:   { name: 'Knob spring',        ...ap(0.363),   src: 'csTokens.toggleV2.knobSpring = appleSpring(0.363, 1) (UISwitch, Field springLight response)' },
     ret:    { name: 'Stretch return',     w: 15.5, z: 0.999, src: 'supermall.springs.return, k 240.25 · c 31 · m 1 (critically damped)' },
-    fillOn: { name: 'Fill spread (on)',   ...ap(0.44),    src: 'toggleV2.mix.spread.on = appleSpring(0.44, 1)' },
-    fillOff:{ name: 'Fill drain (off)',   ...ap(0.24),    src: 'toggleV2.mix.spread.off = appleSpring(0.24, 1)' },
     inkOn:  { name: 'Seal ink (on)',      ...ap(0.16),    src: 'toggleV2.mix.stamp.ink = appleSpring(0.16, 1)' },
     inkOff: { name: 'Seal ink (off)',     ...ap(0.2),     src: 'toggleV2.mix.stamp.inkOff = appleSpring(0.2, 1)' },
     hand:   { name: 'Handoff spring',     w: 16.75, z: 0.81, src: 'handoff.spring, k 280.6 · c 27.14 (src/motion/presets.ts), used by the row\'s rise' },
@@ -548,14 +546,20 @@ window.SPEC = (() => {
   const pressK = (() => { const f = springFn(Math.sqrt(500 / 0.6), 30 / (2 * Math.sqrt(500 * 0.6)), -1, 0); return 1 + f.d(HOLD / 1000); })();   // spring.press k500 c30 m0.6 after HOLD ms
   const W0 = +(20 + STRETCH * pressK).toFixed(1);                     // knob width when the finger lifts
   const X0 = +(TRAVEL - STRETCH * pressK).toFixed(1);                 // knob's left edge at lift, on the right end (the stretch pulls it back)
-  const FEATHER = 0.6, AT_VALUE = 0.36, LEAD = 50, OFF_DELAY = 40, INK_AT = 0.5;
+  const FEATHER = 0.95, AT_VALUE = 0.36, LEAD = 0, OFF_DELAY = 20, INK_AT = 0.5, DUR_ON = 500, DUR_OFF = 300, MIN_DUR = 120;
+  // the fill front is a tween, not a spring: toggleV2.mix.spread.on = { duration 0.5, ease [0.45, 0, 0.2, 1] }, off = { 0.3, same }
+  const BZ = [0.45, 0, 0.2, 1];
+  const bez = (x) => { const [x1, y1, x2, y2] = BZ, cx = 3 * x1, bx = 3 * (x2 - x1) - cx, ax = 1 - cx - bx, cy = 3 * y1, by = 3 * (y2 - y1) - cy, ay = 1 - cy - by;
+    const X = (t) => ((ax * t + bx) * t + cx) * t, Y = (t) => ((ay * t + by) * t + cy) * t;
+    if (x <= 0) return 0; if (x >= 1) return 1; let lo = 0, hi = 1, t = x; for (let i = 0; i < 60; i++) { const v = X(t); if (Math.abs(v - x) < 1e-7) break; if (v < x) lo = t; else hi = t; t = (lo + hi) / 2; } return Y(t); };
+  const bezAt = (p) => { let lo = 0, hi = 1; for (let i = 0; i < 60; i++) { const m = (lo + hi) / 2; if (bez(m) < p) lo = m; else hi = m; } return (lo + hi) / 2; };   // x (0..1 of the duration) where the ease reaches p
   const reach = (q, at) => clamp01((clamp01(q) * (1 + FEATHER) - at) / FEATHER);
-  const qOn = (tMs) => prog('fillOn')(tMs - LEAD), qOff = (tMs) => 1 - prog('fillOff')(tMs - OFF_DELAY);
+  const qOn = (tMs) => bez((tMs - LEAD) / DUR_ON), qOff = (tMs) => 1 - bez((tMs - OFF_DELAY) / DUR_OFF);
   const T = {
-    knob: settle('knob'), ret: settle('ret'), fillOn: LEAD + settle('fillOn'), fillOff: OFF_DELAY + settle('fillOff'),
+    knob: settle('knob'), ret: settle('ret'), fillOn: LEAD + DUR_ON, fillOff: OFF_DELAY + DUR_OFF,
     turn50: tAt('knob', INK_AT) + 8,                                               // knob passes inkAt (+ the frame it is picked up on)
-    subOnFrom: LEAD + tAt('fillOn', AT_VALUE / (1 + FEATHER)), subOnTo: LEAD + tAt('fillOn', (AT_VALUE + FEATHER) / (1 + FEATHER)),
-    subOffFrom: OFF_DELAY + tAt('fillOff', 1 - (AT_VALUE + FEATHER) / (1 + FEATHER)), subOffTo: OFF_DELAY + tAt('fillOff', 1 - AT_VALUE / (1 + FEATHER)),
+    subOnFrom: LEAD + DUR_ON * bezAt(AT_VALUE / (1 + FEATHER)), subOnTo: LEAD + DUR_ON * bezAt((AT_VALUE + FEATHER) / (1 + FEATHER)),
+    subOffFrom: OFF_DELAY + DUR_OFF * bezAt(1 - (AT_VALUE + FEATHER) / (1 + FEATHER)), subOffTo: OFF_DELAY + DUR_OFF * bezAt(1 - AT_VALUE / (1 + FEATHER)),
   };
   // the row's rise when the search screen opens: handoff spring, 20px, landed within 0.5px and 15px/s
   const rise = firstT(springFn(sp('hand').w, sp('hand').z, 20, 0), (d, v) => Math.abs(d) < 0.5 && Math.abs(v) < 15);
@@ -581,24 +585,28 @@ window.SPEC = (() => {
       ease: knobBound('Dip', 'Knob-bound', 'scale = 1 − 0.04 · sin(π · p)', (p) => Math.sin(Math.PI * clamp01(p))),
       note: 'The barest dip: 96% at mid-travel (p = ½), back to 100% at both ends. Same timing as the knob row, no spring of its own.' },
   ];
+  const fillEase = (on) => ({ kind: 'custom', label: on ? 'Fill ease (on)' : 'Fill ease (off)', tag: 'cubic-bezier(0.45, 0, 0.2, 1)',
+    info: [['Type', 'tween, not a spring'], ['Duration', on ? '0.5s (full fill)' : '0.3s (full drain)'], ['Reversal', 'its share of the distance left, never under 0.12s']],
+    code: `ease: cubic-bezier(0.45, 0, 0.2, 1) · duration ${on ? 0.5 : 0.3}s · delay ${(on ? LEAD : OFF_DELAY) / 1000}s`,
+    plot: mk(on ? DUR_ON : DUR_OFF, (t) => bez(t / ((on ? DUR_ON : DUR_OFF) / 1000))) });
   const fillRows = (on) => {
-    const k = on ? 'fillOn' : 'fillOff', d0 = on ? LEAD : OFF_DELAY, dur = on ? T.fillOn - LEAD : T.fillOff - OFF_DELAY;
+    const d0 = on ? LEAD : OFF_DELAY, dur = on ? DUR_ON : DUR_OFF;
     return [
-      { icon: 'size', prop: 'Fill front', layer: 'Surface fill', sel: L.fill, delay: d0, dur, from: on ? '0%' : '100%', to: on ? '100%' : '0%', ease: S(k), driver: 'frame',
+      { icon: 'size', prop: 'Fill front', layer: 'Surface fill', sel: L.fill, delay: d0, dur, from: on ? '0%' : '100%', to: on ? '100%' : '0%', ease: fillEase(on),
         note: on
-          ? `Starts ${LEAD}ms after the knob (only from rest; a reversal turns at once). The green spreads left → right, from the icon side toward the switch, through a soft edge ${FEATHER * 100}% of the row wide (a mask gradient on the fill, in the row’s px). It passes behind the bare icon (no badge fill, no ripple) and lands on the on-gradient (success-subtle on the left, green 50 on the right). Critically damped, a touch softer than the knob.`
-          : `Starts ${OFF_DELAY}ms after the seal begins to grey (only from rest). The green recedes right → left, back toward the icon side: the switch side clears first, then the subtitle, and the icon’s side last (gone from behind the icon by ≈0.15s; the row’s 2% settle is the dur). Quicker than the way in.` },
-      { icon: 'size', prop: 'Fill front', layer: 'Off hairline', sel: L.hair, delay: d0, dur, from: on ? '100%' : '0%', to: on ? '0%' : '100%', ease: S(k), driver: 'frame',
-        note: 'The grey 1px hairline carries the exact inverse mask (same front, same spring), so exactly one of the two outlines shows at every point of the row.' },
+          ? `A tween, no lead: it starts with the knob, a soft beat later because of the ease-in. The green spreads left → right, from the icon side toward the switch, as a wide wash: a mask gradient in the row’s px whose soft edge is ${FEATHER * 100}% of the row wide. It passes behind the bare icon (no badge fill, no ripple) and lands on the on-gradient (success-subtle on the left, green 50 on the right). A reversal takes its share of the 0.5s for the distance left, never under 0.12s, from where it is.`
+          : `A tween, ${OFF_DELAY}ms after the seal starts to grey (only from rest). The green recedes right → left, back toward the icon side: the switch side clears first, then the subtitle, and the icon’s side last, gone at the left edge by 0.32s. Same curve as the way in, quicker (0.3s).` },
+      { icon: 'size', prop: 'Fill front', layer: 'Off hairline', sel: L.hair, delay: d0, dur, from: on ? '100%' : '0%', to: on ? '0%' : '100%', ease: fillEase(on),
+        note: 'The grey 1px hairline carries the exact inverse mask (same front, same tween), so exactly one of the two outlines shows at every point of the row.' },
     ];
   };
   const subRow = (on) => {
     const from = on ? T.subOnFrom : T.subOffFrom, to = on ? T.subOnTo : T.subOffTo;
     return { icon: 'opacity', prop: 'Colour', layer: 'Subtitle', sel: L.sub, delay: Math.round(from), dur: Math.round(to - from), from: on ? GREY_SUB : GREEN, to: on ? GREEN : GREY_SUB,
-        ease: { kind: 'custom', label: 'Follows the front', tag: 'Fill-bound', info: [['Bound to', `the fill front at ${AT_VALUE * 100}% along the row, from the left (icon side)`], ['Window', `front ${on ? '22.5% → 60%' : '60% → 22.5%'}`]],
-          code: 'ink = reach(q, 0.36) = clamp((q·1.6 − 0.36) / 0.6)',
+        ease: { kind: 'custom', label: 'Follows the front', tag: 'Fill-bound', info: [['Bound to', `the fill front at ${AT_VALUE * 100}% along the row, from the left (icon side)`], ['Window', `front ${on ? '18.5% → 67.2%' : '67.2% → 18.5%'}`]],
+          code: 'ink = reach(q, 0.36) = clamp((q·1.95 − 0.36) / 0.95)',
           plot: mk(to - from, (t) => { const q2 = on ? qOn : qOff; const r = reach(q2(from + t * 1000), AT_VALUE); return on ? r : 1 - r; }) },
-        note: `The subtitle (centre ≈ 36% along the row, from the left) turns ${on ? 'green as the front crosses it' : 'grey as the green recedes back past it'}: its colour is a function of the front, not a timer. The title keeps its colour throughout.` };
+        note: `The subtitle (centre ≈ 36% along the row, from the left) turns ${on ? 'green as the front crosses it' : 'grey as the green recedes back past it'}: its colour is the fill’s own opacity at that point, so across the wide feather the change takes about 0.2s and never pops; it is a function of the front, not a timer. The title keeps its colour throughout.` };
   };
 
   const SCENES = [
@@ -614,7 +622,7 @@ window.SPEC = (() => {
       haptic(0),
       ...knobRows(true),
       ...sealRows(true),
-      { grp: 'Green spreads', at: LEAD, note: 'About 50ms behind the knob the fill leaves the switch and crosses the row.' },
+      { grp: 'Green spreads', at: LEAD, note: 'No lead: the fill starts with the knob (its ease-in is the soft beat) and washes across the row from the icon side.' },
       ...fillRows(true),
       { grp: 'Seal inks', at: T.turn50, note: 'As the knob passes 50% of its travel (toggleV2.mix.stamp.inkAt) the seal inks green, with the track.' },
       { icon: 'opacity', prop: 'Colour', layer: 'Icon / Seal', sel: L.seal, delay: Math.round(T.turn50), dur: settle('inkOn'), from: GREY_SEAL, to: GREEN, ease: S('inkOn'), driver: 'frame',
@@ -629,7 +637,7 @@ window.SPEC = (() => {
       { grp: 'Seal greys', at: 0, note: 'Immediately, ahead of the fill: the seal goes grey first.' },
       { icon: 'opacity', prop: 'Colour', layer: 'Icon / Seal', sel: L.seal, delay: 0, dur: settle('inkOff'), from: GREEN, to: GREY_SEAL, ease: S('inkOff'), driver: 'frame',
         note: 'The icon’s ink goes grey at once on its own critically damped spring (response 0.2s). The seal un-turns with the knob in the same instant. There is no badge fill behind it.' },
-      { grp: 'Green drains', at: OFF_DELAY, note: 'About 40ms after the seal starts to grey, the fill leaves the way it came.' },
+      { grp: 'Green drains', at: OFF_DELAY, note: 'About 20ms after the seal starts to grey, the fill recedes the way it came.' },
       ...fillRows(false),
       subRow(false),
     ] },
