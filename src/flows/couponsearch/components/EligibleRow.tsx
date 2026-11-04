@@ -884,6 +884,12 @@ function useSpreadStampLook(on: boolean, parts: Parts, knob: MotionValue<number>
   const sealInk = useTransform(seal, [0, 1], [flow.csIconOff, colors.success]);
   // the % is a knockout painted in what shows under the seal: the badge's fill where the front is
 
+  /** the fill to a side on its eased tween, from where it is, for the share of the distance left (a reversal is shorter) */
+  const fill = (to: 0 | 1, delay: number) => {
+    const T = to ? S.on : S.off;
+    const duration = Math.max(S.minDuration, T.duration * Math.abs(to - clamp01(q.get())));
+    animate(q, to, { duration, ease: T.ease, delay });
+  };
   /** the seal's ink, with the knob: it turns green as the switch's track does */
   const inkSeal = () => {
     inkArmed.current = false;
@@ -904,13 +910,13 @@ function useSpreadStampLook(on: boolean, parts: Parts, knob: MotionValue<number>
       const fromRest = atRest(q, to ? 0 : 1);
       target.current = to;
       if (to) {
-        animate(q, 1, { ...S.on, velocity: q.getVelocity(), delay: fromRest ? S.lead : 0 });
+        fill(1, fromRest ? S.lead : 0);
         if (knob.get() >= K.inkAt) inkSeal();
         else inkArmed.current = true;
       } else {
         inkArmed.current = false;
         go(seal, 0, K.inkOff);
-        animate(q, 0, { ...S.off, velocity: q.getVelocity(), delay: fromRest ? S.offDelay : 0 });
+        fill(0, fromRest ? S.offDelay : 0);
       }
     },
     scrub: (v) => {

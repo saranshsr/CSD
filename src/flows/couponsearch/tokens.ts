@@ -184,28 +184,35 @@ export const csTokens = {
     },
     /**
      * `tg=5` Spread + stamp (the default). The fill does the work, the stamp is its quiet full stop. The knob moves;
-     * a beat later the row's green spreads from the icon side, left → right, through a soft feathered front (≈60% of
-     * the row), on its own critically damped spring, with the off hairline masked as its exact inverse. The subtitle
+     * a beat later the row's green washes in from the icon side, left → right, through a wide soft front (≈95% of
+     * the row, so it reads as a wash arriving, not a moving band), on an eased-in-out tween (no burst at the start, no
+     * snap at the end), with the off hairline masked as its exact inverse. The subtitle
      * turns green as the front crosses it. The seal is geared to the knob: it turns 90° (8 lobes: same outline) on the
      * knob's own progress, with the barest dip at mid-travel, and inks green with the track as the knob passes
      * halfway. There is no badge container (the final row): the 28 seal sits bare in the row and the
      * row's green front passes behind it (no ripple, 30 Oct). Off: the seal un-turns with the knob and greys first, then the green
-     * recedes right → left and is gone at the left edge, quicker (≈0.3s). Nothing on the row moves or casts a shadow.
+     * recedes right → left on the same eased shape and is gone at the left edge, quicker (0.3s). Nothing on the row moves or casts a shadow.
      */
     mix: {
       spread: {
-        /** the fill leaves the row's left edge ≈3 frames after the knob starts, only from rest (a reversal turns at once) */
-        lead: 0.05,
-        /** on: critically damped, a touch softer than the knob */
-        on: appleSpring(0.44, 1),
-        /** off: recedes right → left, back to the left edge, quicker; a beat after the seal starts to grey (only from rest) */
-        off: appleSpring(0.24, 1),
-        offDelay: 0.04,
-        /** the front's soft edge, as a share of the row's width */
-        feather: 0.6,
+        /** no lead: the eased start is the soft beat after the knob (a 0.05 lead on top of the ease-in left ≈7 frames of
+            nothing); a reversal turns at once */
+        lead: 0,
+        /** on: a full fill takes `duration` s on a smooth ease-in-out (soft start, long gentle landing); from
+            mid-flight (a reversal) it takes its share of that for the distance left, from where it is, so it never jumps */
+        on: { duration: 0.5, ease: [0.45, 0, 0.2, 1] as [number, number, number, number] },
+        /** off: recedes right → left, back to the left edge, on the same shape, quicker; a beat after the seal starts to
+            grey (only from rest) */
+        off: { duration: 0.3, ease: [0.45, 0, 0.2, 1] as [number, number, number, number] },
+        /** a reversal never takes less than this */
+        minDuration: 0.12,
+        offDelay: 0.02,
+        /** the front's soft edge, as a share of the row's width: wide, so the green reads as a wash (the far end is
+            still fully green at rest: the masks drop there) */
+        feather: 0.95,
         /** where the subtitle sits along the fill, measured from the left (0 = left edge, the icon side; 1 = switch
-            edge): ≈ the middle of "Extra 10% off at checkout" (x ≈ 48–200 of 343 → 124); it turns green as the
-            front's feather passes it */
+            edge): ≈ the middle of "Extra 10% off at checkout" (x ≈ 48–200 of 343 → 124); it turns green with the
+            fill's own opacity there, so across the wide feather (≈ q 0.18 → 0.67: about 0.2s), never a pop */
         at: { value: 0.36 },
       },
       stamp: {
