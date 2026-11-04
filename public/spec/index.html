@@ -548,7 +548,7 @@ window.SPEC = (() => {
   const pressK = (() => { const f = springFn(Math.sqrt(500 / 0.6), 30 / (2 * Math.sqrt(500 * 0.6)), -1, 0); return 1 + f.d(HOLD / 1000); })();   // spring.press k500 c30 m0.6 after HOLD ms
   const W0 = +(20 + STRETCH * pressK).toFixed(1);                     // knob width when the finger lifts
   const X0 = +(TRAVEL - STRETCH * pressK).toFixed(1);                 // knob's left edge at lift, on the right end (the stretch pulls it back)
-  const FEATHER = 0.6, AT_VALUE = 0.6, LEAD = 50, OFF_DELAY = 40, INK_AT = 0.5;
+  const FEATHER = 0.6, AT_VALUE = 0.36, LEAD = 50, OFF_DELAY = 40, INK_AT = 0.5;
   const reach = (q, at) => clamp01((clamp01(q) * (1 + FEATHER) - at) / FEATHER);
   const qOn = (tMs) => prog('fillOn')(tMs - LEAD), qOff = (tMs) => 1 - prog('fillOff')(tMs - OFF_DELAY);
   const T = {
@@ -586,8 +586,8 @@ window.SPEC = (() => {
     return [
       { icon: 'size', prop: 'Fill front', layer: 'Surface fill', sel: L.fill, delay: d0, dur, from: on ? '0%' : '100%', to: on ? '100%' : '0%', ease: S(k), driver: 'frame',
         note: on
-          ? `Starts ${LEAD}ms after the knob (only from rest; a reversal turns at once). The green spreads right → left, out of the switch, passing behind the bare icon (no badge fill, no ripple), through a soft edge ${FEATHER * 100}% of the row wide: a mask gradient on the fill. Critically damped, a touch softer than the knob.`
-          : `Starts ${OFF_DELAY}ms after the seal begins to grey (only from rest). The green drains back into the switch, left → right, so the icon side goes first, then the subtitle. Quicker than the way in.` },
+          ? `Starts ${LEAD}ms after the knob (only from rest; a reversal turns at once). The green spreads left → right, from the icon side toward the switch, through a soft edge ${FEATHER * 100}% of the row wide (a mask gradient on the fill, in the row’s px). It passes behind the bare icon (no badge fill, no ripple) and lands on the on-gradient (success-subtle on the left, green 50 on the right). Critically damped, a touch softer than the knob.`
+          : `Starts ${OFF_DELAY}ms after the seal begins to grey (only from rest). The green recedes right → left, back toward the icon side: the switch side clears first, then the subtitle, and the icon’s side last (gone from behind the icon by ≈0.15s; the row’s 2% settle is the dur). Quicker than the way in.` },
       { icon: 'size', prop: 'Fill front', layer: 'Off hairline', sel: L.hair, delay: d0, dur, from: on ? '100%' : '0%', to: on ? '0%' : '100%', ease: S(k), driver: 'frame',
         note: 'The grey 1px hairline carries the exact inverse mask (same front, same spring), so exactly one of the two outlines shows at every point of the row.' },
     ];
@@ -595,10 +595,10 @@ window.SPEC = (() => {
   const subRow = (on) => {
     const from = on ? T.subOnFrom : T.subOffFrom, to = on ? T.subOnTo : T.subOffTo;
     return { icon: 'opacity', prop: 'Colour', layer: 'Subtitle', sel: L.sub, delay: Math.round(from), dur: Math.round(to - from), from: on ? GREY_SUB : GREEN, to: on ? GREEN : GREY_SUB,
-        ease: { kind: 'custom', label: 'Follows the front', tag: 'Fill-bound', info: [['Bound to', `the fill front at ${AT_VALUE * 100}% along the row`], ['Window', `front ${on ? '37.5% → 75%' : '75% → 37.5%'}`]],
-          code: 'ink = reach(q, 0.6) = clamp((q·1.6 − 0.6) / 0.6)',
+        ease: { kind: 'custom', label: 'Follows the front', tag: 'Fill-bound', info: [['Bound to', `the fill front at ${AT_VALUE * 100}% along the row, from the left (icon side)`], ['Window', `front ${on ? '22.5% → 60%' : '60% → 22.5%'}`]],
+          code: 'ink = reach(q, 0.36) = clamp((q·1.6 − 0.36) / 0.6)',
           plot: mk(to - from, (t) => { const q2 = on ? qOn : qOff; const r = reach(q2(from + t * 1000), AT_VALUE); return on ? r : 1 - r; }) },
-        note: `The subtitle turns ${on ? 'green as the front crosses it' : 'grey as the green drains back past it'}: its colour is a function of the front, not a timer. The title keeps its colour throughout.` };
+        note: `The subtitle (centre ≈ 36% along the row, from the left) turns ${on ? 'green as the front crosses it' : 'grey as the green recedes back past it'}: its colour is a function of the front, not a timer. The title keeps its colour throughout.` };
   };
 
   const SCENES = [
