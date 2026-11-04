@@ -12,6 +12,8 @@ type Params = { query?: string; scope?: Scope };
 function ContextLine({ variant, want, scope, query }: { variant: CsVariant; want: Scope; scope: 'coupon' | 'fallback' | 'all'; query: string }) {
   const q = <b>“{query}”</b>;
   let line;
+  // row v2, toggle off (handoff Flow 2): no context line on the PLP
+  if (scope === 'all' && variant === 'row2') return null;
   if (scope === 'all')
     line =
       isRowVariant(variant) ? (
@@ -21,6 +23,13 @@ function ContextLine({ variant, want, scope, query }: { variant: CsVariant; want
       ) : (
         <>Showing results for {q}</>
       );
+  else if (scope === 'coupon' && variant === 'row2')
+    // handoff: only the code is bold
+    line = (
+      <>
+        Showing results for {q} in <b>{copy.results.code}</b> items
+      </>
+    );
   else if (scope === 'coupon')
     line = (
       <>
@@ -46,6 +55,12 @@ function ContextLine({ variant, want, scope, query }: { variant: CsVariant; want
         Showing results for {q} {copy.results.allCategories}
       </>
     );
+  else if (variant === 'row2')
+    line = (
+      <>
+        {copy.results.noMatchV2.lead} <b>{copy.results.code}</b> {copy.results.noMatchV2.match} {q}. {copy.results.noMatchV2.tail}
+      </>
+    );
   else
     line = (
       <>
@@ -65,6 +80,7 @@ function ContextLine({ variant, want, scope, query }: { variant: CsVariant; want
  * search with the query. The context line says where the results come from:
  *  · eligible matches  → Showing results for "q" in BEAUTY10 items
  *  · none (h2 / row)   → No BEAUTY10 items for "q" · showing all of noon (+ all-of-noon results)
+ *  · none (row v2)     → No BEAUTY10 items match "q". Showing all results; toggle off (all of noon): no line
  *  · none (n5 row)     → Showing results for "q" in all categories
  *  · all of noon       → Showing results for "q" across all of noon (row, toggle off) / Showing results for "q" (n5)
  */
