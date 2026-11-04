@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { useNav, useParams } from '../../kit/Navigator';
 import { CouponListing } from './components/CouponListing';
+import { ScopeChip } from './components/ScopeChip';
 import { copy, resultsFor, type Scope } from './data';
 import { isRowVariant, useCs, type CsVariant } from './store';
 import { barMorph } from './transitions';
@@ -24,11 +25,13 @@ function ContextLine({ variant, want, scope, query }: { variant: CsVariant; want
         <>Showing results for {q}</>
       );
   else if (scope === 'coupon' && variant === 'row2')
-    // handoff: only the code is bold
-    line = (
-      <>
-        Showing results for {q} in <b>{copy.results.code}</b> items
-      </>
+    // Figma 359:390230: the 13pt full-width coupon chip; query + code SemiBold, the code success green
+    return (
+      <div className={styles.chipContext} data-testid="cs-context" data-scope={scope} data-want={want}>
+        <ScopeChip key={`${scope}:${query}`} match>
+          Showing results for {q} in <b className={styles.chipCode}>{copy.results.code}</b> items
+        </ScopeChip>
+      </div>
     );
   else if (scope === 'coupon')
     line = (
@@ -56,10 +59,13 @@ function ContextLine({ variant, want, scope, query }: { variant: CsVariant; want
       </>
     );
   else if (variant === 'row2')
-    line = (
-      <>
-        {copy.results.noMatchV2.lead} <b>{copy.results.code}</b> {copy.results.noMatchV2.match} {q}. {copy.results.noMatchV2.tail}
-      </>
+    // Figma 359:390263: the same chip in neutral greys
+    return (
+      <div className={styles.chipContext} data-testid="cs-context" data-scope={scope} data-want={want}>
+        <ScopeChip key={`${scope}:${query}`} match={false}>
+          {copy.results.noMatchV2.lead} <b className={styles.chipCode}>{copy.results.code}</b> {copy.results.noMatchV2.match} {q}. {copy.results.noMatchV2.tail}
+        </ScopeChip>
+      </div>
     );
   else
     line = (
