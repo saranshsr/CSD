@@ -100,7 +100,7 @@
    (SUMMERGLOW25: 84); 2 below it a B12 Medium offer that wraps to at most 2 lines (ALINMA25: 82) */
 .er2 { box-sizing: border-box; height: auto; min-height: 64px; padding: var(--nk-space-s12); gap: var(--nk-space-s12); }
 .er2 .erCopy { gap: 2px; }
-.er2 .erText { font: var(--nk-type-field-b13-medium); white-space: normal; overflow: visible; text-overflow: clip; }
+.er2 .erText { font: var(--nk-type-field-b14-medium); white-space: normal; overflow: visible; text-overflow: clip; }
 .er2 .erValue { font: var(--nk-type-field-b12-medium); }
 .er2 .erTrack { width: 42px; height: 24px; border-radius: var(--nk-radius-r12); }
 .er2 .erKnob { height: 20px; border-radius: var(--nk-radius-r10); }
