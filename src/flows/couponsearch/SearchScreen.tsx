@@ -23,6 +23,7 @@ import { csTokens } from './tokens';
 import { barMorph } from './transitions';
 import { EntranceSlot, NE } from './entrance';
 import { scopedEntry, useScopedBar, useScopedSlide } from './discover';
+import { tipNudge } from './tipNudge';
 import styles from './search.module.css';
 
 type Phase = 'idle' | 'showing' | 'hiding' | 'leaving';
@@ -119,6 +120,11 @@ function CouponSearch({ variant }: { variant: CsVariant }) {
   const params = useParams<{ q?: string; normal?: string }>();
   const normal = !!params.normal;
   const eligibleOnly = useCs((s) => s.eligibleOnly);
+  // `&cn=3`: switching the toggle on counts as using the coupon search, which ends the coupon page's tooltip nudge
+  const setScoped = (on: boolean) => {
+    if (on) tipNudge.used();
+    csStore.setEligibleOnly(on);
+  };
   // h2: the band lives with this search: ✕ lasts until the search is opened again (results and back keep it)
   const [bandOn, setBandOn] = useState(true);
   const banded = variant === 'h2' && !normal && bandOn;
@@ -414,10 +420,10 @@ function CouponSearch({ variant }: { variant: CsVariant }) {
             >
               {scoped ? (
                 <motion.div style={{ x: slide.x, opacity: slide.opacity }}>
-                  <EligibleRow on={eligibleOnly} onChange={csStore.setEligibleOnly} v2={variant === 'row2'} enterAt={enterAt} turn={slide.turn} />
+                  <EligibleRow on={eligibleOnly} onChange={setScoped} v2={variant === 'row2'} enterAt={enterAt} turn={slide.turn} />
                 </motion.div>
               ) : (
-                <EligibleRow on={eligibleOnly} onChange={csStore.setEligibleOnly} v2={variant === 'row2'} enterAt={enterAt} />
+                <EligibleRow on={eligibleOnly} onChange={setScoped} v2={variant === 'row2'} enterAt={enterAt} />
               )}
             </motion.div>
           </EntranceSlot>

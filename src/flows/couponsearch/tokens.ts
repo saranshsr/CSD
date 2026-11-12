@@ -372,6 +372,34 @@ export const csTokens = {
      * throughout (true distance ÷ radius would be ≈1,500°: too busy). Nothing else on the row moves.
      */
     slide: { duration: 0.65, ease: [0.32, 0.72, 0, 1] as [number, number, number, number], delay: 0.04, fadeShare: 0.25, roll: 180 },
+    /**
+     * cn=3 · Tooltip nudge (Figma Iteration 6 · Tooltip nudge, 506:4278): the cn=1 seal tab slides in on the same
+     * spring and turn, and holds while the Origin M-Tooltip (Dark, tip Top · End) hangs under it, its pointer on the
+     * seal's centre: "New: search only **CODE** items" over the coupon's value line. The tooltip enters once the seal
+     * has landed (`at` s after the slide starts): opacity 0 → 1 and scale `fromScale` → 1 about its pointer tip, on a
+     * spring with no bounce (`enter`). It stays `hold` s, or until the list scrolls or a tap lands anywhere else, then
+     * leaves the way it came (`exit`: fade and a slight scale back into the pointer, eased in), and `outLag` s later the
+     * seal slides back out as in cn=1 and the bar grows back: the page is today's again. Seal or tooltip tapped: the
+     * cn=1 scoped entry (the tab leaves, the search opens with the toggle on); the bar tapped: today's search.
+     * Plays on the first `visits` coupon-page visits, one counter for all coupons, and never again once the coupon
+     * search was used (tipNudge.ts). Reduced motion: the tab rests in place, the tooltip fades in and out, the tab stays.
+     */
+    tip: {
+      at: 0.45,
+      hold: 5,
+      enter: { type: 'spring', bounce: 0, duration: 0.35 } as const,
+      exit: { duration: 0.18, ease: [0.4, 0, 1, 1] as [number, number, number, number] },
+      fromScale: 0.96,
+      outLag: 0.1,
+      visits: 3,
+      /** the pointer tip sits `gap` under the bar; the tooltip's right edge `edge` from the screen's; `maxWidth` wraps
+          long coupon names (the code stays on one line with "items") */
+      gap: 4,
+      edge: 8,
+      maxWidth: 264,
+      /** M-Tooltip's pointer: 12 × 6, its centre `pointerInset` + 6 from the tooltip's right edge = the seal's centre */
+      pointerInset: 10,
+    },
   },
 } as const;
 

@@ -127,7 +127,12 @@ export const copy = {
   notInDemo: 'Filters and sort are not in this demo',
   /** `&cn=` (discover.tsx): the coupon page's discovery nudges. `placeholder` (cn=2) is the bar's placeholder; `{code}`
       stands for the coupon code, set in SemiBold. Swap the string to try other copy. */
-  discover: { placeholder: 'Search within {code} items', tabLabel: `Search within ${coupon.code} items only` },
+  discover: {
+    placeholder: 'Search within {code} items',
+    tabLabel: `Search within ${coupon.code} items only`,
+    /** cn=3 tooltip: "New: search only **CODE** items" over the coupon's value line */
+    tip: { lead: 'New: search only', tail: 'items', sub: coupon.bandValue ?? coupon.value },
+  },
 };
 
 /** The search page's presearch (team file "05 · Search — empty", Iteration 2 empty frames): real product photos. */
