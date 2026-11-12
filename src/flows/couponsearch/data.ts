@@ -120,8 +120,8 @@ export const copy = {
     allOfNoon: 'across all of noon',
     noCoupon: `No ${coupon.code} items for`,
     showingAll: 'showing all of noon',
-    /** row v2 (handoff, Gaurav 4 Nov; tail dropped 6 Nov): "No BEAUTY10 items match "q"" */
-    noMatchV2: { lead: 'No', match: 'items match' },
+    /** row v2 (handoff, Gaurav 4 Nov; tail kept, 12 Nov): "No BEAUTY10 items match "q". Showing all results" */
+    noMatchV2: { lead: 'No', match: 'items match', tail: 'Showing all results' },
     allCategories: 'in all categories',
   },
   notInDemo: 'Filters and sort are not in this demo',

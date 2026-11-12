@@ -69,7 +69,9 @@ function ContextLine({ variant, want, scope, query }: { variant: CsVariant; want
       <EntranceSlot key={`${scope}:${query}`} at={csTokens.entrance.resultsAt}>
         <div className={styles.chipContext} data-testid="cs-context" data-scope={scope} data-want={want}>
           <ScopeChip key={`${scope}:${query}`} match={false}>
-            {copy.results.noMatchV2.lead} <b className={styles.chipCode}>{copy.results.code}</b> {copy.results.noMatchV2.match} {q}
+            {copy.results.noMatchV2.lead} <b className={styles.chipCode}>{copy.results.code}</b> {copy.results.noMatchV2.match} {q}.
+            <br />
+            {copy.results.noMatchV2.tail}
           </ScopeChip>
         </div>
       </EntranceSlot>
@@ -93,7 +95,7 @@ function ContextLine({ variant, want, scope, query }: { variant: CsVariant; want
  * search with the query. The context line says where the results come from:
  *  · eligible matches  → Showing results for "q" in BEAUTY10 items
  *  · none (h2 / row)   → No BEAUTY10 items for "q" · showing all of noon (+ all-of-noon results)
- *  · none (row v2)     → No BEAUTY10 items match "q"; toggle off (all of noon): no line
+ *  · none (row v2)     → No BEAUTY10 items match "q". Showing all results; toggle off (all of noon): no line
  *  · none (n5 row)     → Showing results for "q" in all categories
  *  · all of noon       → Showing results for "q" across all of noon (row, toggle off) / Showing results for "q" (n5)
  */
