@@ -29,7 +29,7 @@ setWasmUrl(new URL('../../node_modules/@lottiefiles/dotlottie-web/dist/dotlottie
 
 const readUrl = (): { route?: Route; params: Record<string, string> } => {
   const { route, params } = parsePageUrl(window.location);
-  const { v, embed: _embed, solo: _solo, tg: _tg, offer: _offer, ...rest } = params;
+  const { v, embed: _embed, solo: _solo, tg: _tg, offer: _offer, ne: _ne, na: _na, cn: _cn, ...rest } = params;
   if (isCsVariant(v)) csStore.setVariant(v);
   return { route: route ? registry.resolve(route)?.route : 'couponsearch/cart', params: rest };
 };
@@ -43,6 +43,12 @@ const solo = new URLSearchParams(window.location.search).get('solo') === '1';
 const tg = new URLSearchParams(window.location.search).get('tg');
 // `&offer=0`: the Eligible row v2 for a coupon with no value line (EligibleRow reads it); kept on every page like `&tg=`.
 const offer = new URLSearchParams(window.location.search).get('offer');
+// `&ne=1..3`: which coupon-nudge entrance runs (couponsearch entrance.tsx); kept on every page like `&tg=`.
+const ne = new URLSearchParams(window.location.search).get('ne');
+// `&na=1|2`: which results scope-chip attention beat runs (couponsearch ScopeChip); kept on every page like `&ne=`.
+const na = new URLSearchParams(window.location.search).get('na');
+// `&cn=1|2`: which coupon-page discovery nudge runs (couponsearch discover.tsx); kept on every page like `&na=`.
+const cn = new URLSearchParams(window.location.search).get('cn');
 // `&coupon=<id>`: the coupon the whole visit runs on (couponsearch data.ts `coupons`, default BEAUTY10); kept like `&offer=`.
 // Not stripped from the first page's params (checkout reads its own `coupon`), and a page's own `coupon` wins.
 const coupon = new URLSearchParams(window.location.search).get('coupon');
@@ -53,6 +59,9 @@ const withVersion = (search: string) => {
   if (solo) q.set('solo', '1');
   if (tg) q.set('tg', tg);
   if (offer) q.set('offer', offer);
+  if (ne) q.set('ne', ne);
+  if (na) q.set('na', na);
+  if (cn) q.set('cn', cn);
   if (coupon && !q.has('coupon')) q.set('coupon', coupon);
   return `?${q.toString()}`;
 };

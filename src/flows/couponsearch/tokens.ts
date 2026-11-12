@@ -267,6 +267,112 @@ export const csTokens = {
     /** the scoped row leaves with the suggestion rows on a pick */
     exitTravel: 12,
   },
+  /**
+   * `&ne=1|2|3` (entrance.tsx): how the nudge appears, on the search page (Eligible row v2) and on results (the scope
+   * chip), one system per value. No `ne`: today's behaviour, untouched. Each plays once per mount, after the screen's own
+   * transition has settled; reduced motion: the resting look at once.
+   */
+  entrance: {
+    /** search page: the presearch's own rise (handoff spring, ζ 0.81 ω 16.75, 20px) is within 0.5px after
+        ln(20 ÷ 0.5) ÷ (ζω) ≈ 0.27s; the nudge starts then, after `presearchDelay` (via the bar = the layer's 0.189s
+        cross-fade) */
+    searchLanded: 0.27,
+    /** results: the page under the bar fades in over `handoff.fade.reveal` (0.3s, CouponListing `belowBar`) */
+    resultsAt: 0.3,
+    /** ne=1 · seal leads: the seal fades in over the first part of its turn (the turn is `toggleV2.mix.spread.on`,
+        0.5s); the words and the fill fade up `lag` behind it, `rise` px */
+    seal: { fade: 0.18, lag: 0.08, rise: 3, bodyFade: 0.3, bodyMove: 0.42 },
+    /** ne=2 · fill wipe: the toggle's feathered front from the seal side, on its 0.5s tween; the feather is a share of
+        the nudge's width (the toggle's wash is 0.95: an entrance needs a front that reads as a wipe) */
+    wipe: { feather: 0.45 },
+    /** ne=3 · settle after content: the space opens on the toggle's tween (`mix.spread.on` curve; a critically damped
+        spring left a 1–3px creep for 0.3s after it looked done); the nudge fades in over the last `reveal` px of the
+        opening (≥ its 8 / 10px bottom padding, so the edge never cuts the row or the chip; a time-based fade did) */
+    settle: { open: 0.5, reveal: 12 },
+  },
+  /**
+   * `&na=1|2` (ScopeChip): one attention beat on the results scope chip, row v2, when no `ne` is set (an `ne` entrance
+   * wins). Every time is in s from the seal's turn start, which keeps today's 0.2s delay after mount (ScopeChip
+   * `TURN_DELAY`, ≈80% into the page's 0.3s fade). Plays once per results load; reduced motion: nothing moves.
+   * `&nt=<ms>` (debug) freezes it that many ms after mount.
+   */
+  attention: {
+    /** na=1 · code stamp (match): as the turn lands (≈98% turned at 0.41s), the code takes one press: a kick on a
+        critically damped spring, 1 + amp·(τ/peak)·e^(1 − τ/peak), so it tops out `peak` s in and settles with no
+        overshoot; exactly 1 from `settle` s on (by then < 0.1%). 4%, not 5: at 1.05 the 13pt code closed the word
+        spaces either side of it at the peak */
+    stamp: { at: 0.38, peak: 0.08, amp: 0.04, settle: 0.56 },
+    /** na=2 · light pass (match): one band of the chip's own white end (`width` px, leaning `skew`°, at `opacity`)
+        crosses the fill left → right with the turn, under the copy. Linear on purpose: it starts and ends off the chip,
+        so what is seen is an even glide over the green (over the seal ≈0.1s in, past the green half as the turn lands)
+        that melts into the white end; an eased curve rushed it through the green in ≈0.2s */
+    light: { at: 0, duration: 0.85, ease: [0, 0, 1, 1] as [number, number, number, number], width: 36, skew: -12, opacity: 0.6 },
+    /** na=1|2 · no match: the seal turns `angle`° and eases home, a quiet "no": out on a sine to
+        `peakAt` of `duration`, back on a longer sine, both ends and the turn-back at rest velocity; no dip, no shake */
+    no: { at: 0, angle: 45, duration: 0.6, peakAt: 0.4 },
+  },
+  /**
+   * `&cn=1|2` (discover.tsx): a discovery nudge for the search's "Search within BEAUTY10 items only" toggle, on the
+   * coupon page (BEAUTY10 eligible items, row / row v2). No `cn`: today's page, untouched. Every time is s after the
+   * page mounts; each plays once per page visit (mount). Tapping the nudge opens the search with the toggle on.
+   * Reduced motion: the end state at once. `&nt=<ms>` (debug) freezes the clock that many ms after mount.
+   */
+  discover: {
+    /** the page has settled: the listing under the bar has faded in (`handoff.fade.reveal`, 0.3s) and the first cards
+        have risen out of their skeletons */
+    settle: 0.5,
+    /**
+     * cn=1 · Seal peek (Figma Iteration 4 "Seal button · beside search", 464:5013 peek / 467:5563 gone). A tab anchored
+     * to the right screen edge on the bar's row (`visible` px wide, the bar's height and top), left corners r16, right
+     * side running off the edge; the Eligible row v2 on-surface (success-subtle → green/50 at 97deg + its soft 1px
+     * stroke) with the 28 seal in success. It slides in as the bar's right edge draws back to leave `gap`: ONE
+     * critically damped spring (x = 1 − (1 + ωτ)e^(−ωτ), ω = 2π ÷ response) drives both, so they move as one; within
+     * 0.7px of rest at `response` s. The seal takes the toggle's quarter-turn (`toggleV2.mix.spread.on`, 0.5s, with the
+     * dip, clockwise like the toggle and the results chip) from `turnLag` s into the slide (the tab ≈50% in). It holds
+     * `hold` s, then the same spring takes it back out and the bar grows back. Reduced motion: the tab rests in place
+     * from the start (no slide, no turn, no exit), tappable.
+     *
+     * Height: Figma draws the tab 48 tall because its M-SearchBar is 48; the kit's bar (SearchInput, `searchBar.height`)
+     * is 52, so the tab takes the bar's height (52, `.discTabClip` top 0 / bottom 0 on the bar's own box). The 48 visible
+     * width and the 8 gap are Figma's.
+     */
+    peek: {
+      visible: 48,
+      gap: 8,
+      /** the tab's left corners (Figma 481:11497, was 16): the search bar's own r12, smoothed (`corner-shape:
+          superellipse(1.5)` ≈ Figma's 60% smoothing; browsers without it draw plain r12) */
+      radius: 12,
+      /** the slide in and out: response (s), critically damped */
+      response: 0.45,
+      turnLag: 0.12,
+      turn: 90,
+      /** from the slide's landing (settle + response) to the slide out */
+      hold: 3.5,
+      /** the clock runs this long past the slide out (the spring is < 0.05px from rest by then) */
+      tail: 0.75,
+      /** pointer-down feedback: the tab presses to `scale` over `duration` s and lets go the same way on up / cancel */
+      press: { scale: 0.96, duration: 0.1 },
+    },
+    /**
+     * cn=1 tap → coupon search: one horizontal gesture, out to the right and back in from it. The tab leaves to the
+     * right, from wherever it is (a mid-peek tap starts there), on an ease-in-out weighted to leave (`ease`, `duration`:
+     * it accelerates away instead of crawling off), and the bar grows back on the same curve and duration (one value).
+     * The search opens on the tap itself: its bar reads the same value, so the kit's bar morph (transitions.ts, the 0.19s
+     * layer cross-fade) crosses two identical bars while they finish together. Back: the kit's back onto a full-width
+     * bar, no tab. Reduced motion: the tab stays put and the kit's plain cross-fade opens the search, no slide.
+     */
+    tap: { duration: 0.26, ease: [0.4, 0, 0.6, 1] as [number, number, number, number] },
+    /**
+     * …and on the search, the Eligible row (on) slides in from just past the right screen edge (one device width, so
+     * its left edge starts 16 beyond it) to its place on the iOS navigation curve (`ease`: a decisive start and a short,
+     * soft landing, no crawl), `delay` s after the tap so it follows the tab's departure (the two overlap: one handover);
+     * transform only, with its opacity easing out over the first `fadeShare` of the slide to soften the leading edge.
+     * The seal rolls in on the same curve: anticlockwise in step with the distance left (a wheel rolling left), `roll`°
+     * in all, a multiple of 45 so it lands on its own outline (8 lobes) at its exact resting rotation, the % upright
+     * throughout (true distance ÷ radius would be ≈1,500°: too busy). Nothing else on the row moves.
+     */
+    slide: { duration: 0.65, ease: [0.32, 0.72, 0, 1] as [number, number, number, number], delay: 0.04, fadeShare: 0.25, roll: 180 },
+  },
 } as const;
 
 /**

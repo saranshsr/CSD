@@ -54,11 +54,11 @@ function Pills({ beauty, onPress }: { beauty: boolean; onPress: () => void }) {
  * The coupon listings on the kit's PLP (plp/listing → NoonCatalogList), laid out as the team file's frames: the search
  * bar block; the hidable layer under it (the marketplace tabs on the eligible page, the pill row) that slides up on
  * scroll; `lead` (the BEAUTY10 hero and category circles, or one context line: never a count); the 2-column
- * ProductBoxVertical grid rising out of its skeletons on the results timeline; the floating Sort | Filter pill; and the
- * kit's Liquid Glass bottom tabs, sliding off on scroll as on the PLP. Filter, Sort and the pills are not part of this
+ * ProductBoxVertical grid rising out of its skeletons on the results timeline (no floating Sort | Filter pill: noon
+ * doesn't use one); and the kit's Liquid Glass bottom tabs, sliding off on scroll as on the PLP. Filter, Sort and the pills are not part of this
  * demo (a toast says so), so no sheet with counts ever opens.
  */
-export function CouponListing({ query, placeholder, items, lead, marketplaces, beauty, onBarPress }: { query: string; placeholder?: string; items: Product[]; lead: ReactNode; marketplaces?: boolean; beauty: boolean; onBarPress: () => void }) {
+export function CouponListing({ query, placeholder, items, lead, marketplaces, beauty, onBarPress, bar }: { query: string; placeholder?: string; items: Product[]; lead: ReactNode; marketplaces?: boolean; beauty: boolean; onBarPress: () => void; /** replaces the bar in its row (the coupon page's `&cn=` nudge, discover.tsx) */ bar?: ReactNode }) {
   const nav = useNav();
   const scroller = useRef<HTMLDivElement>(null);
   const isTop = useIsTop();
@@ -69,7 +69,7 @@ export function CouponListing({ query, placeholder, items, lead, marketplaces, b
     <div className={plp.header}>
       <div className={plp.barBlock}>
         <div className={plp.barRow}>
-          <CsSearchBar value={query} placeholder={placeholder} onChange={() => undefined} onBack={nav.back} onFieldPress={onBarPress} />
+          {bar ?? <CsSearchBar value={query} placeholder={placeholder} onChange={() => undefined} onBack={nav.back} onFieldPress={onBarPress} />}
         </div>
       </div>
       {/* HidableView: hangs under the search bar over the list, clipped as it slides up */}

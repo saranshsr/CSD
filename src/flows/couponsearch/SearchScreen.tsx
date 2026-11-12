@@ -21,6 +21,8 @@ import { CouponContext, csCoupons, useCoupon } from './couponContext';
 import { csStore, isRowVariant, useCs, type CsVariant } from './store';
 import { csTokens } from './tokens';
 import { barMorph } from './transitions';
+import { EntranceSlot, NE } from './entrance';
+import { scopedEntry, useScopedBar, useScopedSlide } from './discover';
 import styles from './search.module.css';
 
 type Phase = 'idle' | 'showing' | 'hiding' | 'leaving';
@@ -132,7 +134,18 @@ function CouponSearch({ variant }: { variant: CsVariant }) {
   // our content forms on white (never a dense page over a dense page), and h2's band opens above the bar (BandHeader `enter`)
   const [viaBar] = useState(barMorph.armed);
   useEffect(() => barMorph.disarm(), []);
+  // `&cn=1` tap (discover.tsx): opened from the seal tab. Our bar finishes growing on the page bar's own value (so the
+  // bar morph crosses two identical bars), and the row slides in from the right with its seal rolling, instead of rising
+  const [scoped] = useState(() => (isRowVariant(variant) ? scopedEntry.peek() : null));
+  useEffect(() => scopedEntry.disarm(), []);
+  const scopedInset = useScopedBar(scoped);
+  const slide = useScopedSlide(scoped);
   const [presearchDelay, setPresearchDelay] = useState(params.q ? 0 : viaBar ? Math.max(st.presearchPushDelay, handoff.fade.io) : st.presearchPushDelay);
+  // `&ne=1|2|3` (entrance.tsx, row v2): the nudge appears once the presearch has landed (its first delay + its rise)
+  const [enterAt] = useState(presearchDelay + csTokens.entrance.searchLanded);
+  // reduced motion: the row comes in as it does today (the kit's reduced fade with the presearch), then rests
+  const still = useReduceMotion();
+  const entering = variant === 'row2' && !!NE && !still;
   const phaseRef = useRef<Phase>('idle');
   const rowsRef = useRef(rows);
   const hideEnd = useRef(0);
@@ -388,11 +401,26 @@ function CouponSearch({ variant }: { variant: CsVariant }) {
       </div>
     ) : (
       <div ref={headerRef} onPointerDownCapture={onHeaderPointerDown}>
-        <div className={styles.header}>{input}</div>
+        <div className={styles.header}>{scoped ? <motion.div style={{ marginRight: scopedInset }}>{input}</motion.div> : input}</div>
         {isRowVariant(variant) && !normal && (
-          <motion.div className={styles.erWrap} initial={{ opacity: 0, y: handoff.travel }} animate={chromeState} custom={chromeDelay} variants={chrome}>
-            <EligibleRow on={eligibleOnly} onChange={csStore.setEligibleOnly} v2={variant === 'row2'} />
-          </motion.div>
+          // `&ne`: the row doesn't rise with the presearch; it makes its own entrance (ne=3: its slot opens) once that has landed
+          <EntranceSlot at={enterAt}>
+            <motion.div
+              className={styles.erWrap}
+              initial={entering || scoped ? { opacity: 1, y: 0 } : { opacity: 0, y: handoff.travel }}
+              animate={chromeState}
+              custom={chromeDelay}
+              variants={chrome}
+            >
+              {scoped ? (
+                <motion.div style={{ x: slide.x, opacity: slide.opacity }}>
+                  <EligibleRow on={eligibleOnly} onChange={csStore.setEligibleOnly} v2={variant === 'row2'} enterAt={enterAt} turn={slide.turn} />
+                </motion.div>
+              ) : (
+                <EligibleRow on={eligibleOnly} onChange={csStore.setEligibleOnly} v2={variant === 'row2'} enterAt={enterAt} />
+              )}
+            </motion.div>
+          </EntranceSlot>
         )}
       </div>
     );

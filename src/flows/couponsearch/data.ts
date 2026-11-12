@@ -120,11 +120,14 @@ export const copy = {
     allOfNoon: 'across all of noon',
     noCoupon: `No ${coupon.code} items for`,
     showingAll: 'showing all of noon',
-    /** row v2 (handoff, Gaurav 4 Nov): "No BEAUTY10 items match "q". Showing all results" */
-    noMatchV2: { lead: 'No', match: 'items match', tail: 'Showing all results' },
+    /** row v2 (handoff, Gaurav 4 Nov; tail dropped 6 Nov): "No BEAUTY10 items match "q"" */
+    noMatchV2: { lead: 'No', match: 'items match' },
     allCategories: 'in all categories',
   },
   notInDemo: 'Filters and sort are not in this demo',
+  /** `&cn=` (discover.tsx): the coupon page's discovery nudges. `placeholder` (cn=2) is the bar's placeholder; `{code}`
+      stands for the coupon code, set in SemiBold. Swap the string to try other copy. */
+  discover: { placeholder: 'Search within {code} items', tabLabel: `Search within ${coupon.code} items only` },
 };
 
 /** The search page's presearch (team file "05 · Search — empty", Iteration 2 empty frames): real product photos. */

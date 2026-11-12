@@ -72,6 +72,8 @@
   mask: linear-gradient(black 0 0) content-box exclude, linear-gradient(black 0 0); }
 /* Eligible row "off" hairline (borderSubtle); cross-fades against .erOnBg's ring on the toggle's progress */
 .erOffRing { position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none; box-shadow: inset 0 0 0 1px var(--nk-color-border-subtle); }
+/* `&ne=1` (entrance.tsx): the surface layers in one box, so they fade up together, still under the content */
+.erUnder { position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none; }
 
 /* Eligible row v2 choreographies (EligibleRow `&tg=`); every layer here is invisible at rest */
 /* tg=1: the track's own paint inside the growing material (its colour rides the track's) */

@@ -3,7 +3,8 @@ import { useNav } from '../../kit/Navigator';
 import { CouponListing } from './components/CouponListing';
 import { Beauty10Hero, CategoryCircles } from './components/ListingParts';
 import { copy, coupon, eligibleProducts } from './data';
-import { csStore, useCs } from './store';
+import { CN, DiscoverBar } from './discover';
+import { csStore, isRowVariant, useCs } from './store';
 import { barMorph } from './transitions';
 
 /**
@@ -18,6 +19,14 @@ export function EligibleScreen() {
   // a new coupon visit: once per Shop more (this screen mounts once per visit)
   useEffect(() => csStore.newVisit(), []);
   useEffect(() => nav.preload('couponsearch/search', 'couponsearch/results'), [nav]);
+  // `scoped`: the search opens with "Search within BEAUTY10 items only" on (the `&cn=` nudge's tap); otherwise as today
+  const openSearch = (scoped: boolean) => {
+    if (scoped) csStore.setEligibleOnly(true);
+    barMorph.arm();
+    nav.push('couponsearch/search');
+  };
+  // `&cn=1|2` (discover.tsx): a nudge for the row versions' eligible-only toggle; no `cn`, or another version: today's bar
+  const cn = isRowVariant(variant) ? CN : 0;
   return (
     <CouponListing
       key={variant}
@@ -33,10 +42,8 @@ export function EligibleScreen() {
           <CategoryCircles onPress={(q) => nav.push('couponsearch/results', { query: q, scope: 'eligible' })} />
         </>
       }
-      onBarPress={() => {
-        barMorph.arm();
-        nav.push('couponsearch/search');
-      }}
+      onBarPress={() => openSearch(false)}
+      bar={cn ? <DiscoverBar cn={cn} onBarPress={() => openSearch(false)} onScopedPress={() => openSearch(true)} /> : undefined}
     />
   );
 }

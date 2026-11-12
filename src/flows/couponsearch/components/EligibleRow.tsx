@@ -11,6 +11,7 @@ import { fieldMotion, spring, supermall } from '../../../motion/presets';
 import { useReduceMotion } from '../../../motion/reducedMotion';
 import { copy, type CouponIcon } from '../data';
 import { useCoupon } from '../couponContext';
+import { NE, useEntrance } from '../entrance';
 import { project, rubber, velocityTracker } from '../gesture';
 import { couponsearchFlowTokens, csTokens } from '../tokens';
 import styles from '../search.module.css';
@@ -60,8 +61,8 @@ const sized = <F extends { from: number; to: number; crest: number }>(f: F): F =
  * and grows with its copy (the title never truncates, the offer wraps to 2 lines), badge and switch centred. Only the
  * 8-lobed seal turns; the wallet and the bank keep the dip, the ink and the flood and settle `mix.stamp.glyph.settle` px.
  */
-export function EligibleRow({ on, onChange, v2 = false }: { on: boolean; onChange: (on: boolean) => void; v2?: boolean }) {
-  return v2 ? <EligibleRowV2 on={on} onChange={onChange} /> : <EligibleRowV1 on={on} onChange={onChange} />;
+export function EligibleRow({ on, onChange, v2 = false, enterAt = 0, turn }: { on: boolean; onChange: (on: boolean) => void; v2?: boolean; enterAt?: number; /** v2: extra seal turn in quarter turns, driven from outside (the coupon page's `&cn=1` slide-in roll); unset: none */ turn?: MotionValue<number> }) {
+  return v2 ? <EligibleRowV2 on={on} onChange={onChange} enterAt={enterAt} turn={turn} /> : <EligibleRowV1 on={on} onChange={onChange} />;
 }
 
 type Pt = { x: number; y: number };
@@ -845,7 +846,7 @@ function useDepthLook(on: boolean, parts: Parts, _knob: MotionValue<number>, gly
 }
 
 /** tg=5 · the green spreads out of the switch, behind the bare seal, which turns with the knob (the default; no ripple, 30 Oct) */
-function useSpreadStampLook(on: boolean, parts: Parts, knob: MotionValue<number>, glyph: Glyph): Look {
+function useSpreadStampLook(on: boolean, parts: Parts, knob: MotionValue<number>, glyph: Glyph, entry?: MotionValue<number>): Look {
   const S = T2.mix.spread;
   const K = T2.mix.stamp;
   const { geo, measure } = useGeo(parts);
@@ -854,8 +855,9 @@ function useSpreadStampLook(on: boolean, parts: Parts, knob: MotionValue<number>
   const inkArmed = useRef(false); // the seal inks once, as the knob passes `inkAt` of its travel
   // the seal is geared to the knob: it turns 90° (≡ 0 for the 8-lobed seal) across the knob's travel, on the same
   // frames (drag, rubber band and reversals included), and gives the barest dip at mid-travel; no timer of its own
-  const rot = useTransform(knob, (v) => Math.min(1.08, Math.max(-0.08, v)) * 90);
-  const squash = useTransform(knob, (v) => 1 - K.dip * Math.sin(Math.PI * clamp01(v)));
+  // `&ne=1|2` (entrance.tsx): the entrance adds one more 90° turn and its dip on the same curve; 0 without one
+  const rot = useTransform(() => Math.min(1.08, Math.max(-0.08, knob.get())) * 90 + (entry?.get() ?? 0) * 90);
+  const squash = useTransform(() => (1 - K.dip * Math.sin(Math.PI * clamp01(knob.get()))) * (1 - K.dip * Math.sin(Math.PI * clamp01(entry?.get() ?? 0))));
   // a glyph that can't turn (wallet, bank) keeps the dip and the inks; it only settles a hair, on the same gear:
   // `glyph.settle` px down at mid-travel (pressed into the badge), home at both ends (the seal: 0, its turn is its motion)
   const settleY = useTransform(knob, (v) => (glyph.seal ? 0 : K.glyph.settle * Math.sin(Math.PI * clamp01(v))));
@@ -960,10 +962,10 @@ function useSpreadStampLook(on: boolean, parts: Parts, knob: MotionValue<number>
   };
 }
 
-const useLook: (on: boolean, parts: Parts, knob: MotionValue<number>, glyph: Glyph) => Look = [useMorphLook, useSheenLook, useStampLook, useDepthLook, useSpreadStampLook][TG - 1];
+const useLook: (on: boolean, parts: Parts, knob: MotionValue<number>, glyph: Glyph, entry?: MotionValue<number>) => Look = [useMorphLook, useSheenLook, useStampLook, useDepthLook, useSpreadStampLook][TG - 1];
 
 /** v2 (`?v=row2`): the switch leads, the row answers with the `&tg=` choreography. */
-function EligibleRowV2({ on, onChange }: { on: boolean; onChange: (on: boolean) => void }) {
+function EligibleRowV2({ on, onChange, enterAt, turn }: { on: boolean; onChange: (on: boolean) => void; enterAt: number; turn?: MotionValue<number> }) {
   const { coupon, lead, tail, label } = useLabel(true);
   // one badge glyph for every coupon (Gaurav, 29 Oct: "icon dynamic nahi rakhege, just the first one everywhere");
   // `coupon.icon` and the wallet / bank glyphs stay in place in case per-type icons come back
@@ -972,7 +974,11 @@ function EligibleRowV2({ on, onChange }: { on: boolean; onChange: (on: boolean) 
   const parts: Parts = { row: useRef<HTMLDivElement>(null), badge: useRef<HTMLSpanElement>(null), sub: useRef<HTMLSpanElement>(null), track: useRef<HTMLSpanElement>(null) };
   const p = useMotionValue(on ? 1 : 0);
   const track = useTransform<number, string>(p, [0, 1], [colors.border, colors.success]);
-  const look = useLook(on, parts, p, glyph);
+  // `&ne=1|2`: the row's entrance (entrance.tsx); without `ne` its styles are empty and its turn stays 0
+  const entry = useEntrance(enterAt);
+  // `turn` (discover.tsx `&cn=1` slide-in): the seal's extra turn, on the same value an `ne` entrance uses (an `ne`
+  // entrance wins); without it the value is the entrance's, 0 without one (today's row)
+  const look = useLook(on, parts, p, glyph, !NE && turn ? turn : entry.turn);
   const uniform = useUniformLook(on, glyph);
   // reduced motion swaps in the cross-fade; the choreography is kept in step underneath so a switch back is seamless
   const L: Look = reduce
@@ -992,14 +998,21 @@ function EligibleRowV2({ on, onChange }: { on: boolean; onChange: (on: boolean) 
       };
   const sw = useSwitch(T2, on, onChange, p, T2.knobSpring, L);
   return (
-    <motion.div ref={parts.row} className={[styles.er, styles.er2, NO_OFFER && styles.er2Solo, look.bare && styles.er2Bare].filter(Boolean).join(' ')} {...sw.bind} aria-label={label} style={{ backgroundColor: colors.bgSurface, ...L.row }}>
-      {L.under}
+    <motion.div ref={parts.row} className={[styles.er, styles.er2, NO_OFFER && styles.er2Solo, look.bare && styles.er2Bare].filter(Boolean).join(' ')} {...sw.bind} aria-label={label} style={{ backgroundColor: colors.bgSurface, ...L.row, ...entry.mask }}>
+      {/* ne=1: the surface layers fade up as one, under the content (z -1, as they are) */}
+      {entry.body ? (
+        <motion.span className={styles.erUnder} style={entry.body} aria-hidden>
+          {L.under}
+        </motion.span>
+      ) : (
+        L.under
+      )}
       {/* the final design (tg=5) has no badge container: the span stays as the icon's box, unpainted (reduced motion too) */}
-      <motion.span ref={parts.badge} className={[styles.erBadge, L.badgeClass].filter(Boolean).join(' ')} style={look.bare ? undefined : L.badge} aria-hidden>
+      <motion.span ref={parts.badge} className={[styles.erBadge, L.badgeClass].filter(Boolean).join(' ')} style={entry.seal ? { ...(look.bare ? undefined : L.badge), ...entry.seal } : look.bare ? undefined : L.badge} aria-hidden>
         {L.icon}
       </motion.span>
       {/* no value line: the copy box stands in for the subtitle wherever a choreography places it */}
-      <span ref={NO_OFFER ? parts.sub : undefined} className={styles.erCopy}>
+      <motion.span ref={NO_OFFER ? parts.sub : undefined} className={styles.erCopy} style={entry.body}>
         <span className={styles.erText}>
           {/* "Search within **CODE** items only", as v1 (Gaurav / AJ, 29 Oct: the verb makes the scope clear) */}
           {`${lead} `}
@@ -1011,8 +1024,8 @@ function EligibleRowV2({ on, onChange }: { on: boolean; onChange: (on: boolean) 
             {coupon.v2Value ?? coupon.value}
           </motion.span>
         )}
-      </span>
-      <motion.span ref={parts.track} className={styles.erTrack} style={{ backgroundColor: track }} aria-hidden>
+      </motion.span>
+      <motion.span ref={parts.track} className={styles.erTrack} style={{ backgroundColor: track, ...entry.body }} aria-hidden>
         <motion.span className={styles.erKnob} style={{ x: sw.knobX, width: sw.knobW, background: field.surfacePrimary, boxShadow: field.shadowSm }} />
       </motion.span>
       {L.over}

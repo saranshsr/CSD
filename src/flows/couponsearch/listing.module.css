@@ -35,12 +35,50 @@
 .chipMatch { background: linear-gradient(to right, var(--nk-field-surface-success-subtle), var(--nk-field-surface-primary)); --chip-seal: var(--nk-field-text-success); }
 .chipMatch b.chipCode { color: var(--nk-field-text-success); }
 .chipNone { background: linear-gradient(to right, var(--nk-field-surface-tertiary), var(--nk-field-surface-primary)); --chip-seal: var(--nk-field-text-tertiary); }
+/* `&ne=1` (entrance.tsx): the gradient on its own layer, so it fades up behind the seal (same paint at rest) */
+.chipLayered { position: relative; isolation: isolate; }
+.chipLayered.chipMatch, .chipLayered.chipNone { background: none; }
+.chipFill { position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none; }
+.chipMatch > .chipFill { background: linear-gradient(to right, var(--nk-field-surface-success-subtle), var(--nk-field-surface-primary)); }
+.chipNone > .chipFill { background: linear-gradient(to right, var(--nk-field-surface-tertiary), var(--nk-field-surface-primary)); }
 .chipText { flex: 1; min-width: 0; overflow-wrap: break-word; }
 .chipSeal { position: relative; flex: none; display: block; width: 20px; height: 20px; }
 .chipGlyph, .chipCut { position: absolute; inset: 0; -webkit-mask-position: center; mask-position: center; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
 .chipGlyph { background-color: var(--chip-seal); -webkit-mask-size: contain; mask-size: contain; }
 .chipCut { -webkit-mask-size: contain, 100% 100%; mask-size: contain, 100% 100%; }
+/* `&na=1` (ScopeChip): the code presses from its own centre; one word, same line box, so the line never reflows */
+.chipStamp b.chipCode { display: inline-block; transform: scale(var(--cs-stamp, 1)); transform-origin: 50% 50%; }
+/* `&na=2` (ScopeChip): one band of the fill's own white end crosses it, under the copy, clipped to the chip's r8. The
+   run is the chip's width + the band's (+ 8 each side for the lean), translated -100% → 0, so it starts and ends off
+   the chip; only its transform and opacity change */
+.chipLit { position: relative; isolation: isolate; }
+.chipLight { position: absolute; inset: 0; z-index: -1; border-radius: inherit; overflow: hidden; pointer-events: none; }
+.chipLightRun { position: absolute; top: 0; bottom: 0; left: 0; width: calc(100% + var(--cs-light-w) + 16px); display: block; }
+.chipLightRun::after { content: ''; position: absolute; top: -4px; bottom: -4px; right: 8px; width: var(--cs-light-w); transform: skewX(var(--cs-light-skew));
+  background: linear-gradient(to right, transparent, var(--nk-field-surface-primary) 40%, var(--nk-field-surface-primary) 60%, transparent); }
 
+
+/* `&cn=1|2` (discover.tsx): the coupon page's discovery nudges, in the bar row (16 gutters) */
+.disc { position: relative; }
+/* cn=1 · seal tab (Figma 464:5013; corners 481:11497): 48 visible, the bar's height and top, left corners r12 smoothed (the
+   bar's own 12), the right side running off
+   the screen edge (the tab is 64 wide in a 48 clip that ends at the edge, so its stroke never closes on the right).
+   Surface and stroke: the Eligible row v2 on-state (.erOnBg2). The 28 seal sits 10 in, centred. */
+.discTabClip { position: absolute; top: 0; bottom: 0; right: calc(-1 * var(--nk-space-s16)); width: 48px; overflow: hidden; pointer-events: none; }
+.discTab { position: absolute; top: 0; bottom: 0; left: 0; width: 64px; isolation: isolate; transform-origin: 24px 50%; /* the press scales about the visible 48 */ display: flex; align-items: center; margin: 0; padding: 0 0 0 var(--nk-space-s10); border: 0;
+  border-radius: var(--nk-radius-r12) 0 0 var(--nk-radius-r12); /* set inline from csTokens.discover.peek.radius */ corner-shape: superellipse(1.5);
+  background: linear-gradient(97deg, var(--nk-field-surface-success-subtle) 0%, var(--nk-color-cs-green50) 100%);
+  --chip-seal: var(--nk-field-text-success); cursor: pointer; -webkit-tap-highlight-color: transparent; outline: none; }
+.discTab:focus-visible { outline: 2px solid var(--nk-color-primary); outline-offset: -2px; }
+.discTab::after { content: ''; position: absolute; inset: 0; border-radius: inherit; corner-shape: inherit; padding: 1px; pointer-events: none;
+  background: linear-gradient(to bottom, var(--nk-color-cs-border-on-top), var(--nk-color-cs-border-on-bottom));
+  -webkit-mask: linear-gradient(black 0 0) content-box, linear-gradient(black 0 0); -webkit-mask-composite: xor;
+  mask: linear-gradient(black 0 0) content-box exclude, linear-gradient(black 0 0); }
+.discSeal { position: relative; flex: none; display: block; width: 28px; height: 28px; }/* cn=2 · the placeholder over the field's own box (the input's UA 2px text inset), the field's font and placeholder
+   colour; the code in SemiBold, same colour */
+.discPh { position: absolute; display: flex; align-items: center; padding: 0 2px; overflow: hidden; white-space: pre; pointer-events: none;
+  font: var(--nk-search-bar-field-font); color: var(--nk-search-bar-field-placeholder); }
+.discPh b { font-weight: 600; }
 
 /* the floating Sort | Filter pill and share circle (no kit counterpart), 12 above the floating glass tab bar; it rides
    the tab bar's hide-on-scroll */
