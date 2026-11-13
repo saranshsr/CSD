@@ -403,11 +403,11 @@ export const csTokens = {
       pointerInset: 10,
     },
     /**
-     * cn=5 / 6 / 7 · Tooltip nudge over an overlay (Figma Iteration 4 "Tooltip nudge · over overlay", 534:11196: 5 Mint
-     * benefit 534:11198, 6 Mint plain 534:11332, 7 Light benefit 534:11465, long name 534:11599). A black scrim at 90%
-     * covers the page; the stock search bar stays lit through a hole cut to its own box (Figma's "M-SearchBar ·
-     * spotlit": the bar itself, nothing added and nothing moving); the coupon tooltip hangs at the bar's left edge, its
-     * pointer on the centre of the "Search" placeholder.
+     * cn=5 / 6 · Tooltip nudge over an overlay (Figma Iteration 4 row 538:12277: 5 = A 538:12278 / tooltip 538:12404,
+     * 6 = B 538:12707 / tooltip 538:14006; cn=7 shows A). A black scrim at 70% (Figma's fill rgba(0,0,0,0.7)) covers
+     * the page; the stock search bar stays lit through a hole cut to its own box (Figma's "M-SearchBar · spotlit": the
+     * bar itself, nothing added and nothing moving); the Light M-Tooltip hangs at the bar's left edge, its pointer tip
+     * `gap` under the bar and its centre `pointerAt` in from the tooltip's left.
      *
      * Entrance, once the page has settled (`at` s after mount, the listing faded in): the scrim fades 0 → `scrim.opacity`
      * on a plain ease-out (`scrim.enter`); `tip.lag` s later the tooltip comes in from its pointer tip, opacity on
@@ -434,10 +434,13 @@ export const csTokens = {
         exit: { duration: 0.16, ease: [0.4, 0, 1, 1] as [number, number, number, number] },
       },
       reduce: 0.2,
-      /** the pointer tip under the bar's bottom edge: Figma's Mint frames hang it 4 under, the Light frame 10 */
-      gap: { mint: 4, light: 10 },
-      /** a coupon name longer than this reads "Try searching within this offer", the name moving to the body (534:11599) */
-      longName: 10,
+      /** the pointer tip under the bar's bottom edge (Figma: bar bottom y114, tooltip y122) */
+      gap: 8,
+      /** the pointer's centre from the tooltip's left edge (the M-Tooltip's 72-wide pointer slot, its 12 × 6 tip at 44–56) */
+      pointerAt: 50,
+      /** Figma's widths: A 286, B 328. A grows with a longer value line up to `maxWidth` (the bar's 343); neither wraps */
+      width: { a: 286, b: 328 },
+      maxWidth: 343,
     },
   },
 } as const;

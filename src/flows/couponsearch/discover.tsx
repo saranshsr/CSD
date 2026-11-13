@@ -30,10 +30,11 @@ import styles from './listing.module.css';
  *       "New in search: **BEAUTY10** items only · Tap search to try it". Same counter, timings and dismissal. While it
  *       shows, the tooltip and the bar (its target) open the search with the toggle on; once it has gone, the bar is
  *       today's search again
- *   5 · 6 · 7 · Tooltip over an overlay (Figma 534:11196): a 90% black scrim over the page, the stock bar lit through
- *       it, the coupon tooltip under the bar, its pointer on the placeholder word. 5 Mint benefit, 6 Mint plain, 7 Light
- *       benefit. The tooltip or the lit bar → the search with the toggle on (cn=3's scoped entry); the scrim, a scroll or
- *       `overlay.hold` s → the page as today. Same counter as cn=3 / 4
+ *   5 · 6 · Tooltip over an overlay (Figma Iteration 4 row 538:12277): a 70% black scrim over the page, the stock bar
+ *       lit through it, the Light M-Tooltip under the bar. 5 = A (538:12278: "You can now search within this coupon"
+ *       over the coupon's value line), 6 = B (538:12707: one line). 7, a retired variant, shows A. The tooltip or the
+ *       lit bar → the search with the toggle on (cn=3's scoped entry); the scrim, a scroll or `overlay.hold` s → the
+ *       page as today. Same counter as cn=3 / 4
  * Tapping the nudge (the tab, or the bar with cn=2) opens the search with the toggle on. Values: `csTokens.discover`.
  * Debug: `&nt=<ms>` freezes the peek clock that many ms after mount (a pure function of its clock, so a frozen rAF
  * still shows the frame).
@@ -525,34 +526,21 @@ function BarTipBar({ onBarPress, onScopedPress }: { onBarPress: () => void; onSc
 /* ── cn=5..7 · the tooltip over an overlay ─────────────────────────────────────────────────────────────────────── */
 
 const OV = D.overlay;
-type OvLook = 'mint' | 'light';
-const OV_VARIANT: Record<5 | 6 | 7, { look: OvLook; benefit: boolean }> = {
-  5: { look: 'mint', benefit: true },
-  6: { look: 'mint', benefit: false },
-  7: { look: 'light', benefit: true },
-};
+/** A (538:12404): heading over the coupon's value line. B (538:14006): one fixed line. cn=7 (the retired Light
+    benefit) now shows A, so old review links land on the final design */
+type OvVersion = 'a' | 'b';
+const OV_VERSION: Record<5 | 6 | 7, OvVersion> = { 5: 'a', 6: 'b', 7: 'a' };
 
-/** "Try searching within CODE" (over "Every result is eligible for VALUE"); a long name reads "…within this offer",
-    the name moving into the body (Figma 534:11599) */
-function overlayCopy(benefit: boolean) {
-  const t = copy.discover.overlayTip;
-  const long = coupon.code.length > OV.longName;
-  const fill = (s: string) => s.replace('{name}', coupon.code).replace('{value}', coupon.short);
-  return { head: fill(long ? t.longHead : t.head), sub: benefit ? fill(long ? t.longSub : t.sub) : null };
-}
-
-/** the layer's geometry, in the screen's own (unscaled) px: its size, the bar's box and corner, the pointer's centre */
+/** the layer's geometry, in the screen's own (unscaled) px: its size, the bar's box and corner */
 interface Spot {
   root: HTMLElement;
   w: number;
   h: number;
   bar: { x: number; y: number; w: number; h: number; r: number };
-  ptr: number;
 }
 function measureSpot(root: HTMLElement, wrap: HTMLElement): Spot | null {
   const bar = wrap.firstElementChild as HTMLElement | null;
-  const input = wrap.querySelector('input');
-  if (!bar || !input || !root.offsetWidth) return null;
+  if (!bar || !root.offsetWidth) return null;
   const k = root.getBoundingClientRect().width / root.offsetWidth;
   const o = root.getBoundingClientRect();
   const b = bar.getBoundingClientRect();
@@ -561,7 +549,6 @@ function measureSpot(root: HTMLElement, wrap: HTMLElement): Spot | null {
     w: root.offsetWidth,
     h: root.offsetHeight,
     bar: { x: (b.left - o.left) / k, y: (b.top - o.top) / k, w: b.width / k, h: b.height / k, r: parseFloat(getComputedStyle(bar).borderTopLeftRadius) || 0 },
-    ptr: placeholderCentre(input, root),
   };
 }
 /** the scrim's clip: the whole layer less the bar's rounded box (even-odd), so the bar shows and takes taps through it */
@@ -608,18 +595,23 @@ function useOverlayTip(measure: () => Spot | null) {
   return { spot, on, reduce, showing: () => stage.current === 'in', hide };
 }
 
-function OverlayTip({ spot, look, benefit, reduce, onPress }: { spot: Spot; look: OvLook; benefit: boolean; reduce: boolean; onPress: () => void }) {
-  const text = overlayCopy(benefit);
+/**
+ * The Light M-Tooltip (Figma 538:12404 / 538:14006): its pointer tip `gap` under the bar, at the bar's left edge, the
+ * pointer's centre `pointerAt` in from the tooltip's left (the M-Tooltip's own pointer slot). One line, never wrapped:
+ * A is at least `width.a` wide and grows with a longer value line up to the bar's width; B is the fixed `width.b`.
+ */
+function OverlayTip({ spot, version, reduce, onPress }: { spot: Spot; version: OvVersion; reduce: boolean; onPress: () => void }) {
+  const t = copy.discover.overlayTip;
   const T = OV.tip;
-  const top = spot.bar.y + spot.bar.h + OV.gap[look] + 6;
-  const ptr = spot.ptr - spot.bar.x; // the pointer's centre, px from the tooltip's left edge
+  const top = spot.bar.y + spot.bar.h + OV.gap + 6;
+  const ptr = OV.pointerAt; // the pointer's centre, px from the tooltip's left edge
   const away = reduce ? { opacity: 0 } : { opacity: 0, scale: T.fromScale };
   return (
     <motion.button
       type="button"
       className={styles.discOvTip}
-      data-look={look}
-      style={{ left: spot.bar.x, top, maxWidth: spot.w - 2 * spot.bar.x, transformOrigin: `${ptr}px -6px` }}
+      data-version={version}
+      style={{ left: spot.bar.x, top, minWidth: OV.width[version], maxWidth: Math.min(OV.maxWidth, spot.bar.w), transformOrigin: `${ptr}px -6px` }}
       initial={away}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ ...away, transition: reduce ? { duration: OV.reduce, ease: T.exit.ease } : T.exit }}
@@ -634,8 +626,14 @@ function OverlayTip({ spot, look, benefit, reduce, onPress }: { spot: Spot; look
         <OriginIcon name="discount" filled size={16} color="var(--nk-field-text-success)" />
       </span>
       <span className={styles.discOvText}>
-        <span className={styles.discOvHead}>{text.head}</span>
-        {text.sub && <span className={styles.discOvSub}>{text.sub}</span>}
+        {version === 'a' ? (
+          <>
+            <span className={styles.discOvHead}>{t.head}</span>
+            <span className={styles.discOvSub}>{t.sub.replace('{value}', coupon.short)}</span>
+          </>
+        ) : (
+          <span className={styles.discOvSub}>{t.line}</span>
+        )}
       </span>
     </motion.button>
   );
@@ -643,7 +641,7 @@ function OverlayTip({ spot, look, benefit, reduce, onPress }: { spot: Spot; look
 
 function OverlayTipBar({ cn, onBarPress, onScopedPress }: { cn: 5 | 6 | 7; onBarPress: () => void; onScopedPress: () => void }) {
   const nav = useNav();
-  const v = OV_VARIANT[cn];
+  const version = OV_VERSION[cn];
   const wrap = useRef<HTMLDivElement>(null);
   // the layer goes in the page's own Screen root, so it covers its header and footer and leaves with the page
   const t = useOverlayTip(() => {
@@ -693,7 +691,7 @@ function OverlayTipBar({ cn, onBarPress, onScopedPress }: { cn: 5 | 6 | 7; onBar
                   data-testid="cs-discover-scrim"
                 />
               )}
-              {t.on && <OverlayTip key="tip" spot={t.spot} look={v.look} benefit={v.benefit} reduce={t.reduce} onPress={onScoped} />}
+              {t.on && <OverlayTip key="tip" spot={t.spot} version={version} reduce={t.reduce} onPress={onScoped} />}
             </AnimatePresence>
           </div>,
           t.spot.root,

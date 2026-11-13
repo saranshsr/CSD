@@ -134,13 +134,12 @@ export const copy = {
     tip: { lead: 'New: search only', tail: 'items', sub: coupon.bandValue ?? coupon.value },
     /** cn=4 tooltip under the bar: an option inside today's search, never the bar turning scoped */
     barTip: { lead: 'New in search:', tail: 'items only', sub: 'Tap search to try it' },
-    /** cn=5..7 tooltip over the overlay (Figma 534:11196): `{name}` is the coupon code, `{value}` its short benefit.
-        A name longer than `csTokens.discover.overlay.longName` takes `longHead`, and moves into the body (`longSub`) */
+    /** cn=5..7 tooltip over the overlay (Figma row 538:12277). A (cn=5, 7): `head` over `sub`, `{value}` the coupon's
+        short benefit. B (cn=6): the one fixed `line`. Text as drawn in Figma */
     overlayTip: {
-      head: 'You can now search within this coupon’s eligible items',
-      longHead: 'You can now search within this coupon’s eligible items',
-      sub: 'Every result is eligible for {value}',
-      longSub: 'Every result is eligible for {name} {value}',
+      head: 'You can now search within this coupon',
+      sub: 'Only items eligible for {value}',
+      line: "You can now search within this coupon's eligible items",
     },
   },
 };
