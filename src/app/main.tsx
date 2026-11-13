@@ -47,9 +47,9 @@ const offer = new URLSearchParams(window.location.search).get('offer');
 const ne = new URLSearchParams(window.location.search).get('ne');
 // `&na=1|2`: which results scope-chip attention beat runs (couponsearch ScopeChip); kept on every page like `&ne=`.
 const na = new URLSearchParams(window.location.search).get('na');
-// `&cn=1..4`: which coupon-page discovery nudge runs (couponsearch discover.tsx); kept on every page like `&na=`.
+// `&cn=1..7`: which coupon-page discovery nudge runs (couponsearch discover.tsx); kept on every page like `&na=`.
 const cn = new URLSearchParams(window.location.search).get('cn');
-// `&nr=1`: cn=3 / 4 reset its tooltip counter once per page load (couponsearch tipNudge.ts); kept on every page like `&cn=`.
+// `&nr=1`: cn=3..7 reset their tooltip counter once per page load (couponsearch tipNudge.ts); kept on every page like `&cn=`.
 const nr = new URLSearchParams(window.location.search).get('nr');
 // `&coupon=<id>`: the coupon the whole visit runs on (couponsearch data.ts `coupons`, default BEAUTY10); kept like `&offer=`.
 // Not stripped from the first page's params (checkout reads its own `coupon`), and a page's own `coupon` wins.

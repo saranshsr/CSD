@@ -402,6 +402,43 @@ export const csTokens = {
       /** M-Tooltip's pointer: 12 × 6, its centre `pointerInset` + 6 from the tooltip's right edge = the seal's centre */
       pointerInset: 10,
     },
+    /**
+     * cn=5 / 6 / 7 · Tooltip nudge over an overlay (Figma Iteration 4 "Tooltip nudge · over overlay", 534:11196: 5 Mint
+     * benefit 534:11198, 6 Mint plain 534:11332, 7 Light benefit 534:11465, long name 534:11599). A black scrim at 90%
+     * covers the page; the stock search bar stays lit through a hole cut to its own box (Figma's "M-SearchBar ·
+     * spotlit": the bar itself, nothing added and nothing moving); the coupon tooltip hangs at the bar's left edge, its
+     * pointer on the centre of the "Search" placeholder.
+     *
+     * Entrance, once the page has settled (`at` s after mount, the listing faded in): the scrim fades 0 → `scrim.opacity`
+     * on a plain ease-out (`scrim.enter`); `tip.lag` s later the tooltip comes in from its pointer tip, opacity on
+     * `tip.fade` and scale `tip.fromScale` → 1 on a no-bounce spring (`tip.enter`). Exit, the reverse and quicker:
+     * the tooltip first (`tip.exit`, eased in, back into its pointer), the scrim `scrim.exitLag` s later
+     * (`scrim.exit`). It goes after `hold` s, on a scroll or a tap on the scrim (the page is today's again), or on a
+     * tap on the tooltip or the lit bar (the search opens with the toggle on: cn=3's scoped entry). Same 3-visit
+     * counter as cn=3 / 4 (tipNudge.ts). Reduced motion: opacity only, `reduce` s each way.
+     */
+    overlay: {
+      at: 0.45,
+      hold: 5,
+      scrim: {
+        opacity: 0.9,
+        enter: { duration: 0.3, ease: [0.215, 0.61, 0.355, 1] as [number, number, number, number] },
+        exit: { duration: 0.2, ease: [0.4, 0, 1, 1] as [number, number, number, number] },
+        exitLag: 0.06,
+      },
+      tip: {
+        lag: 0.1,
+        fromScale: 0.96,
+        enter: { type: 'spring', bounce: 0, duration: 0.35 } as const,
+        fade: { duration: 0.2, ease: [0.215, 0.61, 0.355, 1] as [number, number, number, number] },
+        exit: { duration: 0.16, ease: [0.4, 0, 1, 1] as [number, number, number, number] },
+      },
+      reduce: 0.2,
+      /** the pointer tip under the bar's bottom edge: Figma's Mint frames hang it 4 under, the Light frame 10 */
+      gap: { mint: 4, light: 10 },
+      /** a coupon name longer than this reads "Try searching within this offer", the name moving to the body (534:11599) */
+      longName: 10,
+    },
   },
 } as const;
 

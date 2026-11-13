@@ -134,6 +134,14 @@ export const copy = {
     tip: { lead: 'New: search only', tail: 'items', sub: coupon.bandValue ?? coupon.value },
     /** cn=4 tooltip under the bar: an option inside today's search, never the bar turning scoped */
     barTip: { lead: 'New in search:', tail: 'items only', sub: 'Tap search to try it' },
+    /** cn=5..7 tooltip over the overlay (Figma 534:11196): `{name}` is the coupon code, `{value}` its short benefit.
+        A name longer than `csTokens.discover.overlay.longName` takes `longHead`, and moves into the body (`longSub`) */
+    overlayTip: {
+      head: 'Try searching within {name}',
+      longHead: 'Try searching within this offer',
+      sub: 'Every result is eligible for {value}',
+      longSub: 'Every result is eligible for {name} {value}',
+    },
   },
 };
 

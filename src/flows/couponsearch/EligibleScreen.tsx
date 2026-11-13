@@ -25,7 +25,7 @@ export function EligibleScreen() {
     barMorph.arm();
     nav.push('couponsearch/search');
   };
-  // `&cn=1..4` (discover.tsx): a nudge for the row versions' eligible-only toggle; no `cn`, or another version: today's bar
+  // `&cn=1..7` (discover.tsx): a nudge for the row versions' eligible-only toggle; no `cn`, or another version: today's bar
   const cn = isRowVariant(variant) ? CN : 0;
   return (
     <CouponListing

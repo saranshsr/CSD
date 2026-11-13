@@ -1,5 +1,8 @@
 import { AnimatePresence, animate, cubicBezier, motion, useMotionValue, useMotionValueEvent, useTransform, type AnimationPlaybackControls, type MotionValue } from 'motion/react';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { OriginIcon } from '../../components';
+import screenStyles from '../../components/Screen/Screen.module.css';
 import { useNav } from '../../kit/Navigator';
 import { easing } from '../../motion/presets';
 import { useReduceMotion } from '../../motion/reducedMotion';
@@ -27,14 +30,19 @@ import styles from './listing.module.css';
  *       "New in search: **BEAUTY10** items only · Tap search to try it". Same counter, timings and dismissal. While it
  *       shows, the tooltip and the bar (its target) open the search with the toggle on; once it has gone, the bar is
  *       today's search again
+ *   5 · 6 · 7 · Tooltip over an overlay (Figma 534:11196): a 90% black scrim over the page, the stock bar lit through
+ *       it, the coupon tooltip under the bar, its pointer on the placeholder word. 5 Mint benefit, 6 Mint plain, 7 Light
+ *       benefit. The tooltip or the lit bar → the search with the toggle on (cn=3's scoped entry); the scrim, a scroll or
+ *       `overlay.hold` s → the page as today. Same counter as cn=3 / 4
  * Tapping the nudge (the tab, or the bar with cn=2) opens the search with the toggle on. Values: `csTokens.discover`.
  * Debug: `&nt=<ms>` freezes the peek clock that many ms after mount (a pure function of its clock, so a frozen rAF
  * still shows the frame).
  */
 const search = typeof window === 'undefined' ? null : new URLSearchParams(window.location.search);
-export const CN: 0 | 1 | 2 | 3 | 4 = (() => {
+export type Cn = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+export const CN: 0 | Cn = (() => {
   const n = Number(search?.get('cn'));
-  return n === 1 || n === 2 || n === 3 || n === 4 ? n : 0;
+  return n >= 1 && n <= 7 && Number.isInteger(n) ? (n as Cn) : 0;
 })();
 const NT: number | null = (() => {
   const raw = search?.get('nt');
@@ -369,6 +377,16 @@ function useTipPeek() {
   return { x, ...look, tappable, tip, leave, reduce };
 }
 
+/** the centre of the bar's placeholder word, px from `from`'s left edge in its own (unscaled) units: the input's UA 2px
+    text inset, then half the word (measured in the input's own font) */
+function placeholderCentre(input: HTMLInputElement, from: HTMLElement) {
+  const k = from.offsetWidth ? from.getBoundingClientRect().width / from.offsetWidth : 1; // the phone frame may be scaled
+  const ctx = document.createElement('canvas').getContext('2d');
+  if (ctx) ctx.font = getComputedStyle(input).font;
+  const word = ctx?.measureText(input.placeholder || copy.search.placeholder).width ?? 44;
+  return (input.getBoundingClientRect().left - from.getBoundingClientRect().left) / k + 2 + word / 2;
+}
+
 /**
  * The tooltip. `anchor: 'seal'` (cn=3): right-aligned `tip.edge` from the screen edge, its pointer on the seal, "New:
  * search only **CODE** items" over the coupon's value line. `anchor: 'field'` (cn=4): on the bar's left edge, its pointer
@@ -389,12 +407,7 @@ function SealTip({ reduce, onPress, anchor = 'seal' }: { reduce: boolean; onPres
     const wrap = self.current?.parentElement;
     const input = wrap?.querySelector('input');
     if (anchor !== 'field' || !wrap || !input) return;
-    const k = wrap.offsetWidth ? wrap.getBoundingClientRect().width / wrap.offsetWidth : 1; // the phone frame may be scaled
-    const ctx = document.createElement('canvas').getContext('2d');
-    if (ctx) ctx.font = getComputedStyle(input).font;
-    const word = ctx?.measureText(input.placeholder || copy.search.placeholder).width ?? 44;
-    // the input's UA 2px text inset, then half the word
-    setAt((input.getBoundingClientRect().left - wrap.getBoundingClientRect().left) / k + 2 + word / 2);
+    setAt(placeholderCentre(input, wrap));
   }, [anchor]);
   const field = anchor === 'field';
   const ptrX = field ? (at ?? 0) - 6 : null;
@@ -509,12 +522,201 @@ function BarTipBar({ onBarPress, onScopedPress }: { onBarPress: () => void; onSc
   );
 }
 
+/* ── cn=5..7 · the tooltip over an overlay ─────────────────────────────────────────────────────────────────────── */
+
+const OV = D.overlay;
+type OvLook = 'mint' | 'light';
+const OV_VARIANT: Record<5 | 6 | 7, { look: OvLook; benefit: boolean }> = {
+  5: { look: 'mint', benefit: true },
+  6: { look: 'mint', benefit: false },
+  7: { look: 'light', benefit: true },
+};
+
+/** "Try searching within CODE" (over "Every result is eligible for VALUE"); a long name reads "…within this offer",
+    the name moving into the body (Figma 534:11599) */
+function overlayCopy(benefit: boolean) {
+  const t = copy.discover.overlayTip;
+  const long = coupon.code.length > OV.longName;
+  const fill = (s: string) => s.replace('{name}', coupon.code).replace('{value}', coupon.short);
+  return { head: fill(long ? t.longHead : t.head), sub: benefit ? fill(long ? t.longSub : t.sub) : null };
+}
+
+/** the layer's geometry, in the screen's own (unscaled) px: its size, the bar's box and corner, the pointer's centre */
+interface Spot {
+  root: HTMLElement;
+  w: number;
+  h: number;
+  bar: { x: number; y: number; w: number; h: number; r: number };
+  ptr: number;
+}
+function measureSpot(root: HTMLElement, wrap: HTMLElement): Spot | null {
+  const bar = wrap.firstElementChild as HTMLElement | null;
+  const input = wrap.querySelector('input');
+  if (!bar || !input || !root.offsetWidth) return null;
+  const k = root.getBoundingClientRect().width / root.offsetWidth;
+  const o = root.getBoundingClientRect();
+  const b = bar.getBoundingClientRect();
+  return {
+    root,
+    w: root.offsetWidth,
+    h: root.offsetHeight,
+    bar: { x: (b.left - o.left) / k, y: (b.top - o.top) / k, w: b.width / k, h: b.height / k, r: parseFloat(getComputedStyle(bar).borderTopLeftRadius) || 0 },
+    ptr: placeholderCentre(input, root),
+  };
+}
+/** the scrim's clip: the whole layer less the bar's rounded box (even-odd), so the bar shows and takes taps through it */
+function scrimHole({ w, h, bar: { x, y, w: bw, h: bh, r } }: Spot) {
+  const a = (dx: number, dy: number) => `A${r} ${r} 0 0 1 ${dx} ${dy}`;
+  return `path(evenodd, "M0 0H${w}V${h}H0Z M${x + r} ${y}H${x + bw - r}${a(x + bw, y + r)}V${y + bh - r}${a(x + bw - r, y + bh)}H${x + r}${a(x, y + bh - r)}V${y + r}${a(x + r, y)}Z")`;
+}
+
+/** the overlay's clock: in `at` s after mount, gone after `hold` s, a scroll, the scrim, or the tip taken (`handed`) */
+function useOverlayTip(measure: () => Spot | null) {
+  const reduce = useReduceMotion();
+  const [spot, setSpot] = useState<Spot | null>(null);
+  const [on, setOn] = useState(false);
+  const stage = useRef<'wait' | 'in' | 'out' | 'handed'>('wait');
+  const hide = (handed = false) => {
+    if (stage.current !== 'in') return;
+    stage.current = handed ? 'handed' : 'out';
+    setOn(false);
+  };
+  const latest = useRef(hide);
+  latest.current = hide;
+  useEffect(() => {
+    const timers: number[] = [];
+    timers.push(
+      window.setTimeout(() => {
+        const s = measure();
+        if (!s) return;
+        stage.current = 'in';
+        setSpot(s);
+        setOn(true);
+        timers.push(window.setTimeout(() => latest.current(), OV.hold * 1000));
+      }, OV.at * 1000),
+    );
+    return () => timers.forEach((t) => window.clearTimeout(t));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  // while it shows, the list scrolling anywhere sends it away
+  useEffect(() => {
+    if (!on) return;
+    const onScroll = () => latest.current();
+    window.addEventListener('scroll', onScroll, { capture: true, passive: true });
+    return () => window.removeEventListener('scroll', onScroll, true);
+  }, [on]);
+  return { spot, on, reduce, showing: () => stage.current === 'in', hide };
+}
+
+function OverlayTip({ spot, look, benefit, reduce, onPress }: { spot: Spot; look: OvLook; benefit: boolean; reduce: boolean; onPress: () => void }) {
+  const text = overlayCopy(benefit);
+  const T = OV.tip;
+  const top = spot.bar.y + spot.bar.h + OV.gap[look] + 6;
+  const ptr = spot.ptr - spot.bar.x; // the pointer's centre, px from the tooltip's left edge
+  const away = reduce ? { opacity: 0 } : { opacity: 0, scale: T.fromScale };
+  return (
+    <motion.button
+      type="button"
+      className={styles.discOvTip}
+      data-look={look}
+      style={{ left: spot.bar.x, top, maxWidth: spot.w - 2 * spot.bar.x, transformOrigin: `${ptr}px -6px` }}
+      initial={away}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ ...away, transition: reduce ? { duration: OV.reduce, ease: T.exit.ease } : T.exit }}
+      transition={reduce ? { duration: OV.reduce, ease: T.fade.ease, delay: T.lag } : { ...T.enter, delay: T.lag, opacity: { ...T.fade, delay: T.lag } }}
+      onClick={onPress}
+      data-testid="cs-discover-ovtip"
+    >
+      <svg className={styles.discOvPtr} style={{ left: ptr - 6 }} viewBox="0 0 12 6" aria-hidden>
+        <path d="M7.06 .49a1.4 1.4 0 0 0-2.12 0L0 6h12L7.06.49Z" fill="currentColor" />
+      </svg>
+      <span className={styles.discOvIcon} aria-hidden>
+        <OriginIcon name="discount" filled size={16} color="var(--nk-field-text-success)" />
+      </span>
+      <span className={styles.discOvText}>
+        <span className={styles.discOvHead}>{text.head}</span>
+        {text.sub && <span className={styles.discOvSub}>{text.sub}</span>}
+      </span>
+    </motion.button>
+  );
+}
+
+function OverlayTipBar({ cn, onBarPress, onScopedPress }: { cn: 5 | 6 | 7; onBarPress: () => void; onScopedPress: () => void }) {
+  const nav = useNav();
+  const v = OV_VARIANT[cn];
+  const wrap = useRef<HTMLDivElement>(null);
+  // the layer goes in the page's own Screen root, so it covers its header and footer and leaves with the page
+  const t = useOverlayTip(() => {
+    const w = wrap.current;
+    const root = w?.closest<HTMLElement>(`.${screenStyles.screen}`);
+    return w && root ? measureSpot(root, w) : null;
+  });
+  const zero = useMotionValue(0);
+  const leaving = useRef(false);
+  // the tooltip, or the lit bar while it shows: the search with the toggle on, on cn=3's scoped entry (the bar never
+  // drew back, so its value is 0 and only the Eligible row slides in)
+  const onScoped = () => {
+    if (leaving.current) return;
+    leaving.current = true;
+    tipNudge.used();
+    t.hide(true);
+    if (!t.reduce) scopedEntry.arm({ x: zero, at: performance.now() });
+    onScopedPress();
+  };
+  const S = OV.scrim;
+  return (
+    <div
+      ref={wrap}
+      className={styles.disc}
+      data-cn={cn}
+      // the whole lit bar is the target while it shows (bar padding included), except its back button
+      onClick={(e) => t.showing() && !(e.target as Element).closest('[aria-label="Back"]') && onScoped()}
+    >
+      <CsSearchBar value="" onChange={() => undefined} onBack={nav.back} onFieldPress={() => (t.showing() ? onScoped() : onBarPress())} />
+      {t.spot &&
+        createPortal(
+          <div className={styles.discOv} data-out={t.on ? undefined : ''}>
+            <AnimatePresence>
+              {t.on && (
+                <motion.div
+                  key="scrim"
+                  className={styles.discOvScrim}
+                  style={{ clipPath: scrimHole(t.spot) }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: S.opacity }}
+                  exit={{ opacity: 0, transition: t.reduce ? { duration: OV.reduce, ease: S.exit.ease } : { ...S.exit, delay: S.exitLag } }}
+                  transition={t.reduce ? { duration: OV.reduce, ease: S.enter.ease } : S.enter}
+                  onClick={() => t.hide()}
+                  onWheel={() => t.hide()}
+                  onTouchMove={() => t.hide()}
+                  aria-hidden
+                  data-testid="cs-discover-scrim"
+                />
+              )}
+              {t.on && <OverlayTip key="tip" spot={t.spot} look={v.look} benefit={v.benefit} reduce={t.reduce} onPress={onScoped} />}
+            </AnimatePresence>
+          </div>,
+          t.spot.root,
+        )}
+    </div>
+  );
+}
+
+/** cn=5..7 on a visit the counter has used up (or after the coupon search was used): today's bar */
+function OverlayBar({ cn, onBarPress, onScopedPress }: { cn: 5 | 6 | 7; onBarPress: () => void; onScopedPress: () => void }) {
+  const nav = useNav();
+  const [plays] = useState(() => tipNudge.claim());
+  if (!plays) return <CsSearchBar value="" onChange={() => undefined} onBack={nav.back} onFieldPress={onBarPress} />;
+  return <OverlayTipBar cn={cn} onBarPress={onBarPress} onScopedPress={onScopedPress} />;
+}
+
 /**
  * The coupon page's bar row with the `cn` nudge. `onBarPress`: today's search entry; `onScopedPress`: the search with
  * the toggle on (cn=1 / 3: the tab, and cn=3's tooltip; cn=2: the whole bar, as its placeholder promises; cn=4: the
- * tooltip, and the bar while the tooltip shows).
+ * tooltip, and the bar while the tooltip shows; cn=5..7: the tooltip, and the lit bar while the overlay shows).
  */
-export function DiscoverBar({ cn, onBarPress, onScopedPress }: { cn: 1 | 2 | 3 | 4; onBarPress: () => void; onScopedPress: () => void }) {
+export function DiscoverBar({ cn, onBarPress, onScopedPress }: { cn: Cn; onBarPress: () => void; onScopedPress: () => void }) {
+  if (cn === 5 || cn === 6 || cn === 7) return <OverlayBar cn={cn} onBarPress={onBarPress} onScopedPress={onScopedPress} />;
   if (cn === 3 || cn === 4) return <TipBar cn={cn} onBarPress={onBarPress} onScopedPress={onScopedPress} />;
   return cn === 1 ? <PeekBar onBarPress={onBarPress} onScopedPress={onScopedPress} /> : <PlaceholderBar onScopedPress={onScopedPress} />;
 }
