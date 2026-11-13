@@ -23,14 +23,18 @@ import styles from './listing.module.css';
  *       **BEAUTY10** items"; it goes after `tip.hold` s (or on a scroll, or a tap elsewhere) and the tab slides out. The
  *       first 3 coupon-page visits only, one counter for all coupons, ended early by using the coupon search
  *       (tipNudge.ts; `&nr=1` resets it). Seal or tooltip → the cn=1 scoped entry; the bar → today's search
+ *   4 · Tooltip under the bar: no seal. The same tooltip hangs under the bar, its pointer on the placeholder word,
+ *       "New in search: **BEAUTY10** items only · Tap search to try it". Same counter, timings and dismissal. While it
+ *       shows, the tooltip and the bar (its target) open the search with the toggle on; once it has gone, the bar is
+ *       today's search again
  * Tapping the nudge (the tab, or the bar with cn=2) opens the search with the toggle on. Values: `csTokens.discover`.
  * Debug: `&nt=<ms>` freezes the peek clock that many ms after mount (a pure function of its clock, so a frozen rAF
  * still shows the frame).
  */
 const search = typeof window === 'undefined' ? null : new URLSearchParams(window.location.search);
-export const CN: 0 | 1 | 2 | 3 = (() => {
+export const CN: 0 | 1 | 2 | 3 | 4 = (() => {
   const n = Number(search?.get('cn'));
-  return n === 1 || n === 2 || n === 3 ? n : 0;
+  return n === 1 || n === 2 || n === 3 || n === 4 ? n : 0;
 })();
 const NT: number | null = (() => {
   const raw = search?.get('nt');
@@ -268,6 +272,26 @@ function PlaceholderBar({ onScopedPress }: { onScopedPress: () => void }) {
 const TIP = D.tip;
 const snap = (v: number) => (v < 0.0005 ? 0 : v > 0.9995 ? 1 : v);
 
+/** while `on`: a scroll anywhere, or a press outside `keep` (a selector), calls `dismiss` */
+function useTipDismiss(on: boolean, dismiss: () => void, keep: string) {
+  const latest = useRef(dismiss);
+  latest.current = dismiss;
+  useEffect(() => {
+    if (!on) return;
+    const onScroll = () => latest.current();
+    const onDown = (e: PointerEvent) => {
+      const el = e.target instanceof Element ? e.target : null;
+      if (!el?.closest(keep)) latest.current();
+    };
+    window.addEventListener('scroll', onScroll, { capture: true, passive: true });
+    document.addEventListener('pointerdown', onDown, true);
+    return () => {
+      window.removeEventListener('scroll', onScroll, true);
+      document.removeEventListener('pointerdown', onDown, true);
+    };
+  }, [on, keep]);
+}
+
 /**
  * The cn=1 tab on its own clock, held for the tooltip: in on the peek's spring at `settle`, the tooltip `tip.at` s
  * later, the tooltip gone after `tip.hold` s (or a scroll, or a tap elsewhere: `dismiss`), and the tab out on the same
@@ -328,21 +352,7 @@ function useTipPeek() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // while the tooltip shows: the list scrolling, or a press anywhere but the seal or the tooltip, sends it away
-  useEffect(() => {
-    if (!tip) return;
-    const onScroll = () => dismiss();
-    const onDown = (e: PointerEvent) => {
-      const el = e.target instanceof Element ? e.target : null;
-      if (!el?.closest('[data-testid="cs-discover-tab"], [data-testid="cs-discover-tip"]')) dismiss();
-    };
-    window.addEventListener('scroll', onScroll, { capture: true, passive: true });
-    document.addEventListener('pointerdown', onDown, true);
-    return () => {
-      window.removeEventListener('scroll', onScroll, true);
-      document.removeEventListener('pointerdown', onDown, true);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tip]);
+  useTipDismiss(tip, dismiss, '[data-testid="cs-discover-tab"], [data-testid="cs-discover-tip"]');
 
   const look = usePeekLook(x, q);
   const [tappable, setTappable] = useState(() => x.get() > 0.5);
@@ -359,22 +369,44 @@ function useTipPeek() {
   return { x, ...look, tappable, tip, leave, reduce };
 }
 
-/** the tooltip: "New: search only **CODE** items" over the coupon's value line, its pointer on the seal */
-function SealTip({ reduce, onPress }: { reduce: boolean; onPress: () => void }) {
+/**
+ * The tooltip. `anchor: 'seal'` (cn=3): right-aligned `tip.edge` from the screen edge, its pointer on the seal, "New:
+ * search only **CODE** items" over the coupon's value line. `anchor: 'field'` (cn=4): on the bar's left edge, its pointer
+ * on the centre of the bar's placeholder word (measured from the input, so it follows the bar's own inset and font),
+ * "New in search: **CODE** items only" over "Tap search to try it".
+ */
+function SealTip({ reduce, onPress, anchor = 'seal' }: { reduce: boolean; onPress: () => void; anchor?: 'seal' | 'field' }) {
+  const text = anchor === 'seal' ? copy.discover.tip : copy.discover.barTip;
+  const self = useRef<HTMLButtonElement>(null);
   const head = useRef<HTMLSpanElement>(null);
-  // one line while it fits; otherwise "New: search only" over "CODE items", so the box hugs its longest line
+  // one line while it fits; otherwise the lead over "CODE items…", so the box hugs its longest line
   const [stack, setStack] = useState(false);
+  // cn=4: the pointer's centre, px from the bar's left edge
+  const [at, setAt] = useState<number | null>(null);
   useLayoutEffect(() => {
     const el = head.current;
     if (el && el.scrollWidth > TIP.maxWidth - 16) setStack(true);
-  }, []);
-  const tipAt = `calc(100% - ${TIP.pointerInset + 6}px) -6px`;
+    const wrap = self.current?.parentElement;
+    const input = wrap?.querySelector('input');
+    if (anchor !== 'field' || !wrap || !input) return;
+    const k = wrap.offsetWidth ? wrap.getBoundingClientRect().width / wrap.offsetWidth : 1; // the phone frame may be scaled
+    const ctx = document.createElement('canvas').getContext('2d');
+    if (ctx) ctx.font = getComputedStyle(input).font;
+    const word = ctx?.measureText(input.placeholder || copy.search.placeholder).width ?? 44;
+    // the input's UA 2px text inset, then half the word
+    setAt((input.getBoundingClientRect().left - wrap.getBoundingClientRect().left) / k + 2 + word / 2);
+  }, [anchor]);
+  const field = anchor === 'field';
+  const ptrX = field ? (at ?? 0) - 6 : null;
+  const tipAt = field ? `${(at ?? 0)}px -6px` : `calc(100% - ${TIP.pointerInset + 6}px) -6px`;
+  const place = field ? { left: 0 } : { right: `calc(${TIP.edge}px - var(--nk-space-s16))` };
   const away = reduce ? { opacity: 0 } : { opacity: 0, scale: TIP.fromScale };
   return (
     <motion.button
+      ref={self}
       type="button"
       className={styles.discTip}
-      style={{ top: `calc(100% + ${TIP.gap + 6}px)`, right: `calc(${TIP.edge}px - var(--nk-space-s16))`, maxWidth: TIP.maxWidth, transformOrigin: tipAt }}
+      style={{ top: `calc(100% + ${TIP.gap + 6}px)`, ...place, maxWidth: TIP.maxWidth, transformOrigin: tipAt, visibility: field && at == null ? 'hidden' : undefined }}
       initial={away}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ ...away, transition: TIP.exit }}
@@ -383,16 +415,16 @@ function SealTip({ reduce, onPress }: { reduce: boolean; onPress: () => void }) 
       aria-label={copy.discover.tabLabel}
       data-testid="cs-discover-tip"
     >
-      <svg className={styles.discTipPtr} style={{ right: TIP.pointerInset }} viewBox="0 0 12 6" aria-hidden>
+      <svg className={styles.discTipPtr} style={ptrX == null ? { right: TIP.pointerInset } : { left: ptrX }} viewBox="0 0 12 6" aria-hidden>
         <path d="M7.06 .49a1.4 1.4 0 0 0-2.12 0L0 6h12L7.06.49Z" fill="currentColor" />
       </svg>
       <span ref={head} className={styles.discTipHead} data-stack={stack || undefined}>
-        <span>{copy.discover.tip.lead} </span>
+        <span>{text.lead} </span>
         <span>
-          <b>{coupon.code}</b> {copy.discover.tip.tail}
+          <b>{coupon.code}</b> {text.tail}
         </span>
       </span>
-      <span className={styles.discTipSub}>{copy.discover.tip.sub}</span>
+      <span className={styles.discTipSub}>{text.sub}</span>
     </motion.button>
   );
 }
@@ -421,19 +453,68 @@ function TipPeekBar({ onBarPress, onScopedPress }: { onBarPress: () => void; onS
   );
 }
 
-/** cn=3 on a visit the counter has used up (or after the coupon search was used): today's bar */
-function TipBar({ onBarPress, onScopedPress }: { onBarPress: () => void; onScopedPress: () => void }) {
+/** cn=3 / 4 on a visit the counter has used up (or after the coupon search was used): today's bar */
+function TipBar({ cn, onBarPress, onScopedPress }: { cn: 3 | 4; onBarPress: () => void; onScopedPress: () => void }) {
   const nav = useNav();
   const [plays] = useState(() => tipNudge.claim());
   if (!plays) return <CsSearchBar value="" onChange={() => undefined} onBack={nav.back} onFieldPress={onBarPress} />;
-  return <TipPeekBar onBarPress={onBarPress} onScopedPress={onScopedPress} />;
+  return cn === 3 ? <TipPeekBar onBarPress={onBarPress} onScopedPress={onScopedPress} /> : <BarTipBar onBarPress={onBarPress} onScopedPress={onScopedPress} />;
+}
+
+/* ── cn=4 · the tooltip under the bar ──────────────────────────────────────────────────────────────────────────── */
+
+/** cn=3's tooltip clock without the seal: in at `settle` + `tip.at`, gone after `tip.hold` s, a scroll, or a press
+    outside the tooltip and the bar */
+function useBarTip() {
+  const reduce = useReduceMotion();
+  const [tip, setTip] = useState(false);
+  const stage = useRef<'in' | 'tip' | 'out'>('in');
+  useEffect(() => {
+    const timers: number[] = [];
+    timers.push(
+      window.setTimeout(() => {
+        stage.current = 'tip';
+        setTip(true);
+        timers.push(window.setTimeout(hide, TIP.hold * 1000));
+      }, (IN_AT + TIP.at) * 1000),
+    );
+    return () => timers.forEach((t) => window.clearTimeout(t));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  function hide() {
+    if (stage.current !== 'tip') return;
+    stage.current = 'out';
+    setTip(false);
+  }
+  useTipDismiss(tip, hide, '[data-testid="cs-discover-tip"], [data-cs-tip-bar]');
+  return { tip, reduce, showing: () => stage.current === 'tip', hide };
+}
+
+function BarTipBar({ onBarPress, onScopedPress }: { onBarPress: () => void; onScopedPress: () => void }) {
+  const nav = useNav();
+  const t = useBarTip();
+  // while the tooltip shows, the bar is the target it points at: tapping either takes the tip (search, toggle on)
+  const onScoped = () => {
+    tipNudge.used();
+    t.hide();
+    onScopedPress();
+  };
+  return (
+    <div className={styles.disc} data-cn="4">
+      <div data-cs-tip-bar>
+        <CsSearchBar value="" onChange={() => undefined} onBack={nav.back} onFieldPress={() => (t.showing() ? onScoped() : onBarPress())} />
+      </div>
+      <AnimatePresence>{t.tip && <SealTip key="tip" anchor="field" reduce={t.reduce} onPress={onScoped} />}</AnimatePresence>
+    </div>
+  );
 }
 
 /**
  * The coupon page's bar row with the `cn` nudge. `onBarPress`: today's search entry; `onScopedPress`: the search with
- * the toggle on (cn=1 / 3: the tab, and cn=3's tooltip; cn=2: the whole bar, as its placeholder promises).
+ * the toggle on (cn=1 / 3: the tab, and cn=3's tooltip; cn=2: the whole bar, as its placeholder promises; cn=4: the
+ * tooltip, and the bar while the tooltip shows).
  */
-export function DiscoverBar({ cn, onBarPress, onScopedPress }: { cn: 1 | 2 | 3; onBarPress: () => void; onScopedPress: () => void }) {
-  if (cn === 3) return <TipBar onBarPress={onBarPress} onScopedPress={onScopedPress} />;
+export function DiscoverBar({ cn, onBarPress, onScopedPress }: { cn: 1 | 2 | 3 | 4; onBarPress: () => void; onScopedPress: () => void }) {
+  if (cn === 3 || cn === 4) return <TipBar cn={cn} onBarPress={onBarPress} onScopedPress={onScopedPress} />;
   return cn === 1 ? <PeekBar onBarPress={onBarPress} onScopedPress={onScopedPress} /> : <PlaceholderBar onScopedPress={onScopedPress} />;
 }

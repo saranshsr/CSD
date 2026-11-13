@@ -383,6 +383,8 @@ export const csTokens = {
      * cn=1 scoped entry (the tab leaves, the search opens with the toggle on); the bar tapped: today's search.
      * Plays on the first `visits` coupon-page visits, one counter for all coupons, and never again once the coupon
      * search was used (tipNudge.ts). Reduced motion: the tab rests in place, the tooltip fades in and out, the tab stays.
+     * cn=4 (Figma 507:6722): the same tooltip and clock with no seal, on the bar's left edge, its pointer on the centre
+     * of the placeholder word (tip Top · Beginning); the tooltip and, while it shows, the bar open the search toggle-on.
      */
     tip: {
       at: 0.45,

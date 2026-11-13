@@ -132,6 +132,8 @@ export const copy = {
     tabLabel: `Search within ${coupon.code} items only`,
     /** cn=3 tooltip: "New: search only **CODE** items" over the coupon's value line */
     tip: { lead: 'New: search only', tail: 'items', sub: coupon.bandValue ?? coupon.value },
+    /** cn=4 tooltip under the bar: an option inside today's search, never the bar turning scoped */
+    barTip: { lead: 'New in search:', tail: 'items only', sub: 'Tap search to try it' },
   },
 };
 
