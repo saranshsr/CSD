@@ -421,7 +421,7 @@ export const csTokens = {
       at: 0.45,
       hold: 5,
       scrim: {
-        opacity: 0.9,
+        opacity: 0.7,
         enter: { duration: 0.3, ease: [0.215, 0.61, 0.355, 1] as [number, number, number, number] },
         exit: { duration: 0.2, ease: [0.4, 0, 1, 1] as [number, number, number, number] },
         exitLag: 0.06,

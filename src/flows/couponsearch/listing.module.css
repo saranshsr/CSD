@@ -113,7 +113,8 @@
 .discOvPtr { position: absolute; top: -6px; display: block; width: 12px; height: 6px; color: var(--ov-surface); }
 .discOvIcon { flex: none; display: flex; padding: var(--nk-space-s2); }
 .discOvText { display: flex; flex-direction: column; gap: var(--nk-space-s2); min-width: 0; }
-.discOvHead { font: var(--nk-type-field-b14-semibold); letter-spacing: var(--nk-field-tracking-b); white-space: nowrap; }
+.discOvHead { font: var(--nk-type-field-b14-semibold); letter-spacing: var(--nk-field-tracking-b); text-wrap: balance; }
+.discOvTip { max-width: 264px; }
 .discOvSub { font: var(--nk-type-field-b12-regular); letter-spacing: var(--nk-field-tracking-b); color: var(--ov-sub); }
 
 /* the floating Sort | Filter pill and share circle (no kit counterpart), 12 above the floating glass tab bar; it rides

@@ -137,8 +137,8 @@ export const copy = {
     /** cn=5..7 tooltip over the overlay (Figma 534:11196): `{name}` is the coupon code, `{value}` its short benefit.
         A name longer than `csTokens.discover.overlay.longName` takes `longHead`, and moves into the body (`longSub`) */
     overlayTip: {
-      head: 'Try searching within {name}',
-      longHead: 'Try searching within this offer',
+      head: 'You can now search within this coupon’s eligible items',
+      longHead: 'You can now search within this coupon’s eligible items',
       sub: 'Every result is eligible for {value}',
       longSub: 'Every result is eligible for {name} {value}',
     },
