@@ -623,7 +623,7 @@ function OverlayTip({ spot, version, reduce, onPress }: { spot: Spot; version: O
         <path d="M7.06 .49a1.4 1.4 0 0 0-2.12 0L0 6h12L7.06.49Z" fill="currentColor" />
       </svg>
       <span className={styles.discOvIcon} aria-hidden>
-        <OriginIcon name="discount" filled size={16} color="var(--nk-field-text-success)" />
+        <OriginIcon name="discount" filled size={version === 'b' ? 18 : 16} color="var(--nk-field-text-success)" />
       </span>
       <span className={styles.discOvText}>
         {version === 'a' ? (
