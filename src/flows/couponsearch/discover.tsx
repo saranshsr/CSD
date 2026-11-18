@@ -557,6 +557,17 @@ function scrimHole({ w, h, bar: { x, y, w: bw, h: bh, r } }: Spot) {
   return `path(evenodd, "M0 0H${w}V${h}H0Z M${x + r} ${y}H${x + bw - r}${a(x + bw, y + r)}V${y + bh - r}${a(x + bw - r, y + bh)}H${x + r}${a(x, y + bh - r)}V${y + r}${a(x + r, y)}Z")`;
 }
 
+/**
+ * Spec sheet only (public/spec/proto.html sets `__nkSpec` before the app loads; nothing changes for anyone else): the
+ * overlay doesn't start on mount, so the sheet's other scenes record today's page. Instead it registers
+ * `__nkSpecNudge()`, which the sheet fires at a scene's Start; that arms the very same `at` s clock as a mount would.
+ * `__nkSpecNudgePrime()` (fired in a sheet state, before Start) mounts the overlay's empty layer (pointer-events: none,
+ * nothing on screen) ahead of time, so it is in the copy the sheet takes at Start: a layer created inside a recording is
+ * restored empty when the playhead jumps back across a later push of the search.
+ */
+type SpecWin = Window & { __nkSpec?: boolean; __nkSpecNudge?: () => void; __nkSpecNudgePrime?: () => void };
+const SPEC_HOOK = typeof window !== 'undefined' && (window as SpecWin).__nkSpec === true;
+
 /** the overlay's clock: in `at` s after mount, gone after `hold` s, a scroll, the scrim, or the tip taken (`handed`) */
 function useOverlayTip(measure: () => Spot | null) {
   const reduce = useReduceMotion();
@@ -572,17 +583,33 @@ function useOverlayTip(measure: () => Spot | null) {
   latest.current = hide;
   useEffect(() => {
     const timers: number[] = [];
-    timers.push(
-      window.setTimeout(() => {
-        const s = measure();
-        if (!s) return;
-        stage.current = 'in';
-        setSpot(s);
-        setOn(true);
-        timers.push(window.setTimeout(() => latest.current(), OV.hold * 1000));
-      }, OV.at * 1000),
-    );
-    return () => timers.forEach((t) => window.clearTimeout(t));
+    const start = () => {
+      if (stage.current !== 'wait') return;
+      timers.push(
+        window.setTimeout(() => {
+          const s = measure();
+          if (!s) return;
+          stage.current = 'in';
+          setSpot(s);
+          setOn(true);
+          timers.push(window.setTimeout(() => latest.current(), OV.hold * 1000));
+        }, OV.at * 1000),
+      );
+    };
+    const w = window as SpecWin;
+    const prime = () => {
+      const s = stage.current === 'wait' ? measure() : null;
+      if (s) setSpot(s);
+    };
+    if (SPEC_HOOK) {
+      w.__nkSpecNudge = start;
+      w.__nkSpecNudgePrime = prime;
+    } else start();
+    return () => {
+      timers.forEach((t) => window.clearTimeout(t));
+      if (SPEC_HOOK && w.__nkSpecNudge === start) delete w.__nkSpecNudge;
+      if (SPEC_HOOK && w.__nkSpecNudgePrime === prime) delete w.__nkSpecNudgePrime;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // while it shows, the list scrolling anywhere sends it away

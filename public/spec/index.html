@@ -494,8 +494,10 @@ window.SpecKit = (() => {
 /* ═══ PROJECT CONFIG — everything specific to this prototype lives here ═══════════
    The engine below never changes between projects: it reads window.SPEC only.
    Full schema: references/config-reference.md · worked example: references/example-noon-config.js
-   Scope: the "nudge" only: the Eligible row v2 toggle row (`?v=row2`, choreography `tg=5`, the default).
-   Source of every number: src/flows/couponsearch/{components/EligibleRow.tsx, tokens.ts (csTokens.toggleV2), search.module.css},
+   Scope: the coupon page at `/beauty10?v=row2&solo=1&cn=6`: the search nudge over the coupon page (`cn=6`, scenes 4–6: scrim,
+   lit search bar, tooltip B) and the Eligible row v2 toggle row (`?v=row2`, choreography `tg=5`, the default; scenes 1–3).
+   Source of every number: src/flows/couponsearch/{components/EligibleRow.tsx, tokens.ts (csTokens.toggleV2, csTokens.discover.overlay
+   + .slide), discover.tsx (OverlayTip / useOverlayTip / OverlayTipBar / useScopedSlide), transitions.ts, search.module.css},
    src/motion/{presets,haptics}.ts; confirmed frame by frame on a virtual clock and with scripts/measure.mjs. */
 window.SPEC = (() => {
   const { springFn, firstT, S, C, H, sceneEnd, wait: realWait } = SpecKit;
@@ -505,22 +507,32 @@ window.SPEC = (() => {
      setTimeout indirections motion/react and React need to follow the sheet's virtual clock (see the file's header comment).
      Opened without ?spec= the harness forwards to the nudge URL, so the header's ← lands on the prototype. */
   const PATHS = { 1: '/spec/proto.html' };
-  const ITER = { 1: 'Eligible row v2' };
+  const ITER = { 1: 'Iteration 01 · Search nudge over the coupon page + Eligible row v2' };
 
   /* springs: ω = 2π / response, ζ = dampingFraction (`appleSpring` in src/motion/presets.ts); the inspector prints
      SPRING(Tension ω², Friction 2ζω). Critically damped springs (ζ 1) are written 0.999 (ζ 1 divides by zero in the plot). */
   const ap = (response, z = 1) => ({ w: +((2 * Math.PI) / response).toFixed(4), z: Math.min(z, 0.999) });
+  // the tooltip spring's ω, solved exactly as motion-dom's findSpring (critically damped branch, 12 Newton steps from 5 / duration)
+  const TIP_W = (() => { const d = 0.35; let w = 5 / d; for (let i = 1; i < 12; i++) { const a = Math.exp(-w * d); w -= (-0.001 + a * (w * d + 1)) / (a * -w * d * d); } return +w.toFixed(4); })();
   const SPR = {
     knob:   { name: 'Knob spring',        ...ap(0.363),   src: 'csTokens.toggleV2.knobSpring = appleSpring(0.363, 1) (UISwitch, Field springLight response)' },
     ret:    { name: 'Stretch return',     w: 15.5, z: 0.999, src: 'supermall.springs.return, k 240.25 · c 31 · m 1 (critically damped)' },
     inkOn:  { name: 'Seal ink (on)',      ...ap(0.16),    src: 'toggleV2.mix.stamp.ink = appleSpring(0.16, 1)' },
     inkOff: { name: 'Seal ink (off)',     ...ap(0.2),     src: 'toggleV2.mix.stamp.inkOff = appleSpring(0.2, 1)' },
     hand:   { name: 'Handoff spring',     w: 16.75, z: 0.81, src: 'handoff.spring, k 280.6 · c 27.14 (src/motion/presets.ts), used by the row\'s rise' },
+    // Motion's duration-defined spring { type: 'spring', bounce: 0, duration: 0.35 } (csTokens.discover.overlay.tip.enter), resolved the way
+    // motion-dom's findSpring does: ζ = 1 − bounce = 1 (critically damped), ω = the root of (1 + ω·d)·e^(−ω·d) = 0.001 at d = 0.35s
+    // (Newton from 5/d) → ω 26.381 rad/s · k = ω² 695.97 · c = 2ζω 52.76 (mass 1). Motion ends it at exactly d (0.1% of the travel left).
+    tip:    { name: 'Tooltip spring',     w: TIP_W, z: 0.999, src: 'csTokens.discover.overlay.tip.enter = { type: spring, bounce 0, duration 0.35 } → k 695.97 · c 52.76 (motion findSpring)' },
   };
   const CURVE = {
     out: { name: 'Ease-out (handoff)', fn: 'linear(0, 0.2363, 0.3453, 0.4424, 0.5291, 0.607, 0.6754, 0.7351, 0.7873, 0.8322, 0.8702, 0.9019, 0.9278, 0.9489, 0.9654, 0.9779, 0.9871, 0.9933, 0.9971, 0.9991, 1)' },
     io:  { name: 'Ease-in-out (handoff)', fn: 'linear(0, 0.009, 0.0207, 0.0384, 0.0644, 0.1004, 0.1507, 0.2205, 0.3141, 0.4332, 0.5641, 0.6834, 0.7786, 0.8477, 0.8976, 0.9344, 0.9605, 0.9789, 0.9908, 0.9976, 1)' },
     lin: { name: 'Linear', fn: 'linear(0, 1)' },
+    // the nudge's curves, cubic-beziers sampled at 21 / 25 points
+    ocub: { name: 'Ease-out cubic (0.215, 0.61, 0.355, 1)', fn: 'linear(0, 0.1408, 0.2757, 0.3992, 0.5077, 0.6003, 0.6778, 0.7422, 0.7953, 0.8391, 0.8751, 0.9046, 0.9287, 0.9482, 0.9638, 0.976, 0.9853, 0.9921, 0.9966, 0.9992, 1)' },
+    in:   { name: 'Ease-in (0.4, 0, 1, 1)', fn: 'linear(0, 0.0049, 0.0184, 0.0391, 0.0662, 0.0986, 0.1359, 0.1776, 0.2232, 0.2723, 0.3248, 0.3804, 0.4388, 0.5, 0.5638, 0.6301, 0.6988, 0.77, 0.8438, 0.9201, 1)' },
+    nav:  { name: 'iOS navigation (0.32, 0.72, 0, 1)', fn: 'linear(0, 0.1001, 0.2168, 0.3581, 0.5274, 0.6821, 0.7791, 0.8381, 0.8773, 0.9052, 0.9261, 0.9422, 0.9548, 0.9649, 0.973, 0.9795, 0.9848, 0.989, 0.9923, 0.995, 0.9969, 0.9983, 0.9993, 0.9998, 1)' },
   };
 
   /* ═══ layers: the row's CSS-module classes are hashed in the build, so select them by stable substring ═══ */
@@ -533,6 +545,12 @@ window.SPEC = (() => {
     sub:   '[class*="_erValue_"]',  // Subtitle
     track: '[class*="_erTrack_"]',  // Switch track
     knob:  '[class*="_erKnob_"]',   // Switch knob
+    // the search nudge over the coupon page (cn=6, discover.tsx OverlayTipBar)
+    scrim: '[data-testid="cs-discover-scrim"]',   // Scrim (black, 70%, portalled into the page's Screen root)
+    tip:   '[data-testid="cs-discover-ovtip"]',   // Tooltip (Light M-Tooltip, version B, 328 wide)
+    bar:   '[data-cn="6"] > :first-child',        // Search bar (spotlit): the stock bar, shown through the scrim's hole
+    search: '[class*="_screen_"]:has([role=switch])', // Search screen (the pushed layer)
+    slide: '[class*="_erWrap_"] > div',           // Eligible row during the scoped entry (its x / opacity wrapper)
   };
 
   /* ═══ numbers derived from the code ═══ */
@@ -609,8 +627,56 @@ window.SPEC = (() => {
         note: `The subtitle (centre ≈ 36% along the row, from the left) turns ${on ? 'green as the front crosses it' : 'grey as the green recedes back past it'}: its colour is the fill’s own opacity at that point, so across the wide feather the change takes about 0.2s and never pops; it is a function of the front, not a timer. The title keeps its colour throughout.` };
   };
 
+  /* ═══ the search nudge (cn=6): csTokens.discover.overlay, in ms ═══ */
+  const OV = { at: 450, hold: 5000, scrimIn: 300, lag: 100, tipIn: 350, fadeIn: 200, tipOut: 160, scrimOut: 200, exitLag: 60, reduce: 200 };
+  const SL = { delay: 40, dur: 650, fade: 650 * 0.25 };   // csTokens.discover.slide: the Eligible row's scoped entry
+  const nudgeExit = () => [
+    { icon: 'opacity', prop: 'Opacity', layer: 'Tooltip', sel: L.tip, delay: 0, dur: OV.tipOut, from: '1', to: '0', ease: C('in'),
+      note: 'The tooltip goes first, eased in and quicker than it came (tip.exit 0.16s). Reduced motion: opacity only, 0.2s.' },
+    { icon: 'scale', prop: 'Scale', layer: 'Tooltip', sel: L.tip, delay: 0, dur: OV.tipOut, from: '100%', to: '96%', ease: C('in'),
+      note: 'Shrinks back into its pointer tip (origin 50px, −6px), the way it came.' },
+    { icon: 'opacity', prop: 'Opacity', layer: 'Scrim', sel: L.scrim, delay: OV.exitLag, dur: OV.scrimOut, from: '0.7', to: '0', ease: C('in'),
+      note: 'The scrim follows 60ms after the tooltip starts to leave (scrim.exitLag), 0.2s eased in. Once it is gone the layer unmounts and the page is today’s again.' },
+  ];
+  const nudgeScenes = () => [
+    { id: 4, name: 'Nudge appears & holds', trig: 'Coupon page opens (the nudge starts 0.45s after mount)', rows: () => [
+      { grp: 'Scrim', at: OV.at, note: 'Once the page has settled (overlay.at 0.45s after the coupon page mounts, the listing faded in). Plays on the first 3 coupon-page visits only, one counter for every coupon, never again once the coupon search has been used (tipNudge.ts; &nr=1 resets it).' },
+      { icon: 'opacity', prop: 'Opacity', layer: 'Scrim', sel: L.scrim, delay: OV.at, dur: OV.scrimIn, from: '0', to: '0.7', ease: C('ocub'),
+        note: 'Black (#000) at 70% (Figma fill rgba(0,0,0,0.7)) over the whole coupon page, header and footer included, on a plain ease-out, 0.3s. Reduced motion: 0.2s, same curve.' },
+      { icon: 'flag', prop: 'Spotlight', layer: 'Search bar (spotlit)', sel: L.bar, delay: OV.at, dur: OV.scrimIn, from: '—', to: '—', ease: C('ocub'),
+        note: 'Not animated: the scrim has a hole cut to the bar’s own box (clip-path, even-odd, the bar’s 12px corners), so the stock bar stays lit at full strength and takes taps through it. Nothing is added to the bar and nothing on it moves.' },
+      { grp: 'Tooltip', at: OV.at + OV.lag, note: '0.1s after the scrim starts (tip.lag).' },
+      { icon: 'scale', prop: 'Scale', layer: 'Tooltip', sel: L.tip, delay: OV.at + OV.lag, dur: OV.tipIn, from: '96%', to: '100%', ease: S('tip'),
+        note: 'Grows out of its pointer tip (transform-origin 50px, −6px: the pointer’s centre, 50px from the tooltip’s left) on a no-bounce spring: Motion { type: spring, bounce: 0, duration: 0.35 }, which ends at exactly 0.35s. The pointer tip sits 8px under the bar, at its left edge. Reduced motion: no scale, opacity only.' },
+      { icon: 'opacity', prop: 'Opacity', layer: 'Tooltip', sel: L.tip, delay: OV.at + OV.lag, dur: OV.fadeIn, from: '0', to: '1', ease: C('ocub'),
+        note: 'Fades in faster than it scales (tip.fade 0.2s, the scrim’s ease-out), so it reads as solid while the scale is still landing.' },
+      { grp: 'Hold', at: OV.at, note: 'The 5s hold is timed from the moment the scrim starts.' },
+      { icon: 'flag', prop: 'Hold', layer: 'Tooltip', sel: L.tip, delay: OV.at, dur: OV.hold, from: '0s', to: '5s', ease: C('lin'),
+        note: 'Stays up 5s (overlay.hold), then leaves by itself. Earlier exits: a tap on the scrim or any scroll of the page (scene 5, the same exit); a tap on the tooltip or on the lit bar opens the search with the toggle on (scene 6). The bar’s back arrow still works as back.' },
+      { grp: 'Hold ends', at: OV.at + OV.hold, note: 'With no tap or scroll, the nudge leaves on its own at 5.45s, on the same exit as a tap on the scrim (scene 5).' },
+      ...nudgeExit().map((r) => ({ ...r, delay: OV.at + OV.hold + r.delay })),
+    ] },
+    { id: 5, name: 'Nudge leaves', trig: 'Tap the scrim (or a scroll; the 5s hold ends the same way)', rows: () => [
+      { grp: 'Exit', at: 0, note: 'Same exit for all three: the tap on the scrim, the end of the 5s hold, a scroll anywhere on the page.' },
+      ...nudgeExit(),
+    ] },
+    { id: 6, name: 'Tap the tooltip', trig: 'Tap the tooltip (or the lit search bar)', rows: () => [
+      { grp: 'Nudge leaves', at: 0, note: 'The tooltip and scrim play their normal exit under the search layer as it fades in. The tap also marks the nudge as used: it never plays again (tipNudge.used).' },
+      ...nudgeExit(),
+      { grp: 'Search opens, toggle on', at: 0, note: 'The tap sets “Search within BEAUTY10 items only” ON before the push (csStore.setEligibleOnly(true)): the search opens on cn=3’s scoped entry.' },
+      { icon: 'opacity', prop: 'Opacity', layer: 'Search screen', sel: L.search, delay: 0, dur: 189, from: '0', to: '1', ease: C('io'),
+        note: 'The kit’s bar morph (transitions.ts BAR_MORPH): the search layer cross-fades in over the coupon page, which holds still; both draw the same bar in the same box, so the bar never moves. 0.189s on the handoff ease-in-out. The presearch blocks under the row rise in as in scene 1; the keyboard comes up with the focused field.' },
+      { icon: 'move', prop: 'Move X', layer: 'Eligible row', sel: L.slide, delay: SL.delay, dur: SL.dur, from: '390px', to: '0px', ease: C('nav'),
+        note: 'Instead of rising, the row (already ON: green fill, knob right, no toggle animation) slides in from one device width to the right (its left edge starts 16px past the screen edge) on the iOS navigation curve, 0.65s, 40ms after the tap (slide.delay). Transform only. Reduced motion: no slide, the plain cross-fade.' },
+      { icon: 'opacity', prop: 'Opacity', layer: 'Eligible row', sel: L.slide, delay: SL.delay, dur: SL.fade, from: '0', to: '1', ease: C('ocub'),
+        note: 'Over the first quarter of the slide (slide.fadeShare 0.25 → 0.1625s) on the ease-out, to soften the leading edge.' },
+      { icon: 'scale', prop: 'Rotate', layer: 'Icon / Seal', sel: L.seal, delay: SL.delay, dur: SL.dur, from: '90deg', to: '−90deg', ease: C('nav'),
+        note: 'The seal rolls in anticlockwise with the slide, on the same value: 180° in all (slide.roll; a multiple of 45° so the 8-lobed seal lands on its own outline), from its on-state 90° to −90°. The % stays upright throughout.' },
+    ] },
+  ];
+
   const SCENES = [
-    { id: 0, name: 'Overview', trig: 'the full journey, played end to end', summary: 'Row appears (off) → toggle on → toggle off', overview: true },
+    { id: 0, name: 'Overview', trig: 'the full journey, played end to end', summary: 'Nudge appears → holds 5s → leaves → search opens, row appears (off) → toggle on → toggle off', overview: true },
     { id: 1, name: 'Row appears', trig: 'Search screen opens (tap the BEAUTY10 search bar)', rows: () => [
       { icon: 'move', prop: 'Move Y', layer: 'Eligible row', sel: L.wrap, delay: ROW_DELAY, dur: Math.round(rise), from: '20px', to: '0px', ease: S('hand', { x0: -1 }), driver: 'frame',
         note: 'The row (opening in its off state) rises 20px into place on the handoff spring (1.3% overshoot, ≈0.26px), together with the presearch blocks under it. Dur = landed within 0.5px and 15px/s.' },
@@ -641,14 +707,23 @@ window.SPEC = (() => {
       ...fillRows(false),
       subRow(false),
     ] },
+    ...nudgeScenes(),
   ];
 
-  // the journey as the prototype plays it: the visit opens with the toggle OFF (store.startsOn: row v2 starts off),
-  // so the row appears off, is switched on, then off again
+  // the journey as the prototype plays it: the coupon page opens and the search nudge comes up over it (first visits),
+  // holds its 5s and leaves by itself (scene 4 runs to the end of that exit); then the visit opens the search with the toggle OFF (store.startsOn: row v2
+  // starts off), so the row appears off, is switched on, then off again. (Tapping the tooltip instead is scene 6.)
   function overview(v) {
-    const at = { 1: 0, 2: 1500 }; at[3] = at[2] + sceneEnd(SCENES[2].rows(v)) + 700;
-    const rows = [1, 2, 3].map((id) => ({ icon: 'flag', prop: `${id}`, layer: SCENES[id].name, sel: null, delay: at[id], dur: sceneEnd(SCENES[id].rows(v)), scene: id, from: '', to: '', ease: { kind: 'scene' }, note: `${SCENES[id].trig}.` }));
+    const end = (id) => sceneEnd(SCENES[id].rows(v));
+    const at = { 4: 0 }; at[1] = end(4) + 700; at[2] = at[1] + 1500; at[3] = at[2] + end(2) + 700;   // scene 4 ends with the nudge's own exit
+    const rows = [4, 1, 2, 3].map((id) => ({ icon: 'flag', prop: `${id}`, layer: SCENES[id].name, sel: null, delay: at[id], dur: end(id), scene: id, from: '', to: '', ease: { kind: 'scene' },
+      note: `${SCENES[id].trig}${id === 4 ? ' — it holds 5s and leaves on its own' : ''}.` }));
     const beats = [
+      // the engine restores structure in the order it first logged each element; the navigator's stack (which takes the search
+      // push later) must be logged before the nudge layer inside it, or a jump back across the push restores the hold without
+      // the nudge. A no-op custom property on it at Start does that (no visual effect).
+      { at: 0, fire: (d) => d.querySelector('[class*="_screen_"]').parentElement.style.setProperty('--spec-log', '0') },
+      { at: at[4], fire: (d, w) => FIRE[4](d, w) },
       { at: at[1], fire: (d) => FIRE[1](d) },
       { at: at[2] - HOLD, fire: (d, w) => press(d, w) }, { at: at[2], fire: (d, w) => lift(d, w) },
       { at: at[3] - HOLD, fire: (d, w) => press(d, w) }, { at: at[3], fire: (d, w) => lift(d, w) },
@@ -681,16 +756,29 @@ window.SPEC = (() => {
     // finger down on the switch, held for HOLD ms: the next fire lifts it
     async pressedOn(d, w, e) { await ST.flipTo(d, w, e, true); press(d, w); await e.advanceTo(e.vt + HOLD, 16); },     // → "Toggle off" (scene 3) lifts from here
     async pressedOff(d, w, e) { await ST.flipTo(d, w, e, false); press(d, w); await e.advanceTo(e.vt + HOLD, 16); },   // → "Toggle on" (scene 2) lifts from here
+    // the Overview's start: the coupon page, with the nudge's empty layer mounted before Start (spec-only __nkSpecNudgePrime,
+    // nothing on screen) so a jump back across the later search push restores the hold with the nudge in it
+    async homePrimed(d, w, e) { await ST.home(d, w, e); w.__nkSpecNudgePrime(); await frames(e, () => !!d.querySelector('[class*="_discOv_"]')); await e.advanceTo(e.vt + 100, 16); },
+    // the nudge up and fully landed (computed opacity 1, its spring done), ~1s into its 5s hold
+    async nudgeUp(d, w, e) { await ST.home(d, w, e); FIRE[4](d, w);
+      await frames(e, () => { const t = d.querySelector(L.tip), s = d.querySelector(L.scrim);
+        return !!t && !!s && getComputedStyle(t).opacity === '1' && getComputedStyle(s).opacity === '0.7' && (!t.style.transform || t.style.transform === 'none'); });
+      await e.advanceTo(e.vt + 200, 16); },
   };
-  const PREP = { 0: 'home', 1: 'home', 2: 'pressedOff', 3: 'pressedOn' };
+  const PREP = { 0: 'homePrimed', 1: 'home', 2: 'pressedOff', 3: 'pressedOn', 4: 'home', 5: 'nudgeUp', 6: 'nudgeUp' };
   const FIRE = {
     1: (d) => d.querySelector('input').click(),
     2: (d, w) => lift(d, w),
     3: (d, w) => lift(d, w),
+    // spec-only hook (discover.tsx; the harness sets __nkSpec): under the sheet the nudge waits for this instead of the page's mount,
+    // and arms the same 0.45s clock a mount does
+    4: (d, w) => w.__nkSpecNudge(),
+    5: (d) => d.querySelector(L.scrim).click(),
+    6: (d) => d.querySelector(L.tip).click(),
   };
 
   return {
-    title: 'Eligible row v2 nudge — Animation Spec', device: { w: 390, h: 844, label: 'iPhone 390×844' },
+    title: 'Coupon search nudge — Animation Spec', device: { w: 390, h: 844, label: 'iPhone 390×844' },
     paths: PATHS, iterations: ITER, springs: SPR, curves: CURVE, scenes: SCENES, overview, states: ST, prep: PREP, fire: FIRE,
     assets: [],
   };
