@@ -114,6 +114,11 @@
 .discOvPtr { position: absolute; top: -6px; display: block; width: 12px; height: 6px; color: var(--nk-field-surface-primary); }
 .discOvIcon { flex: none; align-self: stretch; display: flex; align-items: flex-start; padding: var(--nk-space-s2); }
 .discOvTip[data-version='b'] .discOvIcon { align-items: center; padding: 1px; } /* final B: 18px seal, same 20px slot */
+/* C (cn=8, Figma 559:4278 from 19 Nov): the bar's width, 14/20 text secondary wrapping to two lines, the 18px seal on
+   the first line */
+.discOvTip[data-version='c'] { align-items: flex-start; }
+.discOvTip[data-version='c'] .discOvIcon { align-self: flex-start; padding: 1px; }
+.discOvTip[data-version='c'] .discOvSub { white-space: normal; font: var(--nk-type-field-b14-regular); color: var(--nk-field-text-secondary); }
 .discOvText { flex: 1; display: flex; flex-direction: column; gap: var(--nk-space-s2); min-width: 0; }
 .discOvHead, .discOvSub { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .discOvHead { font: var(--nk-type-field-b14-semibold); letter-spacing: var(--nk-field-tracking-b); }

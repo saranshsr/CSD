@@ -40,10 +40,10 @@ import styles from './listing.module.css';
  * still shows the frame).
  */
 const search = typeof window === 'undefined' ? null : new URLSearchParams(window.location.search);
-export type Cn = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+export type Cn = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 export const CN: 0 | Cn = (() => {
   const n = Number(search?.get('cn'));
-  return n >= 1 && n <= 7 && Number.isInteger(n) ? (n as Cn) : 0;
+  return n >= 1 && n <= 8 && Number.isInteger(n) ? (n as Cn) : 0;
 })();
 const NT: number | null = (() => {
   const raw = search?.get('nt');
@@ -528,8 +528,9 @@ function BarTipBar({ onBarPress, onScopedPress }: { onBarPress: () => void; onSc
 const OV = D.overlay;
 /** A (538:12404): heading over the coupon's value line. B (538:14006): one fixed line. cn=7 (the retired Light
     benefit) now shows A, so old review links land on the final design */
-type OvVersion = 'a' | 'b';
-const OV_VERSION: Record<5 | 6 | 7, OvVersion> = { 5: 'a', 6: 'b', 7: 'a' };
+/** C (559:4278, 19 Nov): B's line at 14px in text secondary, as wide as the bar, wrapping to two lines (cn=8) */
+type OvVersion = 'a' | 'b' | 'c';
+const OV_VERSION: Record<5 | 6 | 7 | 8, OvVersion> = { 5: 'a', 6: 'b', 7: 'a', 8: 'c' };
 
 /** the layer's geometry, in the screen's own (unscaled) px: its size, the bar's box and corner */
 interface Spot {
@@ -638,7 +639,7 @@ function OverlayTip({ spot, version, reduce, onPress }: { spot: Spot; version: O
       type="button"
       className={styles.discOvTip}
       data-version={version}
-      style={{ left: spot.bar.x, top, minWidth: OV.width[version], maxWidth: Math.min(OV.maxWidth, spot.bar.w), transformOrigin: `${ptr}px -6px` }}
+      style={{ left: spot.bar.x, top, ...(version === 'c' ? { width: Math.min(OV.maxWidth, spot.bar.w) } : { minWidth: OV.width[version], maxWidth: Math.min(OV.maxWidth, spot.bar.w) }), transformOrigin: `${ptr}px -6px` }}
       initial={away}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ ...away, transition: reduce ? { duration: OV.reduce, ease: T.exit.ease } : T.exit }}
@@ -650,7 +651,7 @@ function OverlayTip({ spot, version, reduce, onPress }: { spot: Spot; version: O
         <path d="M7.06 .49a1.4 1.4 0 0 0-2.12 0L0 6h12L7.06.49Z" fill="currentColor" />
       </svg>
       <span className={styles.discOvIcon} aria-hidden>
-        <OriginIcon name="discount" filled size={version === 'b' ? 18 : 16} color="var(--nk-field-text-success)" />
+        <OriginIcon name="discount" filled size={version === 'a' ? 16 : 18} color="var(--nk-field-text-success)" />
       </span>
       <span className={styles.discOvText}>
         {version === 'a' ? (
@@ -666,7 +667,7 @@ function OverlayTip({ spot, version, reduce, onPress }: { spot: Spot; version: O
   );
 }
 
-function OverlayTipBar({ cn, onBarPress, onScopedPress }: { cn: 5 | 6 | 7; onBarPress: () => void; onScopedPress: () => void }) {
+function OverlayTipBar({ cn, onBarPress, onScopedPress }: { cn: 5 | 6 | 7 | 8; onBarPress: () => void; onScopedPress: () => void }) {
   const nav = useNav();
   const version = OV_VERSION[cn];
   const wrap = useRef<HTMLDivElement>(null);
@@ -728,7 +729,7 @@ function OverlayTipBar({ cn, onBarPress, onScopedPress }: { cn: 5 | 6 | 7; onBar
 }
 
 /** cn=5..7 on a visit the counter has used up (or after the coupon search was used): today's bar */
-function OverlayBar({ cn, onBarPress, onScopedPress }: { cn: 5 | 6 | 7; onBarPress: () => void; onScopedPress: () => void }) {
+function OverlayBar({ cn, onBarPress, onScopedPress }: { cn: 5 | 6 | 7 | 8; onBarPress: () => void; onScopedPress: () => void }) {
   const nav = useNav();
   const [plays] = useState(() => tipNudge.claim());
   if (!plays) return <CsSearchBar value="" onChange={() => undefined} onBack={nav.back} onFieldPress={onBarPress} />;
@@ -741,7 +742,7 @@ function OverlayBar({ cn, onBarPress, onScopedPress }: { cn: 5 | 6 | 7; onBarPre
  * tooltip, and the bar while the tooltip shows; cn=5..7: the tooltip, and the lit bar while the overlay shows).
  */
 export function DiscoverBar({ cn, onBarPress, onScopedPress }: { cn: Cn; onBarPress: () => void; onScopedPress: () => void }) {
-  if (cn === 5 || cn === 6 || cn === 7) return <OverlayBar cn={cn} onBarPress={onBarPress} onScopedPress={onScopedPress} />;
+  if (cn === 5 || cn === 6 || cn === 7 || cn === 8) return <OverlayBar cn={cn} onBarPress={onBarPress} onScopedPress={onScopedPress} />;
   if (cn === 3 || cn === 4) return <TipBar cn={cn} onBarPress={onBarPress} onScopedPress={onScopedPress} />;
   return cn === 1 ? <PeekBar onBarPress={onBarPress} onScopedPress={onScopedPress} /> : <PlaceholderBar onScopedPress={onScopedPress} />;
 }

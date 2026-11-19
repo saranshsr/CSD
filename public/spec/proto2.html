@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>noon Flow Kit · spec harness</title>
+<!--
+  Spec-sheet harness (spec only; the prototype's code is untouched). The spec sheet records the prototype on a virtual
+  clock, but motion/react and React capture requestAnimationFrame / setTimeout / clearTimeout when their modules are
+  evaluated, i.e. before the sheet can patch the frame, so their springs would run on real frames and the recording would
+  lag the playhead by up to ~40ms. This page installs one-line indirections for those four first, then loads the app's
+  own index.html (same bundle, same styles) at the nudge URL. Opened without ?spec= it simply forwards to the prototype.
+  It also sets window.__nkSpec, the spec-only hook for the cn=6 overlay nudge (a first-run overlay): under the sheet it
+  doesn't start on mount but when a scene fires window.__nkSpecNudge() (src/flows/couponsearch/discover.tsx).
+-->
+<script>
+  // cn=8: the search nudge over the coupon page (tooltip C: 14px, text secondary, the bar's width, two lines); nr=1 clears its visit counter on every load, so it always plays
+  const NUDGE = '/beauty10?v=row2&solo=1&cn=8&nr=1&embed=1'; // embed: the bare 390×844 screen, no phone frame or stage
+  if (!new URLSearchParams(location.search).has('spec')) location.replace(NUDGE.replace('&embed=1', ''));   // the header's back link: the framed prototype
+  else window.__nkSpec = true;   // discover.tsx: the overlay nudge waits for the sheet's __nkSpecNudge() instead of starting on mount
+  if (window.__nkSpec) for (const n of ['requestAnimationFrame', 'cancelAnimationFrame', 'setTimeout', 'clearTimeout']) {
+    const real = window[n].bind(window), shim = (...a) => (window[n] === shim ? real(...a) : window[n](...a));
+    window[n] = shim;
+  }
+  // motion's WAAPI animations (opacity) set `animation.startTime` from motion's own clock right after creating them. Setting a
+  // startTime un-pauses a WAAPI animation onto the browser's real document timeline, so it would keep running in real time between
+  // the sheet's virtual frames and could finish (and end an AnimatePresence exit) early. Under the sheet that setter is a no-op:
+  // the sheet pauses every animation it sees and drives its currentTime on the virtual clock (from creation, ≤ 1 frame earlier).
+  if (window.__nkSpec) {
+    const st = Object.getOwnPropertyDescriptor(Animation.prototype, 'startTime');
+    Object.defineProperty(Animation.prototype, 'startTime', { configurable: true, enumerable: st.enumerable, get() { return st.get.call(this); }, set() {} });
+  }
+</script>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  (() => {
+    if (!new URLSearchParams(location.search).has('spec')) return;
+    history.replaceState(null, '', NUDGE);                       // the app reads its route and ?v= / solo= from the URL
+    const x = new XMLHttpRequest(); x.open('GET', '/index.html', false); x.send();   // synchronous: before any frame runs
+    const src = new DOMParser().parseFromString(x.responseText, 'text/html');
+    for (const el of src.head.children) {
+      if (!/^(LINK|SCRIPT)$/.test(el.tagName) || (el.tagName === 'LINK' && el.rel === 'preconnect')) continue;
+      const c = document.createElement(el.tagName.toLowerCase());
+      for (const a of el.attributes) c.setAttribute(a.name, a.value);
+      document.head.appendChild(c);
+    }
+  })();
+</script>
+</body>
+</html>

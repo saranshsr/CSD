@@ -506,8 +506,8 @@ window.SPEC = (() => {
      /spec/proto.html, a spec-only harness that loads that same page and bundle after installing the requestAnimationFrame /
      setTimeout indirections motion/react and React need to follow the sheet's virtual clock (see the file's header comment).
      Opened without ?spec= the harness forwards to the nudge URL, so the header's ← lands on the prototype. */
-  const PATHS = { 1: '/spec/proto.html' };
-  const ITER = { 1: 'Iteration 01 · Search nudge over the coupon page + Eligible row v2' };
+  const PATHS = { 1: '/spec/proto.html', 2: '/spec/proto2.html' };
+  const ITER = { 1: 'Iteration 01 · Search nudge over the coupon page + Eligible row v2', 2: 'Iteration 02 · New tooltip: 14px text secondary, as wide as the search bar, two lines (cn=8, Figma 559:4278)' };
 
   /* springs: ω = 2π / response, ζ = dampingFraction (`appleSpring` in src/motion/presets.ts); the inspector prints
      SPRING(Tension ω², Friction 2ζω). Critically damped springs (ζ 1) are written 0.999 (ζ 1 divides by zero in the plot). */

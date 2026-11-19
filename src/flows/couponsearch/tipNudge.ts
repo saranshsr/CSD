@@ -11,7 +11,7 @@ import { csTokens } from './tokens';
 const KEY = 'nk.couponsearch.tipNudge';
 const search = typeof window === 'undefined' ? null : new URLSearchParams(window.location.search);
 // cn=3 / 4 (the tooltips) and cn=5..7 (the tooltip over an overlay) share the counter
-const enabled = [3, 4, 5, 6, 7].includes(Number(search?.get('cn')));
+const enabled = [3, 4, 5, 6, 7, 8].includes(Number(search?.get('cn')));
 
 interface TipState {
   seen: number;
